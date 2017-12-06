@@ -1,0 +1,29 @@
+{
+  "name": "touchcontroller",
+  "version": "0.1.0",
+  "description": "Touch and mouse controller for web apps and games",
+  "main": "./dist/touchcontroller.js",
+  "types": "./dist/typings/src/index.d.ts",
+  "scripts": {
+    "build": "webpack",
+    "deploy": "npm publish",
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hejny/gridbuilding.git"
+  },
+  "keywords": [
+    "ascii"
+  ],
+  "author": "Pavol Hejný",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hejny/touchcontroller/issues"
+  },
+  "homepage": "https://github.com/hejny/touchcontroller#readme",
+  "devDependencies": {
+    "ts-loader": "^3.1.1",
+    "typescript": "^2.6.2"
+  }
+}

@@ -50,6 +50,8 @@
 	exports.TouchController = TouchController_1.default;
 	const listeners_1 = __webpack_require__(6);
 	exports.listeners = listeners_1.default;
+	const Vector2_1 = __webpack_require__(3);
+	exports.Vector2 = Vector2_1.default;
 
 
 /***/ },

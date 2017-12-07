@@ -1,6 +1,5 @@
 import IListener from './IListener';
 import TouchController from '../TouchController';
-import Touch from '../Touch';
 
 export default class TouchListener implements IListener {
 
@@ -46,10 +45,7 @@ export default class TouchListener implements IListener {
 
     private _handleMouseDown(event: MouseEvent) {
         event.preventDefault();
-        this._touchController.touchStart(new Touch(
-            'mouse' + event.button,
-            'MOUSE'
-        ));
+        this._touchController.touchStart('mouse' + event.button, 'MOUSE', event);
     }
 
     private _handleMouseMove(event: MouseEvent) {

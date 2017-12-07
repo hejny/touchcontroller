@@ -1,12 +1,11 @@
 import IListener from './IListener';
 import TouchController from '../TouchController';
-import Touch from '../Touch';
 
 export default class TouchListener implements IListener {
 
     private _touchController: TouchController;
 
-    setListeners(touchController: TouchController){
+    setListeners(touchController: TouchController) {
         this._touchController = touchController;
         touchController.element.addEventListener(
             "touchstart",
@@ -31,7 +30,7 @@ export default class TouchListener implements IListener {
         );
     }
 
-    unsetListeners(){
+    unsetListeners() {
         //todo
     }
 
@@ -39,10 +38,7 @@ export default class TouchListener implements IListener {
         event.preventDefault();
         const touches = event.changedTouches;
         for (let i = 0, l = touches.length; i < l; i++) {
-            this._touchController.touchStart(new Touch(
-                'touch' + touches[i].identifier,
-                'TOUCH'
-            ));
+            this._touchController.touchStart('touch' + touches[i].identifier, 'TOUCH', touches[i]);
         }
     }
 

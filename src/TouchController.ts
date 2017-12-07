@@ -3,6 +3,10 @@ import Touch from './Touch';
 import IListener from './listeners/IListener';
 import AbstractClassWithSubscribe from './AbstractClassWithSubscribe';
 
+export interface IEvent {
+    clientX: number;
+    clientY: number;
+}
 
 export default class TouchController extends AbstractClassWithSubscribe<"START" | "MOVE" | "END", Touch> {
 
@@ -14,34 +18,43 @@ export default class TouchController extends AbstractClassWithSubscribe<"START" 
 
     //todo dispose
 
-    addListener(listener: IListener){
+    addListener(listener: IListener) {
         listener.setListeners(this);//todo array of listeners
     }
 
-    touchStart(touch: Touch) {//todo first point
+    touchStart(id: string, type: 'TOUCH' | 'MOUSE', event: IEvent) {
+        const touch = new Touch(
+            id,
+            type,
+            this._createVectorFromEvent(event)
+        );
         this.ongoingTouches.push(touch);
         this.callSubscribers('START', touch);
     }
 
-    touchMove(id: string, end: boolean, event: { clientX: number, clientY: number }) {
+    touchMove(id: string, end: boolean, event: IEvent) {
         const index = this._ongoingTouchIndexById(id);
         if (index !== -1) {
             const touch = this.ongoingTouches[index];
-            touch.move(new VectorTouch(
-                this,
-                event.clientX,
-                event.clientY,
-                performance.now()
-            ),end);
+            touch.move(this._createVectorFromEvent(event), end);
             if (end) {
                 this.ongoingTouches.splice(index, 1);
                 this.callSubscribers('END', touch);
-            }else{
+            } else {
                 this.callSubscribers('MOVE', touch);
             }
         } else {
             //console.warn(`Can't find touch with id "${id}".`);
         }
+    }
+
+    private _createVectorFromEvent(event: IEvent) {
+        return new VectorTouch(
+            this,
+            event.clientX - this.element.offsetLeft,
+            event.clientY - this.element.offsetTop,
+            performance.now()
+        );
     }
 
     private _ongoingTouchIndexById(idToFind: string): number {

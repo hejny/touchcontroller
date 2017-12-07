@@ -48,7 +48,7 @@
 	Object.defineProperty(exports, "__esModule", { value: true });
 	const TouchController_1 = __webpack_require__(1);
 	exports.TouchController = TouchController_1.default;
-	const listeners_1 = __webpack_require__(5);
+	const listeners_1 = __webpack_require__(6);
 	exports.listeners = listeners_1.default;
 
 
@@ -59,7 +59,8 @@
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
 	const VectorTouch_1 = __webpack_require__(2);
-	const AbstractClassWithSubscribe_1 = __webpack_require__(4);
+	const Touch_1 = __webpack_require__(4);
+	const AbstractClassWithSubscribe_1 = __webpack_require__(5);
 	class TouchController extends AbstractClassWithSubscribe_1.default {
 	    constructor(element) {
 	        super();
@@ -70,7 +71,8 @@
 	    addListener(listener) {
 	        listener.setListeners(this); //todo array of listeners
 	    }
-	    touchStart(touch) {
+	    touchStart(id, type, event) {
+	        const touch = new Touch_1.default(id, type, this._createVectorFromEvent(event));
 	        this.ongoingTouches.push(touch);
 	        this.callSubscribers('START', touch);
 	    }
@@ -78,7 +80,7 @@
 	        const index = this._ongoingTouchIndexById(id);
 	        if (index !== -1) {
 	            const touch = this.ongoingTouches[index];
-	            touch.move(new VectorTouch_1.default(this, event.clientX, event.clientY, performance.now()), end);
+	            touch.move(this._createVectorFromEvent(event), end);
 	            if (end) {
 	                this.ongoingTouches.splice(index, 1);
 	                this.callSubscribers('END', touch);
@@ -90,6 +92,9 @@
 	        else {
 	            //console.warn(`Can't find touch with id "${id}".`);
 	        }
+	    }
+	    _createVectorFromEvent(event) {
+	        return new VectorTouch_1.default(this, event.clientX - this.element.offsetLeft, event.clientY - this.element.offsetTop, performance.now());
 	    }
 	    _ongoingTouchIndexById(idToFind) {
 	        for (let i = 0; i < this.ongoingTouches.length; i++) {
@@ -160,6 +165,44 @@
 
 /***/ },
 /* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	Object.defineProperty(exports, "__esModule", { value: true });
+	const AbstractClassWithSubscribe_1 = __webpack_require__(5);
+	class Touche extends AbstractClassWithSubscribe_1.default {
+	    constructor(id, type, firstPoint) {
+	        super();
+	        this.id = id;
+	        this.type = type;
+	        this._finished = false;
+	        this.points = [firstPoint];
+	    }
+	    move(newPoint, end = false) {
+	        this.points.push(newPoint);
+	        if (!end) {
+	            this.callSubscribers('MOVE', newPoint);
+	        }
+	        else {
+	            this._finished = true;
+	            this.callSubscribers('END', newPoint);
+	        }
+	    }
+	    get firstPoint() {
+	        return this.points[0];
+	    }
+	    get start() {
+	        return this.firstPoint.t;
+	    }
+	    get finished() {
+	        return this._finished;
+	    }
+	}
+	exports.default = Touche;
+
+
+/***/ },
+/* 5 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -185,12 +228,12 @@
 
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	const TouchListener_1 = __webpack_require__(6);
+	const TouchListener_1 = __webpack_require__(7);
 	const MouseListener_1 = __webpack_require__(8);
 	exports.default = {
 	    TouchListener: TouchListener_1.default,
@@ -199,12 +242,11 @@
 
 
 /***/ },
-/* 6 */
-/***/ function(module, exports, __webpack_require__) {
+/* 7 */
+/***/ function(module, exports) {
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	const Touch_1 = __webpack_require__(7);
 	class TouchListener {
 	    setListeners(touchController) {
 	        this._touchController = touchController;
@@ -221,7 +263,7 @@
 	        event.preventDefault();
 	        const touches = event.changedTouches;
 	        for (let i = 0, l = touches.length; i < l; i++) {
-	            this._touchController.touchStart(new Touch_1.default('touch' + touches[i].identifier, 'TOUCH'));
+	            this._touchController.touchStart('touch' + touches[i].identifier, 'TOUCH', touches[i]);
 	        }
 	    }
 	    _handleTouchMove(event) {
@@ -243,47 +285,11 @@
 
 
 /***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	Object.defineProperty(exports, "__esModule", { value: true });
-	const AbstractClassWithSubscribe_1 = __webpack_require__(4);
-	class Touche extends AbstractClassWithSubscribe_1.default {
-	    constructor(id, type, points = []) {
-	        super();
-	        this.id = id;
-	        this.type = type;
-	        this.points = points;
-	        this._finished = false;
-	    }
-	    move(newPoint, end = false) {
-	        this.points.push(newPoint);
-	        if (!end) {
-	            this.callSubscribers('MOVE', newPoint);
-	        }
-	        else {
-	            this._finished = true;
-	            this.callSubscribers('END', newPoint);
-	        }
-	    }
-	    get start() {
-	        return this.points[0].t;
-	    }
-	    get finished() {
-	        return this._finished;
-	    }
-	}
-	exports.default = Touche;
-
-
-/***/ },
 /* 8 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	const Touch_1 = __webpack_require__(7);
 	class TouchListener {
 	    constructor(_preventContextMenu = true) {
 	        this._preventContextMenu = _preventContextMenu;
@@ -306,7 +312,7 @@
 	    }
 	    _handleMouseDown(event) {
 	        event.preventDefault();
-	        this._touchController.touchStart(new Touch_1.default('mouse' + event.button, 'MOUSE'));
+	        this._touchController.touchStart('mouse' + event.button, 'MOUSE', event);
 	    }
 	    _handleMouseMove(event) {
 	        event.preventDefault();

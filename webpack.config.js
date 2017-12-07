@@ -1,12 +1,7 @@
-module.exports = {
+const commonConfig = {
 
     entry: {
         first: __dirname + '/src/index'
-    },
-    output: {
-        filename: 'touchcontroller.js',
-        path: __dirname + "/dist/",
-        libraryTarget: "commonjs"
     },
 
     devtool: "source-map",
@@ -18,7 +13,7 @@ module.exports = {
     module: {
         loaders: [
             // all files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'
-            { test: /\.tsx?$/, loader: "ts-loader" }
+            {test: /\.tsx?$/, loader: "ts-loader"}
         ]
     }
 
@@ -36,4 +31,24 @@ module.exports = {
             }),
         ]
     */
-}
+};
+
+const configs = [];
+configs.push(Object.assign({}, commonConfig, {
+    output: {
+        filename: 'touchcontroller.js',
+        path: __dirname + "/dist/",
+        libraryTarget: "commonjs"
+    }
+}));
+configs.push(Object.assign({}, commonConfig, {
+    output: {
+        filename: 'touchcontroller.browser.js',
+        path: __dirname + "/dist/",
+        libraryTarget: "var",
+        library: 'TouchController'
+    }
+}));
+
+
+module.exports = configs;

@@ -4,11 +4,13 @@ import TimeVector2 from './VectorTouch';
 export default class Touche extends AbstractClassWithSubscribe<"MOVE" | "END", TimeVector2> {
 
     private _finished: boolean = false;
+    public points: TimeVector2[];
 
     constructor(public id: string,
                 public type: 'TOUCH' | 'MOUSE',
-                public points: TimeVector2[] = []) {
+                firstPoint: TimeVector2) {
         super();
+        this.points = [firstPoint];
     }
 
     move(newPoint: TimeVector2, end = false) {
@@ -21,8 +23,12 @@ export default class Touche extends AbstractClassWithSubscribe<"MOVE" | "END", T
         }
     }
 
+    get firstPoint() {
+        return this.points[0];
+    }
+
     get start() {
-        return this.points[0].t;
+        return this.firstPoint.t;
     }
 
     get finished() {

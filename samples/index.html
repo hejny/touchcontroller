@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample of TouchController</title>
+</head>
+<body>
+
+
+<canvas id="scene" width="500" height="500" style="border: 2px solid black"></canvas>
+
+
+<script type="text/javascript" src="../dist/touchcontroller.browser.js"></script>
+<script type="text/javascript">
+
+    var scene = document.getElementById('scene');
+    var ctx = scene.getContext('2d');
+    ctx.lineWidth = 10;
+    ctx.lineCap = "round";
+
+
+    const touchController = new TouchController.TouchController(scene);
+    touchController.addListener(new TouchController.listeners.TouchListener);
+    touchController.addListener(new TouchController.listeners.MouseListener);
+
+    touchController.subscribe('START', function(touch){
+
+        var color = '#'+Math.floor(Math.random()*16777215).toString(16);
+        var lastPoint = touch.firstPoint;
+
+        touch.subscribe('MOVE', function(point){
+            ctx.strokeStyle = color;
+            ctx.beginPath();
+            ctx.moveTo(lastPoint.x,lastPoint.y);
+            ctx.lineTo(point.x,point.y);
+            ctx.stroke();
+            lastPoint= point;
+        });
+
+        touch.subscribe('END', function(point){
+
+        });
+    });
+</script>
+
+
+</body>
+</html>

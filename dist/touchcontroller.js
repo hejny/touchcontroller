@@ -46,11 +46,11 @@
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	const TouchController_1 = __webpack_require__(1);
+	var TouchController_1 = __webpack_require__(1);
 	exports.TouchController = TouchController_1.default;
-	const listeners_1 = __webpack_require__(6);
+	var listeners_1 = __webpack_require__(6);
 	exports.listeners = listeners_1.default;
-	const Vector2_1 = __webpack_require__(3);
+	var Vector2_1 = __webpack_require__(3);
 	exports.Vector2 = Vector2_1.default;
 
 
@@ -59,29 +59,41 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	var __extends = (this && this.__extends) || (function () {
+	    var extendStatics = Object.setPrototypeOf ||
+	        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+	        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+	    return function (d, b) {
+	        extendStatics(d, b);
+	        function __() { this.constructor = d; }
+	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	    };
+	})();
 	Object.defineProperty(exports, "__esModule", { value: true });
-	const VectorTouch_1 = __webpack_require__(2);
-	const Touch_1 = __webpack_require__(4);
-	const AbstractClassWithSubscribe_1 = __webpack_require__(5);
-	class TouchController extends AbstractClassWithSubscribe_1.default {
-	    constructor(element) {
-	        super();
-	        this.element = element;
-	        this.ongoingTouches = [];
+	var VectorTouch_1 = __webpack_require__(2);
+	var Touch_1 = __webpack_require__(4);
+	var AbstractClassWithSubscribe_1 = __webpack_require__(5);
+	var TouchController = /** @class */ (function (_super) {
+	    __extends(TouchController, _super);
+	    function TouchController(element) {
+	        var _this = _super.call(this) || this;
+	        _this.element = element;
+	        _this.ongoingTouches = [];
+	        return _this;
 	    }
 	    //todo dispose
-	    addListener(listener) {
+	    TouchController.prototype.addListener = function (listener) {
 	        listener.setListeners(this); //todo array of listeners
-	    }
-	    touchStart(id, type, event) {
-	        const touch = new Touch_1.default(id, type, this._createVectorFromEvent(event));
+	    };
+	    TouchController.prototype.touchStart = function (id, type, event) {
+	        var touch = new Touch_1.default(id, type, this._createVectorFromEvent(event));
 	        this.ongoingTouches.push(touch);
 	        this.callSubscribers('START', touch);
-	    }
-	    touchMove(id, end, event) {
-	        const index = this._ongoingTouchIndexById(id);
+	    };
+	    TouchController.prototype.touchMove = function (id, end, event) {
+	        var index = this._ongoingTouchIndexById(id);
 	        if (index !== -1) {
-	            const touch = this.ongoingTouches[index];
+	            var touch = this.ongoingTouches[index];
 	            touch.move(this._createVectorFromEvent(event), end);
 	            if (end) {
 	                this.ongoingTouches.splice(index, 1);
@@ -94,20 +106,21 @@
 	        else {
 	            //console.warn(`Can't find touch with id "${id}".`);
 	        }
-	    }
-	    _createVectorFromEvent(event) {
+	    };
+	    TouchController.prototype._createVectorFromEvent = function (event) {
 	        return new VectorTouch_1.default(this, event.clientX - this.element.offsetLeft, event.clientY - this.element.offsetTop, performance.now());
-	    }
-	    _ongoingTouchIndexById(idToFind) {
-	        for (let i = 0; i < this.ongoingTouches.length; i++) {
-	            const id = this.ongoingTouches[i].id;
+	    };
+	    TouchController.prototype._ongoingTouchIndexById = function (idToFind) {
+	        for (var i = 0; i < this.ongoingTouches.length; i++) {
+	            var id = this.ongoingTouches[i].id;
 	            if (id === idToFind) {
 	                return i;
 	            }
 	        }
 	        return -1;
-	    }
-	}
+	    };
+	    return TouchController;
+	}(AbstractClassWithSubscribe_1.default));
 	exports.default = TouchController;
 
 
@@ -116,18 +129,31 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	var __extends = (this && this.__extends) || (function () {
+	    var extendStatics = Object.setPrototypeOf ||
+	        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+	        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+	    return function (d, b) {
+	        extendStatics(d, b);
+	        function __() { this.constructor = d; }
+	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	    };
+	})();
 	Object.defineProperty(exports, "__esModule", { value: true });
-	const Vector2_1 = __webpack_require__(3);
-	class VectorTouch extends Vector2_1.default {
-	    constructor(_touchController, x, y, t) {
-	        super(x, y);
-	        this._touchController = _touchController;
-	        this.t = t;
+	var Vector2_1 = __webpack_require__(3);
+	var VectorTouch = /** @class */ (function (_super) {
+	    __extends(VectorTouch, _super);
+	    function VectorTouch(_touchController, x, y, t) {
+	        var _this = _super.call(this, x, y) || this;
+	        _this._touchController = _touchController;
+	        _this.t = t;
+	        return _this;
 	    }
-	    to1() {
+	    VectorTouch.prototype.to1 = function () {
 	        return new Vector2_1.default(this.x / this._touchController.element.clientWidth, this.y / this._touchController.element.clientHeight);
-	    }
-	}
+	    };
+	    return VectorTouch;
+	}(Vector2_1.default));
 	exports.default = VectorTouch;
 
 
@@ -137,34 +163,36 @@
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	class Vector2 {
-	    constructor(x, y) {
+	var Vector2 = /** @class */ (function () {
+	    function Vector2(x, y) {
 	        this.x = x;
 	        this.y = y;
 	    }
-	    static Zero() {
+	    Vector2.Zero = function () {
 	        return new Vector2(0, 0);
-	    }
-	    clone() {
+	    };
+	    Vector2.prototype.clone = function () {
 	        return new Vector2(this.x, this.y);
-	    }
-	    add(vector2) {
+	    };
+	    Vector2.prototype.add = function (vector2) {
 	        return new Vector2(this.x + vector2.x, this.y + vector2.y);
-	    }
-	    subtract(vector2) {
+	    };
+	    Vector2.prototype.subtract = function (vector2) {
 	        return new Vector2(this.x - vector2.x, this.y - vector2.y);
-	    }
-	    scale(scale) {
+	    };
+	    Vector2.prototype.scale = function (scale) {
 	        return new Vector2(this.x * scale, this.y * scale);
-	    }
-	    length(vector2 = Vector2.Zero()) {
+	    };
+	    Vector2.prototype.length = function (vector2) {
+	        if (vector2 === void 0) { vector2 = Vector2.Zero(); }
 	        return Math.sqrt(Math.pow(this.x - vector2.x, 2) +
 	            Math.pow(this.y - vector2.y, 2));
-	    }
-	    toArray() {
+	    };
+	    Vector2.prototype.toArray = function () {
 	        return [this.x, this.y];
-	    }
-	}
+	    };
+	    return Vector2;
+	}());
 	exports.default = Vector2;
 
 
@@ -173,17 +201,30 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	var __extends = (this && this.__extends) || (function () {
+	    var extendStatics = Object.setPrototypeOf ||
+	        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+	        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+	    return function (d, b) {
+	        extendStatics(d, b);
+	        function __() { this.constructor = d; }
+	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	    };
+	})();
 	Object.defineProperty(exports, "__esModule", { value: true });
-	const AbstractClassWithSubscribe_1 = __webpack_require__(5);
-	class Touche extends AbstractClassWithSubscribe_1.default {
-	    constructor(id, type, firstPosition) {
-	        super();
-	        this.id = id;
-	        this.type = type;
-	        this._finished = false;
-	        this.positions = [firstPosition];
+	var AbstractClassWithSubscribe_1 = __webpack_require__(5);
+	var Touche = /** @class */ (function (_super) {
+	    __extends(Touche, _super);
+	    function Touche(id, type, firstPosition) {
+	        var _this = _super.call(this) || this;
+	        _this.id = id;
+	        _this.type = type;
+	        _this._finished = false;
+	        _this.positions = [firstPosition];
+	        return _this;
 	    }
-	    move(newPoint, end = false) {
+	    Touche.prototype.move = function (newPoint, end) {
+	        if (end === void 0) { end = false; }
 	        this.positions.push(newPoint);
 	        if (!end) {
 	            this.callSubscribers('MOVE', newPoint);
@@ -192,17 +233,30 @@
 	            this._finished = true;
 	            this.callSubscribers('END', newPoint);
 	        }
-	    }
-	    get firstPosition() {
-	        return this.positions[0];
-	    }
-	    get start() {
-	        return this.firstPosition.t;
-	    }
-	    get finished() {
-	        return this._finished;
-	    }
-	}
+	    };
+	    Object.defineProperty(Touche.prototype, "firstPosition", {
+	        get: function () {
+	            return this.positions[0];
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    Object.defineProperty(Touche.prototype, "start", {
+	        get: function () {
+	            return this.firstPosition.t;
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    Object.defineProperty(Touche.prototype, "finished", {
+	        get: function () {
+	            return this._finished;
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    return Touche;
+	}(AbstractClassWithSubscribe_1.default));
 	exports.default = Touche;
 
 
@@ -212,23 +266,24 @@
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	class AbstractClassWithSubscribe {
-	    constructor() {
+	var AbstractClassWithSubscribe = /** @class */ (function () {
+	    function AbstractClassWithSubscribe() {
 	        this._subscribers = [];
 	    }
-	    subscribe(event /*maybe multiple events TEvent[]*/, callback) {
+	    AbstractClassWithSubscribe.prototype.subscribe = function (event /*maybe multiple events TEvent[]*/, callback) {
 	        this._subscribers.push({
-	            event,
-	            callback
+	            event: event,
+	            callback: callback
 	        });
-	    }
+	    };
 	    //todo unsubscribe
-	    callSubscribers(event, newValue) {
+	    AbstractClassWithSubscribe.prototype.callSubscribers = function (event, newValue) {
 	        this._subscribers
-	            .filter((subscriber) => subscriber.event === event)
-	            .forEach((subscriber) => subscriber.callback(newValue));
-	    }
-	}
+	            .filter(function (subscriber) { return subscriber.event === event; })
+	            .forEach(function (subscriber) { return subscriber.callback(newValue); });
+	    };
+	    return AbstractClassWithSubscribe;
+	}());
 	exports.default = AbstractClassWithSubscribe;
 
 
@@ -238,8 +293,8 @@
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	const TouchListener_1 = __webpack_require__(7);
-	const MouseListener_1 = __webpack_require__(8);
+	var TouchListener_1 = __webpack_require__(7);
+	var MouseListener_1 = __webpack_require__(8);
 	exports.default = {
 	    TouchListener: TouchListener_1.default,
 	    MouseListener: MouseListener_1.default
@@ -252,40 +307,44 @@
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	class TouchListener {
-	    setListeners(touchController) {
+	var TouchListener = /** @class */ (function () {
+	    function TouchListener() {
+	    }
+	    TouchListener.prototype.setListeners = function (touchController) {
+	        var _this = this;
 	        this._touchController = touchController;
-	        touchController.element.addEventListener("touchstart", (event) => this._handleTouchStart(event), false);
-	        touchController.element.addEventListener("touchend", (event) => this._handleTouchEnd(true, event), false);
-	        touchController.element.addEventListener("touchcancel", (event) => this._handleTouchEnd(false, event), false);
+	        touchController.element.addEventListener("touchstart", function (event) { return _this._handleTouchStart(event); }, false);
+	        touchController.element.addEventListener("touchend", function (event) { return _this._handleTouchEnd(true, event); }, false);
+	        touchController.element.addEventListener("touchcancel", function (event) { return _this._handleTouchEnd(false, event); }, false);
 	        //todo element.addEventListener("touchleave", (event)=>this._handleTouchEnd(true,event), false);
-	        touchController.element.addEventListener("touchmove", (event) => this._handleTouchMove(event), false);
-	    }
-	    unsetListeners() {
+	        touchController.element.addEventListener("touchmove", function (event) { return _this._handleTouchMove(event); }, false);
+	    };
+	    TouchListener.prototype.unsetListeners = function () {
 	        //todo
-	    }
-	    _handleTouchStart(event) {
+	    };
+	    TouchListener.prototype._handleTouchStart = function (event) {
 	        event.preventDefault();
-	        const touches = event.changedTouches;
-	        for (let i = 0, l = touches.length; i < l; i++) {
+	        var touches = event.changedTouches;
+	        for (var i = 0, l = touches.length; i < l; i++) {
 	            this._touchController.touchStart('touch' + touches[i].identifier, 'TOUCH', touches[i]);
 	        }
-	    }
-	    _handleTouchMove(event) {
+	    };
+	    TouchListener.prototype._handleTouchMove = function (event) {
 	        event.preventDefault();
-	        const touches = event.changedTouches;
-	        for (let i = 0, l = touches.length; i < l; i++) {
+	        var touches = event.changedTouches;
+	        for (var i = 0, l = touches.length; i < l; i++) {
 	            this._touchController.touchMove('touch' + touches[i].identifier, false, touches[i]);
 	        }
-	    }
-	    _handleTouchEnd(callSubscribers, event) {
+	    };
+	    TouchListener.prototype._handleTouchEnd = function (callSubscribers, event) {
 	        event.preventDefault();
-	        const touches = event.changedTouches;
-	        for (let i = 0, l = touches.length; i < l; i++) {
+	        var touches = event.changedTouches;
+	        for (var i = 0, l = touches.length; i < l; i++) {
 	            this._touchController.touchMove('touch' + touches[i].identifier, callSubscribers, touches[i]);
 	        }
-	    }
-	}
+	    };
+	    return TouchListener;
+	}());
 	exports.default = TouchListener;
 
 
@@ -295,39 +354,42 @@
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	class TouchListener {
-	    constructor(_preventContextMenu = true) {
+	var TouchListener = /** @class */ (function () {
+	    function TouchListener(_preventContextMenu) {
+	        if (_preventContextMenu === void 0) { _preventContextMenu = true; }
 	        this._preventContextMenu = _preventContextMenu;
 	    }
-	    setListeners(touchController) {
+	    TouchListener.prototype.setListeners = function (touchController) {
+	        var _this = this;
 	        this._touchController = touchController;
-	        touchController.element.addEventListener("mousedown", (event) => this._handleMouseDown(event), false);
-	        touchController.element.addEventListener("mousemove", (event) => this._handleMouseMove(event), false);
-	        touchController.element.addEventListener("mouseup", (event) => this._handleMouseUp(true, event), false);
-	        touchController.element.addEventListener("mouseleave", (event) => this._handleMouseUp(true, event), false);
+	        touchController.element.addEventListener("mousedown", function (event) { return _this._handleMouseDown(event); }, false);
+	        touchController.element.addEventListener("mousemove", function (event) { return _this._handleMouseMove(event); }, false);
+	        touchController.element.addEventListener("mouseup", function (event) { return _this._handleMouseUp(true, event); }, false);
+	        touchController.element.addEventListener("mouseleave", function (event) { return _this._handleMouseUp(true, event); }, false);
 	        if (this._preventContextMenu) {
-	            touchController.element.addEventListener("contextmenu", (event) => {
+	            touchController.element.addEventListener("contextmenu", function (event) {
 	                event.preventDefault();
 	                event.stopPropagation();
 	            }, false);
 	        }
-	    }
-	    unsetListeners() {
+	    };
+	    TouchListener.prototype.unsetListeners = function () {
 	        //todo
-	    }
-	    _handleMouseDown(event) {
+	    };
+	    TouchListener.prototype._handleMouseDown = function (event) {
 	        event.preventDefault();
 	        this._touchController.touchStart('mouse' + event.button, 'MOUSE', event);
-	    }
-	    _handleMouseMove(event) {
+	    };
+	    TouchListener.prototype._handleMouseMove = function (event) {
 	        event.preventDefault();
 	        this._touchController.touchMove('mouse' + event.button, false, event);
-	    }
-	    _handleMouseUp(callSubscribers, event) {
+	    };
+	    TouchListener.prototype._handleMouseUp = function (callSubscribers, event) {
 	        event.preventDefault();
 	        this._touchController.touchMove('mouse' + event.button, callSubscribers, event);
-	    }
-	}
+	    };
+	    return TouchListener;
+	}());
 	exports.default = TouchListener;
 
 

@@ -26,7 +26,7 @@
     touchController.subscribe('START', function(touch){
 
         var color = '#'+Math.floor(Math.random()*16777215).toString(16);
-        var lastPoint = touch.firstPoint;
+        var lastPoint = touch.firstPosition;
 
         touch.subscribe('MOVE', function(point){
             ctx.strokeStyle = color;

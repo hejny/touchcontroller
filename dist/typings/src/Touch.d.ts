@@ -4,10 +4,10 @@ export default class Touche extends AbstractClassWithSubscribe<"MOVE" | "END", T
     id: string;
     type: 'TOUCH' | 'MOUSE';
     private _finished;
-    points: TimeVector2[];
-    constructor(id: string, type: 'TOUCH' | 'MOUSE', firstPoint: TimeVector2);
+    positions: TimeVector2[];
+    constructor(id: string, type: 'TOUCH' | 'MOUSE', firstPosition: TimeVector2);
     move(newPoint: TimeVector2, end?: boolean): void;
-    readonly firstPoint: TimeVector2;
+    readonly firstPosition: TimeVector2;
     readonly start: number;
     readonly finished: boolean;
 }

@@ -146,11 +146,14 @@ var TouchController =
 	    static Zero() {
 	        return new Vector2(0, 0);
 	    }
-	    add(vector3) {
-	        return new Vector2(this.x + vector3.x, this.y + vector3.y);
+	    clone() {
+	        return new Vector2(this.x, this.y);
 	    }
-	    subtract(vector3) {
-	        return new Vector2(this.x - vector3.x, this.y - vector3.y);
+	    add(vector2) {
+	        return new Vector2(this.x + vector2.x, this.y + vector2.y);
+	    }
+	    subtract(vector2) {
+	        return new Vector2(this.x - vector2.x, this.y - vector2.y);
 	    }
 	    scale(scale) {
 	        return new Vector2(this.x * scale, this.y * scale);
@@ -174,15 +177,15 @@ var TouchController =
 	Object.defineProperty(exports, "__esModule", { value: true });
 	const AbstractClassWithSubscribe_1 = __webpack_require__(5);
 	class Touche extends AbstractClassWithSubscribe_1.default {
-	    constructor(id, type, firstPoint) {
+	    constructor(id, type, firstPosition) {
 	        super();
 	        this.id = id;
 	        this.type = type;
 	        this._finished = false;
-	        this.points = [firstPoint];
+	        this.positions = [firstPosition];
 	    }
 	    move(newPoint, end = false) {
-	        this.points.push(newPoint);
+	        this.positions.push(newPoint);
 	        if (!end) {
 	            this.callSubscribers('MOVE', newPoint);
 	        }
@@ -191,11 +194,11 @@ var TouchController =
 	            this.callSubscribers('END', newPoint);
 	        }
 	    }
-	    get firstPoint() {
-	        return this.points[0];
+	    get firstPosition() {
+	        return this.positions[0];
 	    }
 	    get start() {
-	        return this.firstPoint.t;
+	        return this.firstPosition.t;
 	    }
 	    get finished() {
 	        return this._finished;

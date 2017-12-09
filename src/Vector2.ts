@@ -7,17 +7,24 @@ export default class Vector2 {
         return new Vector2(0, 0);
     }
 
-    add(vector3: Vector2): Vector2 {
+    clone(): Vector2 {
         return new Vector2(
-            this.x + vector3.x,
-            this.y + vector3.y
+            this.x,
+            this.y
         );
     }
 
-    subtract(vector3: Vector2): Vector2 {
+    add(vector2: Vector2): Vector2 {
         return new Vector2(
-            this.x - vector3.x,
-            this.y - vector3.y
+            this.x + vector2.x,
+            this.y + vector2.y
+        );
+    }
+
+    subtract(vector2: Vector2): Vector2 {
+        return new Vector2(
+            this.x - vector2.x,
+            this.y - vector2.y
         );
     }
 

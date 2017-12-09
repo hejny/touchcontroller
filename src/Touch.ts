@@ -4,17 +4,17 @@ import TimeVector2 from './VectorTouch';
 export default class Touche extends AbstractClassWithSubscribe<"MOVE" | "END", TimeVector2> {
 
     private _finished: boolean = false;
-    public points: TimeVector2[];
+    public positions: TimeVector2[];
 
     constructor(public id: string,
                 public type: 'TOUCH' | 'MOUSE',
-                firstPoint: TimeVector2) {
+                firstPosition: TimeVector2) {
         super();
-        this.points = [firstPoint];
+        this.positions = [firstPosition];
     }
 
     move(newPoint: TimeVector2, end = false) {
-        this.points.push(newPoint);
+        this.positions.push(newPoint);
         if (!end) {
             this.callSubscribers('MOVE', newPoint);
         } else {
@@ -23,12 +23,12 @@ export default class Touche extends AbstractClassWithSubscribe<"MOVE" | "END", T
         }
     }
 
-    get firstPoint() {
-        return this.points[0];
+    get firstPosition() {
+        return this.positions[0];
     }
 
     get start() {
-        return this.firstPoint.t;
+        return this.firstPosition.t;
     }
 
     get finished() {

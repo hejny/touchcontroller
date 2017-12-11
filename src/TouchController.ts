@@ -3,11 +3,13 @@ import Touch from './Touch';
 import IListener from './listeners/IListener';
 import AbstractClassWithSubscribe from './AbstractClassWithSubscribe';
 
+//todo touch event
 export interface IEvent {
     clientX: number;
     clientY: number;
 }
 
+//todo maybe remove end and move listener
 export default class TouchController extends AbstractClassWithSubscribe<"START" | "MOVE" | "END", Touch> {
 
     public ongoingTouches: Touch[] = [];

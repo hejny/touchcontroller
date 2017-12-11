@@ -1,7 +1,7 @@
 import AbstractClassWithSubscribe from './AbstractClassWithSubscribe';
 import TimeVector2 from './VectorTouch';
 
-export default class Touche extends AbstractClassWithSubscribe<"MOVE" | "END", TimeVector2> {
+export default class Touch extends AbstractClassWithSubscribe<"MOVE" | "END", TimeVector2> {
 
     private _finished: boolean = false;
     public positions: TimeVector2[];

@@ -19,22 +19,22 @@
     ctx.lineCap = "round";
 
 
-    const touchController = new TouchController.TouchController(scene);
+    var touchController = new TouchController.TouchController(scene);
     touchController.addListener(new TouchController.listeners.TouchListener);
     touchController.addListener(new TouchController.listeners.MouseListener);
 
-    touchController.observable.subscribe(function(touch){
+    touchController.touches.subscribe(function(touch){
 
         var color = '#'+Math.floor(Math.random()*16777215).toString(16);
-        var lastPoint = touch.firstPosition;
+        var lastPosition = touch.firstPosition;
 
-        touch.positions.subscribe(function(point){
+        touch.positions.subscribe(function(position){
             ctx.strokeStyle = color;
             ctx.beginPath();
-            ctx.moveTo(lastPoint.x,lastPoint.y);
-            ctx.lineTo(point.x,point.y);
+            ctx.moveTo(lastPosition.x,lastPosition.y);
+            ctx.lineTo(position.x,position.y);
             ctx.stroke();
-            lastPoint= point;
+            lastPosition = position;
         });
 
     });

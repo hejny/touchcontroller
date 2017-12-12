@@ -1,5 +1,4 @@
 import { Observable } from 'rxjs/Observable';
-import { Observer } from "rxjs/Observer";
 import Touch from './Touch';
 import IListener from './listeners/IListener';
 export interface IEvent {
@@ -8,8 +7,8 @@ export interface IEvent {
 }
 export default class TouchController {
     element: HTMLElement;
-    observable: Observable<Touch>;
-    _observer: Observer<Touch>;
+    touches: Observable<Touch>;
+    private _touchesObserver;
     private _ongoingTouches;
     constructor(element: HTMLElement);
     addListener(listener: IListener): void;

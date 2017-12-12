@@ -519,14 +519,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = __webpack_require__(1);
 var VectorTouch_1 = __webpack_require__(20);
 var Touch_1 = __webpack_require__(21);
-//todo maybe remove end and move listener
 var TouchController = /** @class */ (function () {
     function TouchController(element) {
         var _this = this;
         this.element = element;
         this._ongoingTouches = [];
-        this.observable = Observable_1.Observable.create(function (observer) {
-            _this._observer = observer;
+        this.touches = Observable_1.Observable.create(function (observer) {
+            _this._touchesObserver = observer;
         });
     }
     //todo dispose
@@ -536,7 +535,7 @@ var TouchController = /** @class */ (function () {
     TouchController.prototype.touchStart = function (id, type, event) {
         var touch = new Touch_1.default(id, type, this._createVectorFromEvent(event));
         this._ongoingTouches.push(touch);
-        this._observer.next(touch);
+        this._touchesObserver.next(touch);
     };
     TouchController.prototype.touchMove = function (id, end, event) {
         var index = this._ongoingTouchIndexById(id);
@@ -1288,46 +1287,40 @@ exports.default = VectorTouch;
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = __webpack_require__(1);
 var Touch = /** @class */ (function () {
+    //private _finished: boolean = false;
+    //public positions: TimeVector2[];
     function Touch(id, type, firstPosition) {
         var _this = this;
         this.id = id;
         this.type = type;
-        this._finished = false;
-        this.positions = [firstPosition];
-        this.observable = Observable_1.Observable.create(function (observer) {
-            _this._observer = observer;
+        this.firstPosition = firstPosition;
+        //this.positions = [firstPosition];
+        this.positions = Observable_1.Observable.create(function (observer) {
+            observer.next(firstPosition);
+            _this._positionsObserver = observer;
         });
     }
     Touch.prototype.move = function (newPoint, end) {
         if (end === void 0) { end = false; }
-        this.positions.push(newPoint);
-        if (!end) {
-            this._observer.next(newPoint);
+        this._positionsObserver.next(newPoint);
+        if (end) {
+            this._positionsObserver.complete();
+        }
+        /*if (!end) {
+            this._positionsObserver.next(newPoint);
             //this.callSubscribers('MOVE', newPoint);
-        }
-        else {
+        } else {
             this._finished = true;
-            this._observer.next(newPoint);
+            this._positionsObserver.next(newPoint);
             //this.callSubscribers('END', newPoint);
-        }
+        }*/
     };
-    Object.defineProperty(Touch.prototype, "firstPosition", {
-        get: function () {
-            return this.positions[0];
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(Touch.prototype, "start", {
+        /*get firstPosition() {
+            return this.positions[0];
+        }*/
         get: function () {
             return this.firstPosition.t;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Touch.prototype, "finished", {
-        get: function () {
-            return this._finished;
         },
         enumerable: true,
         configurable: true

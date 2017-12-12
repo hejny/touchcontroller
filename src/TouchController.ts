@@ -10,16 +10,15 @@ export interface IEvent {
     clientY: number;
 }
 
-//todo maybe remove end and move listener
 export default class TouchController{
 
-    public observable: Observable<Touch>;
-    public _observer: Observer<Touch>;
+    public touches: Observable<Touch>;
+    private _touchesObserver: Observer<Touch>;
     private _ongoingTouches: Touch[] = [];
 
     constructor(public element: HTMLElement) {
-        this.observable = Observable.create((observer:Observer<Touch>)=>{
-            this._observer = observer;
+        this.touches = Observable.create((observer:Observer<Touch>)=>{
+            this._touchesObserver = observer;
         });
     }
 
@@ -36,7 +35,7 @@ export default class TouchController{
             this._createVectorFromEvent(event)
         );
         this._ongoingTouches.push(touch);
-        this._observer.next(touch);
+        this._touchesObserver.next(touch);
     }
 
     touchMove(id: string, end: boolean, event: IEvent) {

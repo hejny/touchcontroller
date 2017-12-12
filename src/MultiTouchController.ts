@@ -18,6 +18,8 @@ export default class MultiTouchController<TElement> extends AbstractClassWithSub
             let multiTouch = this._ongoingMultiTouches.filter((multiTouch)=>multiTouch.element===element)[0];
 
             if(typeof multiTouch==='undefined'){
+
+                console.log('creating new multitouch');
                 multiTouch = {element,multiTouch: new MultiTouch()};
                 this._ongoingMultiTouches.push(multiTouch);
             }

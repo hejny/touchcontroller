@@ -1296,13 +1296,15 @@ var Touch = /** @class */ (function () {
         this.firstPosition = firstPosition;
         //this.positions = [firstPosition];
         this.positions = Observable_1.Observable.create(function (observer) {
+            _this.lastPosition = firstPosition;
             observer.next(firstPosition);
             _this._positionsObserver = observer;
         });
     }
-    Touch.prototype.move = function (newPoint, end) {
+    Touch.prototype.move = function (newPosition, end) {
         if (end === void 0) { end = false; }
-        this._positionsObserver.next(newPoint);
+        this.lastPosition = newPosition;
+        this._positionsObserver.next(newPosition);
         if (end) {
             this._positionsObserver.complete();
         }
@@ -1388,7 +1390,7 @@ var MultiTouch = /** @class */ (function () {
     }
     MultiTouch.prototype.addTouch = function (touch) {
         var _this = this;
-        console.log(this);
+        //console.log(this.touches.);
         this._touchesObserver.next(touch);
         touch.positions.subscribe(function (position) {
             _this._touchesObserver.next(touch);

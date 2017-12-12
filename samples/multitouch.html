@@ -36,17 +36,44 @@
 
         var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
 
+        var touches = [];//todo multitouch ongoingTouches
         multitouch.touches.subscribe(function (touch) {
 
-            var lastPosition = touch.firstPosition;
+            touches.push(touch);
+
+            /*ctx.strokeStyle = color;
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(touch.firstPosition.x, touch.firstPosition.y);
+            ctx.stroke();*/
+
+
+            /*var lastPosition = touch.firstPosition;*/
 
             touch.positions.subscribe(function (position) {
-                ctx.strokeStyle = color;
+
+                var lastPosition = touches[0].lastPosition;
+                for(var i=1,l=touches.length;i<l;i++){
+                    var position = touches[i].lastPosition;
+
+                    ctx.strokeStyle = color;
+                    ctx.beginPath();
+                    ctx.moveTo(lastPosition.x, lastPosition.y);
+                    ctx.lineTo(position.x, position.y);
+                    ctx.stroke();
+
+                    lastPosition = position;
+                }
+
+
+                //console.log(multitouch.touches.toArray());
+
+                /*ctx.strokeStyle = color;
                 ctx.beginPath();
                 ctx.moveTo(lastPosition.x, lastPosition.y);
                 ctx.lineTo(position.x, position.y);
                 ctx.stroke();
-                lastPosition = position;
+                lastPosition = position;*/
             });
 
         });

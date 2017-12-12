@@ -8,6 +8,7 @@ export default class Touch{
 
     public positions: Observable<TimeVector2>;
     private _positionsObserver: Observer<TimeVector2>;
+    public lastPosition: TimeVector2;
     //private _finished: boolean = false;
     //public positions: TimeVector2[];
 
@@ -16,13 +17,15 @@ export default class Touch{
                 public firstPosition: TimeVector2) {
         //this.positions = [firstPosition];
         this.positions = Observable.create((observer:Observer<TimeVector2>)=>{
+            this.lastPosition = firstPosition;
             observer.next(firstPosition);
             this._positionsObserver = observer;
         });
     }
 
-    move(newPoint: TimeVector2, end = false) {
-        this._positionsObserver.next(newPoint);
+    move(newPosition: TimeVector2, end = false) {
+        this.lastPosition = newPosition;
+        this._positionsObserver.next(newPosition);
         if(end){
             this._positionsObserver.complete();
         }

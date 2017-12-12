@@ -16,7 +16,7 @@ export default class MultiTouch{
     }
 
     addTouch(touch:Touch){
-        console.log(this);
+        //console.log(this.touches.);
         this._touchesObserver.next(touch);
 
 

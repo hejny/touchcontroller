@@ -6,7 +6,8 @@ export default class Touch {
     firstPosition: TimeVector2;
     positions: Observable<TimeVector2>;
     private _positionsObserver;
+    lastPosition: TimeVector2;
     constructor(id: string, type: 'TOUCH' | 'MOUSE', firstPosition: TimeVector2);
-    move(newPoint: TimeVector2, end?: boolean): void;
+    move(newPosition: TimeVector2, end?: boolean): void;
     readonly start: number;
 }

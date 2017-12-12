@@ -28,7 +28,7 @@
         var color = '#'+Math.floor(Math.random()*16777215).toString(16);
         var lastPoint = touch.firstPosition;
 
-        touch.observable.subscribe(function(point){
+        touch.positions.subscribe(function(point){
             ctx.strokeStyle = color;
             ctx.beginPath();
             ctx.moveTo(lastPoint.x,lastPoint.y);

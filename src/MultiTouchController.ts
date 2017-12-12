@@ -1,15 +1,23 @@
-/*import AbstractClassWithSubscribe from './AbstractClassWithSubscribe';
+/*import { Observable } from 'rxjs/Observable';
+import {Observer} from "rxjs/Observer";
 import TouchController from './TouchController';
 import MultiTouch from './MultiTouch';
 import Vector2 from './Vector2';
 
-export default class MultiTouchController<TElement> extends AbstractClassWithSubscribe<"START", MultiTouch> {
 
+export default class MultiTouchController{
+
+    public observable: Observable<MultiTouch>;
+    public _observer: Observer<MultiTouch>;
     private _ongoingMultiTouches: { element: TElement; multiTouch: MultiTouch; }[] = [];
 
     constructor(private _touchController: TouchController,
                 private _elementBinder: (position: Vector2) => TElement) {
-        super();
+
+        this.observable = Observable.create((observer:Observer<MultiTouch>)=>{
+            this._observer = observer;
+        });
+
         this._touchController.subscribe('START', (touch) => {
 
 
@@ -32,4 +40,5 @@ export default class MultiTouchController<TElement> extends AbstractClassWithSub
     }
 
 
-}*/
+}
+*/

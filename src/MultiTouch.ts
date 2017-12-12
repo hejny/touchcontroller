@@ -1,4 +1,4 @@
-import AbstractClassWithSubscribe from './AbstractClassWithSubscribe';
+/*import AbstractClassWithSubscribe from './AbstractClassWithSubscribe';
 import Touch from './Touch';
 
 export default class MultiTouch extends AbstractClassWithSubscribe<"START" | "MOVE" | "END", Touch> {
@@ -7,7 +7,7 @@ export default class MultiTouch extends AbstractClassWithSubscribe<"START" | "MO
 
     /*constructor() {
         super();
-    }*/
+    }* /
 
     addTouch(touch:Touch){
         this.touches.push(touch);
@@ -25,4 +25,4 @@ export default class MultiTouch extends AbstractClassWithSubscribe<"START" | "MO
 
     }
 
-}
+}*/

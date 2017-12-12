@@ -28,3 +28,4 @@ describe("MultiTouchController", function() {
 });
 
 
+*/

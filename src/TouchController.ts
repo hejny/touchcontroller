@@ -1,7 +1,8 @@
+import { Observable } from 'rxjs/Observable';
+import {Observer} from "rxjs/Observer";
 import VectorTouch from './VectorTouch';
 import Touch from './Touch';
 import IListener from './listeners/IListener';
-import AbstractClassWithSubscribe from './AbstractClassWithSubscribe';
 
 //todo touch event
 export interface IEvent {
@@ -10,12 +11,16 @@ export interface IEvent {
 }
 
 //todo maybe remove end and move listener
-export default class TouchController extends AbstractClassWithSubscribe<"START" | "MOVE" | "END", Touch> {
+export default class TouchController{
 
+    public observable: Observable<Touch>;
+    public _observer: Observer<Touch>;
     private _ongoingTouches: Touch[] = [];
 
     constructor(public element: HTMLElement) {
-        super();
+        this.observable = Observable.create((observer:Observer<Touch>)=>{
+            this._observer = observer;
+        });
     }
 
     //todo dispose
@@ -31,7 +36,7 @@ export default class TouchController extends AbstractClassWithSubscribe<"START" 
             this._createVectorFromEvent(event)
         );
         this._ongoingTouches.push(touch);
-        this.callSubscribers('START', touch);
+        this._observer.next(touch);
     }
 
     touchMove(id: string, end: boolean, event: IEvent) {
@@ -41,9 +46,9 @@ export default class TouchController extends AbstractClassWithSubscribe<"START" 
             touch.move(this._createVectorFromEvent(event), end);
             if (end) {
                 this._ongoingTouches.splice(index, 1);
-                this.callSubscribers('END', touch);
+                //this.callSubscribers('END', touch);
             } else {
-                this.callSubscribers('MOVE', touch);
+                //this.callSubscribers('MOVE', touch);
             }
         } else {
             //console.warn(`Can't find touch with id "${id}".`);

@@ -23,12 +23,12 @@
     touchController.addListener(new TouchController.listeners.TouchListener);
     touchController.addListener(new TouchController.listeners.MouseListener);
 
-    touchController.subscribe('START', function(touch){
+    touchController.observable.subscribe(function(touch){
 
         var color = '#'+Math.floor(Math.random()*16777215).toString(16);
         var lastPoint = touch.firstPosition;
 
-        touch.subscribe('MOVE', function(point){
+        touch.observable.subscribe(function(point){
             ctx.strokeStyle = color;
             ctx.beginPath();
             ctx.moveTo(lastPoint.x,lastPoint.y);
@@ -37,9 +37,6 @@
             lastPoint= point;
         });
 
-        touch.subscribe('END', function(point){
-
-        });
     });
 </script>
 

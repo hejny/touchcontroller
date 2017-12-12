@@ -1,13 +1,16 @@
+import { Observable } from 'rxjs/Observable';
+import { Observer } from "rxjs/Observer";
 import Touch from './Touch';
 import IListener from './listeners/IListener';
-import AbstractClassWithSubscribe from './AbstractClassWithSubscribe';
 export interface IEvent {
     clientX: number;
     clientY: number;
 }
-export default class TouchController extends AbstractClassWithSubscribe<"START" | "MOVE" | "END", Touch> {
+export default class TouchController {
     element: HTMLElement;
-    ongoingTouches: Touch[];
+    observable: Observable<Touch>;
+    _observer: Observer<Touch>;
+    private _ongoingTouches;
     constructor(element: HTMLElement);
     addListener(listener: IListener): void;
     touchStart(id: string, type: 'TOUCH' | 'MOUSE', event: IEvent): void;

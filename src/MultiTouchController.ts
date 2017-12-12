@@ -1,4 +1,4 @@
-import AbstractClassWithSubscribe from './AbstractClassWithSubscribe';
+/*import AbstractClassWithSubscribe from './AbstractClassWithSubscribe';
 import TouchController from './TouchController';
 import MultiTouch from './MultiTouch';
 import Vector2 from './Vector2';
@@ -32,4 +32,4 @@ export default class MultiTouchController<TElement> extends AbstractClassWithSub
     }
 
 
-}
+}*/

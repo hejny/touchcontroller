@@ -1,19 +1,19 @@
 import AbstractClassWithSubscribe from './AbstractClassWithSubscribe';
 import TouchController from './TouchController';
 import MultiTouch from './MultiTouch';
-import Touch from './Touch';
+import Vector2 from './Vector2';
 
 export default class MultiTouchController<TElement> extends AbstractClassWithSubscribe<"START", MultiTouch> {
 
     private _ongoingMultiTouches: { element: TElement; multiTouch: MultiTouch; }[] = [];
 
     constructor(private _touchController: TouchController,
-                private _elementBinder: (touch: Touch) => TElement) {
+                private _elementBinder: (position: Vector2) => TElement) {
         super();
         this._touchController.subscribe('START', (touch) => {
 
 
-            const element = this._elementBinder(touch);
+            const element = this._elementBinder(touch.firstPosition);
             //todo why can not be used find
             let multiTouch = this._ongoingMultiTouches.filter((multiTouch)=>multiTouch.element===element)[0];
 

@@ -1,1 +1,1 @@
-//todo
+console.log(1);

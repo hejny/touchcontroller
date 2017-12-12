@@ -24,8 +24,8 @@
     touchController.addListener(new TouchController.listeners.MouseListener);
     const multiTouchController = new TouchController.MultiTouchController(
         touchController,
-        function (touch) {
-            return Math.round(touch.firstPosition.x / 100);
+        function (position) {
+            return Math.round(position.x / 100);
         }
     );
     console.log(multiTouchController);

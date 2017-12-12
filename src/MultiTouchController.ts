@@ -5,7 +5,7 @@ import Touch from './Touch';
 
 export default class MultiTouchController<TElement> extends AbstractClassWithSubscribe<"START", MultiTouch> {
 
-    private _multiTouches: { element: TElement; multiTouch: MultiTouch; }[] = [];
+    private _ongoingMultiTouches: { element: TElement; multiTouch: MultiTouch; }[] = [];
 
     constructor(private _touchController: TouchController,
                 private _elementBinder: (touch: Touch) => TElement) {
@@ -15,11 +15,11 @@ export default class MultiTouchController<TElement> extends AbstractClassWithSub
 
             const element = this._elementBinder(touch);
             //todo why can not be used find
-            let multiTouch = this._multiTouches.filter((multiTouch)=>multiTouch.element===element)[0];
+            let multiTouch = this._ongoingMultiTouches.filter((multiTouch)=>multiTouch.element===element)[0];
 
             if(typeof multiTouch==='undefined'){
                 multiTouch = {element,multiTouch: new MultiTouch()};
-                this._multiTouches.push(multiTouch);
+                this._ongoingMultiTouches.push(multiTouch);
             }
 
             multiTouch.multiTouch.addTouch(touch);

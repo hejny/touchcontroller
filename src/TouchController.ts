@@ -12,7 +12,7 @@ export interface IEvent {
 //todo maybe remove end and move listener
 export default class TouchController extends AbstractClassWithSubscribe<"START" | "MOVE" | "END", Touch> {
 
-    public ongoingTouches: Touch[] = [];
+    private _ongoingTouches: Touch[] = [];
 
     constructor(public element: HTMLElement) {
         super();
@@ -30,17 +30,17 @@ export default class TouchController extends AbstractClassWithSubscribe<"START" 
             type,
             this._createVectorFromEvent(event)
         );
-        this.ongoingTouches.push(touch);
+        this._ongoingTouches.push(touch);
         this.callSubscribers('START', touch);
     }
 
     touchMove(id: string, end: boolean, event: IEvent) {
         const index = this._ongoingTouchIndexById(id);
         if (index !== -1) {
-            const touch = this.ongoingTouches[index];
+            const touch = this._ongoingTouches[index];
             touch.move(this._createVectorFromEvent(event), end);
             if (end) {
-                this.ongoingTouches.splice(index, 1);
+                this._ongoingTouches.splice(index, 1);
                 this.callSubscribers('END', touch);
             } else {
                 this.callSubscribers('MOVE', touch);
@@ -60,8 +60,8 @@ export default class TouchController extends AbstractClassWithSubscribe<"START" 
     }
 
     private _ongoingTouchIndexById(idToFind: string): number {
-        for (let i = 0; i < this.ongoingTouches.length; i++) {
-            const id = this.ongoingTouches[i].id;
+        for (let i = 0; i < this._ongoingTouches.length; i++) {
+            const id = this._ongoingTouches[i].id;
 
             if (id === idToFind) {
                 return i;

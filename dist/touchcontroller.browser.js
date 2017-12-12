@@ -69,34 +69,8 @@ var TouchController =
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(global) {
-// CommonJS / Node have global context exposed as "global" variable.
-// We don't want to include the whole node.d.ts this this compilation unit so we'll just fake
-// the global "global" var for now.
-var __window = typeof window !== 'undefined' && window;
-var __self = typeof self !== 'undefined' && typeof WorkerGlobalScope !== 'undefined' &&
-    self instanceof WorkerGlobalScope && self;
-var __global = typeof global !== 'undefined' && global;
-var _root = __window || __global || __self;
-exports.root = _root;
-// Workaround Closure Compiler restriction: The body of a goog.module cannot use throw.
-// This is needed when used with angular/tsickle which inserts a goog.module statement.
-// Wrap in IIFE
-(function () {
-    if (!_root) {
-        throw new Error('RxJS could not find any global context (window, self, global)');
-    }
-})();
-//# sourceMappingURL=root.js.map
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var root_1 = __webpack_require__(0);
+var root_1 = __webpack_require__(1);
 var toSubscriber_1 = __webpack_require__(10);
 var observable_1 = __webpack_require__(17);
 var pipe_1 = __webpack_require__(18);
@@ -402,6 +376,32 @@ exports.Observable = Observable;
 //# sourceMappingURL=Observable.js.map
 
 /***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global) {
+// CommonJS / Node have global context exposed as "global" variable.
+// We don't want to include the whole node.d.ts this this compilation unit so we'll just fake
+// the global "global" var for now.
+var __window = typeof window !== 'undefined' && window;
+var __self = typeof self !== 'undefined' && typeof WorkerGlobalScope !== 'undefined' &&
+    self instanceof WorkerGlobalScope && self;
+var __global = typeof global !== 'undefined' && global;
+var _root = __window || __global || __self;
+exports.root = _root;
+// Workaround Closure Compiler restriction: The body of a goog.module cannot use throw.
+// This is needed when used with angular/tsickle which inserts a goog.module statement.
+// Wrap in IIFE
+(function () {
+    if (!_root) {
+        throw new Error('RxJS could not find any global context (window, self, global)');
+    }
+})();
+//# sourceMappingURL=root.js.map
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
+
+/***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -443,7 +443,7 @@ exports.empty = {
 
 "use strict";
 
-var root_1 = __webpack_require__(0);
+var root_1 = __webpack_require__(1);
 var Symbol = root_1.root.Symbol;
 exports.rxSubscriber = (typeof Symbol === 'function' && typeof Symbol.for === 'function') ?
     Symbol.for('rxSubscriber') : '@@rxSubscriber';
@@ -502,8 +502,9 @@ exports.default = Vector2;
 Object.defineProperty(exports, "__esModule", { value: true });
 var TouchController_1 = __webpack_require__(8);
 exports.TouchController = TouchController_1.default;
-//import MultiTouchController from './MultiTouchController';
-var listeners_1 = __webpack_require__(22);
+var MultiTouchController_1 = __webpack_require__(22);
+exports.MultiTouchController = MultiTouchController_1.default;
+var listeners_1 = __webpack_require__(24);
 exports.listeners = listeners_1.default;
 var Vector2_1 = __webpack_require__(6);
 exports.Vector2 = Vector2_1.default;
@@ -516,7 +517,7 @@ exports.Vector2 = Vector2_1.default;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Observable_1 = __webpack_require__(1);
+var Observable_1 = __webpack_require__(0);
 var VectorTouch_1 = __webpack_require__(20);
 var Touch_1 = __webpack_require__(21);
 var TouchController = /** @class */ (function () {
@@ -1176,7 +1177,7 @@ exports.UnsubscriptionError = UnsubscriptionError;
 
 "use strict";
 
-var root_1 = __webpack_require__(0);
+var root_1 = __webpack_require__(1);
 function getSymbolObservable(context) {
     var $$observable;
     var Symbol = context.Symbol;
@@ -1285,7 +1286,7 @@ exports.default = VectorTouch;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Observable_1 = __webpack_require__(1);
+var Observable_1 = __webpack_require__(0);
 var Touch = /** @class */ (function () {
     //private _finished: boolean = false;
     //public positions: TimeVector2[];
@@ -1337,8 +1338,88 @@ exports.default = Touch;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var TouchListener_1 = __webpack_require__(23);
-var MouseListener_1 = __webpack_require__(24);
+var Observable_1 = __webpack_require__(0);
+var MultiTouch_1 = __webpack_require__(23);
+var MultiTouchController = /** @class */ (function () {
+    function MultiTouchController(_touchController, _elementBinder) {
+        var _this = this;
+        this._touchController = _touchController;
+        this._elementBinder = _elementBinder;
+        this._ongoingMultiTouchesWithElements = [];
+        this.multiTouches = Observable_1.Observable.create(function (observer) {
+            _this._multiTouchesObserver = observer;
+        });
+        this._touchController.touches.subscribe(function (touch) {
+            var element = _this._elementBinder(touch.firstPosition);
+            //todo why can not be used find
+            var multiTouchWithElement = _this._ongoingMultiTouchesWithElements.filter(function (multiTouchWithElement) { return multiTouchWithElement.element === element; })[0];
+            if (typeof multiTouchWithElement === 'undefined') {
+                console.log('creating new multitouch');
+                multiTouchWithElement = { element: element, multiTouch: new MultiTouch_1.default(touch) };
+                _this._ongoingMultiTouchesWithElements.push(multiTouchWithElement);
+            }
+            else {
+                multiTouchWithElement.multiTouch.addTouch(touch);
+            }
+            _this._multiTouchesObserver.next(multiTouchWithElement.multiTouch);
+            //todo close when all _multiTouchesObserver closed
+        });
+    }
+    return MultiTouchController;
+}());
+exports.default = MultiTouchController;
+
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Observable_1 = __webpack_require__(0);
+var MultiTouch = /** @class */ (function () {
+    function MultiTouch(firstTouch) {
+        var _this = this;
+        this.firstTouch = firstTouch;
+        this.touches = Observable_1.Observable.create(function (observer) {
+            observer.next(firstTouch);
+            _this._touchesObserver = observer;
+        });
+    }
+    MultiTouch.prototype.addTouch = function (touch) {
+        var _this = this;
+        console.log(this);
+        this._touchesObserver.next(touch);
+        touch.positions.subscribe(function (position) {
+            _this._touchesObserver.next(touch);
+        });
+        /*touch.subscribe('MOVE',()=>{
+            this.callSubscribers('MOVE',touch);
+        });
+
+        touch.subscribe('END',()=>{
+            this.callSubscribers('END',touch);
+        });
+
+        this.callSubscribers('START',touch);
+        //todo END all
+        */
+    };
+    return MultiTouch;
+}());
+exports.default = MultiTouch;
+
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var TouchListener_1 = __webpack_require__(25);
+var MouseListener_1 = __webpack_require__(26);
 exports.default = {
     TouchListener: TouchListener_1.default,
     MouseListener: MouseListener_1.default
@@ -1346,7 +1427,7 @@ exports.default = {
 
 
 /***/ }),
-/* 23 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1394,7 +1475,7 @@ exports.default = TouchListener;
 
 
 /***/ }),
-/* 24 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

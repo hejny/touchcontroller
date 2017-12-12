@@ -19,10 +19,10 @@
     ctx.lineCap = "round";
 
 
-    const touchController = new TouchController.TouchController(scene);
+    var touchController = new TouchController.TouchController(scene);
     touchController.addListener(new TouchController.listeners.TouchListener);
     touchController.addListener(new TouchController.listeners.MouseListener);
-    const multiTouchController = new TouchController.MultiTouchController(
+    var multiTouchController = new TouchController.MultiTouchController(
         touchController,
         function (position) {
             return Math.round(position.x / 100);
@@ -30,23 +30,23 @@
     );
     console.log(multiTouchController);
 
-    multiTouchController.subscribe('START', function (multitouch) {
+    multiTouchController.multiTouches.subscribe(function (multitouch) {
 
         console.log(multitouch);
 
         var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
 
-        multitouch.subscribe('START', function (touch) {
+        multitouch.touches.subscribe(function (touch) {
 
-            var lastPoint = touch.firstPosition;
+            var lastPosition = touch.firstPosition;
 
-            touch.subscribe('MOVE', function (point) {
+            touch.positions.subscribe(function (position) {
                 ctx.strokeStyle = color;
                 ctx.beginPath();
-                ctx.moveTo(lastPoint.x, lastPoint.y);
-                ctx.lineTo(point.x, point.y);
+                ctx.moveTo(lastPosition.x, lastPosition.y);
+                ctx.lineTo(position.x, position.y);
                 ctx.stroke();
-                lastPoint = point;
+                lastPosition = position;
             });
 
         });

@@ -1,29 +1,31 @@
-/*import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import {Observer} from "rxjs/Observer";
 import Touch from './Touch';
 
 
 export default class MultiTouch{
 
-    public observable: Observable<Touch>;
-    public _observer: Observer<Touch>;
-    public touches: Touch[] = [];
+    public touches: Observable<Touch>;
+    private _touchesObserver: Observer<Touch>;
 
-    constructor() {
-        this.observable = Observable.create((observer:Observer<Touch>)=>{
-            this._observer = observer;
+    constructor(public firstTouch: Touch) {
+        this.touches = Observable.create((observer:Observer<Touch>)=>{
+            observer.next(firstTouch);
+            this._touchesObserver = observer;
         });
     }
 
     addTouch(touch:Touch){
-        this.touches.push(touch);
+        console.log(this);
+        this._touchesObserver.next(touch);
 
 
-        touch.observable.
-        touch.observable.subscribe(()=>{
-
-            this._observer.next();
+        touch.positions.subscribe((position)=>{
+            this._touchesObserver.next(touch);
         });
+
+
+
 
 
         /*touch.subscribe('MOVE',()=>{
@@ -36,8 +38,8 @@ export default class MultiTouch{
 
         this.callSubscribers('START',touch);
         //todo END all
-        * /
+        */
 
     }
 
-}*/
+}

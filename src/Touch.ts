@@ -27,6 +27,7 @@ export default class Touch{
         this.lastPosition = newPosition;
         this._positionsObserver.next(newPosition);
         if(end){
+            console.log('completing touch');
             this._positionsObserver.complete();
         }
         /*if (!end) {

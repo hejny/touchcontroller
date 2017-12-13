@@ -36,10 +36,7 @@
 
         var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
 
-        var touches = [];//todo multitouch ongoingTouches
         multitouch.touches.subscribe(function (touch) {
-
-            touches.push(touch);
 
             /*ctx.strokeStyle = color;
             ctx.beginPath();
@@ -52,9 +49,9 @@
 
             touch.positions.subscribe(function (position) {
 
-                var lastPosition = touches[0].lastPosition;
-                for(var i=1,l=touches.length;i<l;i++){
-                    var position = touches[i].lastPosition;
+                var lastPosition = multitouch.ongoingTouches[0].lastPosition;
+                for(var i=1,l=multitouch.ongoingTouches.length;i<l;i++){
+                    var position = multitouch.ongoingTouches[i].lastPosition;
 
                     ctx.strokeStyle = color;
                     ctx.beginPath();

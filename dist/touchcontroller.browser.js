@@ -61,7 +61,7 @@ var TouchController =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ 	return __webpack_require__(__webpack_require__.s = 9);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -71,7 +71,7 @@ var TouchController =
 "use strict";
 
 var root_1 = __webpack_require__(1);
-var toSubscriber_1 = __webpack_require__(10);
+var toSubscriber_1 = __webpack_require__(12);
 var observable_1 = __webpack_require__(17);
 var pipe_1 = __webpack_require__(18);
 /**
@@ -399,234 +399,10 @@ exports.root = _root;
     }
 })();
 //# sourceMappingURL=root.js.map
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-function isFunction(x) {
-    return typeof x === 'function';
-}
-exports.isFunction = isFunction;
-//# sourceMappingURL=isFunction.js.map
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-// typeof any so that it we don't have to cast when comparing a result to the error object
-exports.errorObject = { e: {} };
-//# sourceMappingURL=errorObject.js.map
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-exports.empty = {
-    closed: true,
-    next: function (value) { },
-    error: function (err) { throw err; },
-    complete: function () { }
-};
-//# sourceMappingURL=Observer.js.map
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var root_1 = __webpack_require__(1);
-var Symbol = root_1.root.Symbol;
-exports.rxSubscriber = (typeof Symbol === 'function' && typeof Symbol.for === 'function') ?
-    Symbol.for('rxSubscriber') : '@@rxSubscriber';
-/**
- * @deprecated use rxSubscriber instead
- */
-exports.$$rxSubscriber = exports.rxSubscriber;
-//# sourceMappingURL=rxSubscriber.js.map
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var Vector2 = /** @class */ (function () {
-    function Vector2(x, y) {
-        this.x = x;
-        this.y = y;
-    }
-    Vector2.Zero = function () {
-        return new Vector2(0, 0);
-    };
-    Vector2.prototype.clone = function () {
-        return new Vector2(this.x, this.y);
-    };
-    Vector2.prototype.add = function (vector2) {
-        return new Vector2(this.x + vector2.x, this.y + vector2.y);
-    };
-    Vector2.prototype.subtract = function (vector2) {
-        return new Vector2(this.x - vector2.x, this.y - vector2.y);
-    };
-    Vector2.prototype.scale = function (scale) {
-        return new Vector2(this.x * scale, this.y * scale);
-    };
-    Vector2.prototype.length = function (vector2) {
-        if (vector2 === void 0) { vector2 = Vector2.Zero(); }
-        return Math.sqrt(Math.pow(this.x - vector2.x, 2) +
-            Math.pow(this.y - vector2.y, 2));
-    };
-    Vector2.prototype.toArray = function () {
-        return [this.x, this.y];
-    };
-    return Vector2;
-}());
-exports.default = Vector2;
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var TouchController_1 = __webpack_require__(8);
-exports.TouchController = TouchController_1.default;
-var MultiTouchController_1 = __webpack_require__(22);
-exports.MultiTouchController = MultiTouchController_1.default;
-var listeners_1 = __webpack_require__(24);
-exports.listeners = listeners_1.default;
-var Vector2_1 = __webpack_require__(6);
-exports.Vector2 = Vector2_1.default;
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var Observable_1 = __webpack_require__(0);
-var VectorTouch_1 = __webpack_require__(20);
-var Touch_1 = __webpack_require__(21);
-var TouchController = /** @class */ (function () {
-    function TouchController(element) {
-        var _this = this;
-        this.element = element;
-        this._ongoingTouches = [];
-        this.touches = Observable_1.Observable.create(function (observer) {
-            _this._touchesObserver = observer;
-        });
-    }
-    //todo dispose
-    TouchController.prototype.addListener = function (listener) {
-        listener.setListeners(this); //todo array of listeners
-    };
-    TouchController.prototype.touchStart = function (id, type, event) {
-        var touch = new Touch_1.default(id, type, this._createVectorFromEvent(event));
-        this._ongoingTouches.push(touch);
-        this._touchesObserver.next(touch);
-    };
-    TouchController.prototype.touchMove = function (id, end, event) {
-        var index = this._ongoingTouchIndexById(id);
-        if (index !== -1) {
-            var touch = this._ongoingTouches[index];
-            touch.move(this._createVectorFromEvent(event), end);
-            if (end) {
-                this._ongoingTouches.splice(index, 1);
-                //this.callSubscribers('END', touch);
-            }
-            else {
-                //this.callSubscribers('MOVE', touch);
-            }
-        }
-        else {
-            //console.warn(`Can't find touch with id "${id}".`);
-        }
-    };
-    TouchController.prototype._createVectorFromEvent = function (event) {
-        return new VectorTouch_1.default(this, event.clientX - this.element.offsetLeft, event.clientY - this.element.offsetTop, performance.now());
-    };
-    TouchController.prototype._ongoingTouchIndexById = function (idToFind) {
-        for (var i = 0; i < this._ongoingTouches.length; i++) {
-            var id = this._ongoingTouches[i].id;
-            if (id === idToFind) {
-                return i;
-            }
-        }
-        return -1;
-    };
-    return TouchController;
-}());
-exports.default = TouchController;
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var Subscriber_1 = __webpack_require__(11);
-var rxSubscriber_1 = __webpack_require__(5);
-var Observer_1 = __webpack_require__(4);
-function toSubscriber(nextOrObserver, error, complete) {
-    if (nextOrObserver) {
-        if (nextOrObserver instanceof Subscriber_1.Subscriber) {
-            return nextOrObserver;
-        }
-        if (nextOrObserver[rxSubscriber_1.rxSubscriber]) {
-            return nextOrObserver[rxSubscriber_1.rxSubscriber]();
-        }
-    }
-    if (!nextOrObserver && !error && !complete) {
-        return new Subscriber_1.Subscriber(Observer_1.empty);
-    }
-    return new Subscriber_1.Subscriber(nextOrObserver, error, complete);
-}
-exports.toSubscriber = toSubscriber;
-//# sourceMappingURL=toSubscriber.js.map
-
-/***/ }),
-/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -636,10 +412,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var isFunction_1 = __webpack_require__(2);
-var Subscription_1 = __webpack_require__(12);
-var Observer_1 = __webpack_require__(4);
-var rxSubscriber_1 = __webpack_require__(5);
+var isFunction_1 = __webpack_require__(3);
+var Subscription_1 = __webpack_require__(4);
+var Observer_1 = __webpack_require__(6);
+var rxSubscriber_1 = __webpack_require__(7);
 /**
  * Implements the {@link Observer} interface and extends the
  * {@link Subscription} class. While the {@link Observer} is the public API for
@@ -896,16 +672,28 @@ var SafeSubscriber = (function (_super) {
 //# sourceMappingURL=Subscriber.js.map
 
 /***/ }),
-/* 12 */
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function isFunction(x) {
+    return typeof x === 'function';
+}
+exports.isFunction = isFunction;
+//# sourceMappingURL=isFunction.js.map
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var isArray_1 = __webpack_require__(13);
 var isObject_1 = __webpack_require__(14);
-var isFunction_1 = __webpack_require__(2);
+var isFunction_1 = __webpack_require__(3);
 var tryCatch_1 = __webpack_require__(15);
-var errorObject_1 = __webpack_require__(3);
+var errorObject_1 = __webpack_require__(5);
 var UnsubscriptionError_1 = __webpack_require__(16);
 /**
  * Represents a disposable resource, such as the execution of an Observable. A
@@ -1095,6 +883,218 @@ function flattenUnsubscriptionErrors(errors) {
 //# sourceMappingURL=Subscription.js.map
 
 /***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// typeof any so that it we don't have to cast when comparing a result to the error object
+exports.errorObject = { e: {} };
+//# sourceMappingURL=errorObject.js.map
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.empty = {
+    closed: true,
+    next: function (value) { },
+    error: function (err) { throw err; },
+    complete: function () { }
+};
+//# sourceMappingURL=Observer.js.map
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var root_1 = __webpack_require__(1);
+var Symbol = root_1.root.Symbol;
+exports.rxSubscriber = (typeof Symbol === 'function' && typeof Symbol.for === 'function') ?
+    Symbol.for('rxSubscriber') : '@@rxSubscriber';
+/**
+ * @deprecated use rxSubscriber instead
+ */
+exports.$$rxSubscriber = exports.rxSubscriber;
+//# sourceMappingURL=rxSubscriber.js.map
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Vector2 = /** @class */ (function () {
+    function Vector2(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+    Vector2.Zero = function () {
+        return new Vector2(0, 0);
+    };
+    Vector2.prototype.clone = function () {
+        return new Vector2(this.x, this.y);
+    };
+    Vector2.prototype.add = function (vector2) {
+        return new Vector2(this.x + vector2.x, this.y + vector2.y);
+    };
+    Vector2.prototype.subtract = function (vector2) {
+        return new Vector2(this.x - vector2.x, this.y - vector2.y);
+    };
+    Vector2.prototype.scale = function (scale) {
+        return new Vector2(this.x * scale, this.y * scale);
+    };
+    Vector2.prototype.length = function (vector2) {
+        if (vector2 === void 0) { vector2 = Vector2.Zero(); }
+        return Math.sqrt(Math.pow(this.x - vector2.x, 2) +
+            Math.pow(this.y - vector2.y, 2));
+    };
+    Vector2.prototype.toArray = function () {
+        return [this.x, this.y];
+    };
+    return Vector2;
+}());
+exports.default = Vector2;
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var TouchController_1 = __webpack_require__(10);
+exports.TouchController = TouchController_1.default;
+var MultiTouchController_1 = __webpack_require__(22);
+exports.MultiTouchController = MultiTouchController_1.default;
+var listeners_1 = __webpack_require__(27);
+exports.listeners = listeners_1.default;
+var Vector2_1 = __webpack_require__(8);
+exports.Vector2 = Vector2_1.default;
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Observable_1 = __webpack_require__(0);
+var VectorTouch_1 = __webpack_require__(20);
+var Touch_1 = __webpack_require__(21);
+var TouchController = /** @class */ (function () {
+    function TouchController(element) {
+        var _this = this;
+        this.element = element;
+        this._ongoingTouches = [];
+        this.touches = Observable_1.Observable.create(function (observer) {
+            _this._touchesObserver = observer;
+        });
+    }
+    //todo dispose
+    TouchController.prototype.addListener = function (listener) {
+        listener.setListeners(this); //todo array of listeners
+    };
+    TouchController.prototype.touchStart = function (id, type, event) {
+        var touch = new Touch_1.default(id, type, this._createVectorFromEvent(event));
+        this._ongoingTouches.push(touch);
+        this._touchesObserver.next(touch);
+    };
+    TouchController.prototype.touchMove = function (id, end, event) {
+        var index = this._ongoingTouchIndexById(id);
+        if (index !== -1) {
+            var touch = this._ongoingTouches[index];
+            touch.move(this._createVectorFromEvent(event), end);
+            if (end) {
+                this._ongoingTouches.splice(index, 1);
+                //this.callSubscribers('END', touch);
+            }
+            else {
+                //this.callSubscribers('MOVE', touch);
+            }
+        }
+        else {
+            //console.warn(`Can't find touch with id "${id}".`);
+        }
+    };
+    TouchController.prototype._createVectorFromEvent = function (event) {
+        return new VectorTouch_1.default(this, event.clientX - this.element.offsetLeft, event.clientY - this.element.offsetTop, performance.now());
+    };
+    TouchController.prototype._ongoingTouchIndexById = function (idToFind) {
+        for (var i = 0; i < this._ongoingTouches.length; i++) {
+            var id = this._ongoingTouches[i].id;
+            if (id === idToFind) {
+                return i;
+            }
+        }
+        return -1;
+    };
+    return TouchController;
+}());
+exports.default = TouchController;
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Subscriber_1 = __webpack_require__(2);
+var rxSubscriber_1 = __webpack_require__(7);
+var Observer_1 = __webpack_require__(6);
+function toSubscriber(nextOrObserver, error, complete) {
+    if (nextOrObserver) {
+        if (nextOrObserver instanceof Subscriber_1.Subscriber) {
+            return nextOrObserver;
+        }
+        if (nextOrObserver[rxSubscriber_1.rxSubscriber]) {
+            return nextOrObserver[rxSubscriber_1.rxSubscriber]();
+        }
+    }
+    if (!nextOrObserver && !error && !complete) {
+        return new Subscriber_1.Subscriber(Observer_1.empty);
+    }
+    return new Subscriber_1.Subscriber(nextOrObserver, error, complete);
+}
+exports.toSubscriber = toSubscriber;
+//# sourceMappingURL=toSubscriber.js.map
+
+/***/ }),
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1121,7 +1121,7 @@ exports.isObject = isObject;
 
 "use strict";
 
-var errorObject_1 = __webpack_require__(3);
+var errorObject_1 = __webpack_require__(5);
 var tryCatchTarget;
 function tryCatcher() {
     try {
@@ -1262,7 +1262,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Vector2_1 = __webpack_require__(6);
+var Vector2_1 = __webpack_require__(8);
 var VectorTouch = /** @class */ (function (_super) {
     __extends(VectorTouch, _super);
     function VectorTouch(_touchController, x, y, t) {
@@ -1307,6 +1307,7 @@ var Touch = /** @class */ (function () {
         this.lastPosition = newPosition;
         this._positionsObserver.next(newPosition);
         if (end) {
+            console.log('completing touch');
             this._positionsObserver.complete();
         }
         /*if (!end) {
@@ -1380,33 +1381,31 @@ exports.default = MultiTouchController;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = __webpack_require__(0);
+__webpack_require__(24);
 var MultiTouch = /** @class */ (function () {
     function MultiTouch(firstTouch) {
         var _this = this;
         this.firstTouch = firstTouch;
+        this.ongoingTouches = [];
         this.touches = Observable_1.Observable.create(function (observer) {
-            observer.next(firstTouch);
             _this._touchesObserver = observer;
+            _this.addTouch(firstTouch);
         });
     }
     MultiTouch.prototype.addTouch = function (touch) {
         var _this = this;
         //console.log(this.touches.);
+        this.ongoingTouches.push(touch);
         this._touchesObserver.next(touch);
+        console.log('touch in multitouch', touch);
         touch.positions.subscribe(function (position) {
             _this._touchesObserver.next(touch);
         });
-        /*touch.subscribe('MOVE',()=>{
-            this.callSubscribers('MOVE',touch);
+        touch.positions.finally(function () {
+            console.log("Touch in multitouch is complete.");
+            _this.ongoingTouches = _this.ongoingTouches.filter(function (touch2) { return touch2 !== touch; });
+            _this._touchesObserver.complete();
         });
-
-        touch.subscribe('END',()=>{
-            this.callSubscribers('END',touch);
-        });
-
-        this.callSubscribers('START',touch);
-        //todo END all
-        */
     };
     return MultiTouch;
 }());
@@ -1419,9 +1418,91 @@ exports.default = MultiTouch;
 
 "use strict";
 
+var Observable_1 = __webpack_require__(0);
+var finally_1 = __webpack_require__(25);
+Observable_1.Observable.prototype.finally = finally_1._finally;
+Observable_1.Observable.prototype._finally = finally_1._finally;
+//# sourceMappingURL=finally.js.map
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var finalize_1 = __webpack_require__(26);
+/**
+ * Returns an Observable that mirrors the source Observable, but will call a specified function when
+ * the source terminates on complete or error.
+ * @param {function} callback Function to be called when source terminates.
+ * @return {Observable} An Observable that mirrors the source, but will call the specified function on termination.
+ * @method finally
+ * @owner Observable
+ */
+function _finally(callback) {
+    return finalize_1.finalize(callback)(this);
+}
+exports._finally = _finally;
+//# sourceMappingURL=finally.js.map
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Subscriber_1 = __webpack_require__(2);
+var Subscription_1 = __webpack_require__(4);
+/**
+ * Returns an Observable that mirrors the source Observable, but will call a specified function when
+ * the source terminates on complete or error.
+ * @param {function} callback Function to be called when source terminates.
+ * @return {Observable} An Observable that mirrors the source, but will call the specified function on termination.
+ * @method finally
+ * @owner Observable
+ */
+function finalize(callback) {
+    return function (source) { return source.lift(new FinallyOperator(callback)); };
+}
+exports.finalize = finalize;
+var FinallyOperator = (function () {
+    function FinallyOperator(callback) {
+        this.callback = callback;
+    }
+    FinallyOperator.prototype.call = function (subscriber, source) {
+        return source.subscribe(new FinallySubscriber(subscriber, this.callback));
+    };
+    return FinallyOperator;
+}());
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var FinallySubscriber = (function (_super) {
+    __extends(FinallySubscriber, _super);
+    function FinallySubscriber(destination, callback) {
+        _super.call(this, destination);
+        this.add(new Subscription_1.Subscription(callback));
+    }
+    return FinallySubscriber;
+}(Subscriber_1.Subscriber));
+//# sourceMappingURL=finalize.js.map
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 Object.defineProperty(exports, "__esModule", { value: true });
-var TouchListener_1 = __webpack_require__(25);
-var MouseListener_1 = __webpack_require__(26);
+var TouchListener_1 = __webpack_require__(28);
+var MouseListener_1 = __webpack_require__(29);
 exports.default = {
     TouchListener: TouchListener_1.default,
     MouseListener: MouseListener_1.default
@@ -1429,7 +1510,7 @@ exports.default = {
 
 
 /***/ }),
-/* 25 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1477,7 +1558,7 @@ exports.default = TouchListener;
 
 
 /***/ }),
-/* 26 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

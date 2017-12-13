@@ -1,45 +1,38 @@
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/finally';
 import {Observer} from "rxjs/Observer";
 import Touch from './Touch';
 
 
 export default class MultiTouch{
 
+    public ongoingTouches: Touch[] = [];
     public touches: Observable<Touch>;
     private _touchesObserver: Observer<Touch>;
 
+
     constructor(public firstTouch: Touch) {
         this.touches = Observable.create((observer:Observer<Touch>)=>{
-            observer.next(firstTouch);
             this._touchesObserver = observer;
+            this.addTouch(firstTouch);
         });
     }
 
     addTouch(touch:Touch){
         //console.log(this.touches.);
+        this.ongoingTouches.push(touch);
         this._touchesObserver.next(touch);
 
 
+        console.log('touch in multitouch',touch);
         touch.positions.subscribe((position)=>{
             this._touchesObserver.next(touch);
         });
 
-
-
-
-
-        /*touch.subscribe('MOVE',()=>{
-            this.callSubscribers('MOVE',touch);
+        touch.positions.finally(()=>{
+            console.log("Touch in multitouch is complete.");
+            this.ongoingTouches = this.ongoingTouches.filter((touch2)=>touch2!==touch);
+            this._touchesObserver.complete();
         });
-
-        touch.subscribe('END',()=>{
-            this.callSubscribers('END',touch);
-        });
-
-        this.callSubscribers('START',touch);
-        //todo END all
-        */
-
     }
-
 }

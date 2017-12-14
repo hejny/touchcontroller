@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/range';
 import TimeVector2 from './VectorTouch';
 export default class Touch {
     id: string;

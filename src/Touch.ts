@@ -1,8 +1,9 @@
 import { Observable } from 'rxjs/Observable';
 import {Observer} from "rxjs/Observer";
+import 'rxjs/add/observable/range';
+
 //import AbstractClassWithSubscribe from './AbstractClassWithSubscribe';
 import TimeVector2 from './VectorTouch';
-
 
 export default class Touch{
 
@@ -20,36 +21,30 @@ export default class Touch{
             this.lastPosition = firstPosition;
             observer.next(firstPosition);
             this._positionsObserver = observer;
+            setTimeout(()=>{
+                observer.next(firstPosition);
+            },1000);
+
+
         });
     }
 
     move(newPosition: TimeVector2, end = false) {
         this.lastPosition = newPosition;
-        this._positionsObserver.next(newPosition);
+        //this._positionsObserver.next(newPosition);
         if(end){
-            console.log('completing touch');
+            //console.log('completing touch');
+            //todo When I call next just before complete complete is not working.
+            //this._positionsObserver.next(newPosition);
             this._positionsObserver.complete();
-        }
-        /*if (!end) {
-            this._positionsObserver.next(newPoint);
-            //this.callSubscribers('MOVE', newPoint);
-        } else {
-            this._finished = true;
-            this._positionsObserver.next(newPoint);
-            //this.callSubscribers('END', newPoint);
-        }*/
-    }
 
-    /*get firstPosition() {
-        return this.positions[0];
-    }*/
+        }else{
+            this._positionsObserver.next(newPosition);
+        }
+    }
 
     get start() {
         return this.firstPosition.t;
     }
-
-    /*get finished() {
-        return this._finished;
-    }*/
 
 }

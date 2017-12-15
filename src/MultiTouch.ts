@@ -1,3 +1,4 @@
+import * as uuidv4 from 'uuid/v4';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/finally';
 import {Observer} from "rxjs/Observer";
@@ -6,16 +7,19 @@ import Touch from './Touch';
 
 export default class MultiTouch {
 
+    public id: string;
     public ongoingTouches: Touch[] = [];
     public touches: Observable<Touch>;
     private _touchesObserver: Observer<Touch>;
 
 
     constructor(public firstTouch: Touch) {
+        this.id = uuidv4();
         this.touches = Observable.create((observer: Observer<Touch>) => {
             this._touchesObserver = observer;
             this.addTouch(firstTouch);
         });
+        console.log(`------------------------------Creating ${this} `);
     }
 
     addTouch(touch: Touch) {
@@ -23,20 +27,24 @@ export default class MultiTouch {
         this.ongoingTouches.push(touch);
         this._touchesObserver.next(touch);
 
+        console.log(`Adding ${touch} To ${this}.`);
 
-        console.log('------------------------------Adding Touch to MultiTouch');
         touch.positions.subscribe(
             (position) => {
-                console.log("Touch in multitouch next().");
+                console.log(`Next ${touch} in ${this}.`);
                 this._touchesObserver.next(touch);
             },
             () => {
                 //console.log("Touch in multitouch error.");
             },
             () => {
-                console.log("Touch in multitouch is complete.");
+                console.log(`Complete ${touch} in ${this}.`);
                 this.ongoingTouches = this.ongoingTouches.filter((touch2) => touch2 !== touch);
                 this._touchesObserver.complete();
             });
+    }
+
+    toString(){
+        return `MultiTouch(${this.id})`
     }
 }

@@ -3,11 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Sample of TouchController</title>
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="./common.css">
 </head>
 <body>
 
 
-<canvas id="scene" width="500" height="500" style="border: 2px solid black"></canvas>
+<canvas id="scene" width="500" height="500"></canvas>
+<div id="log" width="500" height="500"></div>
 
 
 <script type="text/javascript" src="../dist/touchcontroller.browser.js"></script>
@@ -36,44 +42,56 @@
 
         var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
 
+        var logMultitouch = $('<div class="log-multitouch"><div class="log-title">' + multitouch + '</div></div>');
+        $('#log').append(logMultitouch)
+
         multitouch.touches.subscribe(function (touch) {
 
-            /*ctx.strokeStyle = color;
-            ctx.beginPath();
-            ctx.moveTo(0, 0);
-            ctx.lineTo(touch.firstPosition.x, touch.firstPosition.y);
-            ctx.stroke();*/
+
+                var logTouch = $('<div class="log-touch"><div class="log-title">' + touch + '</div></div>');
+                $(logMultitouch).append(logTouch)
 
 
-            /*var lastPosition = touch.firstPosition;*/
+                touch.positions.subscribe(function (position) {
 
-            touch.positions.subscribe(function (position) {
+                        var lastPosition = multitouch.ongoingTouches[0].lastPosition;
+                        for (var i = 1, l = multitouch.ongoingTouches.length; i < l; i++) {
+                            var position = multitouch.ongoingTouches[i].lastPosition;
 
-                var lastPosition = multitouch.ongoingTouches[0].lastPosition;
-                for(var i=1,l=multitouch.ongoingTouches.length;i<l;i++){
-                    var position = multitouch.ongoingTouches[i].lastPosition;
+                            ctx.strokeStyle = color;
+                            ctx.beginPath();
+                            ctx.moveTo(lastPosition.x, lastPosition.y);
+                            ctx.lineTo(position.x, position.y);
+                            ctx.stroke();
 
-                    ctx.strokeStyle = color;
-                    ctx.beginPath();
-                    ctx.moveTo(lastPosition.x, lastPosition.y);
-                    ctx.lineTo(position.x, position.y);
-                    ctx.stroke();
-
-                    lastPosition = position;
-                }
+                            lastPosition = position;
+                        }
 
 
-                //console.log(multitouch.touches.toArray());
+                        //console.log(multitouch.touches.toArray());
 
-                /*ctx.strokeStyle = color;
-                ctx.beginPath();
-                ctx.moveTo(lastPosition.x, lastPosition.y);
-                ctx.lineTo(position.x, position.y);
-                ctx.stroke();
-                lastPosition = position;*/
+                        /*ctx.strokeStyle = color;
+                        ctx.beginPath();
+                        ctx.moveTo(lastPosition.x, lastPosition.y);
+                        ctx.lineTo(position.x, position.y);
+                        ctx.stroke();
+                        lastPosition = position;*/
+                    },
+                    function () {
+                    },
+                    function () {
+                        alert(123);
+                        logTouch.remove();
+                    }
+                );
+
+            },
+            function () {
+            },
+            function () {
+                alert(345);
+                logMultitouch.remove();
             });
-
-        });
     });
 </script>
 

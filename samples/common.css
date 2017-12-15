@@ -1,0 +1,19 @@
+#scene{
+    border: 2px solid black;
+}
+
+.log{
+
+}
+
+.log-title{
+    background-color: bisque;
+}
+
+.log-multitouch{
+    border: 2px solid black;
+}
+
+.log-touch{
+    border: 2px solid black;
+}

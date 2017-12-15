@@ -1,20 +1,20 @@
-import { Observable } from 'rxjs/Observable';
+import {Observable} from 'rxjs/Observable';
 import {Observer} from "rxjs/Observer";
 import TouchController from './TouchController';
 import MultiTouch from './MultiTouch';
 import Vector2 from './Vector2';
 
 
-export default class MultiTouchController<TElement>{
+export default class MultiTouchController<TElement> {
 
-    public multiTouches: Observable<MultiTouch>;
-    private _multiTouchesObserver: Observer<MultiTouch>;
-    private _ongoingMultiTouchesWithElements: { element: TElement; multiTouch: MultiTouch; }[] = [];
+    public ongoingMultiTouches: MultiTouch<TElement>[] = [];
+    public multiTouches: Observable<MultiTouch<TElement>>;
+    private _multiTouchesObserver: Observer<MultiTouch<TElement>>;
 
     constructor(private _touchController: TouchController,
                 private _elementBinder: (position: Vector2) => TElement) {
 
-        this.multiTouches = Observable.create((observer:Observer<MultiTouch>)=>{
+        this.multiTouches = Observable.create((observer: Observer<MultiTouch<TElement>>) => {
             this._multiTouchesObserver = observer;
         });
 
@@ -22,20 +22,28 @@ export default class MultiTouchController<TElement>{
 
             const element = this._elementBinder(touch.firstPosition);
             //todo why can not be used find
-            let multiTouchWithElement = this._ongoingMultiTouchesWithElements.filter((multiTouchWithElement)=>multiTouchWithElement.element===element)[0];
+            let multiTouch = this.ongoingMultiTouches.filter((multiTouch) => multiTouch.element === element)[0];
 
-            if(typeof multiTouchWithElement==='undefined'){
+            if (typeof multiTouch === 'undefined') {
 
                 console.log('creating new multitouch');
-                multiTouchWithElement = {element,multiTouch: new MultiTouch(touch)};
-                this._ongoingMultiTouchesWithElements.push(multiTouchWithElement);
-            }else{
-                multiTouchWithElement.multiTouch.addTouch(touch);
+                multiTouch = new MultiTouch(element, touch);
+                this.ongoingMultiTouches.push(multiTouch);
+                this._multiTouchesObserver.next(multiTouch);
+
+                multiTouch.touches.subscribe(
+                    () => {
+                    },
+                    () => {
+                    },
+                    () => {
+                        this.ongoingMultiTouches = this.ongoingMultiTouches.filter((multiTouch2) => multiTouch2 !== multiTouch);
+                    }
+                );
+
+            } else {
+                multiTouch.addTouch(touch);
             }
-
-            this._multiTouchesObserver.next(multiTouchWithElement.multiTouch);
-
-            //todo close when all _multiTouchesObserver closed
 
         });
     }

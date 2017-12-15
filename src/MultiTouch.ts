@@ -5,7 +5,7 @@ import {Observer} from "rxjs/Observer";
 import Touch from './Touch';
 
 
-export default class MultiTouch {
+export default class MultiTouch<TElement> {
 
     public id: string;
     public ongoingTouches: Touch[] = [];
@@ -13,7 +13,8 @@ export default class MultiTouch {
     private _touchesObserver: Observer<Touch>;
 
 
-    constructor(public firstTouch: Touch) {
+    constructor(public element: TElement,
+                public firstTouch: Touch) {
         this.id = uuidv4();
         this.touches = Observable.create((observer: Observer<Touch>) => {
             this._touchesObserver = observer;
@@ -40,11 +41,13 @@ export default class MultiTouch {
             () => {
                 console.log(`Complete ${touch} in ${this}.`);
                 this.ongoingTouches = this.ongoingTouches.filter((touch2) => touch2 !== touch);
-                this._touchesObserver.complete();
+                if (this.ongoingTouches.length === 0) {
+                    this._touchesObserver.complete();
+                }
             });
     }
 
-    toString(){
+    toString() {
         return `MultiTouch(${this.id})`
     }
 }

@@ -1504,24 +1504,28 @@ var TouchController =
 	        var _this = this;
 	        this._touchController = _touchController;
 	        this._elementBinder = _elementBinder;
-	        this._ongoingMultiTouchesWithElements = [];
+	        this.ongoingMultiTouches = [];
 	        this.multiTouches = Observable_1.Observable.create(function (observer) {
 	            _this._multiTouchesObserver = observer;
 	        });
 	        this._touchController.touches.subscribe(function (touch) {
 	            var element = _this._elementBinder(touch.firstPosition);
 	            //todo why can not be used find
-	            var multiTouchWithElement = _this._ongoingMultiTouchesWithElements.filter(function (multiTouchWithElement) { return multiTouchWithElement.element === element; })[0];
-	            if (typeof multiTouchWithElement === 'undefined') {
+	            var multiTouch = _this.ongoingMultiTouches.filter(function (multiTouch) { return multiTouch.element === element; })[0];
+	            if (typeof multiTouch === 'undefined') {
 	                console.log('creating new multitouch');
-	                multiTouchWithElement = { element: element, multiTouch: new MultiTouch_1.default(touch) };
-	                _this._ongoingMultiTouchesWithElements.push(multiTouchWithElement);
+	                multiTouch = new MultiTouch_1.default(element, touch);
+	                _this.ongoingMultiTouches.push(multiTouch);
+	                _this._multiTouchesObserver.next(multiTouch);
+	                multiTouch.touches.subscribe(function () {
+	                }, function () {
+	                }, function () {
+	                    _this.ongoingMultiTouches = _this.ongoingMultiTouches.filter(function (multiTouch2) { return multiTouch2 !== multiTouch; });
+	                });
 	            }
 	            else {
-	                multiTouchWithElement.multiTouch.addTouch(touch);
+	                multiTouch.addTouch(touch);
 	            }
-	            _this._multiTouchesObserver.next(multiTouchWithElement.multiTouch);
-	            //todo close when all _multiTouchesObserver closed
 	        });
 	    }
 	    return MultiTouchController;
@@ -1539,8 +1543,9 @@ var TouchController =
 	var Observable_1 = __webpack_require__(2);
 	__webpack_require__(29);
 	var MultiTouch = /** @class */ (function () {
-	    function MultiTouch(firstTouch) {
+	    function MultiTouch(element, firstTouch) {
 	        var _this = this;
+	        this.element = element;
 	        this.firstTouch = firstTouch;
 	        this.ongoingTouches = [];
 	        this.id = uuidv4();
@@ -1564,7 +1569,9 @@ var TouchController =
 	        }, function () {
 	            console.log("Complete " + touch + " in " + _this + ".");
 	            _this.ongoingTouches = _this.ongoingTouches.filter(function (touch2) { return touch2 !== touch; });
-	            _this._touchesObserver.complete();
+	            if (_this.ongoingTouches.length === 0) {
+	                _this._touchesObserver.complete();
+	            }
 	        });
 	    };
 	    MultiTouch.prototype.toString = function () {

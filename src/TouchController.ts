@@ -13,6 +13,7 @@ export interface IEvent {
 export default class TouchController{
 
     public touches: Observable<Touch>;
+    private _touchesAutoIncrement: number = 0;
     private _touchesObserver: Observer<Touch>;
     private _ongoingTouches: Touch[] = [];
 
@@ -28,9 +29,10 @@ export default class TouchController{
         listener.setListeners(this);//todo array of listeners
     }
 
-    touchStart(id: string, type: 'TOUCH' | 'MOUSE', event: IEvent) {
+    touchStart(eventId: string, type: 'TOUCH' | 'MOUSE', event: IEvent) {
         const touch = new Touch(
-            id,
+            this._touchesAutoIncrement++,
+            eventId,
             type,
             this._createVectorFromEvent(event)
         );
@@ -38,8 +40,8 @@ export default class TouchController{
         this._touchesObserver.next(touch);
     }
 
-    touchMove(id: string, end: boolean, event: IEvent) {
-        const index = this._ongoingTouchIndexById(id);
+    touchMove(eventId: string, end: boolean, event: IEvent) {
+        const index = this._ongoingTouchIndexById(eventId);
         if (index !== -1) {
             const touch = this._ongoingTouches[index];
             touch.move(this._createVectorFromEvent(event), end);
@@ -50,7 +52,7 @@ export default class TouchController{
                 //this.callSubscribers('MOVE', touch);
             }
         } else {
-            //console.warn(`Can't find touch with id "${id}".`);
+            //todo
         }
     }
 
@@ -63,11 +65,11 @@ export default class TouchController{
         );
     }
 
-    private _ongoingTouchIndexById(idToFind: string): number {
+    private _ongoingTouchIndexById(eventIdToFind: string): number {
         for (let i = 0; i < this._ongoingTouches.length; i++) {
-            const id = this._ongoingTouches[i].id;
+            const eventId = this._ongoingTouches[i].eventId;
 
-            if (id === idToFind) {
+            if (eventId === eventIdToFind) {
                 return i;
             }
         }

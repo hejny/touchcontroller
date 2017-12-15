@@ -54,7 +54,7 @@
 
                 touch.positions.subscribe(function (position) {
 
-                        var lastPosition = multitouch.ongoingTouches[0].lastPosition;
+                        /*var lastPosition = multitouch.ongoingTouches[0].lastPosition;
                         for (var i = 1, l = multitouch.ongoingTouches.length; i < l; i++) {
                             var position = multitouch.ongoingTouches[i].lastPosition;
 
@@ -65,17 +65,8 @@
                             ctx.stroke();
 
                             lastPosition = position;
-                        }
+                        }*/
 
-
-                        //console.log(multitouch.touches.toArray());
-
-                        /*ctx.strokeStyle = color;
-                        ctx.beginPath();
-                        ctx.moveTo(lastPosition.x, lastPosition.y);
-                        ctx.lineTo(position.x, position.y);
-                        ctx.stroke();
-                        lastPosition = position;*/
                     },
                     function () {
                     },

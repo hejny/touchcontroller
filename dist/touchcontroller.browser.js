@@ -49,9 +49,9 @@ var TouchController =
 	Object.defineProperty(exports, "__esModule", { value: true });
 	var TouchController_1 = __webpack_require__(1);
 	exports.TouchController = TouchController_1.default;
-	var MultiTouchController_1 = __webpack_require__(27);
+	var MultiTouchController_1 = __webpack_require__(24);
 	exports.MultiTouchController = MultiTouchController_1.default;
-	var listeners_1 = __webpack_require__(32);
+	var listeners_1 = __webpack_require__(29);
 	exports.listeners = listeners_1.default;
 	var Vector2_1 = __webpack_require__(19);
 	exports.Vector2 = Vector2_1.default;
@@ -70,6 +70,7 @@ var TouchController =
 	    function TouchController(element) {
 	        var _this = this;
 	        this.element = element;
+	        this._touchesAutoIncrement = 0;
 	        this._ongoingTouches = [];
 	        this.touches = Observable_1.Observable.create(function (observer) {
 	            _this._touchesObserver = observer;
@@ -79,13 +80,13 @@ var TouchController =
 	    TouchController.prototype.addListener = function (listener) {
 	        listener.setListeners(this); //todo array of listeners
 	    };
-	    TouchController.prototype.touchStart = function (id, type, event) {
-	        var touch = new Touch_1.default(id, type, this._createVectorFromEvent(event));
+	    TouchController.prototype.touchStart = function (eventId, type, event) {
+	        var touch = new Touch_1.default(this._touchesAutoIncrement++, eventId, type, this._createVectorFromEvent(event));
 	        this._ongoingTouches.push(touch);
 	        this._touchesObserver.next(touch);
 	    };
-	    TouchController.prototype.touchMove = function (id, end, event) {
-	        var index = this._ongoingTouchIndexById(id);
+	    TouchController.prototype.touchMove = function (eventId, end, event) {
+	        var index = this._ongoingTouchIndexById(eventId);
 	        if (index !== -1) {
 	            var touch = this._ongoingTouches[index];
 	            touch.move(this._createVectorFromEvent(event), end);
@@ -98,16 +99,16 @@ var TouchController =
 	            }
 	        }
 	        else {
-	            //console.warn(`Can't find touch with id "${id}".`);
+	            //todo
 	        }
 	    };
 	    TouchController.prototype._createVectorFromEvent = function (event) {
 	        return new VectorTouch_1.default(this, event.clientX - this.element.offsetLeft, event.clientY - this.element.offsetTop, performance.now());
 	    };
-	    TouchController.prototype._ongoingTouchIndexById = function (idToFind) {
+	    TouchController.prototype._ongoingTouchIndexById = function (eventIdToFind) {
 	        for (var i = 0; i < this._ongoingTouches.length; i++) {
-	            var id = this._ongoingTouches[i].id;
-	            if (id === idToFind) {
+	            var eventId = this._ongoingTouches[i].eventId;
+	            if (eventId === eventIdToFind) {
 	                return i;
 	            }
 	        }
@@ -1215,19 +1216,20 @@ var TouchController =
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var uuidv4 = __webpack_require__(21);
+	//import * as uuidv4 from 'uuid/v4';
 	var Observable_1 = __webpack_require__(2);
-	__webpack_require__(24);
+	__webpack_require__(21);
 	var Touch = /** @class */ (function () {
 	    //private _finished: boolean = false;
 	    //public positions: TimeVector2[];
-	    function Touch(id, //todo this should be external id only in controller
+	    function Touch(id, eventId, //todo this should be external id only in controller
 	        type, firstPosition) {
 	        var _this = this;
 	        this.id = id;
+	        this.eventId = eventId;
 	        this.type = type;
 	        this.firstPosition = firstPosition;
-	        this.uuid = uuidv4();
+	        //this.uuid = uuidv4();
 	        //this.positions = [firstPosition];
 	        this.positions = Observable_1.Observable.create(function (observer) {
 	            _this.lastPosition = firstPosition;
@@ -1260,7 +1262,7 @@ var TouchController =
 	        configurable: true
 	    });
 	    Touch.prototype.toString = function () {
-	        return "Touch(" + this.uuid + ")";
+	        return "Touch(" + this.id + ")";
 	    };
 	    return Touch;
 	}());
@@ -1271,127 +1273,23 @@ var TouchController =
 /* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var rng = __webpack_require__(22);
-	var bytesToUuid = __webpack_require__(23);
-	
-	function v4(options, buf, offset) {
-	  var i = buf && offset || 0;
-	
-	  if (typeof(options) == 'string') {
-	    buf = options == 'binary' ? new Array(16) : null;
-	    options = null;
-	  }
-	  options = options || {};
-	
-	  var rnds = options.random || (options.rng || rng)();
-	
-	  // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
-	  rnds[6] = (rnds[6] & 0x0f) | 0x40;
-	  rnds[8] = (rnds[8] & 0x3f) | 0x80;
-	
-	  // Copy bytes to buffer, if provided
-	  if (buf) {
-	    for (var ii = 0; ii < 16; ++ii) {
-	      buf[i + ii] = rnds[ii];
-	    }
-	  }
-	
-	  return buf || bytesToUuid(rnds);
-	}
-	
-	module.exports = v4;
-
-
-/***/ },
-/* 22 */
-/***/ function(module, exports) {
-
-	/* WEBPACK VAR INJECTION */(function(global) {// Unique ID creation requires a high quality random # generator.  In the
-	// browser this is a little complicated due to unknown quality of Math.random()
-	// and inconsistent support for the `crypto` API.  We do the best we can via
-	// feature-detection
-	var rng;
-	
-	var crypto = global.crypto || global.msCrypto; // for IE 11
-	if (crypto && crypto.getRandomValues) {
-	  // WHATWG crypto RNG - http://wiki.whatwg.org/wiki/Crypto
-	  var rnds8 = new Uint8Array(16); // eslint-disable-line no-undef
-	  rng = function whatwgRNG() {
-	    crypto.getRandomValues(rnds8);
-	    return rnds8;
-	  };
-	}
-	
-	if (!rng) {
-	  // Math.random()-based (RNG)
-	  //
-	  // If all else fails, use Math.random().  It's fast, but is of unspecified
-	  // quality.
-	  var rnds = new Array(16);
-	  rng = function() {
-	    for (var i = 0, r; i < 16; i++) {
-	      if ((i & 0x03) === 0) r = Math.random() * 0x100000000;
-	      rnds[i] = r >>> ((i & 0x03) << 3) & 0xff;
-	    }
-	
-	    return rnds;
-	  };
-	}
-	
-	module.exports = rng;
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
-
-/***/ },
-/* 23 */
-/***/ function(module, exports) {
-
-	/**
-	 * Convert array of 16 byte values to UUID string format of the form:
-	 * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
-	 */
-	var byteToHex = [];
-	for (var i = 0; i < 256; ++i) {
-	  byteToHex[i] = (i + 0x100).toString(16).substr(1);
-	}
-	
-	function bytesToUuid(buf, offset) {
-	  var i = offset || 0;
-	  var bth = byteToHex;
-	  return bth[buf[i++]] + bth[buf[i++]] +
-	          bth[buf[i++]] + bth[buf[i++]] + '-' +
-	          bth[buf[i++]] + bth[buf[i++]] + '-' +
-	          bth[buf[i++]] + bth[buf[i++]] + '-' +
-	          bth[buf[i++]] + bth[buf[i++]] + '-' +
-	          bth[buf[i++]] + bth[buf[i++]] +
-	          bth[buf[i++]] + bth[buf[i++]] +
-	          bth[buf[i++]] + bth[buf[i++]];
-	}
-	
-	module.exports = bytesToUuid;
-
-
-/***/ },
-/* 24 */
-/***/ function(module, exports, __webpack_require__) {
-
 	"use strict";
 	var Observable_1 = __webpack_require__(2);
-	var range_1 = __webpack_require__(25);
+	var range_1 = __webpack_require__(22);
 	Observable_1.Observable.range = range_1.range;
 	//# sourceMappingURL=range.js.map
 
 /***/ },
-/* 25 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var RangeObservable_1 = __webpack_require__(26);
+	var RangeObservable_1 = __webpack_require__(23);
 	exports.range = RangeObservable_1.RangeObservable.create;
 	//# sourceMappingURL=range.js.map
 
 /***/ },
-/* 26 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1492,19 +1390,20 @@ var TouchController =
 	//# sourceMappingURL=RangeObservable.js.map
 
 /***/ },
-/* 27 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
 	var Observable_1 = __webpack_require__(2);
-	var MultiTouch_1 = __webpack_require__(28);
+	var MultiTouch_1 = __webpack_require__(25);
 	var MultiTouchController = /** @class */ (function () {
 	    function MultiTouchController(_touchController, _elementBinder) {
 	        var _this = this;
 	        this._touchController = _touchController;
 	        this._elementBinder = _elementBinder;
 	        this.ongoingMultiTouches = [];
+	        this._multiTouchesAutoIncrement = 0;
 	        this.multiTouches = Observable_1.Observable.create(function (observer) {
 	            _this._multiTouchesObserver = observer;
 	        });
@@ -1514,7 +1413,7 @@ var TouchController =
 	            var multiTouch = _this.ongoingMultiTouches.filter(function (multiTouch) { return multiTouch.element === element; })[0];
 	            if (typeof multiTouch === 'undefined') {
 	                console.log('creating new multitouch');
-	                multiTouch = new MultiTouch_1.default(element, touch);
+	                multiTouch = new MultiTouch_1.default(_this._multiTouchesAutoIncrement++, element, touch);
 	                _this.ongoingMultiTouches.push(multiTouch);
 	                _this._multiTouchesObserver.next(multiTouch);
 	                multiTouch.touches.subscribe(function () {
@@ -1534,21 +1433,23 @@ var TouchController =
 
 
 /***/ },
-/* 28 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var uuidv4 = __webpack_require__(21);
+	//import * as uuidv4 from 'uuid/v4';
 	var Observable_1 = __webpack_require__(2);
-	__webpack_require__(29);
+	__webpack_require__(26);
 	var MultiTouch = /** @class */ (function () {
-	    function MultiTouch(element, firstTouch) {
+	    function MultiTouch(id, element, firstTouch) {
 	        var _this = this;
+	        this.id = id;
 	        this.element = element;
 	        this.firstTouch = firstTouch;
+	        //public id: string;
 	        this.ongoingTouches = [];
-	        this.id = uuidv4();
+	        //this.id = uuidv4();
 	        this.touches = Observable_1.Observable.create(function (observer) {
 	            _this._touchesObserver = observer;
 	            _this.addTouch(firstTouch);
@@ -1583,22 +1484,22 @@ var TouchController =
 
 
 /***/ },
-/* 29 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var Observable_1 = __webpack_require__(2);
-	var finally_1 = __webpack_require__(30);
+	var finally_1 = __webpack_require__(27);
 	Observable_1.Observable.prototype.finally = finally_1._finally;
 	Observable_1.Observable.prototype._finally = finally_1._finally;
 	//# sourceMappingURL=finally.js.map
 
 /***/ },
-/* 30 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var finalize_1 = __webpack_require__(31);
+	var finalize_1 = __webpack_require__(28);
 	/**
 	 * Returns an Observable that mirrors the source Observable, but will call a specified function when
 	 * the source terminates on complete or error.
@@ -1614,7 +1515,7 @@ var TouchController =
 	//# sourceMappingURL=finally.js.map
 
 /***/ },
-/* 31 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1662,13 +1563,13 @@ var TouchController =
 	//# sourceMappingURL=finalize.js.map
 
 /***/ },
-/* 32 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var TouchListener_1 = __webpack_require__(33);
-	var MouseListener_1 = __webpack_require__(34);
+	var TouchListener_1 = __webpack_require__(30);
+	var MouseListener_1 = __webpack_require__(31);
 	exports.default = {
 	    TouchListener: TouchListener_1.default,
 	    MouseListener: MouseListener_1.default
@@ -1676,7 +1577,7 @@ var TouchController =
 
 
 /***/ },
-/* 33 */
+/* 30 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1723,7 +1624,7 @@ var TouchController =
 
 
 /***/ },
-/* 34 */
+/* 31 */
 /***/ function(module, exports) {
 
 	"use strict";

@@ -1,4 +1,4 @@
-import * as uuidv4 from 'uuid/v4';
+//import * as uuidv4 from 'uuid/v4';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/finally';
 import {Observer} from "rxjs/Observer";
@@ -7,15 +7,16 @@ import Touch from './Touch';
 
 export default class MultiTouch<TElement> {
 
-    public id: string;
+    //public id: string;
     public ongoingTouches: Touch[] = [];
     public touches: Observable<Touch>;
     private _touchesObserver: Observer<Touch>;
 
 
-    constructor(public element: TElement,
+    constructor(public id: number,
+                public element: TElement,
                 public firstTouch: Touch) {
-        this.id = uuidv4();
+        //this.id = uuidv4();
         this.touches = Observable.create((observer: Observer<Touch>) => {
             this._touchesObserver = observer;
             this.addTouch(firstTouch);

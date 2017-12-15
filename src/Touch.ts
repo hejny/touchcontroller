@@ -1,32 +1,33 @@
-import * as uuidv4 from 'uuid/v4';
-import { Observable } from 'rxjs/Observable';
+//import * as uuidv4 from 'uuid/v4';
+import {Observable} from 'rxjs/Observable';
 import {Observer} from "rxjs/Observer";
 import 'rxjs/add/observable/range';
 
 //import AbstractClassWithSubscribe from './AbstractClassWithSubscribe';
 import TimeVector2 from './VectorTouch';
 
-export default class Touch{
+export default class Touch {
 
-    public uuid: string;
+    //public uuid: string;
     public positions: Observable<TimeVector2>;
     private _positionsObserver: Observer<TimeVector2>;
     public lastPosition: TimeVector2;
     //private _finished: boolean = false;
     //public positions: TimeVector2[];
 
-    constructor(public id: string,//todo this should be external id only in controller
+    constructor(public id: number,
+                public eventId: string,//todo this should be external id only in controller
                 public type: 'TOUCH' | 'MOUSE',
                 public firstPosition: TimeVector2) {
-        this.uuid = uuidv4();
+        //this.uuid = uuidv4();
         //this.positions = [firstPosition];
-        this.positions = Observable.create((observer:Observer<TimeVector2>)=>{
+        this.positions = Observable.create((observer: Observer<TimeVector2>) => {
             this.lastPosition = firstPosition;
             observer.next(firstPosition);
             this._positionsObserver = observer;
-            setTimeout(()=>{
+            setTimeout(() => {
                 observer.next(firstPosition);
-            },1000);
+            }, 1000);
 
 
         });
@@ -35,13 +36,13 @@ export default class Touch{
     move(newPosition: TimeVector2, end = false) {
         this.lastPosition = newPosition;
         //this._positionsObserver.next(newPosition);
-        if(end){
+        if (end) {
             //console.log('completing touch');
             //todo When I call next just before complete complete is not working.
             //this._positionsObserver.next(newPosition);
             this._positionsObserver.complete();
 
-        }else{
+        } else {
             this._positionsObserver.next(newPosition);
         }
     }
@@ -50,8 +51,8 @@ export default class Touch{
         return this.firstPosition.t;
     }
 
-    toString(){
-        return `Touch(${this.uuid})`
+    toString() {
+        return `Touch(${this.id})`
     }
 
 }

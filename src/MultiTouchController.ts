@@ -9,6 +9,7 @@ export default class MultiTouchController<TElement> {
 
     public ongoingMultiTouches: MultiTouch<TElement>[] = [];
     public multiTouches: Observable<MultiTouch<TElement>>;
+    private _multiTouchesAutoIncrement: number = 0;
     private _multiTouchesObserver: Observer<MultiTouch<TElement>>;
 
     constructor(private _touchController: TouchController,
@@ -27,7 +28,7 @@ export default class MultiTouchController<TElement> {
             if (typeof multiTouch === 'undefined') {
 
                 console.log('creating new multitouch');
-                multiTouch = new MultiTouch(element, touch);
+                multiTouch = new MultiTouch(this._multiTouchesAutoIncrement++,element, touch);
                 this.ongoingMultiTouches.push(multiTouch);
                 this._multiTouchesObserver.next(multiTouch);
 

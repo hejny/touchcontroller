@@ -5,7 +5,7 @@ export default class TouchListener implements IListener {
 
     private _touchController: TouchController;
 
-    constructor(private _preventContextMenu = true) {
+    constructor(private _preventContextMenu = true) {//todo here should be maybe list of buttons
     }
 
     setListeners(touchController: TouchController) {

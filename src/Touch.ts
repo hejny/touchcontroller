@@ -1,4 +1,5 @@
 //import * as uuidv4 from 'uuid/v4';
+import TouchController from './TouchController';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/share'
 import {Observer} from "rxjs/Observer";
@@ -17,7 +18,8 @@ export default class Touch {
     //private _finished: boolean = false;
     //public positions: TimeVector2[];
 
-    constructor(public id: number,//todo here should be reference to controller
+    constructor(public touchController: TouchController,
+                public id: number,
                 public eventId: string,//todo this should be external id only in controller
                 public type: 'TOUCH' | 'MOUSE',
                 public firstPosition: TimeVector2) {

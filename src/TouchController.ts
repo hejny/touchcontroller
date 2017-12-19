@@ -32,6 +32,7 @@ export default class TouchController{
 
     touchStart(eventId: string, type: 'TOUCH' | 'MOUSE', event: IEvent) {
         const touch = new Touch(
+            this,
             this._touchesAutoIncrement++,
             eventId,
             type,

@@ -81,7 +81,7 @@
 	        listener.setListeners(this); //todo array of listeners
 	    };
 	    TouchController.prototype.touchStart = function (eventId, type, event) {
-	        var touch = new Touch_1.default(this._touchesAutoIncrement++, eventId, type, this._createVectorFromEvent(event));
+	        var touch = new Touch_1.default(this, this._touchesAutoIncrement++, eventId, type, this._createVectorFromEvent(event));
 	        this._ongoingTouches.push(touch);
 	        this._touchesObserver.next(touch);
 	    };
@@ -1864,7 +1864,6 @@
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	//import * as uuidv4 from 'uuid/v4';
 	var Observable_1 = __webpack_require__(2);
 	__webpack_require__(18);
 	__webpack_require__(30);
@@ -1872,10 +1871,10 @@
 	var Touch = /** @class */ (function () {
 	    //private _finished: boolean = false;
 	    //public positions: TimeVector2[];
-	    function Touch(id, //todo here should be reference to controller
-	        eventId, //todo this should be external id only in controller
+	    function Touch(touchController, id, eventId, //todo this should be external id only in controller
 	        type, firstPosition) {
 	        var _this = this;
+	        this.touchController = touchController;
 	        this.id = id;
 	        this.eventId = eventId;
 	        this.type = type;

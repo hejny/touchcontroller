@@ -25,9 +25,9 @@ export default class Touch {
             this.lastPosition = firstPosition;
             observer.next(firstPosition);
             this._positionsObserver = observer;
-            setTimeout(() => {
+            setInterval(() => {
                 observer.next(firstPosition);
-            }, 1000);
+            }, 500);
 
 
         });
@@ -43,6 +43,8 @@ export default class Touch {
             this._positionsObserver.complete();
 
         } else {
+            //console.log(this._positionsObserver.isStopped);
+            //console.log(this._positionsObserver.next);
             this._positionsObserver.next(newPosition);
         }
     }

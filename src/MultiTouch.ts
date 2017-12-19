@@ -33,8 +33,8 @@ export default class MultiTouch<TElement> {
 
         touch.positions.subscribe(
             (position) => {
-                console.log(`Next ${touch} in ${this}.`);
-                this._touchesObserver.next(touch);
+                //console.log(`Next ${touch} in ${this}.`);
+                //this._touchesObserver.next(touch);
             },
             () => {
                 //console.log("Touch in multitouch error.");

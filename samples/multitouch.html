@@ -48,11 +48,14 @@
         multitouch.touches.subscribe(function (touch) {
 
 
-                var logTouch = $('<div class="log-touch"><div class="log-title">' + touch + '</div></div>');
-                $(logMultitouch).append(logTouch)
+                var logTouch = $('<div class="log-touch"><div class="log-title">' + touch + '</div><div class="log-touch-positions"></div></div>');
+                $(logMultitouch).append(logTouch);
+                var positionsCounter = 0;
 
 
                 touch.positions.subscribe(function (position) {
+
+                    $(logTouch).find('.log-touch-positions').text(positionsCounter++);
 
                         /*var lastPosition = multitouch.ongoingTouches[0].lastPosition;
                         for (var i = 1, l = multitouch.ongoingTouches.length; i < l; i++) {

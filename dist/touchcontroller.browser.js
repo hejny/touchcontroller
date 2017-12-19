@@ -49,11 +49,11 @@ var TouchController =
 	Object.defineProperty(exports, "__esModule", { value: true });
 	var TouchController_1 = __webpack_require__(1);
 	exports.TouchController = TouchController_1.default;
-	var MultiTouchController_1 = __webpack_require__(24);
+	var MultiTouchController_1 = __webpack_require__(33);
 	exports.MultiTouchController = MultiTouchController_1.default;
-	var listeners_1 = __webpack_require__(29);
+	var listeners_1 = __webpack_require__(38);
 	exports.listeners = listeners_1.default;
-	var Vector2_1 = __webpack_require__(19);
+	var Vector2_1 = __webpack_require__(28);
 	exports.Vector2 = Vector2_1.default;
 
 
@@ -64,8 +64,9 @@ var TouchController =
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
 	var Observable_1 = __webpack_require__(2);
-	var VectorTouch_1 = __webpack_require__(18);
-	var Touch_1 = __webpack_require__(20);
+	__webpack_require__(18);
+	var VectorTouch_1 = __webpack_require__(27);
+	var Touch_1 = __webpack_require__(29);
 	var TouchController = /** @class */ (function () {
 	    function TouchController(element) {
 	        var _this = this;
@@ -74,7 +75,7 @@ var TouchController =
 	        this._ongoingTouches = [];
 	        this.touches = Observable_1.Observable.create(function (observer) {
 	            _this._touchesObserver = observer;
-	        });
+	        }).share();
 	    }
 	    //todo dispose
 	    TouchController.prototype.addListener = function (listener) {
@@ -1143,6 +1144,654 @@ var TouchController =
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	var Observable_1 = __webpack_require__(2);
+	var share_1 = __webpack_require__(19);
+	Observable_1.Observable.prototype.share = share_1.share;
+	//# sourceMappingURL=share.js.map
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var share_1 = __webpack_require__(20);
+	/**
+	 * Returns a new Observable that multicasts (shares) the original Observable. As long as there is at least one
+	 * Subscriber this Observable will be subscribed and emitting data. When all subscribers have unsubscribed it will
+	 * unsubscribe from the source Observable. Because the Observable is multicasting it makes the stream `hot`.
+	 *
+	 * This behaves similarly to .publish().refCount(), with a behavior difference when the source observable emits complete.
+	 * .publish().refCount() will not resubscribe to the original source, however .share() will resubscribe to the original source.
+	 * Observable.of("test").publish().refCount() will not re-emit "test" on new subscriptions, Observable.of("test").share() will
+	 * re-emit "test" to new subscriptions.
+	 *
+	 * <img src="./img/share.png" width="100%">
+	 *
+	 * @return {Observable<T>} An Observable that upon connection causes the source Observable to emit items to its Observers.
+	 * @method share
+	 * @owner Observable
+	 */
+	function share() {
+	    return share_1.share()(this);
+	}
+	exports.share = share;
+	;
+	//# sourceMappingURL=share.js.map
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var multicast_1 = __webpack_require__(21);
+	var refCount_1 = __webpack_require__(26);
+	var Subject_1 = __webpack_require__(23);
+	function shareSubjectFactory() {
+	    return new Subject_1.Subject();
+	}
+	/**
+	 * Returns a new Observable that multicasts (shares) the original Observable. As long as there is at least one
+	 * Subscriber this Observable will be subscribed and emitting data. When all subscribers have unsubscribed it will
+	 * unsubscribe from the source Observable. Because the Observable is multicasting it makes the stream `hot`.
+	 * This is an alias for .multicast(() => new Subject()).refCount().
+	 *
+	 * <img src="./img/share.png" width="100%">
+	 *
+	 * @return {Observable<T>} An Observable that upon connection causes the source Observable to emit items to its Observers.
+	 * @method share
+	 * @owner Observable
+	 */
+	function share() {
+	    return function (source) { return refCount_1.refCount()(multicast_1.multicast(shareSubjectFactory)(source)); };
+	}
+	exports.share = share;
+	;
+	//# sourceMappingURL=share.js.map
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var ConnectableObservable_1 = __webpack_require__(22);
+	/* tslint:enable:max-line-length */
+	/**
+	 * Returns an Observable that emits the results of invoking a specified selector on items
+	 * emitted by a ConnectableObservable that shares a single subscription to the underlying stream.
+	 *
+	 * <img src="./img/multicast.png" width="100%">
+	 *
+	 * @param {Function|Subject} subjectOrSubjectFactory - Factory function to create an intermediate subject through
+	 * which the source sequence's elements will be multicast to the selector function
+	 * or Subject to push source elements into.
+	 * @param {Function} [selector] - Optional selector function that can use the multicasted source stream
+	 * as many times as needed, without causing multiple subscriptions to the source stream.
+	 * Subscribers to the given source will receive all notifications of the source from the
+	 * time of the subscription forward.
+	 * @return {Observable} An Observable that emits the results of invoking the selector
+	 * on the items emitted by a `ConnectableObservable` that shares a single subscription to
+	 * the underlying stream.
+	 * @method multicast
+	 * @owner Observable
+	 */
+	function multicast(subjectOrSubjectFactory, selector) {
+	    return function multicastOperatorFunction(source) {
+	        var subjectFactory;
+	        if (typeof subjectOrSubjectFactory === 'function') {
+	            subjectFactory = subjectOrSubjectFactory;
+	        }
+	        else {
+	            subjectFactory = function subjectFactory() {
+	                return subjectOrSubjectFactory;
+	            };
+	        }
+	        if (typeof selector === 'function') {
+	            return source.lift(new MulticastOperator(subjectFactory, selector));
+	        }
+	        var connectable = Object.create(source, ConnectableObservable_1.connectableObservableDescriptor);
+	        connectable.source = source;
+	        connectable.subjectFactory = subjectFactory;
+	        return connectable;
+	    };
+	}
+	exports.multicast = multicast;
+	var MulticastOperator = (function () {
+	    function MulticastOperator(subjectFactory, selector) {
+	        this.subjectFactory = subjectFactory;
+	        this.selector = selector;
+	    }
+	    MulticastOperator.prototype.call = function (subscriber, source) {
+	        var selector = this.selector;
+	        var subject = this.subjectFactory();
+	        var subscription = selector(subject).subscribe(subscriber);
+	        subscription.add(source.subscribe(subject));
+	        return subscription;
+	    };
+	    return MulticastOperator;
+	}());
+	exports.MulticastOperator = MulticastOperator;
+	//# sourceMappingURL=multicast.js.map
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var Subject_1 = __webpack_require__(23);
+	var Observable_1 = __webpack_require__(2);
+	var Subscriber_1 = __webpack_require__(5);
+	var Subscription_1 = __webpack_require__(7);
+	var refCount_1 = __webpack_require__(26);
+	/**
+	 * @class ConnectableObservable<T>
+	 */
+	var ConnectableObservable = (function (_super) {
+	    __extends(ConnectableObservable, _super);
+	    function ConnectableObservable(source, subjectFactory) {
+	        _super.call(this);
+	        this.source = source;
+	        this.subjectFactory = subjectFactory;
+	        this._refCount = 0;
+	        this._isComplete = false;
+	    }
+	    ConnectableObservable.prototype._subscribe = function (subscriber) {
+	        return this.getSubject().subscribe(subscriber);
+	    };
+	    ConnectableObservable.prototype.getSubject = function () {
+	        var subject = this._subject;
+	        if (!subject || subject.isStopped) {
+	            this._subject = this.subjectFactory();
+	        }
+	        return this._subject;
+	    };
+	    ConnectableObservable.prototype.connect = function () {
+	        var connection = this._connection;
+	        if (!connection) {
+	            this._isComplete = false;
+	            connection = this._connection = new Subscription_1.Subscription();
+	            connection.add(this.source
+	                .subscribe(new ConnectableSubscriber(this.getSubject(), this)));
+	            if (connection.closed) {
+	                this._connection = null;
+	                connection = Subscription_1.Subscription.EMPTY;
+	            }
+	            else {
+	                this._connection = connection;
+	            }
+	        }
+	        return connection;
+	    };
+	    ConnectableObservable.prototype.refCount = function () {
+	        return refCount_1.refCount()(this);
+	    };
+	    return ConnectableObservable;
+	}(Observable_1.Observable));
+	exports.ConnectableObservable = ConnectableObservable;
+	var connectableProto = ConnectableObservable.prototype;
+	exports.connectableObservableDescriptor = {
+	    operator: { value: null },
+	    _refCount: { value: 0, writable: true },
+	    _subject: { value: null, writable: true },
+	    _connection: { value: null, writable: true },
+	    _subscribe: { value: connectableProto._subscribe },
+	    _isComplete: { value: connectableProto._isComplete, writable: true },
+	    getSubject: { value: connectableProto.getSubject },
+	    connect: { value: connectableProto.connect },
+	    refCount: { value: connectableProto.refCount }
+	};
+	var ConnectableSubscriber = (function (_super) {
+	    __extends(ConnectableSubscriber, _super);
+	    function ConnectableSubscriber(destination, connectable) {
+	        _super.call(this, destination);
+	        this.connectable = connectable;
+	    }
+	    ConnectableSubscriber.prototype._error = function (err) {
+	        this._unsubscribe();
+	        _super.prototype._error.call(this, err);
+	    };
+	    ConnectableSubscriber.prototype._complete = function () {
+	        this.connectable._isComplete = true;
+	        this._unsubscribe();
+	        _super.prototype._complete.call(this);
+	    };
+	    ConnectableSubscriber.prototype._unsubscribe = function () {
+	        var connectable = this.connectable;
+	        if (connectable) {
+	            this.connectable = null;
+	            var connection = connectable._connection;
+	            connectable._refCount = 0;
+	            connectable._subject = null;
+	            connectable._connection = null;
+	            if (connection) {
+	                connection.unsubscribe();
+	            }
+	        }
+	    };
+	    return ConnectableSubscriber;
+	}(Subject_1.SubjectSubscriber));
+	var RefCountOperator = (function () {
+	    function RefCountOperator(connectable) {
+	        this.connectable = connectable;
+	    }
+	    RefCountOperator.prototype.call = function (subscriber, source) {
+	        var connectable = this.connectable;
+	        connectable._refCount++;
+	        var refCounter = new RefCountSubscriber(subscriber, connectable);
+	        var subscription = source.subscribe(refCounter);
+	        if (!refCounter.closed) {
+	            refCounter.connection = connectable.connect();
+	        }
+	        return subscription;
+	    };
+	    return RefCountOperator;
+	}());
+	var RefCountSubscriber = (function (_super) {
+	    __extends(RefCountSubscriber, _super);
+	    function RefCountSubscriber(destination, connectable) {
+	        _super.call(this, destination);
+	        this.connectable = connectable;
+	    }
+	    RefCountSubscriber.prototype._unsubscribe = function () {
+	        var connectable = this.connectable;
+	        if (!connectable) {
+	            this.connection = null;
+	            return;
+	        }
+	        this.connectable = null;
+	        var refCount = connectable._refCount;
+	        if (refCount <= 0) {
+	            this.connection = null;
+	            return;
+	        }
+	        connectable._refCount = refCount - 1;
+	        if (refCount > 1) {
+	            this.connection = null;
+	            return;
+	        }
+	        ///
+	        // Compare the local RefCountSubscriber's connection Subscription to the
+	        // connection Subscription on the shared ConnectableObservable. In cases
+	        // where the ConnectableObservable source synchronously emits values, and
+	        // the RefCountSubscriber's downstream Observers synchronously unsubscribe,
+	        // execution continues to here before the RefCountOperator has a chance to
+	        // supply the RefCountSubscriber with the shared connection Subscription.
+	        // For example:
+	        // ```
+	        // Observable.range(0, 10)
+	        //   .publish()
+	        //   .refCount()
+	        //   .take(5)
+	        //   .subscribe();
+	        // ```
+	        // In order to account for this case, RefCountSubscriber should only dispose
+	        // the ConnectableObservable's shared connection Subscription if the
+	        // connection Subscription exists, *and* either:
+	        //   a. RefCountSubscriber doesn't have a reference to the shared connection
+	        //      Subscription yet, or,
+	        //   b. RefCountSubscriber's connection Subscription reference is identical
+	        //      to the shared connection Subscription
+	        ///
+	        var connection = this.connection;
+	        var sharedConnection = connectable._connection;
+	        this.connection = null;
+	        if (sharedConnection && (!connection || sharedConnection === connection)) {
+	            sharedConnection.unsubscribe();
+	        }
+	    };
+	    return RefCountSubscriber;
+	}(Subscriber_1.Subscriber));
+	//# sourceMappingURL=ConnectableObservable.js.map
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var Observable_1 = __webpack_require__(2);
+	var Subscriber_1 = __webpack_require__(5);
+	var Subscription_1 = __webpack_require__(7);
+	var ObjectUnsubscribedError_1 = __webpack_require__(24);
+	var SubjectSubscription_1 = __webpack_require__(25);
+	var rxSubscriber_1 = __webpack_require__(14);
+	/**
+	 * @class SubjectSubscriber<T>
+	 */
+	var SubjectSubscriber = (function (_super) {
+	    __extends(SubjectSubscriber, _super);
+	    function SubjectSubscriber(destination) {
+	        _super.call(this, destination);
+	        this.destination = destination;
+	    }
+	    return SubjectSubscriber;
+	}(Subscriber_1.Subscriber));
+	exports.SubjectSubscriber = SubjectSubscriber;
+	/**
+	 * @class Subject<T>
+	 */
+	var Subject = (function (_super) {
+	    __extends(Subject, _super);
+	    function Subject() {
+	        _super.call(this);
+	        this.observers = [];
+	        this.closed = false;
+	        this.isStopped = false;
+	        this.hasError = false;
+	        this.thrownError = null;
+	    }
+	    Subject.prototype[rxSubscriber_1.rxSubscriber] = function () {
+	        return new SubjectSubscriber(this);
+	    };
+	    Subject.prototype.lift = function (operator) {
+	        var subject = new AnonymousSubject(this, this);
+	        subject.operator = operator;
+	        return subject;
+	    };
+	    Subject.prototype.next = function (value) {
+	        if (this.closed) {
+	            throw new ObjectUnsubscribedError_1.ObjectUnsubscribedError();
+	        }
+	        if (!this.isStopped) {
+	            var observers = this.observers;
+	            var len = observers.length;
+	            var copy = observers.slice();
+	            for (var i = 0; i < len; i++) {
+	                copy[i].next(value);
+	            }
+	        }
+	    };
+	    Subject.prototype.error = function (err) {
+	        if (this.closed) {
+	            throw new ObjectUnsubscribedError_1.ObjectUnsubscribedError();
+	        }
+	        this.hasError = true;
+	        this.thrownError = err;
+	        this.isStopped = true;
+	        var observers = this.observers;
+	        var len = observers.length;
+	        var copy = observers.slice();
+	        for (var i = 0; i < len; i++) {
+	            copy[i].error(err);
+	        }
+	        this.observers.length = 0;
+	    };
+	    Subject.prototype.complete = function () {
+	        if (this.closed) {
+	            throw new ObjectUnsubscribedError_1.ObjectUnsubscribedError();
+	        }
+	        this.isStopped = true;
+	        var observers = this.observers;
+	        var len = observers.length;
+	        var copy = observers.slice();
+	        for (var i = 0; i < len; i++) {
+	            copy[i].complete();
+	        }
+	        this.observers.length = 0;
+	    };
+	    Subject.prototype.unsubscribe = function () {
+	        this.isStopped = true;
+	        this.closed = true;
+	        this.observers = null;
+	    };
+	    Subject.prototype._trySubscribe = function (subscriber) {
+	        if (this.closed) {
+	            throw new ObjectUnsubscribedError_1.ObjectUnsubscribedError();
+	        }
+	        else {
+	            return _super.prototype._trySubscribe.call(this, subscriber);
+	        }
+	    };
+	    Subject.prototype._subscribe = function (subscriber) {
+	        if (this.closed) {
+	            throw new ObjectUnsubscribedError_1.ObjectUnsubscribedError();
+	        }
+	        else if (this.hasError) {
+	            subscriber.error(this.thrownError);
+	            return Subscription_1.Subscription.EMPTY;
+	        }
+	        else if (this.isStopped) {
+	            subscriber.complete();
+	            return Subscription_1.Subscription.EMPTY;
+	        }
+	        else {
+	            this.observers.push(subscriber);
+	            return new SubjectSubscription_1.SubjectSubscription(this, subscriber);
+	        }
+	    };
+	    Subject.prototype.asObservable = function () {
+	        var observable = new Observable_1.Observable();
+	        observable.source = this;
+	        return observable;
+	    };
+	    Subject.create = function (destination, source) {
+	        return new AnonymousSubject(destination, source);
+	    };
+	    return Subject;
+	}(Observable_1.Observable));
+	exports.Subject = Subject;
+	/**
+	 * @class AnonymousSubject<T>
+	 */
+	var AnonymousSubject = (function (_super) {
+	    __extends(AnonymousSubject, _super);
+	    function AnonymousSubject(destination, source) {
+	        _super.call(this);
+	        this.destination = destination;
+	        this.source = source;
+	    }
+	    AnonymousSubject.prototype.next = function (value) {
+	        var destination = this.destination;
+	        if (destination && destination.next) {
+	            destination.next(value);
+	        }
+	    };
+	    AnonymousSubject.prototype.error = function (err) {
+	        var destination = this.destination;
+	        if (destination && destination.error) {
+	            this.destination.error(err);
+	        }
+	    };
+	    AnonymousSubject.prototype.complete = function () {
+	        var destination = this.destination;
+	        if (destination && destination.complete) {
+	            this.destination.complete();
+	        }
+	    };
+	    AnonymousSubject.prototype._subscribe = function (subscriber) {
+	        var source = this.source;
+	        if (source) {
+	            return this.source.subscribe(subscriber);
+	        }
+	        else {
+	            return Subscription_1.Subscription.EMPTY;
+	        }
+	    };
+	    return AnonymousSubject;
+	}(Subject));
+	exports.AnonymousSubject = AnonymousSubject;
+	//# sourceMappingURL=Subject.js.map
+
+/***/ },
+/* 24 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	/**
+	 * An error thrown when an action is invalid because the object has been
+	 * unsubscribed.
+	 *
+	 * @see {@link Subject}
+	 * @see {@link BehaviorSubject}
+	 *
+	 * @class ObjectUnsubscribedError
+	 */
+	var ObjectUnsubscribedError = (function (_super) {
+	    __extends(ObjectUnsubscribedError, _super);
+	    function ObjectUnsubscribedError() {
+	        var err = _super.call(this, 'object unsubscribed');
+	        this.name = err.name = 'ObjectUnsubscribedError';
+	        this.stack = err.stack;
+	        this.message = err.message;
+	    }
+	    return ObjectUnsubscribedError;
+	}(Error));
+	exports.ObjectUnsubscribedError = ObjectUnsubscribedError;
+	//# sourceMappingURL=ObjectUnsubscribedError.js.map
+
+/***/ },
+/* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var Subscription_1 = __webpack_require__(7);
+	/**
+	 * We need this JSDoc comment for affecting ESDoc.
+	 * @ignore
+	 * @extends {Ignored}
+	 */
+	var SubjectSubscription = (function (_super) {
+	    __extends(SubjectSubscription, _super);
+	    function SubjectSubscription(subject, subscriber) {
+	        _super.call(this);
+	        this.subject = subject;
+	        this.subscriber = subscriber;
+	        this.closed = false;
+	    }
+	    SubjectSubscription.prototype.unsubscribe = function () {
+	        if (this.closed) {
+	            return;
+	        }
+	        this.closed = true;
+	        var subject = this.subject;
+	        var observers = subject.observers;
+	        this.subject = null;
+	        if (!observers || observers.length === 0 || subject.isStopped || subject.closed) {
+	            return;
+	        }
+	        var subscriberIndex = observers.indexOf(this.subscriber);
+	        if (subscriberIndex !== -1) {
+	            observers.splice(subscriberIndex, 1);
+	        }
+	    };
+	    return SubjectSubscription;
+	}(Subscription_1.Subscription));
+	exports.SubjectSubscription = SubjectSubscription;
+	//# sourceMappingURL=SubjectSubscription.js.map
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var Subscriber_1 = __webpack_require__(5);
+	function refCount() {
+	    return function refCountOperatorFunction(source) {
+	        return source.lift(new RefCountOperator(source));
+	    };
+	}
+	exports.refCount = refCount;
+	var RefCountOperator = (function () {
+	    function RefCountOperator(connectable) {
+	        this.connectable = connectable;
+	    }
+	    RefCountOperator.prototype.call = function (subscriber, source) {
+	        var connectable = this.connectable;
+	        connectable._refCount++;
+	        var refCounter = new RefCountSubscriber(subscriber, connectable);
+	        var subscription = source.subscribe(refCounter);
+	        if (!refCounter.closed) {
+	            refCounter.connection = connectable.connect();
+	        }
+	        return subscription;
+	    };
+	    return RefCountOperator;
+	}());
+	var RefCountSubscriber = (function (_super) {
+	    __extends(RefCountSubscriber, _super);
+	    function RefCountSubscriber(destination, connectable) {
+	        _super.call(this, destination);
+	        this.connectable = connectable;
+	    }
+	    RefCountSubscriber.prototype._unsubscribe = function () {
+	        var connectable = this.connectable;
+	        if (!connectable) {
+	            this.connection = null;
+	            return;
+	        }
+	        this.connectable = null;
+	        var refCount = connectable._refCount;
+	        if (refCount <= 0) {
+	            this.connection = null;
+	            return;
+	        }
+	        connectable._refCount = refCount - 1;
+	        if (refCount > 1) {
+	            this.connection = null;
+	            return;
+	        }
+	        ///
+	        // Compare the local RefCountSubscriber's connection Subscription to the
+	        // connection Subscription on the shared ConnectableObservable. In cases
+	        // where the ConnectableObservable source synchronously emits values, and
+	        // the RefCountSubscriber's downstream Observers synchronously unsubscribe,
+	        // execution continues to here before the RefCountOperator has a chance to
+	        // supply the RefCountSubscriber with the shared connection Subscription.
+	        // For example:
+	        // ```
+	        // Observable.range(0, 10)
+	        //   .publish()
+	        //   .refCount()
+	        //   .take(5)
+	        //   .subscribe();
+	        // ```
+	        // In order to account for this case, RefCountSubscriber should only dispose
+	        // the ConnectableObservable's shared connection Subscription if the
+	        // connection Subscription exists, *and* either:
+	        //   a. RefCountSubscriber doesn't have a reference to the shared connection
+	        //      Subscription yet, or,
+	        //   b. RefCountSubscriber's connection Subscription reference is identical
+	        //      to the shared connection Subscription
+	        ///
+	        var connection = this.connection;
+	        var sharedConnection = connectable._connection;
+	        this.connection = null;
+	        if (sharedConnection && (!connection || sharedConnection === connection)) {
+	            sharedConnection.unsubscribe();
+	        }
+	    };
+	    return RefCountSubscriber;
+	}(Subscriber_1.Subscriber));
+	//# sourceMappingURL=refCount.js.map
+
+/***/ },
+/* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
 	var __extends = (this && this.__extends) || (function () {
 	    var extendStatics = Object.setPrototypeOf ||
 	        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -1154,7 +1803,7 @@ var TouchController =
 	    };
 	})();
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var Vector2_1 = __webpack_require__(19);
+	var Vector2_1 = __webpack_require__(28);
 	var VectorTouch = /** @class */ (function (_super) {
 	    __extends(VectorTouch, _super);
 	    function VectorTouch(_touchController, x, y, t) {
@@ -1172,7 +1821,7 @@ var TouchController =
 
 
 /***/ },
-/* 19 */
+/* 28 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1211,47 +1860,39 @@ var TouchController =
 
 
 /***/ },
-/* 20 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
 	//import * as uuidv4 from 'uuid/v4';
 	var Observable_1 = __webpack_require__(2);
-	__webpack_require__(21);
+	__webpack_require__(18);
+	__webpack_require__(30);
+	__webpack_require__(18);
 	var Touch = /** @class */ (function () {
 	    //private _finished: boolean = false;
 	    //public positions: TimeVector2[];
-	    function Touch(id, eventId, //todo this should be external id only in controller
+	    function Touch(id, //todo here should be reference to controller
+	        eventId, //todo this should be external id only in controller
 	        type, firstPosition) {
 	        var _this = this;
 	        this.id = id;
 	        this.eventId = eventId;
 	        this.type = type;
 	        this.firstPosition = firstPosition;
-	        //this.uuid = uuidv4();
-	        //this.positions = [firstPosition];
 	        this.positions = Observable_1.Observable.create(function (observer) {
 	            _this.lastPosition = firstPosition;
 	            observer.next(firstPosition);
 	            _this._positionsObserver = observer;
-	            setTimeout(function () {
-	                observer.next(firstPosition);
-	            }, 1000);
-	        });
+	        }).share(); //todo share vs publish
 	    }
 	    Touch.prototype.move = function (newPosition, end) {
 	        if (end === void 0) { end = false; }
 	        this.lastPosition = newPosition;
-	        //this._positionsObserver.next(newPosition);
+	        this._positionsObserver.next(newPosition);
 	        if (end) {
-	            //console.log('completing touch');
-	            //todo When I call next just before complete complete is not working.
-	            //this._positionsObserver.next(newPosition);
 	            this._positionsObserver.complete();
-	        }
-	        else {
-	            this._positionsObserver.next(newPosition);
 	        }
 	    };
 	    Object.defineProperty(Touch.prototype, "start", {
@@ -1270,26 +1911,26 @@ var TouchController =
 
 
 /***/ },
-/* 21 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var Observable_1 = __webpack_require__(2);
-	var range_1 = __webpack_require__(22);
+	var range_1 = __webpack_require__(31);
 	Observable_1.Observable.range = range_1.range;
 	//# sourceMappingURL=range.js.map
 
 /***/ },
-/* 22 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var RangeObservable_1 = __webpack_require__(23);
+	var RangeObservable_1 = __webpack_require__(32);
 	exports.range = RangeObservable_1.RangeObservable.create;
 	//# sourceMappingURL=range.js.map
 
 /***/ },
-/* 23 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1390,13 +2031,14 @@ var TouchController =
 	//# sourceMappingURL=RangeObservable.js.map
 
 /***/ },
-/* 24 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
 	var Observable_1 = __webpack_require__(2);
-	var MultiTouch_1 = __webpack_require__(25);
+	__webpack_require__(18);
+	var MultiTouch_1 = __webpack_require__(34);
 	var MultiTouchController = /** @class */ (function () {
 	    function MultiTouchController(_touchController, _elementBinder) {
 	        var _this = this;
@@ -1406,13 +2048,13 @@ var TouchController =
 	        this._multiTouchesAutoIncrement = 0;
 	        this.multiTouches = Observable_1.Observable.create(function (observer) {
 	            _this._multiTouchesObserver = observer;
-	        });
+	        }).share();
 	        this._touchController.touches.subscribe(function (touch) {
 	            var element = _this._elementBinder(touch.firstPosition);
 	            //todo why can not be used find
 	            var multiTouch = _this.ongoingMultiTouches.filter(function (multiTouch) { return multiTouch.element === element; })[0];
 	            if (typeof multiTouch === 'undefined') {
-	                console.log('creating new multitouch');
+	                //console.log('creating new multitouch');
 	                multiTouch = new MultiTouch_1.default(_this._multiTouchesAutoIncrement++, element, touch);
 	                _this.ongoingMultiTouches.push(multiTouch);
 	                _this._multiTouchesObserver.next(multiTouch);
@@ -1433,14 +2075,15 @@ var TouchController =
 
 
 /***/ },
-/* 25 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
 	//import * as uuidv4 from 'uuid/v4';
 	var Observable_1 = __webpack_require__(2);
-	__webpack_require__(26);
+	__webpack_require__(35);
+	__webpack_require__(18);
 	var MultiTouch = /** @class */ (function () {
 	    function MultiTouch(id, element, firstTouch) {
 	        var _this = this;
@@ -1453,22 +2096,22 @@ var TouchController =
 	        this.touches = Observable_1.Observable.create(function (observer) {
 	            _this._touchesObserver = observer;
 	            _this.addTouch(firstTouch);
-	        });
-	        console.log("------------------------------Creating " + this + " ");
+	        }).share();
+	        //console.log(`------------------------------Creating ${this} `);
 	    }
 	    MultiTouch.prototype.addTouch = function (touch) {
 	        var _this = this;
 	        //console.log(this.touches.);
 	        this.ongoingTouches.push(touch);
 	        this._touchesObserver.next(touch);
-	        console.log("Adding " + touch + " To " + this + ".");
+	        //console.log(`Adding ${touch} To ${this}.`);
 	        touch.positions.subscribe(function (position) {
-	            console.log("Next " + touch + " in " + _this + ".");
-	            _this._touchesObserver.next(touch);
+	            //console.log(`Next ${touch} in ${this}.`);
+	            //this._touchesObserver.next(touch);
 	        }, function () {
 	            //console.log("Touch in multitouch error.");
 	        }, function () {
-	            console.log("Complete " + touch + " in " + _this + ".");
+	            //console.log(`Complete ${touch} in ${this}.`);
 	            _this.ongoingTouches = _this.ongoingTouches.filter(function (touch2) { return touch2 !== touch; });
 	            if (_this.ongoingTouches.length === 0) {
 	                _this._touchesObserver.complete();
@@ -1484,22 +2127,22 @@ var TouchController =
 
 
 /***/ },
-/* 26 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var Observable_1 = __webpack_require__(2);
-	var finally_1 = __webpack_require__(27);
+	var finally_1 = __webpack_require__(36);
 	Observable_1.Observable.prototype.finally = finally_1._finally;
 	Observable_1.Observable.prototype._finally = finally_1._finally;
 	//# sourceMappingURL=finally.js.map
 
 /***/ },
-/* 27 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var finalize_1 = __webpack_require__(28);
+	var finalize_1 = __webpack_require__(37);
 	/**
 	 * Returns an Observable that mirrors the source Observable, but will call a specified function when
 	 * the source terminates on complete or error.
@@ -1515,7 +2158,7 @@ var TouchController =
 	//# sourceMappingURL=finally.js.map
 
 /***/ },
-/* 28 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1563,13 +2206,13 @@ var TouchController =
 	//# sourceMappingURL=finalize.js.map
 
 /***/ },
-/* 29 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var TouchListener_1 = __webpack_require__(30);
-	var MouseListener_1 = __webpack_require__(31);
+	var TouchListener_1 = __webpack_require__(39);
+	var MouseListener_1 = __webpack_require__(40);
 	exports.default = {
 	    TouchListener: TouchListener_1.default,
 	    MouseListener: MouseListener_1.default
@@ -1577,7 +2220,7 @@ var TouchController =
 
 
 /***/ },
-/* 30 */
+/* 39 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1624,7 +2267,7 @@ var TouchController =
 
 
 /***/ },
-/* 31 */
+/* 40 */
 /***/ function(module, exports) {
 
 	"use strict";

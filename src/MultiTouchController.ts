@@ -1,4 +1,5 @@
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/share'
 import {Observer} from "rxjs/Observer";
 import TouchController from './TouchController';
 import MultiTouch from './MultiTouch';
@@ -17,7 +18,7 @@ export default class MultiTouchController<TElement> {
 
         this.multiTouches = Observable.create((observer: Observer<MultiTouch<TElement>>) => {
             this._multiTouchesObserver = observer;
-        });
+        }).share();
 
         this._touchController.touches.subscribe((touch) => {
 
@@ -27,7 +28,7 @@ export default class MultiTouchController<TElement> {
 
             if (typeof multiTouch === 'undefined') {
 
-                console.log('creating new multitouch');
+                //console.log('creating new multitouch');
                 multiTouch = new MultiTouch(this._multiTouchesAutoIncrement++,element, touch);
                 this.ongoingMultiTouches.push(multiTouch);
                 this._multiTouchesObserver.next(multiTouch);

@@ -1,5 +1,7 @@
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/share';
 import 'rxjs/add/observable/range';
+import 'rxjs/add/operator/share';
 import TimeVector2 from './VectorTouch';
 export default class Touch {
     id: number;

@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/share'
 import {Observer} from "rxjs/Observer";
 import VectorTouch from './VectorTouch';
 import Touch from './Touch';
@@ -20,7 +21,7 @@ export default class TouchController{
     constructor(public element: HTMLElement) {
         this.touches = Observable.create((observer:Observer<Touch>)=>{
             this._touchesObserver = observer;
-        });
+        }).share();
     }
 
     //todo dispose

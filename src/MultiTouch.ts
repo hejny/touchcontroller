@@ -1,6 +1,7 @@
 //import * as uuidv4 from 'uuid/v4';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/finally';
+import 'rxjs/add/operator/share'
 import {Observer} from "rxjs/Observer";
 import Touch from './Touch';
 
@@ -20,8 +21,8 @@ export default class MultiTouch<TElement> {
         this.touches = Observable.create((observer: Observer<Touch>) => {
             this._touchesObserver = observer;
             this.addTouch(firstTouch);
-        });
-        console.log(`------------------------------Creating ${this} `);
+        }).share();
+        //console.log(`------------------------------Creating ${this} `);
     }
 
     addTouch(touch: Touch) {
@@ -29,7 +30,7 @@ export default class MultiTouch<TElement> {
         this.ongoingTouches.push(touch);
         this._touchesObserver.next(touch);
 
-        console.log(`Adding ${touch} To ${this}.`);
+        //console.log(`Adding ${touch} To ${this}.`);
 
         touch.positions.subscribe(
             (position) => {
@@ -40,7 +41,7 @@ export default class MultiTouch<TElement> {
                 //console.log("Touch in multitouch error.");
             },
             () => {
-                console.log(`Complete ${touch} in ${this}.`);
+                //console.log(`Complete ${touch} in ${this}.`);
                 this.ongoingTouches = this.ongoingTouches.filter((touch2) => touch2 !== touch);
                 if (this.ongoingTouches.length === 0) {
                     this._touchesObserver.complete();

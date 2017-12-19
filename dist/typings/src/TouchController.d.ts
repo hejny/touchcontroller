@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/share';
 import Touch from './Touch';
 import IListener from './listeners/IListener';
 export interface IEvent {

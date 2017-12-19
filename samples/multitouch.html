@@ -34,7 +34,7 @@
             return Math.round(position.x / 100);
         }
     );
-    console.log(multiTouchController);
+    //console.log(multiTouchController);
 
     multiTouchController.multiTouches.subscribe(function (multitouch) {
 
@@ -74,7 +74,6 @@
                     function () {
                     },
                     function () {
-                        alert(123);
                         logTouch.remove();
                     }
                 );
@@ -83,7 +82,6 @@
             function () {
             },
             function () {
-                alert(345);
                 logMultitouch.remove();
             });
     });

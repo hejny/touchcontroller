@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample of TC (ES6)</title>
+    <link rel="stylesheet" type="text/css" href="./common.css">
+</head>
+<body>
+
+
+<canvas id="scene" width="500" height="500"></canvas>
+
+
+<script type="text/javascript" src="../dist/touchcontroller.browser.js"></script>
+<script type="text/javascript">
+
+    const TC = TouchController;
+    const scene = document.getElementById('scene');
+    const ctx = scene.getContext('2d');
+
+    class Rect{
+        constructor(position,size,rotation){
+            this.position = position;
+            this.size = size;
+            this.rotation = rotation;
+        }
+
+        render(ctx){
+
+            //ctx.translate(this.position.x, this.position.y);
+            //ctx.rotate(this.rotation);
+            ctx.lineWidth = 2;
+            ctx.rect(this.position.x, this.position.y, this.size.x, this.size.y);
+            ctx.stroke();
+
+        }
+    }
+
+    const rect = new Rect(
+        new TC.Vector2(100,100),
+        new TC.Vector2(100,100),
+        Math.PI/4
+    );
+
+    rect.render(ctx);
+
+
+
+    const touchController = new TC.TouchController(scene);
+    touchController.addListener(new TC.listeners.TouchListener);
+    touchController.addListener(new TC.listeners.MouseListener);
+    const multiTC = new TC.MultiTouchController(
+        touchController,
+        function (position) {
+            return Math.round(position.x / 100);
+        }
+    );
+
+
+
+
+    multiTC.multiTouches.subscribe(function (multitouch) {
+
+        const transformations = TC.multiTouchTransformations(
+            multitouch,
+            new TC.Transformation(
+                rect.position,
+                rect.size.x,
+                rect.rotation
+            )
+        );
+        transformations.subscribe(function (transformation) {
+
+
+
+                multitouch.element.position = transformation.position;
+                multitouch.element.rotation = transformation.rotation;
+                multitouch.element.size.x = transformation.scale;
+
+                //multitouch.element.position = multitouch.element.position.add(transformation.translate);
+
+
+            },
+            function () {
+            },
+            function () {
+            });
+
+    });
+</script>
+
+
+</body>
+</html>

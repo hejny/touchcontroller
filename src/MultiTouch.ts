@@ -49,6 +49,28 @@ export default class MultiTouch<TElement> {
             });
     }
 
+    get ongoingTouchesChanges(): Observable<Touch[]> {
+        return Observable.create((observer: Observer<Touch[]>) => {
+            this.touches.subscribe((touch) => {
+                    observer.next(this.ongoingTouches);
+                    touch.positions.subscribe((touch) => {
+                        },
+                        () => {
+                        },
+                        () => {
+                            observer.next(this.ongoingTouches);
+                        }
+                    );
+                },
+                () => {
+                },
+                () => {
+                    observer.complete();
+                }
+            );
+        });
+    }
+
     toString() {
         return `MultiTouch(${this.id})`
     }

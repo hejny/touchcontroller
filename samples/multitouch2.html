@@ -42,7 +42,13 @@
         Math.PI/4
     );
 
-    rect.render(ctx);
+
+    function render(){
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        rect.render(ctx);
+    }
+
+    render();
 
 
 
@@ -52,7 +58,7 @@
     const multiTC = new TC.MultiTouchController(
         touchController,
         function (position) {
-            return Math.round(position.x / 100);
+            return rect;
         }
     );
 
@@ -71,14 +77,15 @@
         );
         transformations.subscribe(function (transformation) {
 
+                console.log(transformation.translate);
 
-
-                multitouch.element.position = transformation.position;
-                multitouch.element.rotation = transformation.rotation;
+                multitouch.element.position = transformation.translate;
+                multitouch.element.rotation = transformation.rotate;
                 multitouch.element.size.x = transformation.scale;
 
                 //multitouch.element.position = multitouch.element.position.add(transformation.translate);
 
+                render();
 
             },
             function () {

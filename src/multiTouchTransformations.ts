@@ -9,9 +9,28 @@ export default function multiTouchTransformations<TElement>(multiTouch: MultiTou
     return Observable.create((observer: Observer<Transformation>) => {
         multiTouch.ongoingTouchesChanges.subscribe(
             (touches) => {
-                if (touches.length === 2) {
 
-                    //todo collision mismatch
+                console.log(touches);
+                if (touches.length === 1) {
+
+                    //todo dispose after change touches
+                    const touch = touches[0];
+                    touch.positions.subscribe((position)=>{
+                        console.log( position.subtract(touch.firstPosition));
+                        observer.next(
+                            //todo optimize
+                            objectTransformation.add(new Transformation(
+                                position.subtract(touch.firstPosition),
+                                0,
+                                1
+                            ))
+                        );
+                    });
+
+
+                } else if (touches.length === 2) {
+
+                    //todo dispose after change touches
 
                     const touch1 = touches[0];
                     const touch2 = touches[1];

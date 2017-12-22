@@ -11,5 +11,6 @@ export default class MultiTouch<TElement> {
     private _touchesObserver;
     constructor(id: number, element: TElement, firstTouch: Touch);
     addTouch(touch: Touch): void;
+    readonly ongoingTouchesChanges: Observable<Touch[]>;
     toString(): string;
 }

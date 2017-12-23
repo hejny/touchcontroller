@@ -16,7 +16,7 @@ export default function multiTouchTransformations<TElement>(multiTouch: MultiTou
                     //todo dispose after change touches
                     const touch = touches[0];
                     touch.positions.subscribe((position)=>{
-                        console.log( position.subtract(touch.firstPosition));
+                        //console.log( position.subtract(touch.firstPosition));
                         observer.next(
                             //todo optimize
                             objectTransformation.add(new Transformation(

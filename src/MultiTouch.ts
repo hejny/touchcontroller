@@ -58,7 +58,7 @@ export default class MultiTouch<TElement> {
                         () => {
                         },
                         () => {
-                            observer.next(this.ongoingTouches);
+                            setImmediate(()=>observer.next(this.ongoingTouches));
                         }
                     );
                 },

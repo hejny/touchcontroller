@@ -26,6 +26,8 @@
 
     touchController.touches.subscribe(function(touch){
 
+        console.log(touch);
+
         var color = '#'+Math.floor(Math.random()*16777215).toString(16);
         var lastPosition = touch.firstPosition;
 

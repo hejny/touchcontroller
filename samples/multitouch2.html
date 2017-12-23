@@ -18,38 +18,59 @@
     const scene = document.getElementById('scene');
     const ctx = scene.getContext('2d');
 
-    class Rect{
-        constructor(position,size,rotation){
+    class Rect {
+        constructor(color, position, size, rotation) {
+            this.color = color;
             this.position = position;
             this.size = size;
             this.rotation = rotation;
         }
 
-        render(ctx){
+        render(ctx) {
 
             //ctx.translate(this.position.x, this.position.y);
             //ctx.rotate(this.rotation);
-            ctx.lineWidth = 2;
-            ctx.rect(this.position.x, this.position.y, this.size.x, this.size.y);
+            //ctx.lineWidth = 2;
+            ctx.fillStyle = this.color;
+            ctx.fillRect(this.position.x, this.position.y, this.size.x, this.size.y);
             ctx.stroke();
 
         }
+
+        intersects(position){
+            return(
+                this.position.x <= position.x &&
+                this.position.y <= position.y &&
+                this.position.x + this.size.x >= position.x &&
+                this.position.y + this.size.y >= position.y
+            );
+        }
     }
 
-    const rect = new Rect(
-        new TC.Vector2(100,100),
-        new TC.Vector2(100,100),
-        Math.PI/4
-    );
+    const rects = [
+        new Rect(
+            'blue',
+            new TC.Vector2(100, 100),
+            new TC.Vector2(100, 100),
+            Math.PI / 4
+        ),
+        new Rect(
+            'red',
+            new TC.Vector2(300, 300),
+            new TC.Vector2(100, 100),
+            Math.PI / 4
+        )
+    ];
 
 
-    function render(){
+    function render() {
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        rect.render(ctx);
+        for(const rect of rects){
+            rect.render(ctx);
+        }
     }
 
     render();
-
 
 
     const touchController = new TC.TouchController(scene);
@@ -58,30 +79,30 @@
     const multiTC = new TC.MultiTouchController(
         touchController,
         function (position) {
-            return rect;
+            return rects.find((rect)=>rect.intersects(position));
         }
     );
 
 
-
-
     multiTC.multiTouches.subscribe(function (multitouch) {
 
+        const rect = multitouch.element;
         const transformations = TC.multiTouchTransformations(
             multitouch,
             new TC.Transformation(
                 rect.position,
-                rect.size.x,
-                rect.rotation
+                rect.rotation,
+                rect.size.x
             )
         );
         transformations.subscribe(function (transformation) {
 
-                console.log(transformation.translate);
+                //console.log(transformation);
 
                 multitouch.element.position = transformation.translate;
                 multitouch.element.rotation = transformation.rotate;
                 multitouch.element.size.x = transformation.scale;
+                multitouch.element.size.y = transformation.scale;
 
                 //multitouch.element.position = multitouch.element.position.add(transformation.translate);
 

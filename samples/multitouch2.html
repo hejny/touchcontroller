@@ -32,13 +32,25 @@
             //ctx.rotate(this.rotation);
             //ctx.lineWidth = 2;
             ctx.fillStyle = this.color;
-            ctx.fillRect(this.position.x, this.position.y, this.size.x, this.size.y);
-            ctx.stroke();
+            ctx.beginPath();
+
+            for (let n = 0; n < 4; n++) {
+                const x = Math.cos(Math.PI * 2 / 4 * n + Math.PI/4 +this.rotation) * this.size.x + this.position.x;
+                const y = Math.sin(Math.PI * 2 / 4 * n + Math.PI/4 +this.rotation) * this.size.y + this.position.y;
+                if (n === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+
+            }
+            ctx.closePath();
+            ctx.fill();
 
         }
 
-        intersects(position){
-            return(
+        intersects(position) {
+            return (
                 this.position.x <= position.x &&
                 this.position.y <= position.y &&
                 this.position.x + this.size.x >= position.x &&
@@ -58,14 +70,14 @@
             'red',
             new TC.Vector2(300, 300),
             new TC.Vector2(100, 100),
-            Math.PI / 4
+            0
         )
     ];
 
 
     function render() {
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        for(const rect of rects){
+        for (const rect of rects) {
             rect.render(ctx);
         }
     }
@@ -79,7 +91,9 @@
     const multiTC = new TC.MultiTouchController(
         touchController,
         function (position) {
-            return rects.find((rect)=>rect.intersects(position));
+            return rects.find((rect) => rect.intersects(position)
+            )
+            ;
         }
     );
 

@@ -10,5 +10,5 @@ export default class MultiTouchController<TElement> {
     multiTouches: Observable<MultiTouch<TElement>>;
     private _multiTouchesAutoIncrement;
     private _multiTouchesObserver;
-    constructor(_touchController: TouchController, _elementBinder: (position: Vector2) => TElement);
+    constructor(_touchController: TouchController, _elementBinder: (position: Vector2) => TElement | undefined);
 }

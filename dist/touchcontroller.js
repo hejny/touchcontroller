@@ -1999,6 +1999,9 @@ var Touch = /** @class */ (function () {
     }
     Touch.prototype.move = function (newPosition, end) {
         if (end === void 0) { end = false; }
+        if (typeof this._positionsObserver === 'undefined') {
+            return; //todo better;
+        }
         this.lastPosition = newPosition;
         this._positionsObserver.next(newPosition);
         if (end) {

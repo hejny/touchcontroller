@@ -5,7 +5,6 @@ import 'rxjs/add/operator/share'
 import {Observer} from "rxjs/Observer";
 import 'rxjs/add/observable/range';
 import 'rxjs/add/operator/share'
-
 //import AbstractClassWithSubscribe from './AbstractClassWithSubscribe';
 import TimeVector2 from './VectorTouch';
 
@@ -32,6 +31,9 @@ export default class Touch {
     }
 
     move(newPosition: TimeVector2, end = false) {
+        if(typeof this._positionsObserver === 'undefined'){
+            return;//todo better;
+        }
         this.lastPosition = newPosition;
         this._positionsObserver.next(newPosition);
         if (end) {

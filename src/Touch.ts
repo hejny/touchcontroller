@@ -22,9 +22,8 @@ export default class Touch {
                 public eventId: string,//todo this should be external id only in controller
                 public type: 'TOUCH' | 'MOUSE',
                 public firstPosition: TimeVector2) {
+        this.lastPosition = firstPosition;
         this.positions = Observable.create((observer: Observer<TimeVector2>) => {
-
-            this.lastPosition = firstPosition;
             observer.next(firstPosition);
             this._positionsObserver = observer;
         }).share();//todo share vs publish

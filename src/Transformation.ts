@@ -15,10 +15,18 @@ export default class Transformation {
         );
     }
 
+    clone(): Transformation {
+        return new Transformation(
+            this.translate.clone(),
+            this.rotate,
+            this.scale
+        );
+    }
+
     add(transformation: Transformation): Transformation {
         return new Transformation(
             this.translate.add(transformation.translate),
-            (this.rotate + transformation.rotate) % (Math.PI * 2),
+            (this.rotate + transformation.rotate),//todo % (Math.PI * 2),
             this.scale * transformation.scale,
         );
     }
@@ -26,7 +34,7 @@ export default class Transformation {
     subtract(transformation: Transformation): Transformation {
         return new Transformation(
             this.translate.subtract(transformation.translate),
-            (this.rotate - transformation.rotate + (Math.PI * 2)) % (Math.PI * 2),
+            (this.rotate - transformation.rotate /*+ (Math.PI * 2)*/),//todo % (Math.PI * 2),
             this.scale / transformation.scale,
         );
     }

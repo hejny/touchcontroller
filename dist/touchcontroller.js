@@ -69,7 +69,7 @@
 
 "use strict";
 
-var root_1 = __webpack_require__(5);
+var root_1 = __webpack_require__(4);
 var toSubscriber_1 = __webpack_require__(16);
 var observable_1 = __webpack_require__(21);
 var pipe_1 = __webpack_require__(22);
@@ -388,7 +388,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 var isFunction_1 = __webpack_require__(8);
 var Subscription_1 = __webpack_require__(2);
 var Observer_1 = __webpack_require__(10);
-var rxSubscriber_1 = __webpack_require__(6);
+var rxSubscriber_1 = __webpack_require__(5);
 /**
  * Implements the {@link Observer} interface and extends the
  * {@link Subscription} class. While the {@link Observer} is the public API for
@@ -859,6 +859,48 @@ Observable_1.Observable.prototype.share = share_1.share;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+/* WEBPACK VAR INJECTION */(function(global) {
+// CommonJS / Node have global context exposed as "global" variable.
+// We don't want to include the whole node.d.ts this this compilation unit so we'll just fake
+// the global "global" var for now.
+var __window = typeof window !== 'undefined' && window;
+var __self = typeof self !== 'undefined' && typeof WorkerGlobalScope !== 'undefined' &&
+    self instanceof WorkerGlobalScope && self;
+var __global = typeof global !== 'undefined' && global;
+var _root = __window || __global || __self;
+exports.root = _root;
+// Workaround Closure Compiler restriction: The body of a goog.module cannot use throw.
+// This is needed when used with angular/tsickle which inserts a goog.module statement.
+// Wrap in IIFE
+(function () {
+    if (!_root) {
+        throw new Error('RxJS could not find any global context (window, self, global)');
+    }
+})();
+//# sourceMappingURL=root.js.map
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var root_1 = __webpack_require__(4);
+var Symbol = root_1.root.Symbol;
+exports.rxSubscriber = (typeof Symbol === 'function' && typeof Symbol.for === 'function') ?
+    Symbol.for('rxSubscriber') : '@@rxSubscriber';
+/**
+ * @deprecated use rxSubscriber instead
+ */
+exports.$$rxSubscriber = exports.rxSubscriber;
+//# sourceMappingURL=rxSubscriber.js.map
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var Vector2 = /** @class */ (function () {
@@ -904,48 +946,6 @@ var Vector2 = /** @class */ (function () {
 }());
 exports.default = Vector2;
 
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(global) {
-// CommonJS / Node have global context exposed as "global" variable.
-// We don't want to include the whole node.d.ts this this compilation unit so we'll just fake
-// the global "global" var for now.
-var __window = typeof window !== 'undefined' && window;
-var __self = typeof self !== 'undefined' && typeof WorkerGlobalScope !== 'undefined' &&
-    self instanceof WorkerGlobalScope && self;
-var __global = typeof global !== 'undefined' && global;
-var _root = __window || __global || __self;
-exports.root = _root;
-// Workaround Closure Compiler restriction: The body of a goog.module cannot use throw.
-// This is needed when used with angular/tsickle which inserts a goog.module statement.
-// Wrap in IIFE
-(function () {
-    if (!_root) {
-        throw new Error('RxJS could not find any global context (window, self, global)');
-    }
-})();
-//# sourceMappingURL=root.js.map
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var root_1 = __webpack_require__(5);
-var Symbol = root_1.root.Symbol;
-exports.rxSubscriber = (typeof Symbol === 'function' && typeof Symbol.for === 'function') ?
-    Symbol.for('rxSubscriber') : '@@rxSubscriber';
-/**
- * @deprecated use rxSubscriber instead
- */
-exports.$$rxSubscriber = exports.rxSubscriber;
-//# sourceMappingURL=rxSubscriber.js.map
 
 /***/ }),
 /* 7 */
@@ -1026,7 +1026,7 @@ var Subscriber_1 = __webpack_require__(1);
 var Subscription_1 = __webpack_require__(2);
 var ObjectUnsubscribedError_1 = __webpack_require__(28);
 var SubjectSubscription_1 = __webpack_require__(29);
-var rxSubscriber_1 = __webpack_require__(6);
+var rxSubscriber_1 = __webpack_require__(5);
 /**
  * @class SubjectSubscriber<T>
  */
@@ -1282,7 +1282,7 @@ var RefCountSubscriber = (function (_super) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Vector2_1 = __webpack_require__(4);
+var Vector2_1 = __webpack_require__(6);
 var Transformation = /** @class */ (function () {
     function Transformation(translate, rotate, scale) {
         this.translate = translate;
@@ -1292,11 +1292,16 @@ var Transformation = /** @class */ (function () {
     Transformation.Zero = function () {
         return new Transformation(Vector2_1.default.Zero(), 0, 1);
     };
+    Transformation.prototype.clone = function () {
+        return new Transformation(this.translate.clone(), this.rotate, this.scale);
+    };
     Transformation.prototype.add = function (transformation) {
-        return new Transformation(this.translate.add(transformation.translate), (this.rotate + transformation.rotate) % (Math.PI * 2), this.scale * transformation.scale);
+        return new Transformation(this.translate.add(transformation.translate), (this.rotate + transformation.rotate), //todo % (Math.PI * 2),
+        this.scale * transformation.scale);
     };
     Transformation.prototype.subtract = function (transformation) {
-        return new Transformation(this.translate.subtract(transformation.translate), (this.rotate - transformation.rotate + (Math.PI * 2)) % (Math.PI * 2), this.scale / transformation.scale);
+        return new Transformation(this.translate.subtract(transformation.translate), (this.rotate - transformation.rotate /*+ (Math.PI * 2)*/), //todo % (Math.PI * 2),
+        this.scale / transformation.scale);
     };
     return Transformation;
 }());
@@ -1320,7 +1325,7 @@ var Transformation_1 = __webpack_require__(13);
 exports.Transformation = Transformation_1.default;
 var listeners_1 = __webpack_require__(44);
 exports.listeners = listeners_1.default;
-var Vector2_1 = __webpack_require__(4);
+var Vector2_1 = __webpack_require__(6);
 exports.Vector2 = Vector2_1.default;
 
 
@@ -1401,7 +1406,7 @@ exports.default = TouchController;
 "use strict";
 
 var Subscriber_1 = __webpack_require__(1);
-var rxSubscriber_1 = __webpack_require__(6);
+var rxSubscriber_1 = __webpack_require__(5);
 var Observer_1 = __webpack_require__(10);
 function toSubscriber(nextOrObserver, error, complete) {
     if (nextOrObserver) {
@@ -1503,7 +1508,7 @@ exports.UnsubscriptionError = UnsubscriptionError;
 
 "use strict";
 
-var root_1 = __webpack_require__(5);
+var root_1 = __webpack_require__(4);
 function getSymbolObservable(context) {
     var $$observable;
     var Symbol = context.Symbol;
@@ -1969,7 +1974,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Vector2_1 = __webpack_require__(4);
+var Vector2_1 = __webpack_require__(6);
 var VectorTouch = /** @class */ (function (_super) {
     __extends(VectorTouch, _super);
     function VectorTouch(_touchController, x, y, t) {
@@ -2008,8 +2013,8 @@ var Touch = /** @class */ (function () {
         this.eventId = eventId;
         this.type = type;
         this.firstPosition = firstPosition;
+        this.lastPosition = firstPosition;
         this.positions = Observable_1.Observable.create(function (observer) {
-            _this.lastPosition = firstPosition;
             observer.next(firstPosition);
             _this._positionsObserver = observer;
         }).share(); //todo share vs publish
@@ -2819,28 +2824,36 @@ var FinallySubscriber = (function (_super) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = __webpack_require__(0);
 var Transformation_1 = __webpack_require__(13);
-var Vector2_1 = __webpack_require__(4);
+//import Vector2 from './Vector2';
 function multiTouchTransformations(multiTouch, objectTransformation) {
     if (objectTransformation === void 0) { objectTransformation = Transformation_1.default.Zero(); }
     return Observable_1.Observable.create(function (observer) {
+        objectTransformation = objectTransformation.clone();
+        var subscriptions = [];
         multiTouch.ongoingTouchesChanges.subscribe(function (touches) {
+            for (var _i = 0, subscriptions_1 = subscriptions; _i < subscriptions_1.length; _i++) {
+                var subscription = subscriptions_1[_i];
+                subscription.unsubscribe();
+            }
+            //todo maybe subscription = [];
             console.log(touches);
             if (touches.length === 1) {
                 //todo dispose after change touches
                 var touch_1 = touches[0];
-                touch_1.positions.subscribe(function (position) {
-                    //console.log( position.subtract(touch.firstPosition));
-                    observer.next(
-                    //todo optimize
-                    objectTransformation.add(new Transformation_1.default(position.subtract(touch_1.firstPosition), 0, 1)));
-                });
+                subscriptions = [touch_1.positions.subscribe(function (position) {
+                        //console.log( position.subtract(touch.firstPosition));
+                        observer.next(
+                        //todo optimize
+                        objectTransformation.add(new Transformation_1.default(position.subtract(touch_1.firstPosition), 0, 1)));
+                    })];
             }
             else if (touches.length === 2) {
                 //todo dispose after change touches
                 var touch1_1 = touches[0];
                 var touch2_1 = touches[1];
+                console.log(touch2_1.lastPosition);
                 var countTouchesTransformation_1 = function () {
-                    return new Transformation_1.default(Vector2_1.default.Zero(), 0, touch1_1.lastPosition.length(touch2_1.lastPosition));
+                    return new Transformation_1.default(touch1_1.lastPosition.add(touch2_1.lastPosition).scale(1 / 2), touch1_1.lastPosition.rotation(touch2_1.lastPosition), touch1_1.lastPosition.length(touch2_1.lastPosition));
                 };
                 var lastTouchesTransformation_1 = countTouchesTransformation_1();
                 var touchMoveCallback = function () {
@@ -2849,8 +2862,10 @@ function multiTouchTransformations(multiTouch, objectTransformation) {
                     observer.next(objectTransformation);
                     lastTouchesTransformation_1 = currentTouchesTransformation;
                 };
-                touch1_1.positions.subscribe(touchMoveCallback);
-                touch2_1.positions.subscribe(touchMoveCallback);
+                subscriptions = [
+                    touch1_1.positions.subscribe(touchMoveCallback),
+                    touch2_1.positions.subscribe(touchMoveCallback)
+                ];
             }
         }, function () {
         }, function () {

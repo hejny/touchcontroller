@@ -73,7 +73,7 @@
         new Rect(
             'green',
             new TC.Vector2(300, 300),
-            new TC.Vector2(100, 100),
+            new TC.Vector2(200, 200),
             0
         )
     ];
@@ -101,19 +101,22 @@
         }
     );
 
-    console.log(touchController.hover);
-    let lastHoverPosition = touchController.hover.firstPosition;
+    let lastHoverPosition = null;
     touchController.hover.positions.subscribe((position)=>{
         if(rects.some((rect)=>rect.intersects(position))){
-            ctx.strokeStyle = '#ff00ff';//rects[0].color;
-            ctx.lineCap = 'round';
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.moveTo(lastHoverPosition.x,lastHoverPosition.y);
-            ctx.lineTo(position.x,position.y);
-            ctx.stroke();
-        }
-        lastHoverPosition = position;
+            if(lastHoverPosition) {
+                ctx.strokeStyle = '#ff00ff';//rects[0].color;
+                ctx.lineCap = 'round';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(lastHoverPosition.x, lastHoverPosition.y);
+                ctx.lineTo(position.x, position.y);
+                ctx.stroke();
+            }
+            lastHoverPosition = position;
+        }else{
+            lastHoverPosition = null;
+    }
     });
 
 

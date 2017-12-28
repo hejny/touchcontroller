@@ -5,6 +5,7 @@ export default class Transformation {
     scale: number;
     constructor(translate: Vector2, rotate: number, scale: number);
     static Zero(): Transformation;
+    clone(): Transformation;
     add(transformation: Transformation): Transformation;
     subtract(transformation: Transformation): Transformation;
 }

@@ -886,6 +886,17 @@ var Vector2 = /** @class */ (function () {
         return Math.sqrt(Math.pow(this.x - vector2.x, 2) +
             Math.pow(this.y - vector2.y, 2));
     };
+    Vector2.prototype.rotation = function (vector2) {
+        if (vector2 === void 0) { vector2 = Vector2.Zero(); }
+        return Math.atan2(this.y - vector2.y, this.x - vector2.x);
+    };
+    Vector2.prototype.rotate = function (radians, vector2) {
+        if (vector2 === void 0) { vector2 = Vector2.Zero(); }
+        var base = this.subtract(vector2);
+        var length = base.length();
+        var rotation = base.rotation();
+        return new Vector2(Math.cos(rotation + radians) * length, Math.sin(rotation + radians) * length).add(vector2);
+    };
     Vector2.prototype.toArray = function () {
         return [this.x, this.y];
     };
@@ -1330,6 +1341,9 @@ var TouchController = /** @class */ (function () {
         this.element = element;
         this._touchesAutoIncrement = 0;
         this._ongoingTouches = [];
+        this.hover = new Touch_1.default(this, this._touchesAutoIncrement++, 'hover', //todo this should be external ID
+        'MOUSE', new VectorTouch_1.default(this, 0, 0, performance.now()) //todo better
+        );
         this.touches = Observable_1.Observable.create(function (observer) {
             _this._touchesObserver = observer;
         }).share();
@@ -1357,8 +1371,11 @@ var TouchController = /** @class */ (function () {
             }
         }
         else {
-            //todo
+            this.hoverMove(event);
         }
+    };
+    TouchController.prototype.hoverMove = function (event) {
+        this.hover.move(this._createVectorFromEvent(event));
     };
     TouchController.prototype._createVectorFromEvent = function (event) {
         return new VectorTouch_1.default(this, event.clientX - this.element.offsetLeft, event.clientY - this.element.offsetTop, performance.now());

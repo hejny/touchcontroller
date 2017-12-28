@@ -14,11 +14,24 @@ export interface IEvent {
 export default class TouchController{
 
     public touches: Observable<Touch>;
+    public hover: Touch;
     private _touchesAutoIncrement: number = 0;
     private _touchesObserver: Observer<Touch>;
     private _ongoingTouches: Touch[] = [];
 
     constructor(public element: HTMLElement) {
+        this.hover = new Touch(
+            this,
+            this._touchesAutoIncrement++,
+            'hover',//todo this should be external ID
+            'MOUSE',
+            new VectorTouch(
+                this,
+                0,
+                0,
+                performance.now()
+            )//todo better
+        );
         this.touches = Observable.create((observer:Observer<Touch>)=>{
             this._touchesObserver = observer;
         }).share();
@@ -54,8 +67,12 @@ export default class TouchController{
                 //this.callSubscribers('MOVE', touch);
             }
         } else {
-            //todo
+            this.hoverMove(event);
         }
+    }
+
+    hoverMove(event: IEvent) {
+        this.hover.move(this._createVectorFromEvent(event));
     }
 
     private _createVectorFromEvent(event: IEvent) {

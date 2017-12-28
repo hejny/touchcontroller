@@ -42,6 +42,23 @@ export default class Vector2 {
         )
     }
 
+    rotation(vector2: Vector2 = Vector2.Zero()): number {
+        return Math.atan2(
+            this.y - vector2.y,
+            this.x - vector2.x
+        )
+    }
+
+    rotate(radians: number, vector2: Vector2 = Vector2.Zero()){
+        const base = this.subtract(vector2);
+        const length = base.length();
+        const rotation = base.rotation();
+        return new Vector2(
+          Math.cos(rotation + radians) * length,
+          Math.sin(rotation + radians) * length,
+        ).add(vector2);
+    }
+
     toArray(): [number, number] {
         return [this.x, this.y];
     }

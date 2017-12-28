@@ -35,8 +35,8 @@
             ctx.beginPath();
 
             for (let n = 0; n < 4; n++) {
-                const x = Math.cos(Math.PI * 2 / 4 * n + Math.PI/4 +this.rotation) * this.size.x + this.position.x;
-                const y = Math.sin(Math.PI * 2 / 4 * n + Math.PI/4 +this.rotation) * this.size.y + this.position.y;
+                const x = Math.cos(Math.PI * 2 / 4 * n + Math.PI/4 +this.rotation) * this.size.x / Math.sqrt(2) + this.position.x;
+                const y = Math.sin(Math.PI * 2 / 4 * n + Math.PI/4 +this.rotation) * this.size.y / Math.sqrt(2) + this.position.y;
                 if (n === 0) {
                     ctx.moveTo(x, y);
                 } else {
@@ -50,11 +50,15 @@
         }
 
         intersects(position) {
+
+            const position1r = this.position;//.rotate(this.rotation);
+            const position2r = position.rotate(this.rotation,this.position);
+
             return (
-                this.position.x <= position.x &&
-                this.position.y <= position.y &&
-                this.position.x + this.size.x >= position.x &&
-                this.position.y + this.size.y >= position.y
+                position1r.x - this.size.x/2 <= position2r.x &&
+                position1r.y - this.size.y/2 <= position2r.y &&
+                position1r.x + this.size.x/2 >= position2r.x &&
+                position1r.y + this.size.y/2 >= position2r.y
             );
         }
     }
@@ -67,7 +71,7 @@
             Math.PI / 4
         ),
         new Rect(
-            'red',
+            'green',
             new TC.Vector2(300, 300),
             new TC.Vector2(100, 100),
             0
@@ -96,6 +100,21 @@
             ;
         }
     );
+
+    console.log(touchController.hover);
+    let lastHoverPosition = touchController.hover.firstPosition;
+    touchController.hover.positions.subscribe((position)=>{
+        if(rects.some((rect)=>rect.intersects(position))){
+            ctx.strokeStyle = '#ff00ff';//rects[0].color;
+            ctx.lineCap = 'round';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(lastHoverPosition.x,lastHoverPosition.y);
+            ctx.lineTo(position.x,position.y);
+            ctx.stroke();
+        }
+        lastHoverPosition = position;
+    });
 
 
     multiTC.multiTouches.subscribe(function (multitouch) {

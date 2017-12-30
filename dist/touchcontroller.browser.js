@@ -2038,6 +2038,10 @@ var Touch = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Touch.prototype.chop = function () {
+        this.firstPosition = this.lastPosition;
+        //todo clean positions
+    };
     Touch.prototype.toString = function () {
         return "Touch(" + this.id + ")";
     };
@@ -2837,6 +2841,10 @@ function multiTouchTransformations(multiTouch, objectTransformation) {
                 subscription.unsubscribe();
             }
             //todo maybe subscription = [];
+            for (var _a = 0, touches_1 = touches; _a < touches_1.length; _a++) {
+                var touch = touches_1[_a];
+                touch.chop();
+            }
             console.log(touches);
             if (touches.length === 1) {
                 //todo dispose after change touches

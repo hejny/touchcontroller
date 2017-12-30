@@ -16,5 +16,6 @@ export default class Touch {
     constructor(touchController: TouchController, id: number, eventId: string, type: 'TOUCH' | 'MOUSE', firstPosition: TimeVector2);
     move(newPosition: TimeVector2, end?: boolean): void;
     readonly start: number;
+    chop(): void;
     toString(): string;
 }

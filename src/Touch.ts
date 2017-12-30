@@ -45,6 +45,11 @@ export default class Touch {
         return this.firstPosition.t;
     }
 
+    chop(){
+        this.firstPosition = this.lastPosition;
+        //todo clean positions
+    }
+
     toString() {
         return `Touch(${this.id})`
     }

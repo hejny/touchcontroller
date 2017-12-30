@@ -22,6 +22,10 @@ export default function multiTouchTransformations<TElement>(multiTouch: MultiTou
                 }
                 //todo maybe subscription = [];
 
+                for(const touch of touches){
+                    touch.chop();
+                }
+
                 console.log(touches);
                 if (touches.length === 1) {
 

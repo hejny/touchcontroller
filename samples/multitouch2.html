@@ -27,26 +27,28 @@
         }
 
         render(ctx) {
-
-            //ctx.translate(this.position.x, this.position.y);
-            //ctx.rotate(this.rotation);
-            //ctx.lineWidth = 2;
-            ctx.fillStyle = this.color;
+            ctx.save();
             ctx.beginPath();
 
-            for (let n = 0; n < 4; n++) {
-                const x = Math.cos(Math.PI * 2 / 4 * n + Math.PI/4 +this.rotation) * this.size.x / Math.sqrt(2) + this.position.x;
-                const y = Math.sin(Math.PI * 2 / 4 * n + Math.PI/4 +this.rotation) * this.size.y / Math.sqrt(2) + this.position.y;
-                if (n === 0) {
-                    ctx.moveTo(x, y);
-                } else {
-                    ctx.lineTo(x, y);
-                }
-
-            }
-            ctx.closePath();
+            ctx.rotate(this.rotation);
+            ctx.translate(
+                ...new TC.Vector2(
+                        this.position.x,
+                        this.position.y
+                    )
+                    .rotate(-this.rotation)
+                .subtract(
+                    new TC.Vector2(
+                        this.size.x/2,
+                        this.size.y/2
+                    )
+                )
+                .toArray()
+            );
+            ctx.rect( 0,0, this.size.x,this.size.y);
+            ctx.fillStyle = this.color;
             ctx.fill();
-
+            ctx.restore();
         }
 
         intersects(position) {
@@ -68,8 +70,8 @@
             'blue',
             new TC.Vector2(100, 100),
             new TC.Vector2(100, 150),
-            Math.PI / 4
-        ),
+            Math.PI / 10
+        ),/**/
         new Rect(
             'green',
             new TC.Vector2(300, 300),
@@ -81,7 +83,7 @@
 
     function render() {
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        for (const rect of rects) {
+        for (const rect of rects.slice().reverse()) {
             rect.render(ctx);
         }
     }
@@ -123,6 +125,7 @@
     multiTC.multiTouches.subscribe(function (multitouch) {
 
         const rect = multitouch.element;
+        const sizeRatio = rect.size.y / rect.size.x;
         const transformations = TC.multiTouchTransformations(
             multitouch,
             new TC.Transformation(
@@ -138,7 +141,7 @@
                 multitouch.element.position = transformation.translate;
                 multitouch.element.rotation = transformation.rotate;
                 multitouch.element.size.x = transformation.scale;
-                multitouch.element.size.y = transformation.scale;
+                multitouch.element.size.y = transformation.scale * sizeRatio;
 
                 //multitouch.element.position = multitouch.element.position.add(transformation.translate);
 

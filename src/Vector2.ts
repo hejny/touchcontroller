@@ -14,10 +14,10 @@ export default class Vector2 {
         );
     }
 
-    add(vector2: Vector2): Vector2 {
+    add(...vectors: Vector2[]): Vector2 {
         return new Vector2(
-            this.x + vector2.x,
-            this.y + vector2.y
+            vectors.reduce((x, vector2) => x + vector2.x, this.x),
+            vectors.reduce((y, vector2) => y + vector2.y, this.y)
         );
     }
 
@@ -49,13 +49,13 @@ export default class Vector2 {
         )
     }
 
-    rotate(radians: number, vector2: Vector2 = Vector2.Zero()){
+    rotate(radians: number, vector2: Vector2 = Vector2.Zero()) {
         const base = this.subtract(vector2);
         const length = base.length();
         const rotation = base.rotation();
         return new Vector2(
-          Math.cos(rotation + radians) * length,
-          Math.sin(rotation + radians) * length,
+            Math.cos(rotation + radians) * length,
+            Math.sin(rotation + radians) * length,
         ).add(vector2);
     }
 

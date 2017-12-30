@@ -45,10 +45,16 @@ export default class Touch {
         return this.firstPosition.t;
     }
 
-    chop(){
-        this.firstPosition = this.lastPosition;
-        //todo clean positions
-    }
+    /*chop(): Touch{
+        //todo maybe more optimal way?
+        return new Touch(
+            this.touchController,
+            this.id,
+            this.eventId,
+            this.type,
+            this.lastPosition
+        );
+    }*/
 
     toString() {
         return `Touch(${this.id})`

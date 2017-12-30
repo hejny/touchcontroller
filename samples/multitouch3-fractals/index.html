@@ -99,22 +99,18 @@
         }
     );
 
-    let lastHoverPosition = null;
-    touchController.hover.positions.subscribe((position)=>{
-        if(rects.some((rect)=>rect.intersects(position))){
-            if(lastHoverPosition) {
-                ctx.strokeStyle = '#ff00ff';//rects[0].color;
-                ctx.lineCap = 'round';
-                ctx.lineWidth = 3;
-                ctx.beginPath();
-                ctx.moveTo(lastHoverPosition.x, lastHoverPosition.y);
-                ctx.lineTo(position.x, position.y);
-                ctx.stroke();
-            }
-            lastHoverPosition = position;
-        }else{
-            lastHoverPosition = null;
-    }
+    multiTC.unknownTouches.subscribe((touch)=>{
+        lastPosition = touch.firstPosition;
+        touch.positions.subscribe((position)=>{
+            ctx.strokeStyle = '#ff00ff';//rects[0].color;
+            ctx.lineCap = 'round';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(lastPosition.x, lastPosition.y);
+            ctx.lineTo(position.x, position.y);
+            ctx.stroke();
+            lastPosition = position;
+        });
     });
 
 

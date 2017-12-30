@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample of TC (ES6)</title>
+    <link rel="stylesheet" type="text/css" href="./index.css">
+</head>
+<body>
+
+
+<canvas id="scene" width="500" height="500"></canvas>
+
+
+<script type="text/javascript" src="../../dist/touchcontroller.browser.js"></script>
+<script type="text/javascript">
+
+    const TC = TouchController;
+    const scene = document.getElementById('scene');
+    scene.width = document.body.clientWidth;
+    scene.height = document.body.clientHeight;
+    const ctx = scene.getContext('2d');
+
+    class Rect {
+        constructor(color, position, size, rotation) {
+            this.color = color;
+            this.position = position;
+            this.size = size;
+            this.rotation = rotation;
+        }
+
+        render(ctx) {
+            ctx.save();
+            ctx.beginPath();
+
+            ctx.rotate(this.rotation);
+            ctx.translate(
+                ...new TC.Vector2(
+                        this.position.x,
+                        this.position.y
+                    )
+                    .rotate(-this.rotation)
+                .subtract(
+                    new TC.Vector2(
+                        this.size.x/2,
+                        this.size.y/2
+                    )
+                )
+                .toArray()
+            );
+            ctx.rect( 0,0, this.size.x,this.size.y);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+            ctx.restore();
+        }
+
+        intersects(position) {
+
+            const position1r = this.position;//.rotate(this.rotation);
+            const position2r = position.rotate(this.rotation,this.position);
+
+            return (
+                position1r.x - this.size.x/2 <= position2r.x &&
+                position1r.y - this.size.y/2 <= position2r.y &&
+                position1r.x + this.size.x/2 >= position2r.x &&
+                position1r.y + this.size.y/2 >= position2r.y
+            );
+        }
+    }
+
+    const rects = [
+        new Rect(
+            'blue',
+            new TC.Vector2(100, 100),
+            new TC.Vector2(100, 100/scene.width*scene.height),
+            0
+        )
+    ];
+
+
+    function render() {
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        for (const rect of rects.slice().reverse()) {
+            rect.render(ctx);
+        }
+    }
+
+    render();
+
+
+    const touchController = new TC.TouchController(scene);
+    touchController.addListener(new TC.listeners.TouchListener);
+    touchController.addListener(new TC.listeners.MouseListener);
+    const multiTC = new TC.MultiTouchController(
+        touchController,
+        function (position) {
+            return rects.find((rect) => rect.intersects(position)
+            )
+            ;
+        }
+    );
+
+    let lastHoverPosition = null;
+    touchController.hover.positions.subscribe((position)=>{
+        if(rects.some((rect)=>rect.intersects(position))){
+            if(lastHoverPosition) {
+                ctx.strokeStyle = '#ff00ff';//rects[0].color;
+                ctx.lineCap = 'round';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(lastHoverPosition.x, lastHoverPosition.y);
+                ctx.lineTo(position.x, position.y);
+                ctx.stroke();
+            }
+            lastHoverPosition = position;
+        }else{
+            lastHoverPosition = null;
+    }
+    });
+
+
+    multiTC.multiTouches.subscribe(function (multitouch) {
+
+        const rect = multitouch.element;
+        const sizeRatio = rect.size.y / rect.size.x;
+        const transformations = TC.multiTouchTransformations(
+            multitouch,
+            new TC.Transformation(
+                rect.position,
+                rect.rotation,
+                rect.size.x
+            )
+        );
+        transformations.subscribe(function (transformation) {
+
+                //console.log(transformation);
+
+                multitouch.element.position = transformation.translate;
+                multitouch.element.rotation = transformation.rotate;
+                multitouch.element.size.x = transformation.scale;
+                multitouch.element.size.y = transformation.scale * sizeRatio;
+
+                //multitouch.element.position = multitouch.element.position.add(transformation.translate);
+
+                render();
+
+            },
+            function () {
+            },
+            function () {
+            });
+
+    });
+</script>
+
+
+</body>
+</html>

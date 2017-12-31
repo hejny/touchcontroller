@@ -1,4 +1,4 @@
-body{
+body {
     margin: 0;
     padding: 0;
     width: 100vw;
@@ -6,7 +6,17 @@ body{
     overflow: hidden;
 }
 
+#fractal-scene, #drawing-scene {
+    position: fixed;
+    top: 0;
+    left: 0;
 
-#scene{
+}
 
+#fractal-scene {
+    z-index: 20;
+}
+
+#drawing-scene {
+    z-index: 10;
 }

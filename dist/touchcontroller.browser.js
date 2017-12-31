@@ -2203,10 +2203,13 @@ var MultiTouchController = /** @class */ (function () {
         this.multiTouches = Observable_1.Observable.create(function (observer) {
             _this._multiTouchesObserver = observer;
         }).share();
+        this.unknownTouches = Observable_1.Observable.create(function (observer) {
+            _this._unknownTouchesObserver = observer;
+        }).share();
         this._touchController.touches.subscribe(function (touch) {
             var element = _this._elementBinder(touch.firstPosition);
             if (typeof element === 'undefined') {
-                console.log('Empty touch.');
+                _this._unknownTouchesObserver.next(touch);
                 return;
             }
             //todo why can not be used find

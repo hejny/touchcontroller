@@ -54,7 +54,7 @@
         intersects(position) {
 
             const position1r = this.position;//.rotate(this.rotation);
-            const position2r = position.rotate(this.rotation,this.position);
+            const position2r = position.rotate(-this.rotation,this.position);
 
             return (
                 position1r.x - this.size.x/2 <= position2r.x &&

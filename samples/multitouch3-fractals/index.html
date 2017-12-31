@@ -8,86 +8,106 @@
 <body>
 
 
-<canvas id="scene" width="500" height="500"></canvas>
+<canvas id="fractal-scene"></canvas>
+<canvas id="drawing-scene"></canvas>
 
 
 <script type="text/javascript" src="../../dist/touchcontroller.browser.js"></script>
 <script type="text/javascript">
 
     const TC = TouchController;
-    const scene = document.getElementById('scene');
-    scene.width = document.body.clientWidth;
-    scene.height = document.body.clientHeight;
-    const ctx = scene.getContext('2d');
+
+    const sceneSize = new TC.Vector2(
+        document.body.clientWidth,
+        document.body.clientHeight
+    );
+
+    function createSceneCtx(name){
+        const scene = document.getElementById(name+'-scene');
+        scene.width = sceneSize.x;
+        scene.height = sceneSize.y;
+        return scene.getContext('2d');
+    }
+
+    const ctxDrawing = createSceneCtx('drawing');
+    const ctxFractal = createSceneCtx('fractal');
+
 
     class Rect {
-        constructor(color, position, size, rotation) {
-            this.color = color;
+        constructor(position, ratio, rotation) {
             this.position = position;
-            this.size = size;
+            this.ratio = ratio;
             this.rotation = rotation;
         }
 
-        render(ctx) {
+        render(ctx){
+
+            this.renderitt(ctx,1);
+            this.renderitt(ctx,2);
+        }
+
+
+        renderitt(ctx,itt=1) {
+
             ctx.save();
             ctx.beginPath();
 
             ctx.rotate(this.rotation);
             ctx.translate(
                 ...new TC.Vector2(
-                        this.position.x,
-                        this.position.y
-                    )
-                    .rotate(-this.rotation)
+                this.position.x,
+                this.position.y
+            )
+                .rotate(-this.rotation)
                 .subtract(
                     new TC.Vector2(
-                        this.size.x/2,
-                        this.size.y/2
+                        sceneSize.x*this.ratio/2,
+                        sceneSize.y*this.ratio/2
                     )
                 )
                 .toArray()
-            );
-            ctx.rect( 0,0, this.size.x,this.size.y);
-            ctx.fillStyle = this.color;
-            ctx.fill();
+        );
+            ctx.rect( 0,0, sceneSize.x*this.ratio,sceneSize.y*this.ratio);
+            //ctx.drawImage(ctxDrawing.canvas,...box);
+            ctx.stroke();
             ctx.restore();
         }
 
         intersects(position) {
 
             const position1r = this.position;//.rotate(this.rotation);
-            const position2r = position.rotate(this.rotation,this.position);
+            const position2r = position.rotate(-this.rotation,this.position);
+            //const sceneSizer = sceneSize.rotate(this.rotation,this.position);
 
             return (
-                position1r.x - this.size.x/2 <= position2r.x &&
-                position1r.y - this.size.y/2 <= position2r.y &&
-                position1r.x + this.size.x/2 >= position2r.x &&
-                position1r.y + this.size.y/2 >= position2r.y
+                position1r.x - this.ratio * sceneSize.x/2 <= position2r.x &&
+                position1r.y - this.ratio * sceneSize.y/2 <= position2r.y &&
+                position1r.x + this.ratio * sceneSize.x/2 >= position2r.x &&
+                position1r.y + this.ratio * sceneSize.y/2 >= position2r.y
             );
         }
     }
 
     const rects = [
         new Rect(
-            'blue',
             new TC.Vector2(100, 100),
-            new TC.Vector2(100, 100/scene.width*scene.height),
+            .5,
             0
         )
     ];
 
 
     function render() {
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        ctxFractal.clearRect(0, 0, ctxFractal.canvas.width, ctxFractal.canvas.height);
         for (const rect of rects.slice().reverse()) {
-            rect.render(ctx);
+            rect.render(ctxFractal);
         }
     }
 
     render();
 
 
-    const touchController = new TC.TouchController(scene);
+    const touchController = new TC.TouchController(ctxFractal.canvas);
     touchController.addListener(new TC.listeners.TouchListener);
     touchController.addListener(new TC.listeners.MouseListener);
     const multiTC = new TC.MultiTouchController(
@@ -99,16 +119,36 @@
         }
     );
 
+
+    let lastHoverPosition = null;
+    touchController.hover.positions.subscribe((position)=>{
+        if(rects.some((rect)=>rect.intersects(position))){
+        if(lastHoverPosition) {
+            ctxFractal.strokeStyle = '#ff00ff';//rects[0].color;
+            ctxFractal.lineCap = 'round';
+            ctxFractal.lineWidth = 3;
+            ctxFractal.beginPath();
+            ctxFractal.moveTo(lastHoverPosition.x, lastHoverPosition.y);
+            ctxFractal.lineTo(position.x, position.y);
+            ctxFractal.stroke();
+        }
+        lastHoverPosition = position;
+    }else{
+        lastHoverPosition = null;
+    }
+    });
+
+
     multiTC.unknownTouches.subscribe((touch)=>{
         lastPosition = touch.firstPosition;
         touch.positions.subscribe((position)=>{
-            ctx.strokeStyle = '#ff00ff';//rects[0].color;
-            ctx.lineCap = 'round';
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.moveTo(lastPosition.x, lastPosition.y);
-            ctx.lineTo(position.x, position.y);
-            ctx.stroke();
+            ctxDrawing.strokeStyle = '#191919';//rects[0].color;
+            ctxDrawing.lineCap = 'round';
+            ctxDrawing.lineWidth = 5;
+            ctxDrawing.beginPath();
+            ctxDrawing.moveTo(lastPosition.x, lastPosition.y);
+            ctxDrawing.lineTo(position.x, position.y);
+            ctxDrawing.stroke();
             lastPosition = position;
         });
     });
@@ -117,13 +157,12 @@
     multiTC.multiTouches.subscribe(function (multitouch) {
 
         const rect = multitouch.element;
-        const sizeRatio = rect.size.y / rect.size.x;
         const transformations = TC.multiTouchTransformations(
             multitouch,
             new TC.Transformation(
                 rect.position,
                 rect.rotation,
-                rect.size.x
+                rect.ratio
             )
         );
         transformations.subscribe(function (transformation) {
@@ -132,8 +171,7 @@
 
                 multitouch.element.position = transformation.translate;
                 multitouch.element.rotation = transformation.rotate;
-                multitouch.element.size.x = transformation.scale;
-                multitouch.element.size.y = transformation.scale * sizeRatio;
+                multitouch.element.ratio = transformation.scale;
 
                 //multitouch.element.position = multitouch.element.position.add(transformation.translate);
 

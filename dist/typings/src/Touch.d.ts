@@ -13,6 +13,7 @@ export default class Touch {
     positions: Observable<TimeVector2>;
     private _positionsObserver;
     lastPosition: TimeVector2;
+    lastPosition2: TimeVector2;
     constructor(touchController: TouchController, id: number, eventId: string, type: 'TOUCH' | 'MOUSE', firstPosition: TimeVector2);
     move(newPosition: TimeVector2, end?: boolean): void;
     readonly start: number;

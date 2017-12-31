@@ -14,6 +14,7 @@ export default class Touch {
     public positions: Observable<TimeVector2>;
     private _positionsObserver: Observer<TimeVector2>;
     public lastPosition: TimeVector2;
+    public lastPosition2: TimeVector2;
     //private _finished: boolean = false;
     //public positions: TimeVector2[];
 
@@ -23,6 +24,7 @@ export default class Touch {
                 public type: 'TOUCH' | 'MOUSE',
                 public firstPosition: TimeVector2) {
         this.lastPosition = firstPosition;
+        this.lastPosition2 = firstPosition;
         this.positions = Observable.create((observer: Observer<TimeVector2>) => {
             observer.next(firstPosition);
             this._positionsObserver = observer;
@@ -33,6 +35,7 @@ export default class Touch {
         if(typeof this._positionsObserver === 'undefined'){
             return;//todo better;
         }
+        this.lastPosition2 = this.lastPosition;
         this.lastPosition = newPosition;
         this._positionsObserver.next(newPosition);
         if (end) {

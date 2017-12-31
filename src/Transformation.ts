@@ -17,6 +17,14 @@ export default class Transformation {
 
     clone(): Transformation {
         return new Transformation(
+            this.translate,
+            this.rotate,
+            this.scale
+        );
+    }
+
+    cloneDeep(): Transformation {
+        return new Transformation(
             this.translate.clone(),
             this.rotate,
             this.scale
@@ -26,7 +34,7 @@ export default class Transformation {
     add(transformation: Transformation): Transformation {
         return new Transformation(
             this.translate.add(transformation.translate),
-            (this.rotate + transformation.rotate),//todo % (Math.PI * 2),
+            (this.rotate + transformation.rotate) % (Math.PI * 2),
             this.scale * transformation.scale,
         );
     }
@@ -34,8 +42,22 @@ export default class Transformation {
     subtract(transformation: Transformation): Transformation {
         return new Transformation(
             this.translate.subtract(transformation.translate),
-            (this.rotate - transformation.rotate /*+ (Math.PI * 2)*/),//todo % (Math.PI * 2),
+            (this.rotate - transformation.rotate + (Math.PI * 2)) % (Math.PI * 2),
             this.scale / transformation.scale,
+        );
+    }
+
+    nest(transformation: Transformation, center: Vector2 = Vector2.Zero()): Transformation {
+        return new Transformation(
+            this.translate.add(
+                transformation.translate
+                    .subtract(center)
+                    .scale(this.scale)
+                    //.rotate(this.rotate, this.translate.subtract(center).scale(this.scale))
+                    //.subtract(center)
+            ),
+            (this.rotate + transformation.rotate) % (Math.PI * 2),
+            this.scale * transformation.scale,
         );
     }
 }

@@ -10,7 +10,7 @@ import Vector2 from './Vector2';
 export default function multiTouchTransformations<TElement>(multiTouch: MultiTouch<TElement>, objectTransformation: Transformation = Transformation.Zero()): Observable<Transformation> {
     return Observable.create((observer: Observer<Transformation>) => {
 
-        objectTransformation = objectTransformation.clone();
+        //objectTransformation = objectTransformation.clone();
 
         let subscriptions: Subscription[] = [];
 

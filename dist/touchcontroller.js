@@ -1297,15 +1297,25 @@ var Transformation = /** @class */ (function () {
         return new Transformation(Vector2_1.default.Zero(), 0, 1);
     };
     Transformation.prototype.clone = function () {
+        return new Transformation(this.translate, this.rotate, this.scale);
+    };
+    Transformation.prototype.cloneDeep = function () {
         return new Transformation(this.translate.clone(), this.rotate, this.scale);
     };
     Transformation.prototype.add = function (transformation) {
-        return new Transformation(this.translate.add(transformation.translate), (this.rotate + transformation.rotate), //todo % (Math.PI * 2),
-        this.scale * transformation.scale);
+        return new Transformation(this.translate.add(transformation.translate), (this.rotate + transformation.rotate) % (Math.PI * 2), this.scale * transformation.scale);
     };
     Transformation.prototype.subtract = function (transformation) {
-        return new Transformation(this.translate.subtract(transformation.translate), (this.rotate - transformation.rotate /*+ (Math.PI * 2)*/), //todo % (Math.PI * 2),
-        this.scale / transformation.scale);
+        return new Transformation(this.translate.subtract(transformation.translate), (this.rotate - transformation.rotate + (Math.PI * 2)) % (Math.PI * 2), this.scale / transformation.scale);
+    };
+    Transformation.prototype.nest = function (transformation, center) {
+        if (center === void 0) { center = Vector2_1.default.Zero(); }
+        return new Transformation(this.translate.add(transformation.translate
+            .subtract(center)
+            .scale(this.scale)
+        //.rotate(this.rotate, this.translate.subtract(center).scale(this.scale))
+        //.subtract(center)
+        ), (this.rotate + transformation.rotate) % (Math.PI * 2), this.scale * transformation.scale);
     };
     return Transformation;
 }());
@@ -2018,6 +2028,7 @@ var Touch = /** @class */ (function () {
         this.type = type;
         this.firstPosition = firstPosition;
         this.lastPosition = firstPosition;
+        this.lastPosition2 = firstPosition;
         this.positions = Observable_1.Observable.create(function (observer) {
             observer.next(firstPosition);
             _this._positionsObserver = observer;
@@ -2028,6 +2039,7 @@ var Touch = /** @class */ (function () {
         if (typeof this._positionsObserver === 'undefined') {
             return; //todo better;
         }
+        this.lastPosition2 = this.lastPosition;
         this.lastPosition = newPosition;
         this._positionsObserver.next(newPosition);
         if (end) {
@@ -2245,6 +2257,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = __webpack_require__(0);
 __webpack_require__(40);
 __webpack_require__(3);
+//import Vector2 from './Vector2';
 var MultiTouch = /** @class */ (function () {
     function MultiTouch(id, element, firstTouch) {
         var _this = this;
@@ -2290,6 +2303,28 @@ var MultiTouch = /** @class */ (function () {
                     }, function () {
                         setImmediate(function () { return observer.next(_this.ongoingTouches); });
                     });
+                }, function () {
+                }, function () {
+                    observer.complete();
+                });
+            });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MultiTouch.prototype, "ongoingPositionsChanges", {
+        get: function () {
+            var _this = this;
+            return Observable_1.Observable.create(function (observer) {
+                var subscriptions = [];
+                _this.ongoingTouchesChanges.subscribe(function (touches) {
+                    for (var _i = 0, subscriptions_1 = subscriptions; _i < subscriptions_1.length; _i++) {
+                        var subscription = subscriptions_1[_i];
+                        subscription.unsubscribe();
+                    }
+                    subscriptions = touches.map(function (touch) { return touch.positions.subscribe(function () {
+                        observer.next(touches);
+                    }); });
                 }, function () {
                 }, function () {
                     observer.complete();
@@ -2845,7 +2880,7 @@ var Vector2_1 = __webpack_require__(4);
 function multiTouchTransformations(multiTouch, objectTransformation) {
     if (objectTransformation === void 0) { objectTransformation = Transformation_1.default.Zero(); }
     return Observable_1.Observable.create(function (observer) {
-        objectTransformation = objectTransformation.clone();
+        //objectTransformation = objectTransformation.clone();
         var subscriptions = [];
         multiTouch.ongoingTouchesChanges.subscribe(function (touches) {
             for (var _i = 0, subscriptions_1 = subscriptions; _i < subscriptions_1.length; _i++) {

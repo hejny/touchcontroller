@@ -1,9 +1,11 @@
 //import * as uuidv4 from 'uuid/v4';
 import {Observable} from 'rxjs/Observable';
+import {Subscription} from "rxjs/Subscription";
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/share'
 import {Observer} from "rxjs/Observer";
 import Touch from './Touch';
+//import Vector2 from './Vector2';
 
 
 export default class MultiTouch<TElement> {
@@ -61,6 +63,29 @@ export default class MultiTouch<TElement> {
                             setImmediate(()=>observer.next(this.ongoingTouches));
                         }
                     );
+                },
+                () => {
+                },
+                () => {
+                    observer.complete();
+                }
+            );
+        });
+    }
+
+    get ongoingPositionsChanges(): Observable<Touch[]> {
+        return Observable.create((observer: Observer<Touch[]>) => {
+            let subscriptions: Subscription[] = [];
+            this.ongoingTouchesChanges.subscribe(
+                (touches: Touch[]) => {
+
+                    for (const subscription of subscriptions) {
+                        subscription.unsubscribe();
+                    }
+
+                    subscriptions = touches.map((touch) => touch.positions.subscribe(()=>{
+                        observer.next(touches)
+                    }));
                 },
                 () => {
                 },

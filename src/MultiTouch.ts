@@ -1,4 +1,3 @@
-//import * as uuidv4 from 'uuid/v4';
 import {Observable} from 'rxjs/Observable';
 import {Subscription} from "rxjs/Subscription";
 import 'rxjs/add/operator/finally';

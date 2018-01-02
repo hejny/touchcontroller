@@ -47,7 +47,7 @@ export default class Transformation {
         );
     }
 
-    nest(transformation: Transformation, center: Vector2 = Vector2.Zero()): Transformation {
+    /*nest(transformation: Transformation, center: Vector2 = Vector2.Zero()): Transformation {
         return new Transformation(
             this.translate.add(
                 transformation.translate
@@ -59,5 +59,5 @@ export default class Transformation {
             (this.rotate + transformation.rotate) % (Math.PI * 2),
             this.scale * transformation.scale,
         );
-    }
+    }*/
 }

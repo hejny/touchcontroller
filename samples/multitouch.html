@@ -26,8 +26,6 @@
 
 
     var touchController = new TouchController.TouchController(scene);
-    touchController.addListener(new TouchController.listeners.TouchListener);
-    touchController.addListener(new TouchController.listeners.MouseListener);
     var multiTouchController = new TouchController.MultiTouchController(
         touchController,
         function (position) {
@@ -48,26 +46,50 @@
         multitouch.touches.subscribe(function (touch) {
 
 
-                var logTouch = $('<div class="log-touch"><div class="log-title">' + touch + '</div><div class="log-touch-positions"></div></div>');
+                var logTouch = $('<div class="log-touch"><div class="log-title">' + touch + '</div><div class="log-touch-frames"></div><div class="log-touch-last-frame"></div></div></div>');
                 $(logMultitouch).append(logTouch);
-                var positionsCounter = 0;
+                var framesCounter = 0;
 
 
-                touch.positions.subscribe(function (position) {
+                touch.frames.subscribe(function (frame) {
 
-                    $(logTouch).find('.log-touch-positions').text(positionsCounter++);
+                    $(logTouch).find('.log-touch-frames').text(framesCounter++);
+                    $(logTouch).find('.log-touch-last-frame').html(`
+                        <table>
+                            <tr>
+                                <th>Position:</th>
+                                <td>${frame.position}</td>
+                            </tr>
+                            <tr>
+                                <th>Time:</th>
+                                <td>${frame.time}</td>
+                            </tr>
+                            <tr>
+                                <th>Radius:</th>
+                                <td>${frame.radius}</td>
+                            </tr>
+                            <tr>
+                                <th>Rotation:</th>
+                                <td>${frame.rotation}</td>
+                            </tr>
+                            <tr>
+                                <th>Force:</th>
+                                <td>${frame.force}</td>
+                            </tr>
+                        </table>
+                    `);
 
-                        /*var lastPosition = multitouch.ongoingTouches[0].lastPosition;
+                        /*var lastFrame = multitouch.ongoingTouches[0].lastFrame;
                         for (var i = 1, l = multitouch.ongoingTouches.length; i < l; i++) {
-                            var position = multitouch.ongoingTouches[i].lastPosition;
+                            var position = multitouch.ongoingTouches[i].lastFrame;
 
                             ctx.strokeStyle = color;
                             ctx.beginPath();
-                            ctx.moveTo(lastPosition.x, lastPosition.y);
+                            ctx.moveTo(lastFrame.x, lastFrame.y);
                             ctx.lineTo(position.x, position.y);
                             ctx.stroke();
 
-                            lastPosition = position;
+                            lastFrame = position;
                         }*/
 
                     },

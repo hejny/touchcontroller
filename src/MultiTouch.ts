@@ -6,7 +6,7 @@ import {Observer} from "rxjs/Observer";
 import Touch from './Touch';
 //import Vector2 from './Vector2';
 
-
+//todo multitouch should be extended from this
 export default class MultiTouch<TElement> {
 
     //public id: string;
@@ -15,8 +15,8 @@ export default class MultiTouch<TElement> {
     private _touchesObserver: Observer<Touch>;
 
 
-    constructor(public id: number,
-                public element: TElement,
+    constructor(public id: number,//todo this should be external
+                public element: TElement,//todo this should be external
                 public firstTouch: Touch) {
         //this.id = uuidv4();
         this.touches = Observable.create((observer: Observer<Touch>) => {
@@ -33,7 +33,7 @@ export default class MultiTouch<TElement> {
 
         //console.log(`Adding ${touch} To ${this}.`);
 
-        touch.positions.subscribe(
+        touch.frames.subscribe(
             (position) => {
                 //console.log(`Next ${touch} in ${this}.`);
                 //this._touchesObserver.next(touch);
@@ -54,7 +54,7 @@ export default class MultiTouch<TElement> {
         return Observable.create((observer: Observer<Touch[]>) => {
             this.touches.subscribe((touch) => {
                     observer.next(this.ongoingTouches);
-                    touch.positions.subscribe((touch) => {
+                    touch.frames.subscribe((touch) => {
                         },
                         () => {
                         },
@@ -82,7 +82,7 @@ export default class MultiTouch<TElement> {
                         subscription.unsubscribe();
                     }
 
-                    subscriptions = touches.map((touch) => touch.positions.subscribe(()=>{
+                    subscriptions = touches.map((touch) => touch.frames.subscribe(()=>{
                         observer.next(touches)
                     }));
                 },

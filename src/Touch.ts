@@ -1,66 +1,54 @@
-//import * as uuidv4 from 'uuid/v4';
-import TouchController from './TouchController';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/share'
 import {Observer} from "rxjs/Observer";
 import 'rxjs/add/observable/range';
 import 'rxjs/add/operator/share'
 //import AbstractClassWithSubscribe from './AbstractClassWithSubscribe';
-import TimeVector2 from './VectorTouch';
+import TouchFrame from './TouchFrame';
 
 export default class Touch {
 
     //public uuid: string;
-    public positions: Observable<TimeVector2>;
-    private _positionsObserver: Observer<TimeVector2>;
-    public lastPosition: TimeVector2;
-    public lastPosition2: TimeVector2;
-    //private _finished: boolean = false;
-    //public positions: TimeVector2[];
+    public frames: Observable<TouchFrame>;
+    private _framesObserver: Observer<TouchFrame>;
+    public lastFrame: TouchFrame;
+    public lastFrame2: TouchFrame;//todo maybe function with offest
 
-    constructor(public touchController: TouchController,
-                public id: number,
-                public eventId: string,//todo this should be external id only in controller
+    constructor(//public touchController: TouchController,
+                //public id: number,
+                //public eventId: string,//todo this should be external id only in controller
                 public type: 'TOUCH' | 'MOUSE',
-                public firstPosition: TimeVector2) {
-        this.lastPosition = firstPosition;
-        this.lastPosition2 = firstPosition;
-        this.positions = Observable.create((observer: Observer<TimeVector2>) => {
-            observer.next(firstPosition);
-            this._positionsObserver = observer;
+                public firstFrame: TouchFrame
+
+    ) {
+        this.lastFrame = firstFrame;
+        this.lastFrame2 = firstFrame;
+        this.frames = Observable.create((observer: Observer<TouchFrame>) => {
+            observer.next(firstFrame);
+            this._framesObserver = observer;
         }).share();//todo share vs publish
     }
 
-    move(newPosition: TimeVector2, end = false) {
-        if(typeof this._positionsObserver === 'undefined'){
+    move(newFrame: TouchFrame, end = false) {
+        if(typeof this._framesObserver === 'undefined'){
             return;//todo better;
         }
-        this.lastPosition2 = this.lastPosition;
-        this.lastPosition = newPosition;
-        this._positionsObserver.next(newPosition);
+        this.lastFrame2 = this.lastFrame;
+        this.lastFrame = newFrame;
+        this._framesObserver.next(newFrame);
         if (end) {
-            this._positionsObserver.complete();
+            this._framesObserver.complete();
 
         }
     }
 
     get start() {
-        return this.firstPosition.t;
+        return this.firstFrame.time;
     }
 
-    /*chop(): Touch{
-        //todo maybe more optimal way?
-        return new Touch(
-            this.touchController,
-            this.id,
-            this.eventId,
-            this.type,
-            this.lastPosition
-        );
-    }*/
-
     toString() {
-        return `Touch(${this.id})`
+        //return `Touch(${this.id})`
+        return `Touch`
     }
 
 }

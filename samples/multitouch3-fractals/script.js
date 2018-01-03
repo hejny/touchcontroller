@@ -124,7 +124,7 @@ const rects = [
 ];
 
 
-function renderFractal() {
+function renderFractal(deep=false,border=true) {
 
     const rectsReversed = rects.slice().reverse();
     const box = [
@@ -135,9 +135,9 @@ function renderFractal() {
     ];
     ctxFractal.clearRect(...box);
 
-    if(false) {
+    if(deep) {
         ctxFractal.drawImage(ctxDrawing.canvas,...box);
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 40; i++) {
             for (const rect of rectsReversed) {
                 rect.renderitt(ctxFractal, ctxFractal.canvas);
             }
@@ -145,17 +145,23 @@ function renderFractal() {
         }
     }
 
-    for (const rect of rectsReversed) {
-        rect.renderitt(ctxFractal, 'border');
+    if(border) {
+        for (const rect of rectsReversed) {
+            rect.renderitt(ctxFractal, 'border');
+        }
     }
 }
 
+
+document.getElementById('render').addEventListener(
+    'click',
+    (event) => renderFractal(true,false),
+    false
+);
 renderFractal();
 
 
 const touchController = new TC.TouchController(ctxFractal.canvas);
-touchController.addListener(new TC.listeners.TouchListener);
-touchController.addListener(new TC.listeners.MouseListener);
 const multiTC = new TC.MultiTouchController(
     touchController,
     function (position) {
@@ -168,7 +174,7 @@ const multiTC = new TC.MultiTouchController(
 
 
 /*let lastHoverPosition = null;
-touchController.hover.positions.subscribe((position)=>{
+touchController.hover.frames.subscribe((position)=>{
     if(rects.some((rect)=>rect.intersects(position))){
     if(lastHoverPosition) {
         ctxFractal.strokeStyle = '#ff00ff';//rects[0].color;
@@ -187,16 +193,16 @@ touchController.hover.positions.subscribe((position)=>{
 
 
 /*multiTC.unknownTouches.subscribe((touch)=>{
-    lastPosition = touch.firstPosition;
-    touch.positions.subscribe((position)=>{
+    lastFrame = touch.firstFrame;
+    touch.frames.subscribe((position)=>{
         ctxDrawing.strokeStyle = '#191919';//rects[0].color;
         ctxDrawing.lineCap = 'round';
         ctxDrawing.lineWidth = 5;
         ctxDrawing.beginPath();
-        ctxDrawing.moveTo(lastPosition.x, lastPosition.y);
+        ctxDrawing.moveTo(lastFrame.x, lastFrame.y);
         ctxDrawing.lineTo(position.x, position.y);
         ctxDrawing.stroke();
-        lastPosition = position;
+        lastFrame = position;
         render();
     });
 });*/
@@ -216,29 +222,29 @@ multiTC.multiTouches.subscribe(function (multitouch) {
 
         if(touches.length === 1){
             ctxDrawing.beginPath();
-            ctxDrawing.moveTo(...touches[0].lastPosition2.toArray());
-            ctxDrawing.lineTo(...touches[0].lastPosition.toArray());
+            ctxDrawing.moveTo(...touches[0].lastFrame2.toArray());
+            ctxDrawing.lineTo(...touches[0].lastFrame.toArray());
             ctxDrawing.closePath();
             ctxDrawing.stroke();
         }else
         if(touches.length === 2){
             ctxDrawing.beginPath();
-            ctxDrawing.moveTo(...touches[0].lastPosition2.toArray());
-            ctxDrawing.lineTo(...touches[0].lastPosition.toArray());
-            ctxDrawing.lineTo(...touches[1].lastPosition.toArray());
-            ctxDrawing.lineTo(...touches[1].lastPosition2.toArray());
+            ctxDrawing.moveTo(...touches[0].lastFrame2.toArray());
+            ctxDrawing.lineTo(...touches[0].lastFrame.toArray());
+            ctxDrawing.lineTo(...touches[1].lastFrame.toArray());
+            ctxDrawing.lineTo(...touches[1].lastFrame2.toArray());
             ctxDrawing.closePath();
             ctxDrawing.fill();
 
             ctxDrawing.beginPath();
-            ctxDrawing.moveTo(...touches[0].lastPosition2.toArray());
-            ctxDrawing.lineTo(...touches[0].lastPosition.toArray());
+            ctxDrawing.moveTo(...touches[0].lastFrame2.toArray());
+            ctxDrawing.lineTo(...touches[0].lastFrame.toArray());
             ctxDrawing.closePath();
             ctxDrawing.stroke();
 
             ctxDrawing.beginPath();
-            ctxDrawing.lineTo(...touches[1].lastPosition.toArray());
-            ctxDrawing.lineTo(...touches[1].lastPosition2.toArray());
+            ctxDrawing.lineTo(...touches[1].lastFrame.toArray());
+            ctxDrawing.lineTo(...touches[1].lastFrame2.toArray());
             ctxDrawing.closePath();
             ctxDrawing.stroke();
 
@@ -246,7 +252,7 @@ multiTC.multiTouches.subscribe(function (multitouch) {
         if(touches.length > 2){
             ctxDrawing.beginPath();
             touches.forEach((touch,i)=>{
-                const position = touch.lastPosition;
+                const position = touch.lastFrame;
             if(i===0){
                 ctxDrawing.moveTo(...position.toArray());
             }else{

@@ -28,7 +28,7 @@ export default class MultiTouchController<TElement> {
 
         this._touchController.touches.subscribe((touch) => {
 
-            const element = this._elementBinder(touch.firstPosition);
+            const element = this._elementBinder(touch.firstFrame.position);
 
             if(typeof element ==='undefined'){
                 this._unknownTouchesObserver.next(touch);
@@ -61,6 +61,8 @@ export default class MultiTouchController<TElement> {
 
         });
     }
+
+    //todo dispose
 
 
 }

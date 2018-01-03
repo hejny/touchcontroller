@@ -92,19 +92,14 @@
 
 
     const touchController = new TC.TouchController(scene);
-    touchController.addListener(new TC.listeners.TouchListener);
-    touchController.addListener(new TC.listeners.MouseListener);
     const multiTC = new TC.MultiTouchController(
         touchController,
-        function (position) {
-            return rects.find((rect) => rect.intersects(position)
-            )
-            ;
-        }
+        (position)=>rects.find((rect) => rect.intersects(position))
     );
 
     let lastHoverPosition = null;
-    touchController.hover.positions.subscribe((position)=>{
+    touchController.hover.frames.subscribe((frame)=>{
+        const position = frame.position;
         if(rects.some((rect)=>rect.intersects(position))){
             if(lastHoverPosition) {
                 ctx.strokeStyle = '#ff00ff';//rects[0].color;

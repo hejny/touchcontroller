@@ -1,4 +1,4 @@
-import IListener from './IListener';
+/*import IListener from './IListener';
 import TouchController from '../TouchController';
 
 export default class TouchListener implements IListener {
@@ -57,4 +57,4 @@ export default class TouchListener implements IListener {
             this._touchController.touchMove('touch' + touches[i].identifier, callSubscribers, touches[i]);
         }
     }
-}
+}*/

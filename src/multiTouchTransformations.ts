@@ -34,12 +34,12 @@ export default function multiTouchTransformations<TElement>(multiTouch: MultiTou
 
                     /*
                      const touch = touches[0];
-                     subscriptions = [touch.positions.subscribe((position)=>{
-                     //console.log( position.subtract(touch.firstPosition));
+                     subscriptions = [touch.frames.subscribe((position)=>{
+                     //console.log( position.subtract(touch.firstFrame));
                      observer.next(
                      //todo optimize
                      objectTransformation.add(new Transformation(
-                     position.subtract(touch.firstPosition),
+                     position.subtract(touch.firstFrame),
                      0,
                      1
                      ))
@@ -47,7 +47,7 @@ export default function multiTouchTransformations<TElement>(multiTouch: MultiTou
                      })];*/
                     countTouchesTransformation = (touch1) =>
                         new Transformation(
-                            touch1.lastPosition,
+                            touch1.lastFrame.position,
                             0,
                             1
                         );
@@ -57,9 +57,9 @@ export default function multiTouchTransformations<TElement>(multiTouch: MultiTou
                     //todo how to figure out with 3, 4, 5,... finger on one object?
                     countTouchesTransformation = (...touches) =>
                         new Transformation(
-                            Vector2.Zero().add(...touches.map((touch) => touch.lastPosition)).scale(1 / touches.length),
-                            touches[0].lastPosition.rotation(touches[1].lastPosition),
-                            touches[0].lastPosition.length(touches[1].lastPosition)
+                            Vector2.Zero().add(...touches.map((touch) => touch.lastFrame.position)).scale(1 / touches.length),
+                            touches[0].lastFrame.position.rotation(touches[1].lastFrame.position),
+                            touches[0].lastFrame.position.length(touches[1].lastFrame.position)
                         );
                 }
 
@@ -80,10 +80,10 @@ export default function multiTouchTransformations<TElement>(multiTouch: MultiTou
 
                 };
 
-                subscriptions = touches.map((touch) => touch.positions.subscribe(touchMoveCallback));
+                subscriptions = touches.map((touch) => touch.frames.subscribe(touchMoveCallback));
                 /*subscriptions = [
-                 touch1.positions.subscribe(touchMoveCallback),
-                 touch2.positions.subscribe(touchMoveCallback)
+                 touch1.frames.subscribe(touchMoveCallback),
+                 touch2.frames.subscribe(touchMoveCallback)
                  ];*/
 
 

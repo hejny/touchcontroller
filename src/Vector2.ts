@@ -62,4 +62,8 @@ export default class Vector2 {
     toArray(): [number, number] {
         return [this.x, this.y];
     }
+
+    toString(): string {
+        return `[${this.x}, ${this.y}]`;
+    }
 }

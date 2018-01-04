@@ -1,7 +1,9 @@
-import mouseListener from './mouseListener';
-//import MouseListener from './mouseListener';
+//import IListener from './IListener';
+import createMouseListener from './createMouseListener';
+import createMouseScaleListener from './createMouseScaleListener';
 
-export default {
-    mouseListener,
-    //MouseListener
-};
+export{
+    //IListener,
+    createMouseListener,
+    createMouseScaleListener
+}

@@ -32,7 +32,8 @@ export default class TouchController {
 
         if(setListeners){
             //todo touch listener
-            this.addListener(listeners.mouseListener);
+            this.addListener(listeners.createMouseListener());
+            this.addListener(listeners.createMouseScaleListener());
         }
     }
 

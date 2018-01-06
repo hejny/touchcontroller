@@ -34,6 +34,8 @@
     );
     //console.log(multiTouchController);
 
+    //multiTouchController.multiTouches.subscribe(function (multitouch) {console.log('a1',multitouch)});
+    //multiTouchController.multiTouches.subscribe(function (multitouch) {console.log('a2',multitouch)});
     multiTouchController.multiTouches.subscribe(function (multitouch) {
 
         //console.log(multitouch);
@@ -43,6 +45,9 @@
         var logMultitouch = $('<div class="log-multitouch"><div class="log-title">' + multitouch + '</div><div class="log-multitouch-last-transformation"></div></div>');
         $('#log').append(logMultitouch)
 
+
+        //multitouch.touches.subscribe(function (touch) {console.log('b1',touch)});
+        //multitouch.touches.subscribe(function (touch) {console.log('b2',touch)});
 
 
         TouchController.multiTouchTransformations(multitouch).subscribe(function (transformation) {
@@ -66,6 +71,9 @@
         });
 
         multitouch.touches.subscribe(function (touch) {
+
+                //touch.frames.subscribe(function (frame) {console.log('c1',frame)});
+                //touch.frames.subscribe(function (frame) {console.log('c2',frame)});
 
 
                 var logTouch = $('<div class="log-touch"><div class="log-title">' + touch + '</div><div class="log-touch-frames"></div><div class="log-touch-last-frame"></div></div></div>');

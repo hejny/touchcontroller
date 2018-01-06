@@ -20,7 +20,7 @@ export default class MultiTouch<TElement> {
         //this.id = uuidv4();
         this.touches = Observable.create((observer: Observer<Touch>) => {
             this._touchesObserver = observer;
-            this.addTouch(firstTouch);
+            setImmediate(()=>this.addTouch(firstTouch));
         }).share();
         //console.log(`------------------------------Creating ${this} `);
     }

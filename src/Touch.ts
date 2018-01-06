@@ -24,7 +24,7 @@ export default class Touch {
         this.lastFrame = firstFrame;
         this.lastFrame2 = firstFrame;
         this.frames = Observable.create((observer: Observer<TouchFrame>) => {
-            observer.next(firstFrame);
+            observer.next(firstFrame);//todo maybe setImmediate(()=>
             this._framesObserver = observer;
         }).share();//todo share vs publish
     }

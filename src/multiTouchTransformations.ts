@@ -58,7 +58,8 @@ export default function multiTouchTransformations<TElement>(multiTouch: MultiTou
                     countTouchesTransformation = (...touches) =>
                         new Transformation(
                             Vector2.Zero().add(...touches.map((touch) => touch.lastFrame.position)).scale(1 / touches.length),
-                            touches[0].lastFrame.position.rotation(touches[1].lastFrame.position),
+                            touches[0].lastFrame.position.rotation(touches[1].lastFrame.position)
+                            + touches.reduce((sum,touch)=>sum+touch.lastFrame.rotation,0),
                             touches[0].lastFrame.position.length(touches[1].lastFrame.position)
                         );
                 }

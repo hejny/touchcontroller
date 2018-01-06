@@ -40,8 +40,30 @@
 
         var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
 
-        var logMultitouch = $('<div class="log-multitouch"><div class="log-title">' + multitouch + '</div></div>');
+        var logMultitouch = $('<div class="log-multitouch"><div class="log-title">' + multitouch + '</div><div class="log-multitouch-last-transformation"></div></div>');
         $('#log').append(logMultitouch)
+
+
+
+        TouchController.multiTouchTransformations(multitouch).subscribe(function (transformation) {
+            $(logMultitouch).find('.log-multitouch-last-transformation').html(`
+                        <table>
+                            <tr>
+                                <th>Translate:</th>
+                                <td>${transformation.translate}</td>
+                            </tr>
+                            <tr>
+                                <th>Rotate:</th>
+                                <td>${transformation.rotate}</td>
+                            </tr>
+                            <tr>
+                                <th>Scale:</th>
+                                <td>${transformation.scale}</td>
+                            </tr>
+                        </table>
+                    `);
+
+        });
 
         multitouch.touches.subscribe(function (touch) {
 

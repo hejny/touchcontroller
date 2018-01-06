@@ -37,9 +37,12 @@ export default class Touch {
         this.lastFrame = newFrame;
         this._framesObserver.next(newFrame);
         if (end) {
-            this._framesObserver.complete();
-
+            this.end();
         }
+    }
+
+    end(){
+        this._framesObserver.complete();
     }
 
     get start() {

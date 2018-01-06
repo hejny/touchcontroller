@@ -15,8 +15,7 @@ export default class MultiTouch<TElement> {
     private _touchesObserver: Observer<Touch>;
 
 
-    constructor(public id: number,//todo this should be external
-                public element: TElement,//todo this should be external
+    constructor(public element: TElement,//todo this should be external
                 public firstTouch: Touch) {
         //this.id = uuidv4();
         this.touches = Observable.create((observer: Observer<Touch>) => {
@@ -59,7 +58,7 @@ export default class MultiTouch<TElement> {
                         () => {
                         },
                         () => {
-                            setImmediate(()=>observer.next(this.ongoingTouches));
+                            setImmediate(() => observer.next(this.ongoingTouches));
                         }
                     );
                 },
@@ -82,7 +81,7 @@ export default class MultiTouch<TElement> {
                         subscription.unsubscribe();
                     }
 
-                    subscriptions = touches.map((touch) => touch.frames.subscribe(()=>{
+                    subscriptions = touches.map((touch) => touch.frames.subscribe(() => {
                         observer.next(touches)
                     }));
                 },
@@ -96,6 +95,6 @@ export default class MultiTouch<TElement> {
     }
 
     toString() {
-        return `MultiTouch(${this.id})`
+        return `MultiTouch`;
     }
 }

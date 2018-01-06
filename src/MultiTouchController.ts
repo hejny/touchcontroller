@@ -10,7 +10,6 @@ export default class MultiTouchController<TElement> {
 
     public ongoingMultiTouches: MultiTouch<TElement>[] = [];
     public multiTouches: Observable<MultiTouch<TElement>>;
-    private _multiTouchesAutoIncrement: number = 0;
     private _multiTouchesObserver: Observer<MultiTouch<TElement>>;
     public unknownTouches: Observable<Touch>;
     private _unknownTouchesObserver: Observer<Touch>;
@@ -30,7 +29,7 @@ export default class MultiTouchController<TElement> {
 
             const element = this._elementBinder(touch.firstFrame.position);
 
-            if(typeof element ==='undefined'){
+            if (typeof element === 'undefined') {
                 this._unknownTouchesObserver.next(touch);
                 return;
             }
@@ -41,7 +40,7 @@ export default class MultiTouchController<TElement> {
             if (typeof multiTouch === 'undefined') {
 
                 //console.log('creating new multitouch');
-                multiTouch = new MultiTouch(this._multiTouchesAutoIncrement++, element, touch);
+                multiTouch = new MultiTouch(element, touch);
                 this.ongoingMultiTouches.push(multiTouch);
                 this._multiTouchesObserver.next(multiTouch);
 

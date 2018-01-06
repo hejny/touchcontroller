@@ -29,17 +29,15 @@ export default function(buttons:number[] = [1,2]):IListener{
 
                 touchScale.move(new TouchFrame(
                     touchOriginal.firstFrame.position,
-                    touchOriginal.firstFrame.time,
-                    touchOriginal.firstFrame.time
+                    touchOriginal.lastFrame.time,
+                    touchOriginal.lastFrame.position.rotation(touchOriginal.firstFrame.position)
                 ));
 
             },()=>{
 
 
             },()=>{
-
-                //.fra
-
+                touchScale.end();
             });
 
 

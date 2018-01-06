@@ -97,7 +97,7 @@
         (position)=>rects.find((rect) => rect.intersects(position))
     );
 
-    let lastHoverPosition = null;
+    /*let lastHoverPosition = null;
     touchController.hover.frames.subscribe((frame)=>{
         const position = frame.position;
         if(rects.some((rect)=>rect.intersects(position))){
@@ -114,7 +114,7 @@
         }else{
             lastHoverPosition = null;
     }
-    });
+    });*/
 
 
     multiTC.multiTouches.subscribe(function (multitouch) {

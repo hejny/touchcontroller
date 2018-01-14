@@ -55,7 +55,9 @@ export default function(buttons:number[] = [0]):IListener{
         }
 
         function _handleMouseMove(event: MouseEvent) {
-            //if(buttons.indexOf(event.button)!==-1) {todo what the hack? Is thare event.button on mousemove event?
+            //console.log(event.buttons);
+            if(event.buttons>0) {
+                //if(buttons.indexOf(event.button)!==-1) {todo what the hack? Is thare event.button on mousemove event?
                 if (!isNull(currentTouch)) {
                     event.preventDefault();
                     currentTouch.move(
@@ -63,7 +65,8 @@ export default function(buttons:number[] = [0]):IListener{
                         false
                     );
                 }
-            //}
+                //}
+            }
         }
 
 

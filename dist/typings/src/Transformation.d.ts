@@ -9,5 +9,4 @@ export default class Transformation {
     cloneDeep(): Transformation;
     add(transformation: Transformation): Transformation;
     subtract(transformation: Transformation): Transformation;
-    nest(transformation: Transformation, center?: Vector2): Transformation;
 }

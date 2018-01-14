@@ -4,12 +4,14 @@ import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/share'
 import {Observer} from "rxjs/Observer";
 import Touch from './Touch';
-//import Vector2 from './Vector2';
+import multiTouchTransformations from './multiTouchTransformations';
+import Transformation from './Transformation';
 
 //todo multitouch should be extended from this
 export default class MultiTouch<TElement> {
 
     //public id: string;
+    public empty: boolean = true;
     public ongoingTouches: Touch[] = [];
     public touches: Observable<Touch>;
     private _touchesObserver: Observer<Touch>;
@@ -33,7 +35,14 @@ export default class MultiTouch<TElement> {
         //console.log(`Adding ${touch} To ${this}.`);
 
         touch.frames.subscribe(
-            (position) => {
+            (frame) => {
+                if(touch.firstFrame.position.length(frame.position)>=5/*todo to config*/){
+                    this.empty = false;
+                }
+
+                if(Math.abs(touch.firstFrame.rotation-frame.rotation)>=Math.PI*2/36/2/*todo to config*/){
+                    this.empty = false;
+                }
                 //console.log(`Next ${touch} in ${this}.`);
                 //this._touchesObserver.next(touch);
             },
@@ -92,6 +101,13 @@ export default class MultiTouch<TElement> {
                 }
             );
         });
+    }
+
+    transformations(objectTransformation: Transformation = Transformation.Zero()): Observable<Transformation>{
+        return multiTouchTransformations(
+            this,
+            objectTransformation
+        );
     }
 
     toString() {

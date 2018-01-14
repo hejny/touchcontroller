@@ -50,7 +50,7 @@
         //multitouch.touches.subscribe(function (touch) {console.log('b2',touch)});
 
 
-        TouchController.multiTouchTransformations(multitouch).subscribe(function (transformation) {
+        multitouch.transformations().subscribe(function (transformation) {
             $(logMultitouch).find('.log-multitouch-last-transformation').html(`
                         <table>
                             <tr>
@@ -99,8 +99,8 @@
                                 <td>${frame.rotation}</td>
                             </tr>
                             <tr>
-                                <th>Distance:</th>
-                                <td>${frame.distance}</td>
+                                <th>Scale:</th>
+                                <td>${frame.scale}</td>
                             </tr>
                             <tr>
                                 <th>Force:</th>

@@ -119,17 +119,16 @@
 
     multiTC.multiTouches.subscribe(function (multitouch) {
 
+        if(typeof multitouch.element === 'undefined')return;
         const rect = multitouch.element;
         const sizeRatio = rect.size.y / rect.size.x;
-        const transformations = TC.multiTouchTransformations(
-            multitouch,
+        multitouch.transformations(
             new TC.Transformation(
                 rect.position,
                 rect.rotation,
                 rect.size.x
             )
-        );
-        transformations.subscribe(function (transformation) {
+        ).subscribe(function (transformation) {
 
                 //console.log(transformation);
 
@@ -146,8 +145,11 @@
             function () {
             },
             function () {
+                if(multitouch.empty){
+                    rect.rotation += Math.PI/2;
+                    render();
+                }
             });
-
     });
 </script>
 

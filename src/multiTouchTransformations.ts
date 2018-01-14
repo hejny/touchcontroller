@@ -29,6 +29,10 @@ export default function multiTouchTransformations<TElement>(multiTouch: MultiTou
 
                 let countTouchesTransformation: (...touches: Touch[]) => Transformation;
 
+
+                const countAggregatedRotation = ()=>touches.reduce((sum,touch)=>sum+touch.lastFrame.rotation,0);
+
+
                 //console.log(touches);
                 if (touches.length === 1) {
 
@@ -48,7 +52,7 @@ export default function multiTouchTransformations<TElement>(multiTouch: MultiTou
                     countTouchesTransformation = (touch1) =>
                         new Transformation(
                             touch1.lastFrame.position,
-                            0,
+                            countAggregatedRotation(),
                             1
                         );
 
@@ -59,7 +63,7 @@ export default function multiTouchTransformations<TElement>(multiTouch: MultiTou
                         new Transformation(
                             Vector2.Zero().add(...touches.map((touch) => touch.lastFrame.position)).scale(1 / touches.length),
                             touches[0].lastFrame.position.rotation(touches[1].lastFrame.position)
-                            + touches.reduce((sum,touch)=>sum+touch.lastFrame.rotation,0),
+                            + countAggregatedRotation(),
                             touches[0].lastFrame.position.length(touches[1].lastFrame.position)
                         );
                 }

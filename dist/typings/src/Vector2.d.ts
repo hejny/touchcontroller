@@ -11,4 +11,5 @@ export default class Vector2 {
     rotation(vector2?: Vector2): number;
     rotate(radians: number, vector2?: Vector2): Vector2;
     toArray(): [number, number];
+    toString(): string;
 }

@@ -1,5 +1,4 @@
-import TouchController from '../TouchController';
+import Touch from '../Touch';
 export default interface IListener {
-    setListeners: (touchController: TouchController) => void;
-    unsetListeners: () => void;
+    (element: HTMLElement, newTouch: (touch: Touch) => void): () => void;
 }

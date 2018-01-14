@@ -1,18 +1,14 @@
 import Vector2 from './Vector2';
 
 export default class Transformation {
-    constructor(public translate: Vector2,
-                public rotate: number,
-                public scale: number) {
+    constructor(public translate: Vector2 = Vector2.Zero(),
+                public rotate: number = 0,
+                public scale: number = 1) {
 
     }
 
     static Zero(): Transformation {
-        return new Transformation(
-            Vector2.Zero(),
-            0,
-            1
-        );
+        return new Transformation();
     }
 
     clone(): Transformation {

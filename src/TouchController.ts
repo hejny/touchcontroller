@@ -47,6 +47,12 @@ export default class TouchController {
         //todo array of listeners disposers
     }
 
+    emulateTouch(touch: Touch){
+        setImmediate(()=>{
+            this._touchesObserver.next(touch);
+        });
+    }
+
     /*touchStart(eventId: string, type: 'TOUCH' | 'MOUSE', event: IEvent) {
         const touch = new Touch(
             this,

@@ -8,4 +8,5 @@ export default class TouchController {
     private _touchesObserver;
     constructor(element: HTMLElement, setListeners?: boolean);
     addListener(listener: IListener): void;
+    emulateTouch(touch: Touch): void;
 }

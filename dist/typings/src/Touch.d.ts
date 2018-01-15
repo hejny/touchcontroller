@@ -3,6 +3,7 @@ import 'rxjs/add/operator/share';
 import 'rxjs/add/observable/range';
 import 'rxjs/add/operator/share';
 import TouchFrame from './TouchFrame';
+import Vector2 from './Vector2';
 export default class Touch {
     type: 'TOUCH' | 'MOUSE';
     firstFrame: TouchFrame;
@@ -15,4 +16,5 @@ export default class Touch {
     end(): void;
     readonly start: number;
     toString(): string;
+    static Click(position: Vector2): Touch;
 }

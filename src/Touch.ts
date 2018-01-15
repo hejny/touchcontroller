@@ -5,6 +5,7 @@ import 'rxjs/add/observable/range';
 import 'rxjs/add/operator/share'
 //import AbstractClassWithSubscribe from './AbstractClassWithSubscribe';
 import TouchFrame from './TouchFrame';
+import Vector2 from './Vector2';
 
 export default class Touch {
 
@@ -14,10 +15,7 @@ export default class Touch {
     public lastFrame: TouchFrame;
     public lastFrame2: TouchFrame;//todo maybe function with offest
 
-    constructor(//public touchController: TouchController,
-                //public id: number,
-                //public eventId: string,//todo this should be external id only in controller
-                public type: 'TOUCH' | 'MOUSE',
+    constructor(public type: 'TOUCH' | 'MOUSE',//todo second optional param
                 public firstFrame: TouchFrame
 
     ) {
@@ -52,6 +50,14 @@ export default class Touch {
     toString() {
         //return `Touch(${this.id})`
         return `Touch`
+    }
+
+    static Click(position: Vector2): Touch{
+        const touch = new Touch('MOUSE',new TouchFrame(position));
+        setTimeout(()=>{
+            touch.end();
+        },100);
+        return touch;
     }
 
 }

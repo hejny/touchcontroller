@@ -4,6 +4,7 @@ import multiTouchTransformations from './multiTouchTransformations';
 import Transformation from './Transformation';
 import * as listeners from './listeners';
 import Vector2 from './Vector2';
+import Touch from './Touch';
 
 export {
     TouchController,
@@ -11,5 +12,6 @@ export {
     multiTouchTransformations,
     Transformation,
     listeners,
-    Vector2
+    Vector2,
+    Touch
 };

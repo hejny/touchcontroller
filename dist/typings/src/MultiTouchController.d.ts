@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/share';
 import TouchController from './TouchController';
+import Touch from './Touch';
 import MultiTouch from './MultiTouch';
 import Vector2 from './Vector2';
 export default class MultiTouchController<TElement> {
@@ -10,4 +11,5 @@ export default class MultiTouchController<TElement> {
     multiTouches: Observable<MultiTouch<TElement | undefined>>;
     private _multiTouchesObserver;
     constructor(_touchController: TouchController, _elementBinder: (position: Vector2) => TElement | undefined);
+    emulateTouch(touch: Touch): void;
 }

@@ -48,27 +48,29 @@
 	Object.defineProperty(exports, "__esModule", { value: true });
 	var TouchController_1 = __webpack_require__(1);
 	exports.TouchController = TouchController_1.default;
-	var MultiTouchController_1 = __webpack_require__(41);
+	var MultiTouchController_1 = __webpack_require__(43);
 	exports.MultiTouchController = MultiTouchController_1.default;
 	var multiTouchTransformations_1 = __webpack_require__(48);
 	exports.multiTouchTransformations = multiTouchTransformations_1.default;
 	var Transformation_1 = __webpack_require__(49);
 	exports.Transformation = Transformation_1.default;
-	var listeners = __webpack_require__(27);
+	var listeners = __webpack_require__(30);
 	exports.listeners = listeners;
-	var Vector2_1 = __webpack_require__(34);
+	var Vector2_1 = __webpack_require__(37);
 	exports.Vector2 = Vector2_1.default;
+	var Touch_1 = __webpack_require__(32);
+	exports.Touch = Touch_1.default;
 
 
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	/* WEBPACK VAR INJECTION */(function(setImmediate) {"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var Observable_1 = __webpack_require__(2);
-	__webpack_require__(18);
-	var listeners = __webpack_require__(27);
+	var Observable_1 = __webpack_require__(5);
+	__webpack_require__(21);
+	var listeners = __webpack_require__(30);
 	//todo multitouch should be extended from this
 	var TouchController = /** @class */ (function () {
 	    //private _ongoingTouches: Touch[] = [];
@@ -102,20 +104,465 @@
 	        listener(this.element, function (touch) { return _this._touchesObserver.next(touch); });
 	        //todo array of listeners disposers
 	    };
+	    TouchController.prototype.emulateTouch = function (touch) {
+	        var _this = this;
+	        setImmediate(function () {
+	            _this._touchesObserver.next(touch);
+	        });
+	    };
 	    return TouchController;
 	}());
 	exports.default = TouchController;
-
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2).setImmediate))
 
 /***/ },
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var apply = Function.prototype.apply;
+	
+	// DOM APIs, for completeness
+	
+	exports.setTimeout = function() {
+	  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
+	};
+	exports.setInterval = function() {
+	  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
+	};
+	exports.clearTimeout =
+	exports.clearInterval = function(timeout) {
+	  if (timeout) {
+	    timeout.close();
+	  }
+	};
+	
+	function Timeout(id, clearFn) {
+	  this._id = id;
+	  this._clearFn = clearFn;
+	}
+	Timeout.prototype.unref = Timeout.prototype.ref = function() {};
+	Timeout.prototype.close = function() {
+	  this._clearFn.call(window, this._id);
+	};
+	
+	// Does not start the time, just sets up the members needed.
+	exports.enroll = function(item, msecs) {
+	  clearTimeout(item._idleTimeoutId);
+	  item._idleTimeout = msecs;
+	};
+	
+	exports.unenroll = function(item) {
+	  clearTimeout(item._idleTimeoutId);
+	  item._idleTimeout = -1;
+	};
+	
+	exports._unrefActive = exports.active = function(item) {
+	  clearTimeout(item._idleTimeoutId);
+	
+	  var msecs = item._idleTimeout;
+	  if (msecs >= 0) {
+	    item._idleTimeoutId = setTimeout(function onTimeout() {
+	      if (item._onTimeout)
+	        item._onTimeout();
+	    }, msecs);
+	  }
+	};
+	
+	// setimmediate attaches itself to the global object
+	__webpack_require__(3);
+	exports.setImmediate = setImmediate;
+	exports.clearImmediate = clearImmediate;
+
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
+	    "use strict";
+	
+	    if (global.setImmediate) {
+	        return;
+	    }
+	
+	    var nextHandle = 1; // Spec says greater than zero
+	    var tasksByHandle = {};
+	    var currentlyRunningATask = false;
+	    var doc = global.document;
+	    var registerImmediate;
+	
+	    function setImmediate(callback) {
+	      // Callback can either be a function or a string
+	      if (typeof callback !== "function") {
+	        callback = new Function("" + callback);
+	      }
+	      // Copy function arguments
+	      var args = new Array(arguments.length - 1);
+	      for (var i = 0; i < args.length; i++) {
+	          args[i] = arguments[i + 1];
+	      }
+	      // Store and register the task
+	      var task = { callback: callback, args: args };
+	      tasksByHandle[nextHandle] = task;
+	      registerImmediate(nextHandle);
+	      return nextHandle++;
+	    }
+	
+	    function clearImmediate(handle) {
+	        delete tasksByHandle[handle];
+	    }
+	
+	    function run(task) {
+	        var callback = task.callback;
+	        var args = task.args;
+	        switch (args.length) {
+	        case 0:
+	            callback();
+	            break;
+	        case 1:
+	            callback(args[0]);
+	            break;
+	        case 2:
+	            callback(args[0], args[1]);
+	            break;
+	        case 3:
+	            callback(args[0], args[1], args[2]);
+	            break;
+	        default:
+	            callback.apply(undefined, args);
+	            break;
+	        }
+	    }
+	
+	    function runIfPresent(handle) {
+	        // From the spec: "Wait until any invocations of this algorithm started before this one have completed."
+	        // So if we're currently running a task, we'll need to delay this invocation.
+	        if (currentlyRunningATask) {
+	            // Delay by doing a setTimeout. setImmediate was tried instead, but in Firefox 7 it generated a
+	            // "too much recursion" error.
+	            setTimeout(runIfPresent, 0, handle);
+	        } else {
+	            var task = tasksByHandle[handle];
+	            if (task) {
+	                currentlyRunningATask = true;
+	                try {
+	                    run(task);
+	                } finally {
+	                    clearImmediate(handle);
+	                    currentlyRunningATask = false;
+	                }
+	            }
+	        }
+	    }
+	
+	    function installNextTickImplementation() {
+	        registerImmediate = function(handle) {
+	            process.nextTick(function () { runIfPresent(handle); });
+	        };
+	    }
+	
+	    function canUsePostMessage() {
+	        // The test against `importScripts` prevents this implementation from being installed inside a web worker,
+	        // where `global.postMessage` means something completely different and can't be used for this purpose.
+	        if (global.postMessage && !global.importScripts) {
+	            var postMessageIsAsynchronous = true;
+	            var oldOnMessage = global.onmessage;
+	            global.onmessage = function() {
+	                postMessageIsAsynchronous = false;
+	            };
+	            global.postMessage("", "*");
+	            global.onmessage = oldOnMessage;
+	            return postMessageIsAsynchronous;
+	        }
+	    }
+	
+	    function installPostMessageImplementation() {
+	        // Installs an event handler on `global` for the `message` event: see
+	        // * https://developer.mozilla.org/en/DOM/window.postMessage
+	        // * http://www.whatwg.org/specs/web-apps/current-work/multipage/comms.html#crossDocumentMessages
+	
+	        var messagePrefix = "setImmediate$" + Math.random() + "$";
+	        var onGlobalMessage = function(event) {
+	            if (event.source === global &&
+	                typeof event.data === "string" &&
+	                event.data.indexOf(messagePrefix) === 0) {
+	                runIfPresent(+event.data.slice(messagePrefix.length));
+	            }
+	        };
+	
+	        if (global.addEventListener) {
+	            global.addEventListener("message", onGlobalMessage, false);
+	        } else {
+	            global.attachEvent("onmessage", onGlobalMessage);
+	        }
+	
+	        registerImmediate = function(handle) {
+	            global.postMessage(messagePrefix + handle, "*");
+	        };
+	    }
+	
+	    function installMessageChannelImplementation() {
+	        var channel = new MessageChannel();
+	        channel.port1.onmessage = function(event) {
+	            var handle = event.data;
+	            runIfPresent(handle);
+	        };
+	
+	        registerImmediate = function(handle) {
+	            channel.port2.postMessage(handle);
+	        };
+	    }
+	
+	    function installReadyStateChangeImplementation() {
+	        var html = doc.documentElement;
+	        registerImmediate = function(handle) {
+	            // Create a <script> element; its readystatechange event will be fired asynchronously once it is inserted
+	            // into the document. Do so, thus queuing up the task. Remember to clean up once it's been called.
+	            var script = doc.createElement("script");
+	            script.onreadystatechange = function () {
+	                runIfPresent(handle);
+	                script.onreadystatechange = null;
+	                html.removeChild(script);
+	                script = null;
+	            };
+	            html.appendChild(script);
+	        };
+	    }
+	
+	    function installSetTimeoutImplementation() {
+	        registerImmediate = function(handle) {
+	            setTimeout(runIfPresent, 0, handle);
+	        };
+	    }
+	
+	    // If supported, we should attach to the prototype of global, since that is where setTimeout et al. live.
+	    var attachTo = Object.getPrototypeOf && Object.getPrototypeOf(global);
+	    attachTo = attachTo && attachTo.setTimeout ? attachTo : global;
+	
+	    // Don't get fooled by e.g. browserify environments.
+	    if ({}.toString.call(global.process) === "[object process]") {
+	        // For Node.js before 0.9
+	        installNextTickImplementation();
+	
+	    } else if (canUsePostMessage()) {
+	        // For non-IE10 modern browsers
+	        installPostMessageImplementation();
+	
+	    } else if (global.MessageChannel) {
+	        // For web workers, where supported
+	        installMessageChannelImplementation();
+	
+	    } else if (doc && "onreadystatechange" in doc.createElement("script")) {
+	        // For IE 6–8
+	        installReadyStateChangeImplementation();
+	
+	    } else {
+	        // For older browsers
+	        installSetTimeoutImplementation();
+	    }
+	
+	    attachTo.setImmediate = setImmediate;
+	    attachTo.clearImmediate = clearImmediate;
+	}(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(4)))
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	// shim for using process in browser
+	var process = module.exports = {};
+	
+	// cached from whatever global is present so that test runners that stub it
+	// don't break things.  But we need to wrap it in a try catch in case it is
+	// wrapped in strict mode code which doesn't define any globals.  It's inside a
+	// function because try/catches deoptimize in certain engines.
+	
+	var cachedSetTimeout;
+	var cachedClearTimeout;
+	
+	function defaultSetTimout() {
+	    throw new Error('setTimeout has not been defined');
+	}
+	function defaultClearTimeout () {
+	    throw new Error('clearTimeout has not been defined');
+	}
+	(function () {
+	    try {
+	        if (typeof setTimeout === 'function') {
+	            cachedSetTimeout = setTimeout;
+	        } else {
+	            cachedSetTimeout = defaultSetTimout;
+	        }
+	    } catch (e) {
+	        cachedSetTimeout = defaultSetTimout;
+	    }
+	    try {
+	        if (typeof clearTimeout === 'function') {
+	            cachedClearTimeout = clearTimeout;
+	        } else {
+	            cachedClearTimeout = defaultClearTimeout;
+	        }
+	    } catch (e) {
+	        cachedClearTimeout = defaultClearTimeout;
+	    }
+	} ())
+	function runTimeout(fun) {
+	    if (cachedSetTimeout === setTimeout) {
+	        //normal enviroments in sane situations
+	        return setTimeout(fun, 0);
+	    }
+	    // if setTimeout wasn't available but was latter defined
+	    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+	        cachedSetTimeout = setTimeout;
+	        return setTimeout(fun, 0);
+	    }
+	    try {
+	        // when when somebody has screwed with setTimeout but no I.E. maddness
+	        return cachedSetTimeout(fun, 0);
+	    } catch(e){
+	        try {
+	            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+	            return cachedSetTimeout.call(null, fun, 0);
+	        } catch(e){
+	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+	            return cachedSetTimeout.call(this, fun, 0);
+	        }
+	    }
+	
+	
+	}
+	function runClearTimeout(marker) {
+	    if (cachedClearTimeout === clearTimeout) {
+	        //normal enviroments in sane situations
+	        return clearTimeout(marker);
+	    }
+	    // if clearTimeout wasn't available but was latter defined
+	    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+	        cachedClearTimeout = clearTimeout;
+	        return clearTimeout(marker);
+	    }
+	    try {
+	        // when when somebody has screwed with setTimeout but no I.E. maddness
+	        return cachedClearTimeout(marker);
+	    } catch (e){
+	        try {
+	            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+	            return cachedClearTimeout.call(null, marker);
+	        } catch (e){
+	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+	            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+	            return cachedClearTimeout.call(this, marker);
+	        }
+	    }
+	
+	
+	
+	}
+	var queue = [];
+	var draining = false;
+	var currentQueue;
+	var queueIndex = -1;
+	
+	function cleanUpNextTick() {
+	    if (!draining || !currentQueue) {
+	        return;
+	    }
+	    draining = false;
+	    if (currentQueue.length) {
+	        queue = currentQueue.concat(queue);
+	    } else {
+	        queueIndex = -1;
+	    }
+	    if (queue.length) {
+	        drainQueue();
+	    }
+	}
+	
+	function drainQueue() {
+	    if (draining) {
+	        return;
+	    }
+	    var timeout = runTimeout(cleanUpNextTick);
+	    draining = true;
+	
+	    var len = queue.length;
+	    while(len) {
+	        currentQueue = queue;
+	        queue = [];
+	        while (++queueIndex < len) {
+	            if (currentQueue) {
+	                currentQueue[queueIndex].run();
+	            }
+	        }
+	        queueIndex = -1;
+	        len = queue.length;
+	    }
+	    currentQueue = null;
+	    draining = false;
+	    runClearTimeout(timeout);
+	}
+	
+	process.nextTick = function (fun) {
+	    var args = new Array(arguments.length - 1);
+	    if (arguments.length > 1) {
+	        for (var i = 1; i < arguments.length; i++) {
+	            args[i - 1] = arguments[i];
+	        }
+	    }
+	    queue.push(new Item(fun, args));
+	    if (queue.length === 1 && !draining) {
+	        runTimeout(drainQueue);
+	    }
+	};
+	
+	// v8 likes predictible objects
+	function Item(fun, array) {
+	    this.fun = fun;
+	    this.array = array;
+	}
+	Item.prototype.run = function () {
+	    this.fun.apply(null, this.array);
+	};
+	process.title = 'browser';
+	process.browser = true;
+	process.env = {};
+	process.argv = [];
+	process.version = ''; // empty string to avoid regexp issues
+	process.versions = {};
+	
+	function noop() {}
+	
+	process.on = noop;
+	process.addListener = noop;
+	process.once = noop;
+	process.off = noop;
+	process.removeListener = noop;
+	process.removeAllListeners = noop;
+	process.emit = noop;
+	
+	process.binding = function (name) {
+	    throw new Error('process.binding is not supported');
+	};
+	
+	process.cwd = function () { return '/' };
+	process.chdir = function (dir) {
+	    throw new Error('process.chdir is not supported');
+	};
+	process.umask = function() { return 0; };
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
 	"use strict";
-	var root_1 = __webpack_require__(3);
-	var toSubscriber_1 = __webpack_require__(4);
-	var observable_1 = __webpack_require__(15);
-	var pipe_1 = __webpack_require__(16);
+	var root_1 = __webpack_require__(6);
+	var toSubscriber_1 = __webpack_require__(7);
+	var observable_1 = __webpack_require__(18);
+	var pipe_1 = __webpack_require__(19);
 	/**
 	 * A representation of any set of values over any amount of time. This is the most basic building block
 	 * of RxJS.
@@ -418,7 +865,7 @@
 	//# sourceMappingURL=Observable.js.map
 
 /***/ },
-/* 3 */
+/* 6 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -443,13 +890,13 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 4 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var Subscriber_1 = __webpack_require__(5);
-	var rxSubscriber_1 = __webpack_require__(14);
-	var Observer_1 = __webpack_require__(13);
+	var Subscriber_1 = __webpack_require__(8);
+	var rxSubscriber_1 = __webpack_require__(17);
+	var Observer_1 = __webpack_require__(16);
 	function toSubscriber(nextOrObserver, error, complete) {
 	    if (nextOrObserver) {
 	        if (nextOrObserver instanceof Subscriber_1.Subscriber) {
@@ -468,7 +915,7 @@
 	//# sourceMappingURL=toSubscriber.js.map
 
 /***/ },
-/* 5 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -477,10 +924,10 @@
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var isFunction_1 = __webpack_require__(6);
-	var Subscription_1 = __webpack_require__(7);
-	var Observer_1 = __webpack_require__(13);
-	var rxSubscriber_1 = __webpack_require__(14);
+	var isFunction_1 = __webpack_require__(9);
+	var Subscription_1 = __webpack_require__(10);
+	var Observer_1 = __webpack_require__(16);
+	var rxSubscriber_1 = __webpack_require__(17);
 	/**
 	 * Implements the {@link Observer} interface and extends the
 	 * {@link Subscription} class. While the {@link Observer} is the public API for
@@ -737,7 +1184,7 @@
 	//# sourceMappingURL=Subscriber.js.map
 
 /***/ },
-/* 6 */
+/* 9 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -748,16 +1195,16 @@
 	//# sourceMappingURL=isFunction.js.map
 
 /***/ },
-/* 7 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var isArray_1 = __webpack_require__(8);
-	var isObject_1 = __webpack_require__(9);
-	var isFunction_1 = __webpack_require__(6);
-	var tryCatch_1 = __webpack_require__(10);
-	var errorObject_1 = __webpack_require__(11);
-	var UnsubscriptionError_1 = __webpack_require__(12);
+	var isArray_1 = __webpack_require__(11);
+	var isObject_1 = __webpack_require__(12);
+	var isFunction_1 = __webpack_require__(9);
+	var tryCatch_1 = __webpack_require__(13);
+	var errorObject_1 = __webpack_require__(14);
+	var UnsubscriptionError_1 = __webpack_require__(15);
 	/**
 	 * Represents a disposable resource, such as the execution of an Observable. A
 	 * Subscription has one important method, `unsubscribe`, that takes no argument
@@ -946,7 +1393,7 @@
 	//# sourceMappingURL=Subscription.js.map
 
 /***/ },
-/* 8 */
+/* 11 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -954,7 +1401,7 @@
 	//# sourceMappingURL=isArray.js.map
 
 /***/ },
-/* 9 */
+/* 12 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -965,11 +1412,11 @@
 	//# sourceMappingURL=isObject.js.map
 
 /***/ },
-/* 10 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var errorObject_1 = __webpack_require__(11);
+	var errorObject_1 = __webpack_require__(14);
 	var tryCatchTarget;
 	function tryCatcher() {
 	    try {
@@ -989,7 +1436,7 @@
 	//# sourceMappingURL=tryCatch.js.map
 
 /***/ },
-/* 11 */
+/* 14 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -998,7 +1445,7 @@
 	//# sourceMappingURL=errorObject.js.map
 
 /***/ },
-/* 12 */
+/* 15 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1028,7 +1475,7 @@
 	//# sourceMappingURL=UnsubscriptionError.js.map
 
 /***/ },
-/* 13 */
+/* 16 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1041,11 +1488,11 @@
 	//# sourceMappingURL=Observer.js.map
 
 /***/ },
-/* 14 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var root_1 = __webpack_require__(3);
+	var root_1 = __webpack_require__(6);
 	var Symbol = root_1.root.Symbol;
 	exports.rxSubscriber = (typeof Symbol === 'function' && typeof Symbol.for === 'function') ?
 	    Symbol.for('rxSubscriber') : '@@rxSubscriber';
@@ -1056,11 +1503,11 @@
 	//# sourceMappingURL=rxSubscriber.js.map
 
 /***/ },
-/* 15 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var root_1 = __webpack_require__(3);
+	var root_1 = __webpack_require__(6);
 	function getSymbolObservable(context) {
 	    var $$observable;
 	    var Symbol = context.Symbol;
@@ -1087,11 +1534,11 @@
 	//# sourceMappingURL=observable.js.map
 
 /***/ },
-/* 16 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var noop_1 = __webpack_require__(17);
+	var noop_1 = __webpack_require__(20);
 	/* tslint:enable:max-line-length */
 	function pipe() {
 	    var fns = [];
@@ -1117,7 +1564,7 @@
 	//# sourceMappingURL=pipe.js.map
 
 /***/ },
-/* 17 */
+/* 20 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1127,21 +1574,21 @@
 	//# sourceMappingURL=noop.js.map
 
 /***/ },
-/* 18 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var Observable_1 = __webpack_require__(2);
-	var share_1 = __webpack_require__(19);
+	var Observable_1 = __webpack_require__(5);
+	var share_1 = __webpack_require__(22);
 	Observable_1.Observable.prototype.share = share_1.share;
 	//# sourceMappingURL=share.js.map
 
 /***/ },
-/* 19 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var share_1 = __webpack_require__(20);
+	var share_1 = __webpack_require__(23);
 	/**
 	 * Returns a new Observable that multicasts (shares) the original Observable. As long as there is at least one
 	 * Subscriber this Observable will be subscribed and emitting data. When all subscribers have unsubscribed it will
@@ -1166,13 +1613,13 @@
 	//# sourceMappingURL=share.js.map
 
 /***/ },
-/* 20 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var multicast_1 = __webpack_require__(21);
-	var refCount_1 = __webpack_require__(26);
-	var Subject_1 = __webpack_require__(23);
+	var multicast_1 = __webpack_require__(24);
+	var refCount_1 = __webpack_require__(29);
+	var Subject_1 = __webpack_require__(26);
 	function shareSubjectFactory() {
 	    return new Subject_1.Subject();
 	}
@@ -1196,11 +1643,11 @@
 	//# sourceMappingURL=share.js.map
 
 /***/ },
-/* 21 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var ConnectableObservable_1 = __webpack_require__(22);
+	var ConnectableObservable_1 = __webpack_require__(25);
 	/* tslint:enable:max-line-length */
 	/**
 	 * Returns an Observable that emits the results of invoking a specified selector on items
@@ -1260,7 +1707,7 @@
 	//# sourceMappingURL=multicast.js.map
 
 /***/ },
-/* 22 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1269,11 +1716,11 @@
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var Subject_1 = __webpack_require__(23);
-	var Observable_1 = __webpack_require__(2);
-	var Subscriber_1 = __webpack_require__(5);
-	var Subscription_1 = __webpack_require__(7);
-	var refCount_1 = __webpack_require__(26);
+	var Subject_1 = __webpack_require__(26);
+	var Observable_1 = __webpack_require__(5);
+	var Subscriber_1 = __webpack_require__(8);
+	var Subscription_1 = __webpack_require__(10);
+	var refCount_1 = __webpack_require__(29);
 	/**
 	 * @class ConnectableObservable<T>
 	 */
@@ -1435,7 +1882,7 @@
 	//# sourceMappingURL=ConnectableObservable.js.map
 
 /***/ },
-/* 23 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1444,12 +1891,12 @@
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var Observable_1 = __webpack_require__(2);
-	var Subscriber_1 = __webpack_require__(5);
-	var Subscription_1 = __webpack_require__(7);
-	var ObjectUnsubscribedError_1 = __webpack_require__(24);
-	var SubjectSubscription_1 = __webpack_require__(25);
-	var rxSubscriber_1 = __webpack_require__(14);
+	var Observable_1 = __webpack_require__(5);
+	var Subscriber_1 = __webpack_require__(8);
+	var Subscription_1 = __webpack_require__(10);
+	var ObjectUnsubscribedError_1 = __webpack_require__(27);
+	var SubjectSubscription_1 = __webpack_require__(28);
+	var rxSubscriber_1 = __webpack_require__(17);
 	/**
 	 * @class SubjectSubscriber<T>
 	 */
@@ -1608,7 +2055,7 @@
 	//# sourceMappingURL=Subject.js.map
 
 /***/ },
-/* 24 */
+/* 27 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1640,7 +2087,7 @@
 	//# sourceMappingURL=ObjectUnsubscribedError.js.map
 
 /***/ },
-/* 25 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1649,7 +2096,7 @@
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var Subscription_1 = __webpack_require__(7);
+	var Subscription_1 = __webpack_require__(10);
 	/**
 	 * We need this JSDoc comment for affecting ESDoc.
 	 * @ignore
@@ -1685,7 +2132,7 @@
 	//# sourceMappingURL=SubjectSubscription.js.map
 
 /***/ },
-/* 26 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1694,7 +2141,7 @@
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var Subscriber_1 = __webpack_require__(5);
+	var Subscriber_1 = __webpack_require__(8);
 	function refCount() {
 	    return function refCountOperatorFunction(source) {
 	        return source.lift(new RefCountOperator(source));
@@ -1775,30 +2222,30 @@
 	//# sourceMappingURL=refCount.js.map
 
 /***/ },
-/* 27 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
 	//import IListener from './IListener';
-	var createMouseListener_1 = __webpack_require__(28);
+	var createMouseListener_1 = __webpack_require__(31);
 	exports.createMouseListener = createMouseListener_1.default;
-	var createTouchListener_1 = __webpack_require__(39);
+	var createTouchListener_1 = __webpack_require__(41);
 	exports.createTouchListener = createTouchListener_1.default;
-	var createMouseScaleListener_1 = __webpack_require__(40);
+	var createMouseScaleListener_1 = __webpack_require__(42);
 	exports.createMouseScaleListener = createMouseScaleListener_1.default;
 
 
 /***/ },
-/* 28 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var Touch_1 = __webpack_require__(29);
-	var TouchFrame_1 = __webpack_require__(33);
-	var Vector2_1 = __webpack_require__(34);
-	var util_1 = __webpack_require__(35);
+	var Touch_1 = __webpack_require__(32);
+	var TouchFrame_1 = __webpack_require__(36);
+	var Vector2_1 = __webpack_require__(37);
+	var util_1 = __webpack_require__(38);
 	function default_1(buttons) {
 	    if (buttons === void 0) { buttons = [0]; }
 	    return function (element, newTouch) {
@@ -1860,20 +2307,20 @@
 
 
 /***/ },
-/* 29 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var Observable_1 = __webpack_require__(2);
-	__webpack_require__(18);
-	__webpack_require__(30);
-	__webpack_require__(18);
+	var Observable_1 = __webpack_require__(5);
+	__webpack_require__(21);
+	__webpack_require__(33);
+	__webpack_require__(21);
+	//import AbstractClassWithSubscribe from './AbstractClassWithSubscribe';
+	var TouchFrame_1 = __webpack_require__(36);
 	var Touch = /** @class */ (function () {
-	    function Touch(//public touchController: TouchController,
-	        //public id: number,
-	        //public eventId: string,//todo this should be external id only in controller
-	        type, firstFrame) {
+	    function Touch(type, //todo second optional param
+	        firstFrame) {
 	        var _this = this;
 	        this.type = type;
 	        this.firstFrame = firstFrame;
@@ -1910,32 +2357,39 @@
 	        //return `Touch(${this.id})`
 	        return "Touch";
 	    };
+	    Touch.Click = function (position) {
+	        var touch = new Touch('MOUSE', new TouchFrame_1.default(position));
+	        setTimeout(function () {
+	            touch.end();
+	        }, 100);
+	        return touch;
+	    };
 	    return Touch;
 	}());
 	exports.default = Touch;
 
 
 /***/ },
-/* 30 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var Observable_1 = __webpack_require__(2);
-	var range_1 = __webpack_require__(31);
+	var Observable_1 = __webpack_require__(5);
+	var range_1 = __webpack_require__(34);
 	Observable_1.Observable.range = range_1.range;
 	//# sourceMappingURL=range.js.map
 
 /***/ },
-/* 31 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var RangeObservable_1 = __webpack_require__(32);
+	var RangeObservable_1 = __webpack_require__(35);
 	exports.range = RangeObservable_1.RangeObservable.create;
 	//# sourceMappingURL=range.js.map
 
 /***/ },
-/* 32 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1944,7 +2398,7 @@
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var Observable_1 = __webpack_require__(2);
+	var Observable_1 = __webpack_require__(5);
 	/**
 	 * We need this JSDoc comment for affecting ESDoc.
 	 * @extends {Ignored}
@@ -2036,14 +2490,16 @@
 	//# sourceMappingURL=RangeObservable.js.map
 
 /***/ },
-/* 33 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var Vector2_1 = __webpack_require__(34);
+	var Vector2_1 = __webpack_require__(37);
 	var TouchFrame = /** @class */ (function () {
 	    function TouchFrame(position, time, rotation, scale, force, radius) {
+	        if (position === void 0) { position = Vector2_1.default.Zero(); }
+	        if (time === void 0) { time = performance.now(); }
 	        if (rotation === void 0) { rotation = 0; }
 	        if (scale === void 0) { scale = 1; }
 	        if (force === void 0) { force = 0; }
@@ -2061,7 +2517,7 @@
 
 
 /***/ },
-/* 34 */
+/* 37 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2118,7 +2574,7 @@
 
 
 /***/ },
-/* 35 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -2646,7 +3102,7 @@
 	}
 	exports.isPrimitive = isPrimitive;
 	
-	exports.isBuffer = __webpack_require__(37);
+	exports.isBuffer = __webpack_require__(39);
 	
 	function objectToString(o) {
 	  return Object.prototype.toString.call(o);
@@ -2690,7 +3146,7 @@
 	 *     prototype.
 	 * @param {function} superCtor Constructor function to inherit prototype from.
 	 */
-	exports.inherits = __webpack_require__(38);
+	exports.inherits = __webpack_require__(40);
 	
 	exports._extend = function(origin, add) {
 	  // Don't do anything if add isn't an object
@@ -2708,196 +3164,10 @@
 	  return Object.prototype.hasOwnProperty.call(obj, prop);
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(36)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(4)))
 
 /***/ },
-/* 36 */
-/***/ function(module, exports) {
-
-	// shim for using process in browser
-	var process = module.exports = {};
-	
-	// cached from whatever global is present so that test runners that stub it
-	// don't break things.  But we need to wrap it in a try catch in case it is
-	// wrapped in strict mode code which doesn't define any globals.  It's inside a
-	// function because try/catches deoptimize in certain engines.
-	
-	var cachedSetTimeout;
-	var cachedClearTimeout;
-	
-	function defaultSetTimout() {
-	    throw new Error('setTimeout has not been defined');
-	}
-	function defaultClearTimeout () {
-	    throw new Error('clearTimeout has not been defined');
-	}
-	(function () {
-	    try {
-	        if (typeof setTimeout === 'function') {
-	            cachedSetTimeout = setTimeout;
-	        } else {
-	            cachedSetTimeout = defaultSetTimout;
-	        }
-	    } catch (e) {
-	        cachedSetTimeout = defaultSetTimout;
-	    }
-	    try {
-	        if (typeof clearTimeout === 'function') {
-	            cachedClearTimeout = clearTimeout;
-	        } else {
-	            cachedClearTimeout = defaultClearTimeout;
-	        }
-	    } catch (e) {
-	        cachedClearTimeout = defaultClearTimeout;
-	    }
-	} ())
-	function runTimeout(fun) {
-	    if (cachedSetTimeout === setTimeout) {
-	        //normal enviroments in sane situations
-	        return setTimeout(fun, 0);
-	    }
-	    // if setTimeout wasn't available but was latter defined
-	    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-	        cachedSetTimeout = setTimeout;
-	        return setTimeout(fun, 0);
-	    }
-	    try {
-	        // when when somebody has screwed with setTimeout but no I.E. maddness
-	        return cachedSetTimeout(fun, 0);
-	    } catch(e){
-	        try {
-	            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-	            return cachedSetTimeout.call(null, fun, 0);
-	        } catch(e){
-	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-	            return cachedSetTimeout.call(this, fun, 0);
-	        }
-	    }
-	
-	
-	}
-	function runClearTimeout(marker) {
-	    if (cachedClearTimeout === clearTimeout) {
-	        //normal enviroments in sane situations
-	        return clearTimeout(marker);
-	    }
-	    // if clearTimeout wasn't available but was latter defined
-	    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-	        cachedClearTimeout = clearTimeout;
-	        return clearTimeout(marker);
-	    }
-	    try {
-	        // when when somebody has screwed with setTimeout but no I.E. maddness
-	        return cachedClearTimeout(marker);
-	    } catch (e){
-	        try {
-	            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-	            return cachedClearTimeout.call(null, marker);
-	        } catch (e){
-	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-	            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-	            return cachedClearTimeout.call(this, marker);
-	        }
-	    }
-	
-	
-	
-	}
-	var queue = [];
-	var draining = false;
-	var currentQueue;
-	var queueIndex = -1;
-	
-	function cleanUpNextTick() {
-	    if (!draining || !currentQueue) {
-	        return;
-	    }
-	    draining = false;
-	    if (currentQueue.length) {
-	        queue = currentQueue.concat(queue);
-	    } else {
-	        queueIndex = -1;
-	    }
-	    if (queue.length) {
-	        drainQueue();
-	    }
-	}
-	
-	function drainQueue() {
-	    if (draining) {
-	        return;
-	    }
-	    var timeout = runTimeout(cleanUpNextTick);
-	    draining = true;
-	
-	    var len = queue.length;
-	    while(len) {
-	        currentQueue = queue;
-	        queue = [];
-	        while (++queueIndex < len) {
-	            if (currentQueue) {
-	                currentQueue[queueIndex].run();
-	            }
-	        }
-	        queueIndex = -1;
-	        len = queue.length;
-	    }
-	    currentQueue = null;
-	    draining = false;
-	    runClearTimeout(timeout);
-	}
-	
-	process.nextTick = function (fun) {
-	    var args = new Array(arguments.length - 1);
-	    if (arguments.length > 1) {
-	        for (var i = 1; i < arguments.length; i++) {
-	            args[i - 1] = arguments[i];
-	        }
-	    }
-	    queue.push(new Item(fun, args));
-	    if (queue.length === 1 && !draining) {
-	        runTimeout(drainQueue);
-	    }
-	};
-	
-	// v8 likes predictible objects
-	function Item(fun, array) {
-	    this.fun = fun;
-	    this.array = array;
-	}
-	Item.prototype.run = function () {
-	    this.fun.apply(null, this.array);
-	};
-	process.title = 'browser';
-	process.browser = true;
-	process.env = {};
-	process.argv = [];
-	process.version = ''; // empty string to avoid regexp issues
-	process.versions = {};
-	
-	function noop() {}
-	
-	process.on = noop;
-	process.addListener = noop;
-	process.once = noop;
-	process.off = noop;
-	process.removeListener = noop;
-	process.removeAllListeners = noop;
-	process.emit = noop;
-	
-	process.binding = function (name) {
-	    throw new Error('process.binding is not supported');
-	};
-	
-	process.cwd = function () { return '/' };
-	process.chdir = function (dir) {
-	    throw new Error('process.chdir is not supported');
-	};
-	process.umask = function() { return 0; };
-
-
-/***/ },
-/* 37 */
+/* 39 */
 /***/ function(module, exports) {
 
 	module.exports = function isBuffer(arg) {
@@ -2908,7 +3178,7 @@
 	}
 
 /***/ },
-/* 38 */
+/* 40 */
 /***/ function(module, exports) {
 
 	if (typeof Object.create === 'function') {
@@ -2937,15 +3207,15 @@
 
 
 /***/ },
-/* 39 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var Touch_1 = __webpack_require__(29);
-	var TouchFrame_1 = __webpack_require__(33);
-	var Vector2_1 = __webpack_require__(34);
-	var util_1 = __webpack_require__(35);
+	var Touch_1 = __webpack_require__(32);
+	var TouchFrame_1 = __webpack_require__(36);
+	var Vector2_1 = __webpack_require__(37);
+	var util_1 = __webpack_require__(38);
 	function default_1(buttons) {
 	    if (buttons === void 0) { buttons = [0]; }
 	    return function (element, newTouch) {
@@ -2996,15 +3266,15 @@
 
 
 /***/ },
-/* 40 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var createMouseListener_1 = __webpack_require__(28);
-	var Touch_1 = __webpack_require__(29);
-	var TouchFrame_1 = __webpack_require__(33);
-	var util_1 = __webpack_require__(35);
+	var createMouseListener_1 = __webpack_require__(31);
+	var Touch_1 = __webpack_require__(32);
+	var TouchFrame_1 = __webpack_require__(36);
+	var util_1 = __webpack_require__(38);
 	TouchFrame_1.default;
 	function default_1(buttons) {
 	    if (buttons === void 0) { buttons = [1, 2]; }
@@ -3043,14 +3313,14 @@
 
 
 /***/ },
-/* 41 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var Observable_1 = __webpack_require__(2);
-	__webpack_require__(18);
-	var MultiTouch_1 = __webpack_require__(42);
+	var Observable_1 = __webpack_require__(5);
+	__webpack_require__(21);
+	var MultiTouch_1 = __webpack_require__(44);
 	var MultiTouchController = /** @class */ (function () {
 	    function MultiTouchController(_touchController, _elementBinder) {
 	        var _this = this;
@@ -3080,20 +3350,23 @@
 	            }
 	        });
 	    }
+	    MultiTouchController.prototype.emulateTouch = function (touch) {
+	        this._touchController.emulateTouch(touch);
+	    };
 	    return MultiTouchController;
 	}());
 	exports.default = MultiTouchController;
 
 
 /***/ },
-/* 42 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(setImmediate) {"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var Observable_1 = __webpack_require__(2);
+	var Observable_1 = __webpack_require__(5);
 	__webpack_require__(45);
-	__webpack_require__(18);
+	__webpack_require__(21);
 	var multiTouchTransformations_1 = __webpack_require__(48);
 	var Transformation_1 = __webpack_require__(49);
 	//todo multitouch should be extended from this
@@ -3191,266 +3464,14 @@
 	}());
 	exports.default = MultiTouch;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(43).setImmediate))
-
-/***/ },
-/* 43 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var apply = Function.prototype.apply;
-	
-	// DOM APIs, for completeness
-	
-	exports.setTimeout = function() {
-	  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
-	};
-	exports.setInterval = function() {
-	  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
-	};
-	exports.clearTimeout =
-	exports.clearInterval = function(timeout) {
-	  if (timeout) {
-	    timeout.close();
-	  }
-	};
-	
-	function Timeout(id, clearFn) {
-	  this._id = id;
-	  this._clearFn = clearFn;
-	}
-	Timeout.prototype.unref = Timeout.prototype.ref = function() {};
-	Timeout.prototype.close = function() {
-	  this._clearFn.call(window, this._id);
-	};
-	
-	// Does not start the time, just sets up the members needed.
-	exports.enroll = function(item, msecs) {
-	  clearTimeout(item._idleTimeoutId);
-	  item._idleTimeout = msecs;
-	};
-	
-	exports.unenroll = function(item) {
-	  clearTimeout(item._idleTimeoutId);
-	  item._idleTimeout = -1;
-	};
-	
-	exports._unrefActive = exports.active = function(item) {
-	  clearTimeout(item._idleTimeoutId);
-	
-	  var msecs = item._idleTimeout;
-	  if (msecs >= 0) {
-	    item._idleTimeoutId = setTimeout(function onTimeout() {
-	      if (item._onTimeout)
-	        item._onTimeout();
-	    }, msecs);
-	  }
-	};
-	
-	// setimmediate attaches itself to the global object
-	__webpack_require__(44);
-	exports.setImmediate = setImmediate;
-	exports.clearImmediate = clearImmediate;
-
-
-/***/ },
-/* 44 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
-	    "use strict";
-	
-	    if (global.setImmediate) {
-	        return;
-	    }
-	
-	    var nextHandle = 1; // Spec says greater than zero
-	    var tasksByHandle = {};
-	    var currentlyRunningATask = false;
-	    var doc = global.document;
-	    var registerImmediate;
-	
-	    function setImmediate(callback) {
-	      // Callback can either be a function or a string
-	      if (typeof callback !== "function") {
-	        callback = new Function("" + callback);
-	      }
-	      // Copy function arguments
-	      var args = new Array(arguments.length - 1);
-	      for (var i = 0; i < args.length; i++) {
-	          args[i] = arguments[i + 1];
-	      }
-	      // Store and register the task
-	      var task = { callback: callback, args: args };
-	      tasksByHandle[nextHandle] = task;
-	      registerImmediate(nextHandle);
-	      return nextHandle++;
-	    }
-	
-	    function clearImmediate(handle) {
-	        delete tasksByHandle[handle];
-	    }
-	
-	    function run(task) {
-	        var callback = task.callback;
-	        var args = task.args;
-	        switch (args.length) {
-	        case 0:
-	            callback();
-	            break;
-	        case 1:
-	            callback(args[0]);
-	            break;
-	        case 2:
-	            callback(args[0], args[1]);
-	            break;
-	        case 3:
-	            callback(args[0], args[1], args[2]);
-	            break;
-	        default:
-	            callback.apply(undefined, args);
-	            break;
-	        }
-	    }
-	
-	    function runIfPresent(handle) {
-	        // From the spec: "Wait until any invocations of this algorithm started before this one have completed."
-	        // So if we're currently running a task, we'll need to delay this invocation.
-	        if (currentlyRunningATask) {
-	            // Delay by doing a setTimeout. setImmediate was tried instead, but in Firefox 7 it generated a
-	            // "too much recursion" error.
-	            setTimeout(runIfPresent, 0, handle);
-	        } else {
-	            var task = tasksByHandle[handle];
-	            if (task) {
-	                currentlyRunningATask = true;
-	                try {
-	                    run(task);
-	                } finally {
-	                    clearImmediate(handle);
-	                    currentlyRunningATask = false;
-	                }
-	            }
-	        }
-	    }
-	
-	    function installNextTickImplementation() {
-	        registerImmediate = function(handle) {
-	            process.nextTick(function () { runIfPresent(handle); });
-	        };
-	    }
-	
-	    function canUsePostMessage() {
-	        // The test against `importScripts` prevents this implementation from being installed inside a web worker,
-	        // where `global.postMessage` means something completely different and can't be used for this purpose.
-	        if (global.postMessage && !global.importScripts) {
-	            var postMessageIsAsynchronous = true;
-	            var oldOnMessage = global.onmessage;
-	            global.onmessage = function() {
-	                postMessageIsAsynchronous = false;
-	            };
-	            global.postMessage("", "*");
-	            global.onmessage = oldOnMessage;
-	            return postMessageIsAsynchronous;
-	        }
-	    }
-	
-	    function installPostMessageImplementation() {
-	        // Installs an event handler on `global` for the `message` event: see
-	        // * https://developer.mozilla.org/en/DOM/window.postMessage
-	        // * http://www.whatwg.org/specs/web-apps/current-work/multipage/comms.html#crossDocumentMessages
-	
-	        var messagePrefix = "setImmediate$" + Math.random() + "$";
-	        var onGlobalMessage = function(event) {
-	            if (event.source === global &&
-	                typeof event.data === "string" &&
-	                event.data.indexOf(messagePrefix) === 0) {
-	                runIfPresent(+event.data.slice(messagePrefix.length));
-	            }
-	        };
-	
-	        if (global.addEventListener) {
-	            global.addEventListener("message", onGlobalMessage, false);
-	        } else {
-	            global.attachEvent("onmessage", onGlobalMessage);
-	        }
-	
-	        registerImmediate = function(handle) {
-	            global.postMessage(messagePrefix + handle, "*");
-	        };
-	    }
-	
-	    function installMessageChannelImplementation() {
-	        var channel = new MessageChannel();
-	        channel.port1.onmessage = function(event) {
-	            var handle = event.data;
-	            runIfPresent(handle);
-	        };
-	
-	        registerImmediate = function(handle) {
-	            channel.port2.postMessage(handle);
-	        };
-	    }
-	
-	    function installReadyStateChangeImplementation() {
-	        var html = doc.documentElement;
-	        registerImmediate = function(handle) {
-	            // Create a <script> element; its readystatechange event will be fired asynchronously once it is inserted
-	            // into the document. Do so, thus queuing up the task. Remember to clean up once it's been called.
-	            var script = doc.createElement("script");
-	            script.onreadystatechange = function () {
-	                runIfPresent(handle);
-	                script.onreadystatechange = null;
-	                html.removeChild(script);
-	                script = null;
-	            };
-	            html.appendChild(script);
-	        };
-	    }
-	
-	    function installSetTimeoutImplementation() {
-	        registerImmediate = function(handle) {
-	            setTimeout(runIfPresent, 0, handle);
-	        };
-	    }
-	
-	    // If supported, we should attach to the prototype of global, since that is where setTimeout et al. live.
-	    var attachTo = Object.getPrototypeOf && Object.getPrototypeOf(global);
-	    attachTo = attachTo && attachTo.setTimeout ? attachTo : global;
-	
-	    // Don't get fooled by e.g. browserify environments.
-	    if ({}.toString.call(global.process) === "[object process]") {
-	        // For Node.js before 0.9
-	        installNextTickImplementation();
-	
-	    } else if (canUsePostMessage()) {
-	        // For non-IE10 modern browsers
-	        installPostMessageImplementation();
-	
-	    } else if (global.MessageChannel) {
-	        // For web workers, where supported
-	        installMessageChannelImplementation();
-	
-	    } else if (doc && "onreadystatechange" in doc.createElement("script")) {
-	        // For IE 6–8
-	        installReadyStateChangeImplementation();
-	
-	    } else {
-	        // For older browsers
-	        installSetTimeoutImplementation();
-	    }
-	
-	    attachTo.setImmediate = setImmediate;
-	    attachTo.clearImmediate = clearImmediate;
-	}(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(36)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2).setImmediate))
 
 /***/ },
 /* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var Observable_1 = __webpack_require__(2);
+	var Observable_1 = __webpack_require__(5);
 	var finally_1 = __webpack_require__(46);
 	Observable_1.Observable.prototype.finally = finally_1._finally;
 	Observable_1.Observable.prototype._finally = finally_1._finally;
@@ -3486,8 +3507,8 @@
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var Subscriber_1 = __webpack_require__(5);
-	var Subscription_1 = __webpack_require__(7);
+	var Subscriber_1 = __webpack_require__(8);
+	var Subscription_1 = __webpack_require__(10);
 	/**
 	 * Returns an Observable that mirrors the source Observable, but will call a specified function when
 	 * the source terminates on complete or error.
@@ -3530,9 +3551,9 @@
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var Observable_1 = __webpack_require__(2);
+	var Observable_1 = __webpack_require__(5);
 	var Transformation_1 = __webpack_require__(49);
-	var Vector2_1 = __webpack_require__(34);
+	var Vector2_1 = __webpack_require__(37);
 	function multiTouchTransformations(multiTouch, objectTransformation) {
 	    if (objectTransformation === void 0) { objectTransformation = Transformation_1.default.Zero(); }
 	    return Observable_1.Observable.create(function (observer) {
@@ -3607,15 +3628,18 @@
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var Vector2_1 = __webpack_require__(34);
+	var Vector2_1 = __webpack_require__(37);
 	var Transformation = /** @class */ (function () {
 	    function Transformation(translate, rotate, scale) {
+	        if (translate === void 0) { translate = Vector2_1.default.Zero(); }
+	        if (rotate === void 0) { rotate = 0; }
+	        if (scale === void 0) { scale = 1; }
 	        this.translate = translate;
 	        this.rotate = rotate;
 	        this.scale = scale;
 	    }
 	    Transformation.Zero = function () {
-	        return new Transformation(Vector2_1.default.Zero(), 0, 1);
+	        return new Transformation();
 	    };
 	    Transformation.prototype.clone = function () {
 	        return new Transformation(this.translate, this.rotate, this.scale);

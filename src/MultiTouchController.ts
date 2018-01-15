@@ -2,6 +2,7 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/share'
 import {Observer} from "rxjs/Observer";
 import TouchController from './TouchController';
+import Touch from './Touch';
 import MultiTouch from './MultiTouch';
 import Vector2 from './Vector2';
 
@@ -47,6 +48,10 @@ export default class MultiTouchController<TElement> {
             }
 
         });
+    }
+
+    emulateTouch(touch: Touch){
+        this._touchController.emulateTouch(touch);
     }
 
     //todo dispose

@@ -3,7 +3,7 @@ export default class Transformation {
     translate: Vector2;
     rotate: number;
     scale: number;
-    constructor(translate: Vector2, rotate: number, scale: number);
+    constructor(translate?: Vector2, rotate?: number, scale?: number);
     static Zero(): Transformation;
     clone(): Transformation;
     cloneDeep(): Transformation;

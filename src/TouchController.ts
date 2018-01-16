@@ -2,6 +2,7 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/share'
 import {Observer} from "rxjs/Observer";
 import Touch from './Touch';
+import TouchFrame from './TouchFrame';
 import IListener from './listeners/IListener';
 import * as listeners from './listeners/';
 
@@ -9,9 +10,10 @@ import * as listeners from './listeners/';
 export default class TouchController {
 
     public touches: Observable<Touch>;
-    //public hover: Touch;
+    public hoveredFrames: Observable<TouchFrame>;
     //private _touchesAutoIncrement: number = 0;
     private _touchesObserver: Observer<Touch>;
+    private _hoveredFramesObserver: Observer<TouchFrame>;
     //private _ongoingTouches: Touch[] = [];
 
     constructor(public element: HTMLElement, setListeners = true) {
@@ -30,6 +32,10 @@ export default class TouchController {
             this._touchesObserver = observer;
         }).share();
 
+        this.hoveredFrames = Observable.create((observer: Observer<TouchFrame>) => {
+            this._hoveredFramesObserver = observer;
+        }).share();
+
         if(setListeners){
             this.addListener(listeners.createMouseListener());
             this.addListener(listeners.createTouchListener());
@@ -42,7 +48,8 @@ export default class TouchController {
     addListener(listener: IListener) {
         listener(
             this.element,
-            (touch: Touch)=>this._touchesObserver.next(touch)
+            (touch: Touch)=>this._touchesObserver.next(touch),
+            (frame: TouchFrame)=>this._hoveredFramesObserver.next(frame)
         );
         //todo array of listeners disposers
     }

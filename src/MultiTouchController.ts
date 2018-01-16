@@ -2,24 +2,23 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/share'
 import {Observer} from "rxjs/Observer";
 import TouchController from './TouchController';
-import Touch from './Touch';
 import MultiTouch from './MultiTouch';
 import Vector2 from './Vector2';
 
 export default class MultiTouchController<TElement> {
 
-    public ongoingMultiTouches: MultiTouch<TElement | undefined>[] = [];
+    public ongoingMultiTouches: MultiTouch<TElement | undefined>[] = [];//todo null vs. undefined
     public multiTouches: Observable<MultiTouch<TElement | undefined>>;
     private _multiTouchesObserver: Observer<MultiTouch<TElement | undefined>>;
 
-    constructor(private _touchController: TouchController,
+    constructor(public touchController: TouchController,
                 private _elementBinder: (position: Vector2) => TElement | undefined) {
 
         this.multiTouches = Observable.create((observer: Observer<MultiTouch<TElement | undefined>>) => {
             this._multiTouchesObserver = observer;
         }).share();
 
-        this._touchController.touches.subscribe((touch) => {
+        this.touchController.touches.subscribe((touch) => {
 
             const element = this._elementBinder(touch.firstFrame.position);
 
@@ -50,9 +49,28 @@ export default class MultiTouchController<TElement> {
         });
     }
 
-    emulateTouch(touch: Touch){
-        this._touchController.emulateTouch(touch);
+    get hoveredElements(): Observable<TElement|undefined>{
+        return Observable.create((observer: Observer<TElement|undefined>) => {
+            this.touchController.hoveredFrames.subscribe((frame) => {
+                observer.next(this._elementBinder(frame.position));
+            });
+        });
     }
+
+    get hoveredElementsChanges(): Observable<[TElement|undefined,TElement|undefined]>{
+        return Observable.create((observer: Observer<[TElement|undefined,TElement|undefined]>) => {
+            let lastElement: TElement|undefined;
+            this.hoveredElements.subscribe((thisElement) => {
+                if(lastElement!==thisElement){
+                    observer.next([thisElement,lastElement]);
+                    lastElement = thisElement;
+                }
+            });
+        });
+    }
+
+
+
 
     //todo dispose
 

@@ -14,7 +14,8 @@ export default function(buttons:number[] = [1,2]):IListener{
 
 
     return (element: HTMLElement,
-            newTouch: (touch: Touch) => void
+            newTouch: (touch: Touch) => void,
+            newHoverFrame: (frame: TouchFrame)=>void
     ) => {
 
 
@@ -67,7 +68,7 @@ export default function(buttons:number[] = [1,2]):IListener{
 
             newTouch(touchScale);
 
-        });
+        },newHoverFrame);
 
 
         return ()=>{

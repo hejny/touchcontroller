@@ -20,6 +20,7 @@
 
     class Rect {
         constructor(color, position, size, rotation) {
+            this.hovered = false;
             this.color = color;
             this.position = position;
             this.size = size;
@@ -48,6 +49,11 @@
             ctx.rect( 0,0, this.size.x,this.size.y);
             ctx.fillStyle = this.color;
             ctx.fill();
+            if(this.hovered){
+                ctx.strokeStyle = '#000000';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+            }
             ctx.restore();
         }
 
@@ -90,15 +96,15 @@
 
     render();
 
-    
+    const touchController = new TC.TouchController(scene);
     const multiTouchController = new TC.MultiTouchController(
-        new TC.TouchController(scene),
+        touchController,
         (position)=>rects.find((rect) => rect.intersects(position))
     );
 
 
-    multiTouchController.emulateTouch(TC.Touch.Rotate(new TC.Vector2(100,100),Math.PI/2));
-    //todo multiTouchController.emulateTouch(TC.Touch.Drag(new TC.Vector2(100,100),new TC.Vector2(200,200),1000));
+    touchController.emulateTouch(TC.Touch.Rotate(new TC.Vector2(100,100),Math.PI/2));
+    //todo touchController.emulateTouch(TC.Touch.Drag(new TC.Vector2(100,100),new TC.Vector2(200,200),1000));
 
 
     /*let lastHoverPosition = null;
@@ -119,6 +125,18 @@
             lastHoverPosition = null;
     }
     });*/
+
+    //console.log(multiTouchController);
+    multiTouchController.hoveredElementsChanges.subscribe(([elementNew,elementOld])=>{
+        console.log([elementNew,elementOld]);
+        if(elementNew||false){
+            elementNew.hovered = true;
+        }
+        if(elementOld||false){
+            elementOld.hovered = false;
+        }
+        render();
+    });
 
 
     multiTouchController.multiTouches.subscribe(function (multitouch) {

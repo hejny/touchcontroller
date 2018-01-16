@@ -7,7 +7,8 @@ import {isNull} from "util";
 
 export default function (buttons: number[] = [0]): IListener {
     return (element: HTMLElement,
-            newTouch: (touch: Touch) => void,) => {
+            newTouch: (touch: Touch) => void,
+            newHoverFrame: (frame: TouchFrame) => void) => {
 
         element.addEventListener(
             'touchstart',
@@ -31,7 +32,7 @@ export default function (buttons: number[] = [0]): IListener {
         );
 
 
-        let currentTouches: {[identifier: number]: Touch} = {};
+        let currentTouches: { [identifier: number]: Touch } = {};
 
 
         function _handleTouchesStart(event: TouchEvent) {
@@ -51,7 +52,7 @@ export default function (buttons: number[] = [0]): IListener {
             event.preventDefault();
             const touches = event.changedTouches;
             for (let i = 0, l = touches.length; i < l; i++) {
-                const currentTouch = currentTouches[touches[i].identifier]||null;
+                const currentTouch = currentTouches[touches[i].identifier] || null;
                 if (!isNull(currentTouch)) {
                     currentTouch.move(
                         _createTouchFrameFromEvent(touches[i]),
@@ -65,7 +66,7 @@ export default function (buttons: number[] = [0]): IListener {
             event.preventDefault();
             const touches = event.changedTouches;
             for (let i = 0, l = touches.length; i < l; i++) {
-                const currentTouch = currentTouches[touches[i].identifier]||null;
+                const currentTouch = currentTouches[touches[i].identifier] || null;
                 if (!isNull(currentTouch)) {
                     currentTouch.move(
                         _createTouchFrameFromEvent(touches[i]),
@@ -76,7 +77,7 @@ export default function (buttons: number[] = [0]): IListener {
             }
         }
 
-        function _createTouchFrameFromEvent(event: {clientX:number; clientY:number;}) {
+        function _createTouchFrameFromEvent(event: { clientX: number; clientY: number; }) {
             return new TouchFrame(
                 new Vector2(
                     event.clientX - element.offsetLeft,

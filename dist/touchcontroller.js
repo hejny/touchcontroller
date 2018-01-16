@@ -92,6 +92,9 @@
 	        this.touches = Observable_1.Observable.create(function (observer) {
 	            _this._touchesObserver = observer;
 	        }).share();
+	        this.hoveredFrames = Observable_1.Observable.create(function (observer) {
+	            _this._hoveredFramesObserver = observer;
+	        }).share();
 	        if (setListeners) {
 	            this.addListener(listeners.createMouseListener());
 	            this.addListener(listeners.createTouchListener());
@@ -101,7 +104,7 @@
 	    //todo dispose
 	    TouchController.prototype.addListener = function (listener) {
 	        var _this = this;
-	        listener(this.element, function (touch) { return _this._touchesObserver.next(touch); });
+	        listener(this.element, function (touch) { return _this._touchesObserver.next(touch); }, function (frame) { return _this._hoveredFramesObserver.next(frame); });
 	        //todo array of listeners disposers
 	    };
 	    TouchController.prototype.emulateTouch = function (touch) {
@@ -2248,7 +2251,7 @@
 	var util_1 = __webpack_require__(38);
 	function default_1(buttons) {
 	    if (buttons === void 0) { buttons = [0]; }
-	    return function (element, newTouch) {
+	    return function (element, newTouch, newHoverFrame) {
 	        element.addEventListener('mousedown', function (event) { return _handleMouseDown(event); }, false);
 	        element.addEventListener('mousemove', function (event) { return _handleMouseMove(event); }, false);
 	        element.addEventListener('mouseup', function (event) { return _handleMouseUp(event); }, false);
@@ -2284,6 +2287,11 @@
 	                    currentTouch.move(_createTouchFrameFromEvent(event), false);
 	                }
 	                //}
+	            }
+	            else {
+	                if (util_1.isNull(currentTouch)) {
+	                    newHoverFrame(_createTouchFrameFromEvent(event));
+	                }
 	            }
 	        }
 	        function _handleMouseUp(event) {
@@ -3232,7 +3240,7 @@
 	var util_1 = __webpack_require__(38);
 	function default_1(buttons) {
 	    if (buttons === void 0) { buttons = [0]; }
-	    return function (element, newTouch) {
+	    return function (element, newTouch, newHoverFrame) {
 	        element.addEventListener('touchstart', function (event) { return _handleTouchesStart(event); }, false);
 	        element.addEventListener('touchmove', function (event) { return _handleTouchesMove(event); }, false);
 	        element.addEventListener('touchend', function (event) { return _handleTouchesEnd(event); }, false);
@@ -3293,7 +3301,7 @@
 	function default_1(buttons) {
 	    if (buttons === void 0) { buttons = [1, 2]; }
 	    var listener = createMouseListener_1.default(buttons);
-	    return function (element, newTouch) {
+	    return function (element, newTouch, newHoverFrame) {
 	        //const disposeOrignalListener = listener(element,newTouch);
 	        var disposeOrignalListener = listener(element, function (touchOriginal) {
 	            var touchScale = new Touch_1.default('MOUSE', touchOriginal.firstFrame);
@@ -3316,7 +3324,7 @@
 	                touchScale.end();
 	            });
 	            newTouch(touchScale);
-	        });
+	        }, newHoverFrame);
 	        return function () {
 	            //todo dispose self
 	            disposeOrignalListener();
@@ -3336,15 +3344,15 @@
 	__webpack_require__(21);
 	var MultiTouch_1 = __webpack_require__(44);
 	var MultiTouchController = /** @class */ (function () {
-	    function MultiTouchController(_touchController, _elementBinder) {
+	    function MultiTouchController(touchController, _elementBinder) {
 	        var _this = this;
-	        this._touchController = _touchController;
+	        this.touchController = touchController;
 	        this._elementBinder = _elementBinder;
-	        this.ongoingMultiTouches = [];
+	        this.ongoingMultiTouches = []; //todo null vs. undefined
 	        this.multiTouches = Observable_1.Observable.create(function (observer) {
 	            _this._multiTouchesObserver = observer;
 	        }).share();
-	        this._touchController.touches.subscribe(function (touch) {
+	        this.touchController.touches.subscribe(function (touch) {
 	            var element = _this._elementBinder(touch.firstFrame.position);
 	            //todo why can not be used find
 	            var multiTouch = _this.ongoingMultiTouches.filter(function (multiTouch) { return multiTouch.element === element; })[0];
@@ -3364,9 +3372,34 @@
 	            }
 	        });
 	    }
-	    MultiTouchController.prototype.emulateTouch = function (touch) {
-	        this._touchController.emulateTouch(touch);
-	    };
+	    Object.defineProperty(MultiTouchController.prototype, "hoveredElements", {
+	        get: function () {
+	            var _this = this;
+	            return Observable_1.Observable.create(function (observer) {
+	                _this.touchController.hoveredFrames.subscribe(function (frame) {
+	                    observer.next(_this._elementBinder(frame.position));
+	                });
+	            });
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    Object.defineProperty(MultiTouchController.prototype, "hoveredElementsChanges", {
+	        get: function () {
+	            var _this = this;
+	            return Observable_1.Observable.create(function (observer) {
+	                var lastElement;
+	                _this.hoveredElements.subscribe(function (thisElement) {
+	                    if (lastElement !== thisElement) {
+	                        observer.next([thisElement, lastElement]);
+	                        lastElement = thisElement;
+	                    }
+	                });
+	            });
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
 	    return MultiTouchController;
 	}());
 	exports.default = MultiTouchController;

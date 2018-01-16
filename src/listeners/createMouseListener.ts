@@ -8,6 +8,7 @@ import {isNull} from "util";
 export default function(buttons:number[] = [0]):IListener{
     return (element: HTMLElement,
             newTouch: (touch: Touch) => void,
+            newHoverFrame: (frame: TouchFrame)=>void
     ) => {
 
         element.addEventListener(
@@ -66,6 +67,10 @@ export default function(buttons:number[] = [0]):IListener{
                     );
                 }
                 //}
+            }else{
+                if(isNull(currentTouch)) {
+                    newHoverFrame(_createTouchFrameFromEvent(event));
+                }
             }
         }
 

@@ -17,4 +17,5 @@ export default class Touch {
     readonly start: number;
     toString(): string;
     static Click(position: Vector2): Touch;
+    static Rotate(position: Vector2, rotation: number): Touch;
 }

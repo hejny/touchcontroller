@@ -21,6 +21,13 @@ export default class Vector2 {
         );
     }
 
+    static add(...vectors: Vector2[]){
+        return new Vector2(
+            vectors.reduce((x, vector2) => x + vector2.x, 0),
+            vectors.reduce((y, vector2) => y + vector2.y, 0)
+        );
+    }
+
     subtract(vector2: Vector2): Vector2 {
         return new Vector2(
             this.x - vector2.x,

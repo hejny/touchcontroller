@@ -2364,6 +2364,13 @@
 	        }, 100);
 	        return touch;
 	    };
+	    Touch.Rotate = function (position, rotation) {
+	        var touch = new Touch('MOUSE', new TouchFrame_1.default(position));
+	        setTimeout(function () {
+	            touch.move(new TouchFrame_1.default(position, undefined, rotation), true);
+	        }, 100);
+	        return touch;
+	    };
 	    return Touch;
 	}());
 	exports.default = Touch;
@@ -2539,6 +2546,13 @@
 	            vectors[_i] = arguments[_i];
 	        }
 	        return new Vector2(vectors.reduce(function (x, vector2) { return x + vector2.x; }, this.x), vectors.reduce(function (y, vector2) { return y + vector2.y; }, this.y));
+	    };
+	    Vector2.add = function () {
+	        var vectors = [];
+	        for (var _i = 0; _i < arguments.length; _i++) {
+	            vectors[_i] = arguments[_i];
+	        }
+	        return new Vector2(vectors.reduce(function (x, vector2) { return x + vector2.x; }, 0), vectors.reduce(function (y, vector2) { return y + vector2.y; }, 0));
 	    };
 	    Vector2.prototype.subtract = function (vector2) {
 	        return new Vector2(this.x - vector2.x, this.y - vector2.y);

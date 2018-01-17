@@ -49,11 +49,11 @@ var TouchController =
 	Object.defineProperty(exports, "__esModule", { value: true });
 	var TouchController_1 = __webpack_require__(1);
 	exports.TouchController = TouchController_1.default;
-	var MultiTouchController_1 = __webpack_require__(43);
+	var MultiTouchController_1 = __webpack_require__(42);
 	exports.MultiTouchController = MultiTouchController_1.default;
-	var multiTouchTransformations_1 = __webpack_require__(48);
+	var multiTouchTransformations_1 = __webpack_require__(47);
 	exports.multiTouchTransformations = multiTouchTransformations_1.default;
-	var Transformation_1 = __webpack_require__(49);
+	var Transformation_1 = __webpack_require__(48);
 	exports.Transformation = Transformation_1.default;
 	var listeners = __webpack_require__(30);
 	exports.listeners = listeners;
@@ -61,6 +61,8 @@ var TouchController =
 	exports.Vector2 = Vector2_1.default;
 	var Touch_1 = __webpack_require__(32);
 	exports.Touch = Touch_1.default;
+	var BoundingBox_1 = __webpack_require__(49);
+	exports.BoundingBox = BoundingBox_1.default;
 
 
 /***/ },
@@ -98,8 +100,9 @@ var TouchController =
 	        }).share();
 	        if (setListeners) {
 	            this.addListener(listeners.createMouseListener());
+	            this.addListener(listeners.createMouseListener([1, 2], true));
 	            this.addListener(listeners.createTouchListener());
-	            this.addListener(listeners.createMouseScaleListener());
+	            //this.addListener(listeners.createMouseScaleListener());
 	        }
 	    }
 	    //todo dispose
@@ -2236,8 +2239,6 @@ var TouchController =
 	exports.createMouseListener = createMouseListener_1.default;
 	var createTouchListener_1 = __webpack_require__(41);
 	exports.createTouchListener = createTouchListener_1.default;
-	var createMouseScaleListener_1 = __webpack_require__(42);
-	exports.createMouseScaleListener = createMouseScaleListener_1.default;
 
 
 /***/ },
@@ -2250,8 +2251,9 @@ var TouchController =
 	var TouchFrame_1 = __webpack_require__(36);
 	var Vector2_1 = __webpack_require__(37);
 	var util_1 = __webpack_require__(38);
-	function default_1(buttons) {
+	function default_1(buttons, rotating) {
 	    if (buttons === void 0) { buttons = [0]; }
+	    if (rotating === void 0) { rotating = false; }
 	    return function (element, newTouch, newHoverFrame) {
 	        element.addEventListener('mousedown', function (event) { return _handleMouseDown(event); }, false);
 	        element.addEventListener('mousemove', function (event) { return _handleMouseMove(event); }, false);
@@ -2305,7 +2307,7 @@ var TouchController =
 	            }
 	        }
 	        function _createTouchFrameFromEvent(event) {
-	            return new TouchFrame_1.default(new Vector2_1.default(event.clientX - element.offsetLeft, event.clientY - element.offsetTop), performance.now());
+	            return new TouchFrame_1.default(new Vector2_1.default(event.clientX - element.offsetLeft, event.clientY - element.offsetTop), performance.now(), rotating);
 	        }
 	        return function () {
 	            //todo dispose
@@ -2370,13 +2372,6 @@ var TouchController =
 	        var touch = new Touch('MOUSE', new TouchFrame_1.default(position));
 	        setTimeout(function () {
 	            touch.end();
-	        }, 100);
-	        return touch;
-	    };
-	    Touch.Rotate = function (position, rotation) {
-	        var touch = new Touch('MOUSE', new TouchFrame_1.default(position));
-	        setTimeout(function () {
-	            touch.move(new TouchFrame_1.default(position, undefined, rotation), true);
 	        }, 100);
 	        return touch;
 	    };
@@ -2513,17 +2508,18 @@ var TouchController =
 	Object.defineProperty(exports, "__esModule", { value: true });
 	var Vector2_1 = __webpack_require__(37);
 	var TouchFrame = /** @class */ (function () {
-	    function TouchFrame(position, time, rotation, scale, force, radius) {
+	    function TouchFrame(position, time, rotating, 
+	        //public rotation: number = 0,
+	        //public scale: number = 1,
+	        force, radius) {
 	        if (position === void 0) { position = Vector2_1.default.Zero(); }
 	        if (time === void 0) { time = performance.now(); }
-	        if (rotation === void 0) { rotation = 0; }
-	        if (scale === void 0) { scale = 1; }
+	        if (rotating === void 0) { rotating = false; }
 	        if (force === void 0) { force = 0; }
 	        if (radius === void 0) { radius = Vector2_1.default.Zero(); }
 	        this.position = position;
 	        this.time = time;
-	        this.rotation = rotation;
-	        this.scale = scale;
+	        this.rotating = rotating;
 	        this.force = force;
 	        this.radius = radius;
 	    }
@@ -2538,6 +2534,7 @@ var TouchController =
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
+	//todo multidimensional
 	var Vector2 = /** @class */ (function () {
 	    function Vector2(x, y) {
 	        this.x = x;
@@ -2546,15 +2543,30 @@ var TouchController =
 	    Vector2.Zero = function () {
 	        return new Vector2(0, 0);
 	    };
+	    Vector2.One = function () {
+	        return new Vector2(1, 1);
+	    };
 	    Vector2.prototype.clone = function () {
 	        return new Vector2(this.x, this.y);
 	    };
+	    //todo consolidate 2 add methods and 1 static method
 	    Vector2.prototype.add = function () {
 	        var vectors = [];
 	        for (var _i = 0; _i < arguments.length; _i++) {
 	            vectors[_i] = arguments[_i];
 	        }
 	        return new Vector2(vectors.reduce(function (x, vector2) { return x + vector2.x; }, this.x), vectors.reduce(function (y, vector2) { return y + vector2.y; }, this.y));
+	    };
+	    Vector2.prototype.addInPlace = function () {
+	        var vectors = [];
+	        for (var _i = 0; _i < arguments.length; _i++) {
+	            vectors[_i] = arguments[_i];
+	        }
+	        for (var _a = 0, vectors_1 = vectors; _a < vectors_1.length; _a++) {
+	            var vector = vectors_1[_a];
+	            this.x += vector.x;
+	            this.y += vector.y;
+	        }
 	    };
 	    Vector2.add = function () {
 	        var vectors = [];
@@ -2568,6 +2580,10 @@ var TouchController =
 	    };
 	    Vector2.prototype.scale = function (scale) {
 	        return new Vector2(this.x * scale, this.y * scale);
+	    };
+	    Vector2.prototype.scaleInPlace = function (scale) {
+	        this.x *= scale;
+	        this.y *= scale;
 	    };
 	    Vector2.prototype.length = function (vector2) {
 	        if (vector2 === void 0) { vector2 = Vector2.Zero(); }
@@ -3294,56 +3310,9 @@ var TouchController =
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var createMouseListener_1 = __webpack_require__(31);
-	var Touch_1 = __webpack_require__(32);
-	var TouchFrame_1 = __webpack_require__(36);
-	var util_1 = __webpack_require__(38);
-	TouchFrame_1.default;
-	function default_1(buttons) {
-	    if (buttons === void 0) { buttons = [1, 2]; }
-	    var listener = createMouseListener_1.default(buttons);
-	    return function (element, newTouch, newHoverFrame) {
-	        //const disposeOrignalListener = listener(element,newTouch);
-	        var disposeOrignalListener = listener(element, function (touchOriginal) {
-	            var touchScale = new Touch_1.default('MOUSE', touchOriginal.firstFrame);
-	            var initialPoint = null;
-	            touchOriginal.frames.subscribe(function (frame) {
-	                if (!util_1.isNull(initialPoint)) {
-	                    touchScale.move(new TouchFrame_1.default(touchOriginal.firstFrame.position, touchOriginal.lastFrame.time, touchOriginal.lastFrame.position.rotation(touchOriginal.firstFrame.position)
-	                        - initialPoint.rotation(touchOriginal.firstFrame.position), 1
-	                    /*touchOriginal.lastFrame.position.length(touchOriginal.firstFrame.position)
-	                    / initialPoint.length(touchOriginal.firstFrame.position)*/
-	                    ));
-	                }
-	                else {
-	                    if (touchOriginal.lastFrame.position.length(touchOriginal.firstFrame.position) >= 10 /*todo to config*/) {
-	                        initialPoint = touchOriginal.lastFrame.position;
-	                    }
-	                }
-	            }, function () {
-	            }, function () {
-	                touchScale.end();
-	            });
-	            newTouch(touchScale);
-	        }, newHoverFrame);
-	        return function () {
-	            //todo dispose self
-	            disposeOrignalListener();
-	        };
-	    };
-	}
-	exports.default = default_1;
-
-
-/***/ },
-/* 43 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	Object.defineProperty(exports, "__esModule", { value: true });
 	var Observable_1 = __webpack_require__(5);
 	__webpack_require__(21);
-	var MultiTouch_1 = __webpack_require__(44);
+	var MultiTouch_1 = __webpack_require__(43);
 	var MultiTouchController = /** @class */ (function () {
 	    function MultiTouchController(touchController, _elementBinder) {
 	        var _this = this;
@@ -3407,16 +3376,16 @@ var TouchController =
 
 
 /***/ },
-/* 44 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(setImmediate) {"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
 	var Observable_1 = __webpack_require__(5);
-	__webpack_require__(45);
+	__webpack_require__(44);
 	__webpack_require__(21);
-	var multiTouchTransformations_1 = __webpack_require__(48);
-	var Transformation_1 = __webpack_require__(49);
+	var multiTouchTransformations_1 = __webpack_require__(47);
+	var BoundingBox_1 = __webpack_require__(49);
 	//todo multitouch should be extended from this
 	var MultiTouch = /** @class */ (function () {
 	    function MultiTouch(element, //todo this should be external
@@ -3444,11 +3413,6 @@ var TouchController =
 	            if (touch.firstFrame.position.length(frame.position) >= 5 /*todo to config*/) {
 	                _this.empty = false;
 	            }
-	            if (Math.abs(touch.firstFrame.rotation - frame.rotation) >= Math.PI * 2 / 36 / 2 /*todo to config*/) {
-	                _this.empty = false;
-	            }
-	            //console.log(`Next ${touch} in ${this}.`);
-	            //this._touchesObserver.next(touch);
 	        }, function () {
 	            //console.log("Touch in multitouch error.");
 	        }, function () {
@@ -3501,9 +3465,9 @@ var TouchController =
 	        enumerable: true,
 	        configurable: true
 	    });
-	    MultiTouch.prototype.transformations = function (objectTransformation) {
-	        if (objectTransformation === void 0) { objectTransformation = Transformation_1.default.Zero(); }
-	        return multiTouchTransformations_1.default(this, objectTransformation);
+	    MultiTouch.prototype.transformations = function (boundingBox) {
+	        if (boundingBox === void 0) { boundingBox = BoundingBox_1.default.One(); }
+	        return multiTouchTransformations_1.default(this, boundingBox);
 	    };
 	    MultiTouch.prototype.toString = function () {
 	        return "MultiTouch";
@@ -3515,22 +3479,22 @@ var TouchController =
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2).setImmediate))
 
 /***/ },
-/* 45 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var Observable_1 = __webpack_require__(5);
-	var finally_1 = __webpack_require__(46);
+	var finally_1 = __webpack_require__(45);
 	Observable_1.Observable.prototype.finally = finally_1._finally;
 	Observable_1.Observable.prototype._finally = finally_1._finally;
 	//# sourceMappingURL=finally.js.map
 
 /***/ },
-/* 46 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var finalize_1 = __webpack_require__(47);
+	var finalize_1 = __webpack_require__(46);
 	/**
 	 * Returns an Observable that mirrors the source Observable, but will call a specified function when
 	 * the source terminates on complete or error.
@@ -3546,7 +3510,7 @@ var TouchController =
 	//# sourceMappingURL=finally.js.map
 
 /***/ },
-/* 47 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3594,16 +3558,17 @@ var TouchController =
 	//# sourceMappingURL=finalize.js.map
 
 /***/ },
-/* 48 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
 	var Observable_1 = __webpack_require__(5);
-	var Transformation_1 = __webpack_require__(49);
+	var Transformation_1 = __webpack_require__(48);
+	var BoundingBox_1 = __webpack_require__(49);
 	var Vector2_1 = __webpack_require__(37);
-	function multiTouchTransformations(multiTouch, objectTransformation) {
-	    if (objectTransformation === void 0) { objectTransformation = Transformation_1.default.Zero(); }
+	function multiTouchTransformations(multiTouch, boundingBox) {
+	    if (boundingBox === void 0) { boundingBox = BoundingBox_1.default.One(); }
 	    return Observable_1.Observable.create(function (observer) {
 	        //objectTransformation = objectTransformation.clone();
 	        var subscriptions = [];
@@ -3617,7 +3582,7 @@ var TouchController =
 	             touch.chop();
 	             }*/
 	            var countTouchesTransformation;
-	            var countAggregatedRotation = function () { return touches.reduce(function (sum, touch) { return sum + touch.lastFrame.rotation; }, 0); };
+	            //const countAggregatedRotation = ()=>touches.reduce((sum,touch)=>sum+touch.lastFrame.rotation,0);
 	            //console.log(touches);
 	            if (touches.length === 1) {
 	                /*
@@ -3633,9 +3598,17 @@ var TouchController =
 	                 ))
 	                 );
 	                 })];*/
-	                countTouchesTransformation = function (touch1) {
-	                    return new Transformation_1.default(touch1.lastFrame.position, countAggregatedRotation(), 1);
-	                };
+	                if (!touches[0].lastFrame.rotating) {
+	                    countTouchesTransformation = function (touch1) {
+	                        return new Transformation_1.default(touch1.lastFrame.position, 0, //countAggregatedRotation(),
+	                        1);
+	                    };
+	                }
+	                else {
+	                    countTouchesTransformation = function (touch1) {
+	                        return new Transformation_1.default(undefined, boundingBox.center.rotation(touch1.lastFrame.position), 1);
+	                    };
+	                }
 	            }
 	            else {
 	                //todo how to figure out with 3, 4, 5,... finger on one object?
@@ -3644,16 +3617,16 @@ var TouchController =
 	                    for (var _i = 0; _i < arguments.length; _i++) {
 	                        touches[_i] = arguments[_i];
 	                    }
-	                    return new Transformation_1.default((_a = Vector2_1.default.Zero()).add.apply(_a, touches.map(function (touch) { return touch.lastFrame.position; })).scale(1 / touches.length), touches[0].lastFrame.position.rotation(touches[1].lastFrame.position)
-	                        + countAggregatedRotation(), touches[0].lastFrame.position.length(touches[1].lastFrame.position));
+	                    return new Transformation_1.default((_a = Vector2_1.default.Zero()).add.apply(_a, touches.map(function (touch) { return touch.lastFrame.position; })).scale(1 / touches.length), touches[0].lastFrame.position.rotation(touches[1].lastFrame.position), touches[0].lastFrame.position.length(touches[1].lastFrame.position));
 	                    var _a;
 	                };
 	            }
 	            var lastTouchesTransformation = countTouchesTransformation.apply(void 0, touches);
 	            var touchMoveCallback = function () {
 	                var currentTouchesTransformation = countTouchesTransformation.apply(void 0, touches);
-	                objectTransformation = objectTransformation.add(currentTouchesTransformation.subtract(lastTouchesTransformation));
-	                observer.next(objectTransformation);
+	                var deltaTransformation = currentTouchesTransformation.subtract(lastTouchesTransformation);
+	                boundingBox.applyTransformation(deltaTransformation);
+	                observer.next(deltaTransformation);
 	                lastTouchesTransformation = currentTouchesTransformation;
 	            };
 	            subscriptions = touches.map(function (touch) { return touch.frames.subscribe(touchMoveCallback); });
@@ -3671,7 +3644,7 @@ var TouchController =
 
 
 /***/ },
-/* 49 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3704,6 +3677,49 @@ var TouchController =
 	    return Transformation;
 	}());
 	exports.default = Transformation;
+
+
+/***/ },
+/* 49 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	Object.defineProperty(exports, "__esModule", { value: true });
+	var Vector2_1 = __webpack_require__(37);
+	var BoundingBox = /** @class */ (function () {
+	    function BoundingBox(center, size, rotation) {
+	        if (center === void 0) { center = Vector2_1.default.Zero(); }
+	        if (size === void 0) { size = Vector2_1.default.One(); }
+	        if (rotation === void 0) { rotation = 0; }
+	        this.center = center;
+	        this.size = size;
+	        this.rotation = rotation;
+	    }
+	    BoundingBox.One = function () {
+	        return new BoundingBox();
+	    };
+	    BoundingBox.prototype.clone = function () {
+	        return new BoundingBox(this.center, this.size, this.rotation);
+	    };
+	    BoundingBox.prototype.cloneDeep = function () {
+	        return new BoundingBox(this.center.clone(), this.size.clone(), this.rotation);
+	    };
+	    BoundingBox.prototype.applyTransformation = function (transformation) {
+	        this.center.addInPlace(transformation.translate);
+	        this.size.scaleInPlace(transformation.scale);
+	        this.rotation += transformation.rotate;
+	    };
+	    BoundingBox.prototype.intersects = function (position) {
+	        var position1r = this.center;
+	        var position2r = position.rotate(-this.rotation, this.center);
+	        return (position1r.x - this.size.x / 2 <= position2r.x &&
+	            position1r.y - this.size.y / 2 <= position2r.y &&
+	            position1r.x + this.size.x / 2 >= position2r.x &&
+	            position1r.y + this.size.y / 2 >= position2r.y);
+	    };
+	    return BoundingBox;
+	}());
+	exports.default = BoundingBox;
 
 
 /***/ }

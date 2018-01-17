@@ -5,7 +5,7 @@ import Vector2 from '../Vector2';
 import {isNull} from "util";
 
 
-export default function(buttons:number[] = [0]):IListener{
+export default function(buttons:number[] = [0], rotating = false):IListener{
     return (element: HTMLElement,
             newTouch: (touch: Touch) => void,
             newHoverFrame: (frame: TouchFrame)=>void
@@ -94,7 +94,8 @@ export default function(buttons:number[] = [0]):IListener{
                     event.clientX - element.offsetLeft,
                     event.clientY - element.offsetTop
                 ),
-                performance.now()
+                performance.now(),
+                rotating
             );
         }
 

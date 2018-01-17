@@ -58,6 +58,8 @@ export default class Touch {
         return touch;
     }
 
+    /*
+    todo maybe
     static Rotate(position: Vector2, rotation:number): Touch {
         const touch = new Touch('MOUSE', new TouchFrame(position));
         setTimeout(() => {

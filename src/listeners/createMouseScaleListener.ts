@@ -1,4 +1,4 @@
-import IListener from './IListener';
+/*import IListener from './IListener';
 import createMouseListener from './createMouseListener';
 import Touch from '../Touch';
 import TouchFrame from '../TouchFrame';
@@ -44,13 +44,13 @@ export default function(buttons:number[] = [1,2]):IListener{
                         touchOriginal.lastFrame.position.rotation(touchOriginal.firstFrame.position)
                         - initialPoint.rotation(touchOriginal.firstFrame.position),
                         1
-                        /*touchOriginal.lastFrame.position.length(touchOriginal.firstFrame.position)
-                        / initialPoint.length(touchOriginal.firstFrame.position)*/
+                        / *touchOriginal.lastFrame.position.length(touchOriginal.firstFrame.position)
+                        / initialPoint.length(touchOriginal.firstFrame.position)* /
                     ));
                 }else{
 
 
-                    if(touchOriginal.lastFrame.position.length(touchOriginal.firstFrame.position)>=10/*todo to config*/){
+                    if(touchOriginal.lastFrame.position.length(touchOriginal.firstFrame.position)>=10/*todo to config* /){
                         initialPoint = touchOriginal.lastFrame.position;
                     }
 
@@ -76,4 +76,4 @@ export default function(buttons:number[] = [1,2]):IListener{
             disposeOrignalListener();
         }
     }
-}
+}*/

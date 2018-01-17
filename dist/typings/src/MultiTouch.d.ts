@@ -3,6 +3,7 @@ import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/share';
 import Touch from './Touch';
 import Transformation from './Transformation';
+import BoundingBox from './BoundingBox';
 export default class MultiTouch<TElement> {
     element: TElement;
     firstTouch: Touch;
@@ -14,6 +15,6 @@ export default class MultiTouch<TElement> {
     addTouch(touch: Touch): void;
     readonly ongoingTouchesChanges: Observable<Touch[]>;
     readonly ongoingPositionsChanges: Observable<Touch[]>;
-    transformations(objectTransformation?: Transformation): Observable<Transformation>;
+    transformations(boundingBox?: BoundingBox): Observable<Transformation>;
     toString(): string;
 }

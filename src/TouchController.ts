@@ -38,8 +38,9 @@ export default class TouchController {
 
         if(setListeners){
             this.addListener(listeners.createMouseListener());
+            this.addListener(listeners.createMouseListener([1,2],true));
             this.addListener(listeners.createTouchListener());
-            this.addListener(listeners.createMouseScaleListener());
+            //this.addListener(listeners.createMouseScaleListener());
         }
     }
 

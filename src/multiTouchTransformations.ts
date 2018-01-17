@@ -4,10 +4,11 @@ import {Subscription} from "rxjs/Subscription";
 import Touch from './Touch';
 import MultiTouch from './MultiTouch';
 import Transformation from './Transformation';
+import BoundingBox from './BoundingBox';
 import Vector2 from './Vector2';
 
 
-export default function multiTouchTransformations<TElement>(multiTouch: MultiTouch<TElement>, objectTransformation: Transformation = Transformation.Zero()): Observable<Transformation> {
+export default function multiTouchTransformations<TElement>(multiTouch: MultiTouch<TElement>, boundingBox: BoundingBox = BoundingBox.One()): Observable<Transformation> {
     return Observable.create((observer: Observer<Transformation>) => {
 
         //objectTransformation = objectTransformation.clone();
@@ -30,7 +31,7 @@ export default function multiTouchTransformations<TElement>(multiTouch: MultiTou
                 let countTouchesTransformation: (...touches: Touch[]) => Transformation;
 
 
-                const countAggregatedRotation = ()=>touches.reduce((sum,touch)=>sum+touch.lastFrame.rotation,0);
+                //const countAggregatedRotation = ()=>touches.reduce((sum,touch)=>sum+touch.lastFrame.rotation,0);
 
 
                 //console.log(touches);
@@ -49,12 +50,23 @@ export default function multiTouchTransformations<TElement>(multiTouch: MultiTou
                      ))
                      );
                      })];*/
-                    countTouchesTransformation = (touch1) =>
-                        new Transformation(
-                            touch1.lastFrame.position,
-                            countAggregatedRotation(),
-                            1
-                        );
+
+                    if(!touches[0].lastFrame.rotating){
+                        countTouchesTransformation = (touch1) =>
+                            new Transformation(
+                                touch1.lastFrame.position,
+                                0,//countAggregatedRotation(),
+                                1
+                            );
+                    }else{
+                        //todo this should be like second picked point is center of bounding box
+                        countTouchesTransformation = (touch1) =>
+                            new Transformation(
+                                undefined,
+                                boundingBox.center.rotation(touch1.lastFrame.position),
+                                1
+                            );
+                    }
 
 
                 } else {
@@ -62,8 +74,7 @@ export default function multiTouchTransformations<TElement>(multiTouch: MultiTou
                     countTouchesTransformation = (...touches) =>
                         new Transformation(
                             Vector2.Zero().add(...touches.map((touch) => touch.lastFrame.position)).scale(1 / touches.length),
-                            touches[0].lastFrame.position.rotation(touches[1].lastFrame.position)
-                            + countAggregatedRotation(),
+                            touches[0].lastFrame.position.rotation(touches[1].lastFrame.position),
                             touches[0].lastFrame.position.length(touches[1].lastFrame.position)
                         );
                 }
@@ -74,11 +85,11 @@ export default function multiTouchTransformations<TElement>(multiTouch: MultiTou
                 const touchMoveCallback = () => {
 
                     const currentTouchesTransformation = countTouchesTransformation(...touches);
+                    const deltaTransformation = currentTouchesTransformation.subtract(lastTouchesTransformation);
 
-                    objectTransformation = objectTransformation.add(
-                        currentTouchesTransformation.subtract(lastTouchesTransformation)
-                    );
-                    observer.next(objectTransformation);
+
+                    boundingBox.applyTransformation(deltaTransformation);
+                    observer.next(deltaTransformation);
 
                     lastTouchesTransformation = currentTouchesTransformation;
 

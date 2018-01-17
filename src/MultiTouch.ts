@@ -6,6 +6,7 @@ import {Observer} from "rxjs/Observer";
 import Touch from './Touch';
 import multiTouchTransformations from './multiTouchTransformations';
 import Transformation from './Transformation';
+import BoundingBox from './BoundingBox';
 
 //todo multitouch should be extended from this
 export default class MultiTouch<TElement> {
@@ -39,12 +40,6 @@ export default class MultiTouch<TElement> {
                 if(touch.firstFrame.position.length(frame.position)>=5/*todo to config*/){
                     this.empty = false;
                 }
-
-                if(Math.abs(touch.firstFrame.rotation-frame.rotation)>=Math.PI*2/36/2/*todo to config*/){
-                    this.empty = false;
-                }
-                //console.log(`Next ${touch} in ${this}.`);
-                //this._touchesObserver.next(touch);
             },
             () => {
                 //console.log("Touch in multitouch error.");
@@ -103,10 +98,10 @@ export default class MultiTouch<TElement> {
         });
     }
 
-    transformations(objectTransformation: Transformation = Transformation.Zero()): Observable<Transformation>{
+    transformations(boundingBox: BoundingBox = BoundingBox.One()): Observable<Transformation>{
         return multiTouchTransformations(
             this,
-            objectTransformation
+            boundingBox
         );
     }
 

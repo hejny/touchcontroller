@@ -1,3 +1,5 @@
+
+//todo multidimensional
 export default class Vector2 {
     constructor(public x: number,
                 public y: number) {
@@ -7,6 +9,10 @@ export default class Vector2 {
         return new Vector2(0, 0);
     }
 
+    static One() {
+        return new Vector2(1, 1);
+    }
+
     clone(): Vector2 {
         return new Vector2(
             this.x,
@@ -14,11 +20,19 @@ export default class Vector2 {
         );
     }
 
+    //todo consolidate 2 add methods and 1 static method
     add(...vectors: Vector2[]): Vector2 {
         return new Vector2(
             vectors.reduce((x, vector2) => x + vector2.x, this.x),
             vectors.reduce((y, vector2) => y + vector2.y, this.y)
         );
+    }
+
+    addInPlace(...vectors: Vector2[]): void {//todo void vs. never
+        for(const vector of vectors){
+            this.x += vector.x;
+            this.y += vector.y;
+        }
     }
 
     static add(...vectors: Vector2[]){
@@ -40,6 +54,11 @@ export default class Vector2 {
             this.x * scale,
             this.y * scale
         );
+    }
+
+    scaleInPlace(scale: number): void {
+        this.x *= scale;
+        this.y *= scale;
     }
 
     length(vector2: Vector2 = Vector2.Zero()): number {

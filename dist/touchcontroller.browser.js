@@ -2251,6 +2251,8 @@ var TouchController =
 	var TouchFrame_1 = __webpack_require__(36);
 	var Vector2_1 = __webpack_require__(37);
 	var util_1 = __webpack_require__(38);
+	//todo singleton :(
+	var onlyTouch = null;
 	function default_1(buttons, rotating) {
 	    if (buttons === void 0) { buttons = [0]; }
 	    if (rotating === void 0) { rotating = false; }
@@ -2271,13 +2273,17 @@ var TouchController =
 	        var currentTouch = null;
 	        function _handleMouseDown(event) {
 	            if (buttons.indexOf(event.button) !== -1) {
-	                _handleMouseUp(event);
+	                //_handleMouseUp(event);
+	                if (onlyTouch) {
+	                    onlyTouch.end();
+	                }
 	                currentTouch = new Touch_1.default(
 	                //this,
 	                //this._touchesAutoIncrement++,
 	                //eventId,
 	                'MOUSE', _createTouchFrameFromEvent(event));
 	                newTouch(currentTouch);
+	                onlyTouch = currentTouch;
 	            }
 	            //createNewTouch();
 	        }
@@ -3605,6 +3611,7 @@ var TouchController =
 	                    };
 	                }
 	                else {
+	                    //todo this should be like second picked point is center of bounding box
 	                    countTouchesTransformation = function (touch1) {
 	                        return new Transformation_1.default(undefined, boundingBox.center.rotation(touch1.lastFrame.position), 1);
 	                    };

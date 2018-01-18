@@ -5,6 +5,10 @@ import Vector2 from '../Vector2';
 import {isNull} from "util";
 
 
+//todo singleton :(
+let onlyTouch: Touch | null = null;
+
+
 export default function(buttons:number[] = [0], rotating = false):IListener{
     return (element: HTMLElement,
             newTouch: (touch: Touch) => void,
@@ -42,7 +46,10 @@ export default function(buttons:number[] = [0], rotating = false):IListener{
 
         function _handleMouseDown(event: MouseEvent) {
             if(buttons.indexOf(event.button)!==-1) {
-                _handleMouseUp(event);
+                //_handleMouseUp(event);
+                if(onlyTouch){
+                    onlyTouch.end();
+                }
                 currentTouch = new Touch(
                     //this,
                     //this._touchesAutoIncrement++,
@@ -51,6 +58,7 @@ export default function(buttons:number[] = [0], rotating = false):IListener{
                     _createTouchFrameFromEvent(event)
                 );
                 newTouch(currentTouch);
+                onlyTouch = currentTouch;
             }
             //createNewTouch();
         }

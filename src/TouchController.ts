@@ -50,7 +50,11 @@ export default class TouchController {
         listener(
             this.element,
             (touch: Touch)=>this._touchesObserver.next(touch),
-            (frame: TouchFrame)=>this._hoveredFramesObserver.next(frame)
+            (frame: TouchFrame)=>{
+                if(typeof this._hoveredFramesObserver !== 'undefined'){
+                    this._hoveredFramesObserver.next(frame)
+                }
+            }
         );
         //todo array of listeners disposers
     }

@@ -11,6 +11,18 @@ export default class Transformation {
         return new Transformation();
     }
 
+    static translate(translate: Vector2): Transformation {
+        return new Transformation(translate);
+    }
+
+    static rotate(rotate: number): Transformation {
+        return new Transformation(undefined,rotate);
+    }
+
+    static scale(scale: number): Transformation {
+        return new Transformation(undefined,undefined,scale);
+    }
+
     clone(): Transformation {
         return new Transformation(
             this.translate,

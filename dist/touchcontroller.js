@@ -107,7 +107,11 @@
 	    //todo dispose
 	    TouchController.prototype.addListener = function (listener) {
 	        var _this = this;
-	        listener(this.element, function (touch) { return _this._touchesObserver.next(touch); }, function (frame) { return _this._hoveredFramesObserver.next(frame); });
+	        listener(this.element, function (touch) { return _this._touchesObserver.next(touch); }, function (frame) {
+	            if (typeof _this._hoveredFramesObserver !== 'undefined') {
+	                _this._hoveredFramesObserver.next(frame);
+	            }
+	        });
 	        //todo array of listeners disposers
 	    };
 	    TouchController.prototype.emulateTouch = function (touch) {
@@ -3668,6 +3672,15 @@
 	    Transformation.Zero = function () {
 	        return new Transformation();
 	    };
+	    Transformation.translate = function (translate) {
+	        return new Transformation(translate);
+	    };
+	    Transformation.rotate = function (rotate) {
+	        return new Transformation(undefined, rotate);
+	    };
+	    Transformation.scale = function (scale) {
+	        return new Transformation(undefined, undefined, scale);
+	    };
 	    Transformation.prototype.clone = function () {
 	        return new Transformation(this.translate, this.rotate, this.scale);
 	    };
@@ -3692,6 +3705,7 @@
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
 	var Vector2_1 = __webpack_require__(37);
+	var Transformation_1 = __webpack_require__(48);
 	var BoundingBox = /** @class */ (function () {
 	    function BoundingBox(center, size, rotation) {
 	        if (center === void 0) { center = Vector2_1.default.Zero(); }
@@ -3703,6 +3717,9 @@
 	    }
 	    BoundingBox.One = function () {
 	        return new BoundingBox();
+	    };
+	    BoundingBox.fromMinMax = function (maxx, maxy, minx, miny, rotation) {
+	        return new BoundingBox(new Vector2_1.default((maxx + minx) / 2, (maxy + miny) / 2), new Vector2_1.default(maxx - minx, maxy - miny), rotation);
 	    };
 	    BoundingBox.prototype.clone = function () {
 	        return new BoundingBox(this.center, this.size, this.rotation);
@@ -3722,6 +3739,67 @@
 	            position1r.y - this.size.y / 2 <= position2r.y &&
 	            position1r.x + this.size.x / 2 >= position2r.x &&
 	            position1r.y + this.size.y / 2 >= position2r.y);
+	    };
+	    BoundingBox.prototype.grow = function (amount) {
+	        return new BoundingBox(this.center, new Vector2_1.default(this.size.x + amount * 2, this.size.y + amount * 2), this.rotation);
+	    };
+	    BoundingBox.prototype.rotate = function (radians, position) {
+	        if (radians === void 0) { radians = 0; }
+	        if (position === void 0) { position = this.center; }
+	        this.center = this.center.rotate(radians, position); //todo maybe in place
+	        this.rotation += radians;
+	    };
+	    BoundingBox.prototype.isIn = function (outerBoard) {
+	        return (outerBoard.intersects(this.topLeft) &&
+	            outerBoard.intersects(this.topRight) &&
+	            outerBoard.intersects(this.bottomLeft) &&
+	            outerBoard.intersects(this.bottomRight));
+	    };
+	    Object.defineProperty(BoundingBox.prototype, "topLeft", {
+	        get: function () {
+	            return this.center.add(new Vector2_1.default(this.size.x * -.5, this.size.y * -.5)).rotate(this.rotation, this.center);
+	        },
+	        set: function (value) {
+	            this.center = this.center.add(value.subtract(this.topLeft));
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    Object.defineProperty(BoundingBox.prototype, "topRight", {
+	        get: function () {
+	            return this.center.add(new Vector2_1.default(this.size.x * 0.5, this.size.y * -.5)).rotate(this.rotation, this.center);
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    Object.defineProperty(BoundingBox.prototype, "bottomLeft", {
+	        get: function () {
+	            return this.center.add(new Vector2_1.default(this.size.x * -.5, this.size.y * 0.5)).rotate(this.rotation, this.center);
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    Object.defineProperty(BoundingBox.prototype, "bottomRight", {
+	        get: function () {
+	            return this.center.add(new Vector2_1.default(this.size.x * 0.5, this.size.y * 0.5)).rotate(this.rotation, this.center);
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    BoundingBox.prototype.countTransformation = function (destinationBoundingBox) {
+	        return new Transformation_1.default(destinationBoundingBox.center.subtract(this.center), destinationBoundingBox.rotation - this.rotation, destinationBoundingBox.size.x / destinationBoundingBox.size.x //todo better
+	        );
+	    };
+	    BoundingBox.prototype.redrawToElement = function (boundingBoxElement) {
+	        boundingBoxElement.style.display = 'block';
+	        boundingBoxElement.style.position = 'fixed';
+	        boundingBoxElement.style.zIndex = '9999';
+	        boundingBoxElement.style.border = '2px solid red';
+	        boundingBoxElement.style.left = this.center.x + 'px';
+	        boundingBoxElement.style.top = this.center.y + 'px';
+	        boundingBoxElement.style.width = this.size.x + 'px';
+	        boundingBoxElement.style.height = this.size.y + 'px';
+	        boundingBoxElement.style.transform = "translate(-50%, -50%) rotate(" + this.rotation / Math.PI * 180 + "deg)";
 	    };
 	    return BoundingBox;
 	}());

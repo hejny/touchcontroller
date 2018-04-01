@@ -37,28 +37,56 @@
     const ctx = scene.getContext('2d');
 
     class Rect extends TC.BoundingBox {
-        constructor(color, aceptor, center, size, rotation) {
+        constructor(color, aceptor, center, size, rotation = 0, rectangles = []) {
             super(center,size,rotation);
-            this.startTransformations();
             this.hovered = false;
             this.aceptor = aceptor;
             this.color = color;
+            this.rectangles = rectangles;
+            this.startTransformations();
         }
         
         startTransformations(){
             this.shadowBoundingBox = this.cloneDeep();
+            this.aceptors= [];
+
+            //console.log(this);
+            for(const rect of this.rectangles){
+                this.aceptors.push(
+                    ...rect.anchorPoints.aceptors
+                )
+            }
+
+            //console.log(this.aceptors);
+
         }
 
         applyTransformation(transformation){
             this.shadowBoundingBox.applyTransformation(transformation);
             
 
-            this.center = new TC.Vector2(
-                Math.round(this.shadowBoundingBox.center.x/200)*200,
-                Math.round(this.shadowBoundingBox.center.y/200)*200,
-            );
+            this.center = this.snap(this.shadowBoundingBox.center);
             
 
+        }
+
+
+        snap(originalPosition){
+
+            function snapTollerance(originalPosition,snappedPosition,tollerance){
+                return originalPosition.length(snappedPosition)>tollerance?originalPosition:snappedPosition;
+            }
+
+
+
+
+            const sortedAceptors = this.aceptors.sort((aceptor1,aceptor2)=>originalPosition.length(aceptor1)>originalPosition.length(aceptor2)?1:-1);
+
+
+            const snappedPosition = sortedAceptors[0];
+
+
+            return snapTollerance(originalPosition,snappedPosition,50);
         }
 
         render(ctx) {
@@ -157,30 +185,57 @@
         }
     }
 
-    const rects = [
+    const rects = [];
+    rects.push(
         new Rect(
             'aqua',
             false,
             new TC.Vector2(100, 100),
             new TC.Vector2(100, 100),
-            Math.PI / 10
-        ),/**/
+            Math.PI / 10 * 0,
+            rects
+        )
+    );
+    rects.push(
         new Rect(
             'aqua',
             false,
             new TC.Vector2(130, 130),
             new TC.Vector2(100, 100),
-            Math.PI / -10
-        ),/**/
+            Math.PI / 10 * 1,
+            rects
+        )
+    );
+    rects.push(
+        new Rect(
+            'aqua',
+            false,
+            new TC.Vector2(200, 200),
+            new TC.Vector2(100, 100),
+            Math.PI / 10 * 2,
+            rects
+        )
+    );
+    rects.push(
+        new Rect(
+            'aqua',
+            false,
+            new TC.Vector2(300, 300),
+            new TC.Vector2(100, 100),
+            Math.PI / 10 * 4,
+            rects
+        )
+    );
+    rects.push(
         new Rect(
             'green',
             true,
-            new TC.Vector2(300, 300),
+            new TC.Vector2(500, 300),
             new TC.Vector2(200, 200),
-            0
+            0,
+            rects
         )
-    ];
-
+    );
 
     function render() {
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -191,6 +246,7 @@
             rect.renderAnchors(ctx);
         }
         requestAnimationFrame(render);
+        //setTimeout(render,1000);
     }
     render();
 
@@ -221,7 +277,7 @@
         const rect = multitouch.element;
         const sizeRatio = rect.size.y / rect.size.x;
 
-        multitouch.element.startTransformations();
+        rect.startTransformations();
 
         multitouch.transformations(
             /*new TC.Transformation(
@@ -229,7 +285,7 @@
                 rect.rotation,
                 rect.size.x
             )*/
-            multitouch.element
+            rect
         ).subscribe(function (transformation) {
 
                 //console.log(transformation);
@@ -246,10 +302,14 @@
             function () {
             },
             function () {
-                if(multitouch.empty){
 
+                //todo not nessesery
+                rect.startTransformations();
+
+                if(multitouch.empty){
                     //alert(`You have selected ${multitouch.element.color} rectangle.`);
                     rect.rotation += (Math.PI*2)/36;
+        
                 }
             });
     });

@@ -3,10 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Sample of TC (ES6)</title>
-    <link rel="stylesheet" type="text/css" href="./common.css">
 </head>
 <body>
 
+<style>
+    body{
+        width:100vw;
+        height:100vh;
+        margin:0;
+    }
+    #scene{
+        /*border: 1px solid red;*/
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+</style>
 
 <canvas id="scene" width="500" height="500"></canvas>
 
@@ -16,6 +30,10 @@
 
     const TC = TouchController;
     const scene = document.getElementById('scene');
+
+    scene.width = document.body.clientWidth;
+    scene.height = document.body.clientHeight;
+
     const ctx = scene.getContext('2d');
 
     class Rect extends TC.BoundingBox {
@@ -77,9 +95,11 @@
 
         get anchorPoints(){
 
+            
             return([
-            this.center
-                ]);
+                this.center,
+                this.center.add(this.size.scale(.5).rotate(this.rotation))
+            ]);
 
 
         }

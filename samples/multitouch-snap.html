@@ -37,14 +37,16 @@
     const ctx = scene.getContext('2d');
 
     class Rect extends TC.BoundingBox {
-        constructor(color, center, size, rotation) {
+        constructor(color, aceptor, center, size, rotation) {
             super(center,size,rotation);
             this.hovered = false;
+            this.aceptor = aceptor;
             this.color = color;
         }
 
         render(ctx) {
             ctx.save();
+            ctx.fillStyle = this.color;
             ctx.beginPath();
 
             ctx.rotate(this.rotation);
@@ -62,8 +64,8 @@
                 )
                 .toArray()
             );
+            
             ctx.rect( 0,0, this.size.x,this.size.y);
-            ctx.fillStyle = this.color;
             ctx.fill();
 
             /*{
@@ -84,23 +86,51 @@
         }
 
         renderAnchors(ctx) {
-            for(const point of this.anchorPoints){
-                //ctx.fillStyle = '#00ff00';
-                //ctx.lineWidth = 1;
-                ctx.rect( point.x-5,point.y-5, 10,10);//todo dynamic size
-                //ctx.fill();
-                ctx.stroke();
+            ctx.lineWidth = 1;
+            {
+                const size = 15;
+                for(const point of this.anchorPoints.aceptors){
+            
+                    ctx.rect( point.x-size/2,point.y-size/2, size,size);//todo dynamic size
+                    ctx.stroke();
+                }
+            }
+            {
+                const size = 10;
+                for(const point of this.anchorPoints.donors){
+            
+                    ctx.rect( point.x-size/2,point.y-size/2, size,size);//todo dynamic size
+                    ctx.stroke();
+                }
             }
         }
 
         get anchorPoints(){
 
-            
-            return([
+            const points = [
                 this.center,
-                this.center.add(this.size.scale(.5).rotate(this.rotation))
-            ]);
+                this.center.add(),
+                this.center.add(this.size.scale(0.5,0.5).rotate(this.rotation)),
+                //this.center.add(this.size.scale(-.5,0.5).rotate(this.rotation)),
+                //this.center.add(this.size.scale(0.5,-.5).rotate(this.rotation)),
+                this.center.add(this.size.scale(-.5,-.5).rotate(this.rotation)),
 
+
+            ];
+
+            let aceptors = [];
+            let donors = [];
+
+            if(this.aceptor){
+                aceptors = points;
+             }else{
+                donors = points;
+            }
+            
+            return({
+                aceptors,
+                donors
+            });
 
         }
     }
@@ -108,18 +138,21 @@
     const rects = [
         new Rect(
             'aqua',
+            false,
             new TC.Vector2(100, 100),
             new TC.Vector2(100, 100),
             Math.PI / 10
         ),/**/
         new Rect(
             'aqua',
+            false,
             new TC.Vector2(130, 130),
             new TC.Vector2(100, 100),
             Math.PI / -10
         ),/**/
         new Rect(
             'green',
+            true,
             new TC.Vector2(300, 300),
             new TC.Vector2(200, 200),
             0

@@ -39,33 +39,39 @@
     class Rect extends TC.BoundingBox {
         constructor(color, aceptor, center, size, rotation) {
             super(center,size,rotation);
+            this.shadowBoundingBox = this.cloneDeep();
             this.hovered = false;
             this.aceptor = aceptor;
             this.color = color;
         }
 
         render(ctx) {
+            this.renderBoundingBox(this,this.color,this.hovered);
+            this.renderBoundingBox(this.shadowBoundingBox,'rgba(0,0,0,0.5)',false);
+        }
+
+        renderBoundingBox(boundingBox,color,hovered){
             ctx.save();
-            ctx.fillStyle = this.color;
+            ctx.fillStyle = color;
             ctx.beginPath();
 
-            ctx.rotate(this.rotation);
+            ctx.rotate(boundingBox.rotation);
             ctx.translate(
                 ...new TC.Vector2(
-                        this.center.x,
-                        this.center.y
+                        boundingBox.center.x,
+                        boundingBox.center.y
                     )
-                    .rotate(-this.rotation)
+                    .rotate(-boundingBox.rotation)
                 .subtract(
                     new TC.Vector2(
-                        this.size.x/2,
-                        this.size.y/2
+                        boundingBox.size.x/2,
+                        boundingBox.size.y/2
                     )
                 )
                 .toArray()
             );
             
-            ctx.rect( 0,0, this.size.x,this.size.y);
+            ctx.rect( 0,0, boundingBox.size.x,boundingBox.size.y);
             ctx.fill();
 
             /*{
@@ -77,7 +83,7 @@
             }*/
 
 
-            if(this.hovered){
+            if(hovered){
                 ctx.strokeStyle = '#000000';
                 ctx.lineWidth = 3;
                 ctx.stroke();

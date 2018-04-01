@@ -39,15 +39,31 @@
     class Rect extends TC.BoundingBox {
         constructor(color, aceptor, center, size, rotation) {
             super(center,size,rotation);
-            this.shadowBoundingBox = this.cloneDeep();
+            this.startTransformations();
             this.hovered = false;
             this.aceptor = aceptor;
             this.color = color;
         }
+        
+        startTransformations(){
+            this.shadowBoundingBox = this.cloneDeep();
+        }
+
+        applyTransformation(transformation){
+            this.shadowBoundingBox.applyTransformation(transformation);
+            
+
+            this.center = new TC.Vector2(
+                Math.round(this.shadowBoundingBox.center.x/200)*200,
+                Math.round(this.shadowBoundingBox.center.y/200)*200,
+            );
+            
+
+        }
 
         render(ctx) {
             this.renderBoundingBox(this,this.color,this.hovered);
-            this.renderBoundingBox(this.shadowBoundingBox,'rgba(0,0,0,0.5)',false);
+            this.renderBoundingBox(this.shadowBoundingBox,'rgba(0,0,0,0.2)',false);
         }
 
         renderBoundingBox(boundingBox,color,hovered){
@@ -204,6 +220,9 @@
         if(typeof multitouch.element === 'undefined')return;
         const rect = multitouch.element;
         const sizeRatio = rect.size.y / rect.size.x;
+
+        multitouch.element.startTransformations();
+
         multitouch.transformations(
             /*new TC.Transformation(
                 rect.center,

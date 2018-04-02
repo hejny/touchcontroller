@@ -83,36 +83,44 @@
 
 
 
+            let targetPair = null;
+
             for(const donor of this.anchorPoints.donors){//todo optimize
-
                 for(const aceptor of this.aceptors){
+                    const distance = donor.length(aceptor);
+                    if(distance<50){
+                        if(!targetPair){
+                            targetPair = {distance,donor,aceptor};
+                        }else{
 
-
-                    originalBoundingBox.translate()
-
-                    aceptor.subtract(donor)
-
-
-
-
-
-
+                            if(distance<targetPair.distance){
+                                targetPair = {distance,donor,aceptor};//todo DRY
+                            }
+                        }
+                    }
                 }
-
-
-
                 //const sortedAceptors = this.aceptors.sort((aceptor1,aceptor2)=>donor.length(aceptor1)>donor.length(aceptor2)?1:-1);
                 //const snappedPosition = sortedAceptors[0];
                 //snappedBoundingBox.center = snapTollerance(originalBoundingBox.center,snappedPosition,50);
             }
 
 
+            if(!targetPair){
+                return originalBoundingBox;
+            }else{
+
+                console.log(targetPair);
+
+                const snappedBoundingBox = originalBoundingBox.cloneDeep();
+                snappedBoundingBox.applyTransformation(
+                    TC.Transformation.translate(targetPair.aceptor.subtract(targetPair.donor))
+                )
+
+                return snappedBoundingBox;
+
+            }
 
 
-
-
-
-            return snappedBoundingBox;
         }
 
         render(ctx) {
@@ -184,12 +192,12 @@
         get anchorPoints(){
 
             const points = [
-                this.center,
-                this.center.add(),
-                this.center.add(this.size.scale(0.5,0.5).rotate(this.rotation)),
+            this.shadowBoundingBox.center,
+            this.shadowBoundingBox.center.add(),
+            this.shadowBoundingBox.center.add(this.shadowBoundingBox.size.scale(0.5,0.5).rotate(this.shadowBoundingBox.rotation)),
                 //this.center.add(this.size.scale(-.5,0.5).rotate(this.rotation)),
                 //this.center.add(this.size.scale(0.5,-.5).rotate(this.rotation)),
-                this.center.add(this.size.scale(-.5,-.5).rotate(this.rotation)),
+                this.shadowBoundingBox.center.add(this.shadowBoundingBox.size.scale(-.5,-.5).rotate(this.shadowBoundingBox.rotation)),
 
 
             ];

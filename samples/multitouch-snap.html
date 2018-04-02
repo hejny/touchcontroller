@@ -64,14 +64,18 @@
         applyTransformation(transformation){
             this.shadowBoundingBox.applyTransformation(transformation);
             
-
-            this.center = this.snap(this.shadowBoundingBox.center);
+            const snappedBoundingBox = this.snap(this.shadowBoundingBox);
+            this.center = snappedBoundingBox.center;
+            this.rotation = snappedBoundingBox.rotation;
             
 
         }
 
 
-        snap(originalPosition){
+        snap(originalBoundingBox){//todo bounding box without size
+
+            //const snappedBoundingBox = originalBoundingBox.clone();
+            //snappedBoundingBox.rotation = 0;
 
             function snapTollerance(originalPosition,snappedPosition,tollerance){
                 return originalPosition.length(snappedPosition)>tollerance?originalPosition:snappedPosition;
@@ -79,14 +83,36 @@
 
 
 
+            for(const donor of this.anchorPoints.donors){//todo optimize
 
-            const sortedAceptors = this.aceptors.sort((aceptor1,aceptor2)=>originalPosition.length(aceptor1)>originalPosition.length(aceptor2)?1:-1);
-
-
-            const snappedPosition = sortedAceptors[0];
+                for(const aceptor of this.aceptors){
 
 
-            return snapTollerance(originalPosition,snappedPosition,50);
+                    originalBoundingBox.translate()
+
+                    aceptor.subtract(donor)
+
+
+
+
+
+
+                }
+
+
+
+                //const sortedAceptors = this.aceptors.sort((aceptor1,aceptor2)=>donor.length(aceptor1)>donor.length(aceptor2)?1:-1);
+                //const snappedPosition = sortedAceptors[0];
+                //snappedBoundingBox.center = snapTollerance(originalBoundingBox.center,snappedPosition,50);
+            }
+
+
+
+
+
+
+
+            return snappedBoundingBox;
         }
 
         render(ctx) {
@@ -139,17 +165,17 @@
             ctx.lineWidth = 1;
             {
                 const size = 15;
-                for(const point of this.anchorPoints.aceptors){
+                for(const point of this.anchorPoints.aceptors){//todo optimize
             
-                    ctx.rect( point.x-size/2,point.y-size/2, size,size);//todo dynamic size
+                    ctx.rect( point.x-size/2,point.y-size/2, size,size);
                     ctx.stroke();
                 }
             }
             {
                 const size = 10;
-                for(const point of this.anchorPoints.donors){
+                for(const point of this.anchorPoints.donors){//todo optimize
             
-                    ctx.rect( point.x-size/2,point.y-size/2, size,size);//todo dynamic size
+                    ctx.rect( point.x-size/2,point.y-size/2, size,size);
                     ctx.stroke();
                 }
             }
@@ -231,6 +257,16 @@
             'green',
             true,
             new TC.Vector2(500, 300),
+            new TC.Vector2(200, 200),
+            0,
+            rects
+        )
+    );
+    rects.push(
+        new Rect(
+            'green',
+            true,
+            new TC.Vector2(720, 300),
             new TC.Vector2(200, 200),
             0,
             rects

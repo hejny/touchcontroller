@@ -178,9 +178,19 @@
                 }else{
 
                     this._anchorPairs.push(targetPair2);
-                    console.log(targetPair2);
+                    //console.log(targetPair2);
 
-                    //snappedBoundingBox.rotate(0.2);
+                    
+
+
+                    snappedBoundingBox.rotate(
+
+                        //targetPair2.donor.rotation(targetPair1.acceptor)
+                        targetPair2.acceptor.rotation(targetPair1.acceptor)-targetPair2.donor.add(translation).rotation(targetPair1.acceptor)
+
+                        //targetPair2.acceptor.subtract(targetPair1.acceptor).rotation(targetPair2.donor.subtract(targetPair1.acceptor))
+                        ,targetPair1.acceptor
+                    );
                     /*snappedBoundingBox.applyTransformation(
                         TC.Transformation.translate(new TC.Vector2(10,0))
                         //TC.Transformation.rotate(0.5)

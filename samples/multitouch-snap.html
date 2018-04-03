@@ -136,7 +136,7 @@
                 .filter((donor)=>donor!==targetPair1.donor)
                 .map((donor)=>({
                     distance: donor.length(targetPair1.donor),
-                    rotation: donor.rotation(targetPair1.donor),
+                    //rotation: donor.rotation(targetPair1.donor),
                     original: donor 
                 }));
 
@@ -144,7 +144,7 @@
                 .filter((acceptor)=>acceptor!==targetPair1.acceptor)
                 .map((acceptor)=>({
                     distance: acceptor.length(targetPair1.acceptor),
-                    rotation: acceptor.rotation(targetPair1.acceptor),
+                    //rotation: acceptor.rotation(targetPair1.acceptor),
                     original: acceptor
                 }));
 
@@ -155,11 +155,11 @@
                     for(const otherAcceptor of otherAcceptors){
 
                         if(
-                            Math.abs(otherDonor.distance - otherAcceptor.distance)<2 //&&
+                            Math.abs(otherDonor.distance - otherAcceptor.distance)<5 //&&
                             //Math.abs(otherDonor.rotation - otherAcceptor.rotation)%(Math.PI*2)<Math.PI*2/100 
                         ){
                             const distance = otherDonor.original.length(otherAcceptor.original);
-                            //if(distance<1000){
+                            if(distance<100){
                                 if(!targetPair2){
                                  targetPair2 = {distance,donor:otherDonor.original,acceptor:otherAcceptor.original};
                                 }else{
@@ -167,7 +167,7 @@
                                         targetPair2 = {distance,donor:otherDonor.original,acceptor:otherAcceptor.original};//todo DRY
                                     }
                                 }
-                            //}
+                            }
                         }
                     
                     }
@@ -180,10 +180,11 @@
                     this._anchorPairs.push(targetPair2);
                     console.log(targetPair2);
 
-                    snappedBoundingBox.applyTransformation(
+                    //snappedBoundingBox.rotate(0.2);
+                    /*snappedBoundingBox.applyTransformation(
                         TC.Transformation.translate(new TC.Vector2(10,0))
                         //TC.Transformation.rotate(0.5)
-                    );
+                    );*/
 
                     return snappedBoundingBox;
 
@@ -289,14 +290,14 @@
 
         _anchorPoints(from = this.shadowBoundingBox){
 
-            const corner = from.size.scale(0.5,0.5).rotate(from.rotation);
-
             const points = [
                 from.center,
-                this.center.add(this.size.scale(0.5).rotate(this.rotation + Math.PI / 2 * 0)),
-                this.center.add(this.size.scale(0.5).rotate(this.rotation + Math.PI / 2 * 1)),
-                this.center.add(this.size.scale(0.5).rotate(this.rotation + Math.PI / 2 * 2)),
-                this.center.add(this.size.scale(0.5).rotate(this.rotation + Math.PI / 2 * 3)),
+                from.center.add(from.size.scale(0.5).rotate(from.rotation + Math.PI / 2 * 0)),
+                from.center.add(from.size.scale(0.5).rotate(from.rotation + Math.PI / 2 * 1)),
+                from.center.add(from.size.scale(0.5).rotate(from.rotation + Math.PI / 2 * 2)),
+                from.center.add(from.size.scale(0.5).rotate(from.rotation + Math.PI / 2 * 3)),
+
+                
                 //todo this.center.add(this.size.scale(-.5,0.5).rotate(this.rotation)),
 
             ];

@@ -37,10 +37,10 @@
     const ctx = scene.getContext('2d');
 
     class Rect extends TC.BoundingBox {
-        constructor(color, aceptor, center, size, rotation = 0, rectangles = []) {
+        constructor(color, acceptor, center, size, rotation = 0, rectangles = []) {
             super(center,size,rotation);
             this.hovered = false;
-            this.aceptor = aceptor;
+            this.acceptor = acceptor;
             this.color = color;
             this.rectangles = rectangles;
             this.startTransformations();
@@ -48,16 +48,16 @@
         
         startTransformations(){
             this.shadowBoundingBox = this.cloneDeep();
-            this.aceptors= [];
+            this.acceptors= [];
 
             //console.log(this);
             for(const rect of this.rectangles){
-                this.aceptors.push(
-                    ...rect.anchorPoints.aceptors
+                this.acceptors.push(
+                    ...rect.anchorPoints.acceptors
                 )
             }
 
-            //console.log(this.aceptors);
+            //console.log(this.acceptors);
 
         }
 
@@ -86,21 +86,21 @@
             let targetPair = null;
 
             for(const donor of this.anchorPoints.donors){//todo optimize
-                for(const aceptor of this.aceptors){
-                    const distance = donor.length(aceptor);
+                for(const acceptor of this.acceptors){
+                    const distance = donor.length(acceptor);
                     if(distance<50){
                         if(!targetPair){
-                            targetPair = {distance,donor,aceptor};
+                            targetPair = {distance,donor,acceptor};
                         }else{
 
                             if(distance<targetPair.distance){
-                                targetPair = {distance,donor,aceptor};//todo DRY
+                                targetPair = {distance,donor,acceptor};//todo DRY
                             }
                         }
                     }
                 }
-                //const sortedAceptors = this.aceptors.sort((aceptor1,aceptor2)=>donor.length(aceptor1)>donor.length(aceptor2)?1:-1);
-                //const snappedPosition = sortedAceptors[0];
+                //const sortedAcceptors = this.acceptors.sort((acceptor1,acceptor2)=>donor.length(acceptor1)>donor.length(acceptor2)?1:-1);
+                //const snappedPosition = sortedAcceptors[0];
                 //snappedBoundingBox.center = snapTollerance(originalBoundingBox.center,snappedPosition,50);
             }
 
@@ -110,13 +110,71 @@
             }else{
 
                 //console.log(targetPair);
+                const translation = targetPair.acceptor.subtract(targetPair.donor);
 
                 const snappedBoundingBox = originalBoundingBox.cloneDeep();
                 snappedBoundingBox.applyTransformation(
-                    TC.Transformation.translate(targetPair.aceptor.subtract(targetPair.donor))
+                    TC.Transformation.translate(translation)
                 )
 
-                return snappedBoundingBox;
+                //-----------------phase 2
+                //const acceptorDistances = [];
+
+                const otherDonors = this.anchorPoints.donors
+                .filter((donor)=>donor!==targetPair.donor)
+                .map((donor)=>({
+                    distance: donor.length(targetPair.donor),
+                    rotation: donor.rotation(targetPair.donor),
+                    original: donor 
+                }));
+
+                const otherAcceptors = this.acceptors
+                .filter((acceptor)=>acceptor!==targetPair.acceptor)
+                .map((acceptor)=>({
+                    distance: acceptor.length(targetPair.acceptor),
+                    rotation: acceptor.rotation(targetPair.acceptor),
+                    original: acceptor
+                }));
+
+
+                let otherDonorAcceptorPair = null;
+
+                for(const otherDonor of otherDonors){
+                    for(const otherAcceptor of otherAcceptors){
+
+                        if(
+                            otherDonor.distance === otherAcceptor.distance &&
+                            otherDonor.radius === otherAcceptor.radius
+                        ){
+                            const distance = otherDonor.original.length(otherAcceptor.original);
+                            if(distance<10){
+                                if(!otherDonorAcceptorPair){
+                                    otherDonorAcceptorPair = {distance,donor:otherDonor.original,acceptor:otherAcceptor.original};
+                                }else{
+                                    if(distance<otherDonorAcceptorPair.distance){
+                                        targetPair = {distance,donor:otherDonor.original,acceptor:otherAcceptor.original};//todo DRY
+                                    }
+                                }
+                            }
+                        }
+                    
+                    }
+                }
+
+                if(!targetPair){
+                    return snappedBoundingBox;
+                }else{
+
+
+                    snappedBoundingBox.applyTransformation(
+                        TC.Transformation.rotate(0.2)
+                    );
+
+                    return snappedBoundingBox;
+
+                }
+
+                //-----------------
 
             }
 
@@ -173,7 +231,7 @@
             ctx.lineWidth = 1;
             {
                 const size = 15;
-                for(const point of this.anchorPointsVisible.aceptors){//todo optimize
+                for(const point of this.anchorPointsVisible.acceptors){//todo optimize
             
                     ctx.rect( point.x-size/2,point.y-size/2, size,size);
                     ctx.stroke();
@@ -210,17 +268,17 @@
 
             ];
 
-            let aceptors = [];
+            let acceptors = [];
             let donors = [];
 
-            if(this.aceptor){
-                aceptors = points;
+            if(this.acceptor){
+                acceptors = points;
              }else{
                 donors = points;
             }
             
             return({
-                aceptors,
+                acceptors,
                 donors
             });
 

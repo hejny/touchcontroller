@@ -289,14 +289,15 @@
 
         _anchorPoints(from = this.shadowBoundingBox){
 
+            const corner = from.size.scale(0.5,0.5).rotate(from.rotation);
+
             const points = [
                 from.center,
-                from.center.add(),
-                from.center.add(from.size.scale(0.5,0.5).rotate(from.rotation)),
-                //this.center.add(this.size.scale(-.5,0.5).rotate(this.rotation)),
-                //this.center.add(this.size.scale(0.5,-.5).rotate(this.rotation)),
-                from.center.add(from.size.scale(-.5,-.5).rotate(from.rotation)),
-
+                this.center.add(this.size.scale(0.5).rotate(this.rotation + Math.PI / 2 * 0)),
+                this.center.add(this.size.scale(0.5).rotate(this.rotation + Math.PI / 2 * 1)),
+                this.center.add(this.size.scale(0.5).rotate(this.rotation + Math.PI / 2 * 2)),
+                this.center.add(this.size.scale(0.5).rotate(this.rotation + Math.PI / 2 * 3)),
+                //todo this.center.add(this.size.scale(-.5,0.5).rotate(this.rotation)),
 
             ];
 

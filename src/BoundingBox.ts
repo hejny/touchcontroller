@@ -35,7 +35,7 @@ export default class BoundingBox {
         );
     }
 
-    applyTransformation(transformation: Transformation) {
+    applyTransformation(transformation: Transformation) {//todo fluend API
         this.center.addInPlace(transformation.translate);
         this.size.scaleInPlace(transformation.scale);
         this.rotation += transformation.rotate;

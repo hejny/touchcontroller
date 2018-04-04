@@ -49,10 +49,14 @@ export default class Vector2 {
         );
     }
 
-    scale(scale: number): Vector2 {
+    scale(scale: number): Vector2
+    scale(scaleX: number,scaleY?: number): Vector2 {
+        if(typeof scaleY === 'undefined'){
+            scaleY = scaleX;
+        }
         return new Vector2(
-            this.x * scale,
-            this.y * scale
+            this.x * scaleX,
+            this.y * scaleY
         );
     }
 

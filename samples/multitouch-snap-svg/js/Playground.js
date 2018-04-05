@@ -107,7 +107,7 @@ class Playground{
 
                     if(multitouch.empty){
                         //alert(`You have selected ${multitouch.element.color} rectangle.`);
-                        rect.rotation += (Math.PI*2)/36;
+                        //rect.rotation += (Math.PI*2)/36;
             
                     }
                 });

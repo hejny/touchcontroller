@@ -1,0 +1,2 @@
+class Donor extends Anchor{
+}

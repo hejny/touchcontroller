@@ -4,9 +4,9 @@ class Rect extends TC.BoundingBox {
         this._anchorPairs = [];
         this.hovered = false;
         this.svgElement = svgElement;
-        this.playgroundConfig = JSON.parse(svgElement.getAttribute('data-playground'));
         this.color = color;
         this.rectangles = playground.rects;//todo store whole scene
+        this._initializeAnchorPoints(JSON.parse(svgElement.getAttribute('data-playground')));
         this.startTransformations();
     }
     
@@ -16,9 +16,11 @@ class Rect extends TC.BoundingBox {
 
         //console.log(this);
         for(const rect of this.rectangles){
-            this.acceptors.push(
-                ...rect.anchorPoints.acceptors
-            )
+            if(rect!==this){
+                this.acceptors.push(
+                    ...rect.anchorPoints.acceptors
+                )
+            }
         }
 
         //console.log(this.acceptors);
@@ -62,7 +64,7 @@ class Rect extends TC.BoundingBox {
 
         for(const donor of donors){//todo optimize
             for(const acceptor of acceptors){
-                const distance = donor.length(acceptor);
+                const distance = donor.position.length(acceptor.position);
                 if(distance<50){
                     if(!targetPair1){
                         targetPair1 = {distance,donor,acceptor};
@@ -87,32 +89,31 @@ class Rect extends TC.BoundingBox {
             this._anchorPairs.push(targetPair1);
 
             //console.log(targetPair1);
-            const translation = targetPair1.acceptor.subtract(targetPair1.donor);
+            const translation = targetPair1.acceptor.position.subtract(targetPair1.donor.position);
 
             const snappedBoundingBox = originalBoundingBox.cloneDeep();
             snappedBoundingBox.applyTransformation(
                 TC.Transformation.translate(translation)
             )
 
-            //this.renderAnchor(targetPair1.donor,'DONOR','1');
-            //this.renderAnchor(targetPair1.acceptor,'ACCEPTOR','1');
+            targetPair1.acceptor.snapDonor(targetPair1.donor);
+
+            return snappedBoundingBox;
+
 
             //-----------------phase 2
-            //const acceptorDistances = [];
-
+            /*/
             const otherDonors = donors
             .filter((donor)=>donor!==targetPair1.donor)
             .map((donor)=>({
-                distance: donor.length(targetPair1.donor),
-                //rotation: donor.rotation(targetPair1.donor),
+                distance: donor.position.length(targetPair1.donor.position),
                 original: donor 
             }));
 
             const otherAcceptors = acceptors
             .filter((acceptor)=>acceptor!==targetPair1.acceptor)
             .map((acceptor)=>({
-                distance: acceptor.length(targetPair1.acceptor),
-                //rotation: acceptor.rotation(targetPair1.acceptor),
+                distance: acceptor.position.length(targetPair1.acceptor.position),
                 original: acceptor
             }));
 
@@ -123,10 +124,9 @@ class Rect extends TC.BoundingBox {
                 for(const otherAcceptor of otherAcceptors){
 
                     if(
-                        Math.abs(otherDonor.distance - otherAcceptor.distance)<5 //&&
-                        //Math.abs(otherDonor.rotation - otherAcceptor.rotation)%(Math.PI*2)<Math.PI*2/100 
+                        Math.abs(otherDonor.original.distance - otherAcceptor.original.distance)<5
                     ){
-                        const distance = otherDonor.original.length(otherAcceptor.original);
+                        const distance = otherDonor.original.position.length(otherAcceptor.original.position);
                         if(distance<100){
                             if(!targetPair2){
                              targetPair2 = {distance,donor:otherDonor.original,acceptor:otherAcceptor.original};
@@ -145,29 +145,19 @@ class Rect extends TC.BoundingBox {
                 return snappedBoundingBox;
             }else{
 
-                this._anchorPairs.push(targetPair2);
-                //console.log(targetPair2);
-
-                
+                this._anchorPairs.push(targetPair2);             
 
 
                 snappedBoundingBox.rotate(
-
-                    //targetPair2.donor.rotation(targetPair1.acceptor)
-                    targetPair2.acceptor.rotation(targetPair1.acceptor)-targetPair2.donor.add(translation).rotation(targetPair1.acceptor)
-
-                    //targetPair2.acceptor.subtract(targetPair1.acceptor).rotation(targetPair2.donor.subtract(targetPair1.acceptor))
-                    ,targetPair1.acceptor
+                    targetPair2.acceptor.position.rotation(targetPair1.position.acceptor)
+                    -targetPair2.donor.position.add(translation).rotation(targetPair1.acceptor.position)
+                    ,targetPair1.acceptor.position
                 );
-                /*snappedBoundingBox.applyTransformation(
-                    TC.Transformation.translate(new TC.Vector2(10,0))
-                    //TC.Transformation.rotate(0.5)
-                );*/
-
+   
                 return snappedBoundingBox;
 
             }
-
+            /**/
             //-----------------
 
         }
@@ -176,7 +166,7 @@ class Rect extends TC.BoundingBox {
     }
 
     render(ctx) {
-        this.renderBoundingBox(ctx,this,this.color,this.hovered);
+        //this.renderBoundingBox(ctx,this,this.color,this.hovered);
         this.renderBoundingBox(ctx,this.shadowBoundingBox,'rgba(0,0,0,0.2)',false);
         this._anchorPairs.forEach((anchorPair,index)=>{
             this.renderAnchor(ctx,anchorPair.donor,'DONOR',index.toString());
@@ -230,19 +220,19 @@ class Rect extends TC.BoundingBox {
         ctx.lineWidth = 1;
         {
             const size = 15;
-            for(const point of this.anchorPointsVisible.acceptors){//todo optimize
-                this.renderAnchor(ctx,point,'ACCEPTOR');
+            for(const anchor of this.anchorPoints/*Visible*/.acceptors){//todo optimize
+                this.renderAnchor(ctx,anchor.position,'ACCEPTOR');
             }
         }
         {
             const size = 10;
-            for(const point of this.anchorPointsVisible.donors){//todo optimize
-                this.renderAnchor(ctx,point,'DONOR');
+            for(const anchor of this.anchorPoints/*Visible*/.donors){//todo optimize
+                this.renderAnchor(ctx,anchor.position,'DONOR');
             }
         }
     }
 
-    renderAnchor(ctx,point,type,label=''){
+    renderAnchor(ctx,point,type,label=''){//todo as param only anchor object
         let size = 0;
         if(type==='DONOR'){
             size=10;
@@ -258,15 +248,15 @@ class Rect extends TC.BoundingBox {
         }
     }
 
-    get anchorPoints(){
+    /*get anchorPoints(){
         return this._anchorPoints();
     }
 
     get anchorPointsVisible(){
         return this._anchorPoints(this);
-    }
+    }*/
 
-    _anchorPoints(from = this.shadowBoundingBox){
+    _initializeAnchorPoints(playgroundConfig){
 
         /*{
         "amount":1,
@@ -298,20 +288,27 @@ class Rect extends TC.BoundingBox {
             ]
         }
         }*/
-        
+        const donors = playgroundConfig.anchors.donors.map(
+            (donorConfig)=>new Donor(
+                this,
+                donorConfig.type,
+                new TC.Vector2(donorConfig.position.x,donorConfig.position.y)//.add(this.shadowBoundingBox.center)
+            )
+        );       
+        const acceptors = playgroundConfig.anchors.acceptors.map(
+            (acceptorConfig)=>new Acceptor(
+                this,
+                acceptorConfig.type,
+                new TC.Vector2(acceptorConfig.position.x,acceptorConfig.position.y),//.add(this.shadowBoundingBox.center),
+                acceptorConfig.accepts,
+                acceptorConfig.parent
+            )
+        );
 
-        //todo DRY
-        const donorsRelative = this.playgroundConfig.anchors.donors.map((donorConfig)=>new TC.Vector2(donorConfig.position.x,donorConfig.position.y));       
-        const acceptorsRelative = this.playgroundConfig.anchors.acceptors.map((acceptorConfig)=>new TC.Vector2(acceptorConfig.position.x,acceptorConfig.position.y));
-
-        
-        const donors = donorsRelative.map((donor)=>donor.add(this.shadowBoundingBox.center))
-        const acceptors = acceptorsRelative.map((acceptor)=>acceptor.add(this.center))
-
-        return({
+        this.anchorPoints = {
             acceptors,
             donors
-        });
+        };
 
     }
 }

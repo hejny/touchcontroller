@@ -9,7 +9,10 @@ class Acceptor extends Anchor{
     }
 
     snapDonor(donor){
-        this.donors.push(donor);
+        if(this.donors.indexOf(donor)===-1){
+            donor.acceptor = this;
+            this.donors.push(donor);
+        }
     }
 
 }

@@ -18,7 +18,7 @@ class Rect extends TC.BoundingBox {
         for(const rect of this.rectangles){
             if(rect!==this){
                 this.acceptors.push(
-                    ...rect.anchorPoints.acceptors
+                    ...rect.anchors.acceptors
                 )
             }
         }
@@ -27,21 +27,54 @@ class Rect extends TC.BoundingBox {
 
     }
 
-    applyTransformation(transformation){
+    applyTransformation(transformation,leading=true){
+
+        if(leading){
+            for(const donor of this.anchors.donors){
+                donor.release();
+            }
+        }
+
         this.shadowBoundingBox.applyTransformation(transformation);
-        
         const snappedBoundingBox = this.snap(this.shadowBoundingBox);
+
+        //const transformationSnapped = transformation;
+        /*const transformationSnapped = new TC.Transformation(
+            snappedBoundingBox.center.subtract(this.center),
+            0,//todo
+            1
+        );*/
+        //const transformationSnapped = this.countTransformation(snappedBoundingBox);
+
         this.center = snappedBoundingBox.center;
         this.rotation = snappedBoundingBox.rotation;
+
         
+        //const svgPosition = translateToVector(this.svgElement.getAttribute('transform')); 
+        //this.svgElement.setAttribute('transform',vectorToTranslate(svgPosition.add(transformationSnapped.translate)));
+
         //todo optimize cache
         const boundingBox = this.svgElement.getBoundingClientRect();
         const topLeft = new TC.Vector2(boundingBox.left,boundingBox.top);
         const translate = translateToVector(this.svgElement.getAttribute('transform'));        
         const delta = topLeft.subtract(translate);
-
         this.svgElement.setAttribute('transform',vectorToTranslate(this.topLeft.subtract(delta)));
+
+        //if(leading){
+        
+            for(const acceptor of this.anchors.acceptors){
+                for(const donor of acceptor.donors){
+
+                    donor.rect.applyTransformation(transformation,false);
+
+
+
+                }
+            }
+        //}
+
     }
+
 
     snap(originalBoundingBox){//todo bounding box without size
 
@@ -54,7 +87,7 @@ class Rect extends TC.BoundingBox {
         }
 
 
-        const donors = this.anchorPoints.donors;
+        const donors = this.anchors.donors;
         const acceptors = this.acceptors;
 
 
@@ -166,7 +199,7 @@ class Rect extends TC.BoundingBox {
     }
 
     render(ctx) {
-        //this.renderBoundingBox(ctx,this,this.color,this.hovered);
+        this.renderBoundingBox(ctx,this,this.color,this.hovered);
         this.renderBoundingBox(ctx,this.shadowBoundingBox,'rgba(0,0,0,0.2)',false);
         this._anchorPairs.forEach((anchorPair,index)=>{
             this.renderAnchor(ctx,anchorPair.donor,'DONOR',index.toString());
@@ -220,13 +253,13 @@ class Rect extends TC.BoundingBox {
         ctx.lineWidth = 1;
         {
             const size = 15;
-            for(const anchor of this.anchorPoints/*Visible*/.acceptors){//todo optimize
+            for(const anchor of this.anchors/*Visible*/.acceptors){//todo optimize
                 this.renderAnchor(ctx,anchor.position,'ACCEPTOR');
             }
         }
         {
             const size = 10;
-            for(const anchor of this.anchorPoints/*Visible*/.donors){//todo optimize
+            for(const anchor of this.anchors/*Visible*/.donors){//todo optimize
                 this.renderAnchor(ctx,anchor.position,'DONOR');
             }
         }
@@ -248,12 +281,12 @@ class Rect extends TC.BoundingBox {
         }
     }
 
-    /*get anchorPoints(){
-        return this._anchorPoints();
+    /*get anchors(){
+        return this._anchors();
     }
 
-    get anchorPointsVisible(){
-        return this._anchorPoints(this);
+    get anchorsVisible(){
+        return this._anchors(this);
     }*/
 
     _initializeAnchorPoints(playgroundConfig){
@@ -305,7 +338,7 @@ class Rect extends TC.BoundingBox {
             )
         );
 
-        this.anchorPoints = {
+        this.anchors = {
             acceptors,
             donors
         };

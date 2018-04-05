@@ -9,7 +9,7 @@
 
 
 
-<svg width="500" height="500">
+<svg id="svg"  width="500" height="500">
     <g transform="translate(4,4)" data-playground='{"amount": 1, "interactions": [{"type": "drag"}], "anchors":{"donors": [{"type": "trains", "position": {"x":0,"y":15}}], "acceptors": [{"type": "trains", "position": {"x":30,"y":15}, "accepts": 1, "parent": true}]}}'>
         <rect width="30" height="30" x="0" y="0" style="fill: white; stroke: #1A6AA3; stroke-width: 2;"></rect>
     </g>
@@ -21,23 +21,16 @@
     </g>
 </svg>
 
-<script>
-
-
-</script>
-
-
-
 <canvas id="scene" width="500" height="500"></canvas>
 
-
-
 <script type="text/javascript" src="../../dist/touchcontroller.browser.js"></script>
-<script type="text/javascript" src="./script.js"></script>
-
-    
+<script type="text/javascript">
+    const TC = TouchController;
 </script>
-
+<script type="text/javascript" src="./Rect.js"></script>
+<script type="text/javascript" src="./Scene.js"></script>
+<script type="text/javascript" src="./index.js" async defer></script>
+    
 
 </body>
 </html>

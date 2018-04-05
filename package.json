@@ -32,9 +32,11 @@
   "dependencies": {
     "@types/chai": "^4.0.10",
     "@types/mocha": "^2.2.44",
+    "@types/svg.js": "^2.3.1",
     "chai": "^4.1.2",
     "mocha": "^4.0.1",
     "rxjs": "^5.5.5",
+    "svg.js": "^2.6.4",
     "webpack": "^4.4.1"
   }
 }

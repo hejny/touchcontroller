@@ -1,9 +1,9 @@
 class Rect extends TC.BoundingBox {
-    constructor(color, acceptor, center, size, rotation = 0, scene = []) {
+    constructor(color, playground, center, size, rotation = 0, scene = []) {
         super(center,size,rotation);
         this._anchorPairs = [];
         this.hovered = false;
-        this.acceptor = acceptor;
+        this.playground = playground;
         this.color = color;
         this.rectangles = scene.rects;//todo store whole scene
         this.startTransformations();
@@ -262,27 +262,46 @@ class Rect extends TC.BoundingBox {
 
     _anchorPoints(from = this.shadowBoundingBox){
 
-        const points = [
-            from.center,
-            from.center.add(from.size.scale(0.5).rotate(from.rotation + Math.PI / 2 * 0)),
-            from.center.add(from.size.scale(0.5).rotate(from.rotation + Math.PI / 2 * 1)),
-            from.center.add(from.size.scale(0.5).rotate(from.rotation + Math.PI / 2 * 2)),
-            from.center.add(from.size.scale(0.5).rotate(from.rotation + Math.PI / 2 * 3)),
-
-            
-            //todo this.center.add(this.size.scale(-.5,0.5).rotate(this.rotation)),
-
-        ];
-
-        let acceptors = [];
-        let donors = [];
-
-        if(this.acceptor){
-            acceptors = points;
-         }else{
-            donors = points;
+        /*{
+        "amount":1,
+        "interactions":[
+            {
+                "type":"drag"
+            }
+        ],
+        "anchors":{
+            "donors":[
+                {
+                    "type":"trains",
+                    "position":{
+                    "x":0,
+                    "y":15
+                    }
+                }
+            ],
+            "acceptors":[
+                {
+                    "type":"trains",
+                    "position":{
+                    "x":30,
+                    "y":15
+                    },
+                    "accepts":1,
+                    "parent":true
+                }
+            ]
         }
+        }*/
         
+
+        //todo DRY
+        const donorsRelative = this.playground.anchors.donors.map((donorConfig)=>new TC.Vector2(donorConfig.position.x,donorConfig.position.y));       
+        const acceptorsRelative = this.playground.anchors.acceptors.map((acceptorConfig)=>new TC.Vector2(acceptorConfig.position.x,acceptorConfig.position.y));
+
+        
+        const donors = donorsRelative.map((donor)=>donor.add(this.shadowBoundingBox.center))
+        const acceptors = acceptorsRelative.map((acceptor)=>acceptor.add(this.center))
+
         return({
             acceptors,
             donors

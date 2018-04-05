@@ -12,16 +12,29 @@ const scene = new Scene(
 );
     
     
-for(const g of svgElement.querySelectorAll('g')){
-    console.log(g.getBoundingClientRect());
+for(const groupElement of svgElement.querySelectorAll('g')){
+    //console.log(g.getBoundingClientRect());
+    
+    const playground = JSON.parse(groupElement.getAttribute('data-playground'));
+    
+    console.log(playground);
+    
+    const boundingBox = groupElement.getBoundingClientRect();
+
 
 
     scene.addRect(
     new Rect(
         'red',
-        true,
-        new TC.Vector2(720, 300),
-        new TC.Vector2(200, 200),
+        playground,
+        new TC.Vector2(
+            (boundingBox.right+boundingBox.left)/2,
+            (boundingBox.bottom+boundingBox.top)/2,
+            ),
+        new TC.Vector2(
+            boundingBox.right-boundingBox.left,
+            boundingBox.bottom-boundingBox.top,
+        ),
         0,
         scene
     )

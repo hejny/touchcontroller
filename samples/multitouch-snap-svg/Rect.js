@@ -1,11 +1,12 @@
 class Rect extends TC.BoundingBox {
-    constructor(color, playground, center, size, rotation = 0, scene = []) {
+    constructor(color, svgElement, center, size, rotation = 0, playground = []) {
         super(center,size,rotation);
         this._anchorPairs = [];
         this.hovered = false;
-        this.playground = playground;
+        this.svgElement = svgElement;
+        this.playgroundConfig = JSON.parse(svgElement.getAttribute('data-playground'));
         this.color = color;
-        this.rectangles = scene.rects;//todo store whole scene
+        this.rectangles = playground.rects;//todo store whole scene
         this.startTransformations();
     }
     
@@ -31,9 +32,14 @@ class Rect extends TC.BoundingBox {
         this.center = snappedBoundingBox.center;
         this.rotation = snappedBoundingBox.rotation;
         
+        //todo optimize cache
+        const boundingBox = this.svgElement.getBoundingClientRect();
+        const topLeft = new TC.Vector2(boundingBox.left,boundingBox.top);
+        const translate = translateToVector(this.svgElement.getAttribute('transform'));        
+        const delta = topLeft.subtract(translate);
 
+        this.svgElement.setAttribute('transform',vectorToTranslate(this.topLeft.subtract(delta)));
     }
-
 
     snap(originalBoundingBox){//todo bounding box without size
 
@@ -295,8 +301,8 @@ class Rect extends TC.BoundingBox {
         
 
         //todo DRY
-        const donorsRelative = this.playground.anchors.donors.map((donorConfig)=>new TC.Vector2(donorConfig.position.x,donorConfig.position.y));       
-        const acceptorsRelative = this.playground.anchors.acceptors.map((acceptorConfig)=>new TC.Vector2(acceptorConfig.position.x,acceptorConfig.position.y));
+        const donorsRelative = this.playgroundConfig.anchors.donors.map((donorConfig)=>new TC.Vector2(donorConfig.position.x,donorConfig.position.y));       
+        const acceptorsRelative = this.playgroundConfig.anchors.acceptors.map((acceptorConfig)=>new TC.Vector2(acceptorConfig.position.x,acceptorConfig.position.y));
 
         
         const donors = donorsRelative.map((donor)=>donor.add(this.shadowBoundingBox.center))
@@ -308,4 +314,19 @@ class Rect extends TC.BoundingBox {
         });
 
     }
+}
+
+
+function vectorToTranslate(vector){
+    return `translate(${vector.x},${vector.y})`;
+}
+
+function translateToVector(translate){
+    //todo better and safer implementation
+    const inner = translate.split('translate(')[1].split(')')[0]
+    const [x,y] = inner.split(',');
+    return new TC.Vector2(
+        parseFloat(x),
+        parseFloat(y)
+    );
 }

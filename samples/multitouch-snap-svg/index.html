@@ -9,7 +9,7 @@
 
 
 
-<svg id="svg"  width="500" height="500">
+<svg id="environment-trains"  width="500" height="500">
     <g transform="translate(4,4)" data-playground='{"amount": 1, "interactions": [{"type": "drag"}], "anchors":{"donors": [{"type": "trains", "position": {"x":0,"y":15}}], "acceptors": [{"type": "trains", "position": {"x":30,"y":15}, "accepts": 1, "parent": true}]}}'>
         <rect width="30" height="30" x="0" y="0" style="fill: white; stroke: #1A6AA3; stroke-width: 2;"></rect>
     </g>
@@ -21,14 +21,44 @@
     </g>
 </svg>
 
-<canvas id="scene" width="500" height="500"></canvas>
+
+<svg  id="environment-cubes" width="500" height="500">
+        <g transform="translate(4,4)" data-playground='{"amount": -1, "interactions": [{"type": "drag"}], "anchors":{"donors": [{"type": "cube-z", "position": {"x":0,"y":15}},{"type": "cube-y", "position": {"x":0,"y":15}},{"type": "cube-x", "position": {"x":0,"y":15}}], "acceptors": [{"type": "cube-z", "position": {"x":0,"y":45}, "accepts": 1, "parent": true},{"type": "cube-y", "position": {"x":15,"y":0}, "accepts": 1, "parent": true},{"type": "cube-x", "position": {"x":30,"y":45}, "accepts": 1, "parent": true}]}}'>
+            <rect width="30" height="30" x="0" y="15" style="fill: #FF3820; stroke: #1A6AA3; stroke-width: 2;"></rect>
+            <polygon points="0,15 0,15 15,0 45,0 45,0 30,15" style="fill: #FF3820; stroke: #1A6AA3; stroke-width: 2;"></polygon>
+            <polygon points="45,0 45,0 30,15 30,45 30,45 45,30" style="fill: #FF3820; stroke: #1A6AA3; stroke-width: 2;"></polygon>
+        </g>
+        <g transform="translate(4,59)" data-playground='{"amount": -1, "interactions": [{"type": "drag"}], "anchors":{"donors": [{"type": "cube-z", "position": {"x":0,"y":15}},{"type": "cube-y", "position": {"x":0,"y":15}},{"type": "cube-x", "position": {"x":0,"y":15}}], "acceptors": [{"type": "cube-z", "position": {"x":0,"y":45}, "accepts": 1, "parent": true},{"type": "cube-y", "position": {"x":15,"y":0}, "accepts": 1, "parent": true},{"type": "cube-x", "position": {"x":30,"y":45}, "accepts": 1, "parent": true}]}}'>
+            <rect width="30" height="30" x="0" y="15" style="fill: #40CEF6; stroke: #1A6AA3; stroke-width: 2;"></rect>
+            <polygon points="0,15 0,15 15,0 45,0 45,0 30,15" style="fill: #40CEF6; stroke: #1A6AA3; stroke-width: 2;"></polygon>
+            <polygon points="45,0 45,0 30,15 30,45 30,45 45,30" style="fill: #28A4D1; stroke: #1A6AA3; stroke-width: 2;"></polygon>
+        </g>
+        <g transform="translate(4,114)" data-playground='{"amount": -1, "interactions": [{"type": "drag"}], "anchors":{"donors": [{"type": "cube-z", "position": {"x":0,"y":15}},{"type": "cube-y", "position": {"x":0,"y":15}},{"type": "cube-x", "position": {"x":0,"y":15}}], "acceptors": [{"type": "cube-z", "position": {"x":0,"y":45}, "accepts": 1, "parent": true},{"type": "cube-y", "position": {"x":15,"y":0}, "accepts": 1, "parent": true},{"type": "cube-x", "position": {"x":30,"y":45}, "accepts": 1, "parent": true}]}}'>
+            <rect width="30" height="30" x="0" y="15" style="fill: #43B94A; stroke: #1A6AA3; stroke-width: 2;"></rect>
+            <polygon points="0,15 0,15 15,0 45,0 45,0 30,15" style="fill: #58C05F; stroke: #1A6AA3; stroke-width: 2;"></polygon>
+            <polygon points="45,0 45,0 30,15 30,45 30,45 45,30" style="fill: #39943B; stroke: #1A6AA3; stroke-width: 2;"></polygon>
+        </g>
+        <g transform="translate(59,4)" data-playground='{"amount": -1, "interactions": [{"type": "drag"}], "anchors":{"donors": [{"type": "cube-z", "position": {"x":0,"y":15}},{"type": "cube-y", "position": {"x":0,"y":15}},{"type": "cube-x", "position": {"x":0,"y":15}}], "acceptors": [{"type": "cube-z", "position": {"x":0,"y":45}, "accepts": 1, "parent": true},{"type": "cube-y", "position": {"x":15,"y":0}, "accepts": 1, "parent": true},{"type": "cube-x", "position": {"x":30,"y":45}, "accepts": 1, "parent": true}]}}'>
+            <rect width="30" height="30" x="0" y="15" style="fill: #9BA2A6; stroke: #1A6AA3; stroke-width: 2;"></rect>
+            <polygon points="0,15 0,15 15,0 45,0 45,0 30,15" style="fill: #AEB5B9; stroke: #1A6AA3; stroke-width: 2;"></polygon>
+            <polygon points="45,0 45,0 30,15 30,45 30,45 45,30" style="fill: #888E93; stroke: #1A6AA3; stroke-width: 2;"></polygon>
+        </g>
+        <g transform="translate(59,59)" data-playground='{"amount": -1, "interactions": [{"type": "drag"}], "anchors":{"donors": [{"type": "cube-z", "position": {"x":0,"y":15}},{"type": "cube-y", "position": {"x":0,"y":15}},{"type": "cube-x", "position": {"x":0,"y":15}}], "acceptors": [{"type": "cube-z", "position": {"x":0,"y":45}, "accepts": 1, "parent": true},{"type": "cube-y", "position": {"x":15,"y":0}, "accepts": 1, "parent": true},{"type": "cube-x", "position": {"x":30,"y":45}, "accepts": 1, "parent": true}]}}'>
+            <rect width="30" height="30" x="0" y="15" style="fill: #FFEA3D; stroke: #1A6AA3; stroke-width: 2;"></rect>
+            <polygon points="0,15 0,15 15,0 45,0 45,0 30,15" style="fill: #FFEA3D; stroke: #1A6AA3; stroke-width: 2;"></polygon>
+            <polygon points="45,0 45,0 30,15 30,45 30,45 45,30" style="fill: #FFEA3D; stroke: #1A6AA3; stroke-width: 2;"></polygon>
+        </g>
+    </svg>
+
+
+<canvas id="debug-layer" width="500" height="500"></canvas>
 
 <script type="text/javascript" src="../../dist/touchcontroller.browser.js"></script>
 <script type="text/javascript">
     const TC = TouchController;
 </script>
 <script type="text/javascript" src="./Rect.js"></script>
-<script type="text/javascript" src="./Scene.js"></script>
+<script type="text/javascript" src="./Playground.js"></script>
 <script type="text/javascript" src="./index.js" async defer></script>
     
 

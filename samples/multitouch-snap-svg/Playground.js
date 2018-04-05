@@ -1,7 +1,7 @@
-class Scene{
+class Playground{
 
     constructor(
-        svgElement,
+        svgElements,
         touchLayerElement,
         debugCanvasElement,
 
@@ -14,13 +14,41 @@ class Scene{
         this.rects = [];
         this._initializeTouchech();
         this._renderLoopTick();
+
+        for(const svgElement of svgElements){
+            this._parseSvg(svgElement);
+        }
+
+    }
+
+    _parseSvg(svgElement){
+        for(const groupElement of svgElement.querySelectorAll('g')){
+            const boundingBox = groupElement.getBoundingClientRect();//todo to rect
+            this._addRect(
+                new Rect(
+                    'transparent',//'rgba(1,0,0,0.5)',
+                    groupElement,
+                    new TC.Vector2(
+                        (boundingBox.right+boundingBox.left)/2,
+                        (boundingBox.bottom+boundingBox.top)/2,
+                        ),
+                    new TC.Vector2(
+                        boundingBox.right-boundingBox.left,
+                        boundingBox.bottom-boundingBox.top,
+                    ),
+                    0,
+                    this
+                )
+            );
+        }
     }
 
 
-    addRect(rect){
+    _addRect(rect){
         this.rects.push(rect);
     }
 
+    
     _initializeTouchech(){
         const touchController = new TC.TouchController(this.touchLayerElement);
         const multiTouchController = new TC.MultiTouchController(

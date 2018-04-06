@@ -23,8 +23,16 @@ class Playground{
         }
 
     }
+    
 
     _parseSvg(svgElement){
+
+        const boundingBoxAll = svgElement.getBoundingClientRect();//todo to rect
+        this.offset = new TC.Vector2(
+            boundingBoxAll.left,
+            boundingBoxAll.top
+        )
+
         for(const groupElement of svgElement.querySelectorAll('g')){
             const boundingBox = groupElement.getBoundingClientRect();//todo to rect
             this.addRect(
@@ -34,7 +42,7 @@ class Playground{
                     new TC.Vector2(
                         (boundingBox.right+boundingBox.left)/2,
                         (boundingBox.bottom+boundingBox.top)/2,
-                        ),
+                        ).subtract(this.offset),
                     new TC.Vector2(
                         boundingBox.right-boundingBox.left,
                         boundingBox.bottom-boundingBox.top,

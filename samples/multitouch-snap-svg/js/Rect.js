@@ -105,7 +105,7 @@ class Rect extends TC.BoundingBox {
         const topLeft = new TC.Vector2(boundingBox.left,boundingBox.top);
         const translate = translateToVector(this.svgElement.getAttribute('transform'));        
         const delta = topLeft.subtract(translate);
-        this.svgElement.setAttribute('transform',vectorToTranslate(this.topLeft.subtract(delta)));
+        this.svgElement.setAttribute('transform',vectorToTranslate(this.topLeft.subtract(delta).add(this.playground.offset)));
 
         //if(recursion<5){
         

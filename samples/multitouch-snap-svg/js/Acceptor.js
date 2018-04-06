@@ -37,6 +37,10 @@ class Acceptor extends Anchor{
         }
     }
 
+    /*fullInsteadOf(donors){
+
+    }*/
+
     isAccepting(donor){
         return this.type===donor.type;
     }

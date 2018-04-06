@@ -11,7 +11,7 @@ class Playground{
         this.touchLayerElement=touchLayerElement;
         this.rects = [];
         this._initializeTouchech();
-        
+
         if(debugCanvasElement){
             this.debugCanvasElement=debugCanvasElement;
             this.debugCanvasElementCtx=debugCanvasElement.getContext('2d');
@@ -105,8 +105,7 @@ class Playground{
                 },
                 function () {
 
-                    //todo not nessesery
-                    rect.startTransformations();
+                    rect.endTransformations();
 
                     if(multitouch.empty){
                         //alert(`You have selected ${multitouch.element.color} rectangle.`);

@@ -10,6 +10,13 @@ class Rect extends TC.BoundingBox {
         this._initializeAnchorPoints();
         this.startTransformations(true);
     }
+
+    visualFeedback(){
+        this.svgElement.style.opacity = 0.5;
+        setTimeout(()=>{
+            this.svgElement.style.opacity = 1;
+        },500);
+    }
     
     startTransformations(initialize=false){
 
@@ -36,9 +43,10 @@ class Rect extends TC.BoundingBox {
             }
         }
 
+        this.endTransformations();
 
-        this.shadowBoundingBox = this.cloneDeep();
         this.acceptors= [];
+        this.release();
 
         //console.log(this);
         for(const rect of this.playground.rects){
@@ -53,6 +61,10 @@ class Rect extends TC.BoundingBox {
 
     }
 
+    endTransformations(){
+        this.shadowBoundingBox = this.cloneDeep();
+    }
+
     applyTransformation(transformation,leading=true,leader=null){
 
         if(leader===this){
@@ -64,11 +76,11 @@ class Rect extends TC.BoundingBox {
 
         transformation.rotate = 0;
 
-        if(leading){
+        /*if(leading){
             for(const donor of this.anchors.donors){
                 donor.release();
             }
-        }
+        }*/
 
         this.shadowBoundingBox.applyTransformation(transformation);
         const snappedBoundingBox = this.snap(this.shadowBoundingBox);
@@ -110,8 +122,16 @@ class Rect extends TC.BoundingBox {
 
     }
 
+    release(){
+        for(const donor of this.anchors.donors){
+            donor.release();
+        }
+    }
+
 
     snap(originalBoundingBox){//todo bounding box without size
+
+        this.release();
 
         this._anchorPairs = [];
         //const snappedBoundingBox = originalBoundingBox.clone();

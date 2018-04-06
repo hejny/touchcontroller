@@ -18,7 +18,7 @@ class Rect extends TC.BoundingBox {
         for(const rect of this.rectangles){
             if(rect!==this){
                 this.acceptors.push(
-                    ...rect.anchors.acceptors
+                    ...rect.anchors.acceptors.filter((acceptor)=>!acceptor.full)
                 )
             }
         }
@@ -27,7 +27,16 @@ class Rect extends TC.BoundingBox {
 
     }
 
-    applyTransformation(transformation,leading=true){
+    applyTransformation(transformation,leading=true,leader=null){
+
+        if(leader===this){
+            return;
+        }else
+        if(!leader){
+            leader=this;
+        }
+
+        transformation.rotate = 0;
 
         if(leading){
             for(const donor of this.anchors.donors){
@@ -60,12 +69,12 @@ class Rect extends TC.BoundingBox {
         const delta = topLeft.subtract(translate);
         this.svgElement.setAttribute('transform',vectorToTranslate(this.topLeft.subtract(delta)));
 
-        //if(leading){
+        //if(recursion<5){
         
-            for(const acceptor of this.anchors.acceptors){
+            for(const acceptor of this.anchors.acceptors/*.filter((acceptor)=>acceptor.parent)*/){
                 for(const donor of acceptor.donors){
 
-                    donor.rect.applyTransformation(transformation,false);
+                    donor.rect.applyTransformation(transformation,false,leader);
 
 
 

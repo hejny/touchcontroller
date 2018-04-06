@@ -15,4 +15,12 @@ class Acceptor extends Anchor{
         }
     }
 
+    get full(){
+        if(this.accepts===-1){
+            return false;
+        }else{
+            return (this.donors.length>=this.accepts);
+        }
+    }
+
 }

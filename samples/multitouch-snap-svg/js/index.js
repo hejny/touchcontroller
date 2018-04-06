@@ -9,7 +9,7 @@ const playground = new Playground(
         document.getElementById('environment-trains'),
         document.getElementById('environment-cubes')
     ],
-    debugLayerElement,
-    debugLayerElement    
+    document.body,//document.getElementById('environment-trains'),
+    //debugLayerElement    
 );
     

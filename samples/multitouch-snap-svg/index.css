@@ -5,6 +5,7 @@ body{
 }
 #debug-layer{
     /*border: 1px solid red;*/
+    pointer-events: none;
     position: fixed;
     top: 0;
     bottom: 0;
@@ -14,4 +15,8 @@ body{
 
 svg{
     border: 1px solid red;
+    -webkit-user-select: none; /* Safari 3.1+ */
+    -moz-user-select: none; /* Firefox 2+ */
+    -ms-user-select: none; /* IE 10+ */
+    user-select: none; /* Standard syntax */
 }

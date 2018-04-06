@@ -3,17 +3,20 @@ class Playground{
     constructor(
         svgElements,
         touchLayerElement,
-        debugCanvasElement,
+        debugCanvasElement=null,
 
 
     ){
         //todo use this.svgElement=svgElement;
         this.touchLayerElement=touchLayerElement;
-        this.debugCanvasElement=debugCanvasElement;
-        this.debugCanvasElementCtx=debugCanvasElement.getContext('2d');
         this.rects = [];
         this._initializeTouchech();
-        this._renderLoopTick();
+        
+        if(debugCanvasElement){
+            this.debugCanvasElement=debugCanvasElement;
+            this.debugCanvasElementCtx=debugCanvasElement.getContext('2d');
+            this._renderLoopTick();
+        }
 
         for(const svgElement of svgElements){
             this._parseSvg(svgElement);

@@ -14,9 +14,12 @@ class Acceptor extends Anchor{
             this.donors.push(donor);
 
             if(this.order==='UP'){
+                //this.rect.svgElement.parentNode.insertBefore(donor.rect.svgElement,this.rect.svgElement);
                 orderElements(this.rect.svgElement,donor.rect.svgElement);
             }else
             if(this.order==='DOWN'){
+                //this.rect.svgElement.parentNode.insertAfter(donor.rect.svgElement,this.rect.svgElement);
+                orderElements(this.rect.svgElement,donor.rect.svgElement);
                 orderElements(donor.rect.svgElement,this.rect.svgElement);
             }
 

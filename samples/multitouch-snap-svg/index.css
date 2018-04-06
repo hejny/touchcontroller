@@ -20,3 +20,18 @@ svg{
     -ms-user-select: none; /* IE 10+ */
     user-select: none; /* Standard syntax */
 }
+
+#environment-trains{
+    position:fixed;
+    top: 100px;
+    left: 100px;
+
+}
+
+
+#environment-cubes{
+    position:fixed;
+    top: 100px;
+    left: 700px;
+
+}

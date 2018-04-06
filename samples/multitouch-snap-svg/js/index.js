@@ -1,3 +1,4 @@
+console.log(`initializePlaygrounds declared`);
 function initializePlaygrounds(){
 
     for(const svgElement of document.querySelectorAll('svg[data-playground]')){
@@ -5,31 +6,42 @@ function initializePlaygrounds(){
         const playgroundData = JSON.parse(svgElement.getAttribute('data-playground'));
 
         if(!playgroundData._initialized){
-            
 
+            console.log(`Initializing new playground`,svgElement);
+            
+            if(playgroundData.debug)svgElement.style.border = '1px solid red';
+            //svgElement.style.position = 'fixed';
+            //svgElement.style.top = '0px';
+            //svgElement.style.left = '0px';
+
+            
+            svgElement.setAttribute('width',document.body.clientWidth-200);
+            svgElement.setAttribute('height',document.body.clientHeight-200);
 
             const canvas = document.createElement('canvas');
             svgElement.parentNode.appendChild(canvas);
 
+            /**/
+            
             svgElementBoundingBox = svgElement.getBoundingClientRect();
 
-            console.log(document.body.scrollTop);
-            canvas.style.border = '1px solid green';
-            canvas.style.position = 'absolute';
-            canvas.style.top = (svgElementBoundingBox.top-document.body.scrollTop)+'px';
+            console.log('svgElementBoundingBox',svgElementBoundingBox);
+
+
+            if(playgroundData.debug)canvas.style.border = '1px solid green';
+            canvas.style.position = 'fixed';
+            canvas.style.top = (svgElementBoundingBox.top)+'px';
             canvas.style.left = svgElementBoundingBox.left+'px';
             canvas.width = svgElementBoundingBox.width;
             canvas.height = svgElementBoundingBox.height;
-
-            //svgElement.style.opacity = 0.1;
-
+            /**/
 
             const playground = new Playground(
                 [
                     svgElement
                 ],
                 canvas,//document.getElementById('environment-trains'),
-                playgroundData.debug||false?canvas:undefined  
+                playgroundData.debug?canvas:undefined  
             );
 
 

@@ -1,0 +1,714 @@
+<html class=" js" lang="cs"><head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="environment" content="production">
+    
+        <title property="og:title">7 | H-Edu</title>
+    
+        
+        
+        
+        
+            <meta property="og:locale" content="cs_CZ">
+        
+        <meta property="og:image" content="http://prototyp.h-edu.cz/themes/smalltheme3/assets/images/theme-preview.png">
+    
+    
+        
+                    
+        <link rel="icon" href="http://prototyp.h-edu.cz/themes/smalltheme3/assets/images/favicon.png" type="image/png">
+    
+        <link rel="apple-touch-icon" href="http://prototyp.h-edu.cz/themes/smalltheme3/assets/images/favicon.png" type="image/png">
+    
+        <!--[if IE]>
+        <link rel="shortcut icon" href="http://prototyp.h-edu.cz/themes/smalltheme3/assets/images/favicon.ico">
+        <![endif]-->
+    
+        <!--[if lt IE 9]>
+        <script src="http://prototyp.h-edu.cz/themes/smalltheme3/assets/vendor/html5shiv/dist/html5shiv-printshiv.min.js"></script>
+        <script src="http://prototyp.h-edu.cz/themes/smalltheme3/assets/vendor/respond/dest/respond.min.js"></script>
+        <![endif]-->
+    
+    
+        <!--PH: Sem je potřeba přidat MathJax skript--> 
+        <script type="text/x-mathjax-config;executed=true">
+          MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+          });
+        </script>
+        <script type="text/javascript" async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
+    
+        
+            
+        
+        <link rel="stylesheet" href="http://prototyp.h-edu.cz/themes/smalltheme3/assets/css/custom.css?v=1522312288">
+    
+        
+    <style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+    .MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+    .MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+    .MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+    .MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+    </style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+    #MathJax_About.MathJax_MousePost {outline: none}
+    .MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 5px 0px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -khtml-border-radius: 5px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+    .MathJax_MenuItem {padding: 1px 2em; background: transparent}
+    .MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+    .MathJax_MenuActive .MathJax_MenuArrow {color: white}
+    .MathJax_MenuArrow.RTL {left: .5em; right: auto}
+    .MathJax_MenuCheck {position: absolute; left: .7em}
+    .MathJax_MenuCheck.RTL {right: .7em; left: auto}
+    .MathJax_MenuRadioCheck {position: absolute; left: .7em}
+    .MathJax_MenuRadioCheck.RTL {right: .7em; left: auto}
+    .MathJax_MenuLabel {padding: 1px 2em 3px 1.33em; font-style: italic}
+    .MathJax_MenuRule {border-top: 1px solid #DDDDDD; margin: 4px 3px}
+    .MathJax_MenuDisabled {color: GrayText}
+    .MathJax_MenuActive {background-color: #606872; color: white}
+    .MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+    .MathJax_ContextMenu:focus {outline: none}
+    .MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+    #MathJax_AboutClose {top: .2em; right: .2em}
+    .MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+    .MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+    .MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+    .MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+    .MathJax_MenuClose:hover span {background-color: #CCC!important}
+    .MathJax_MenuClose:hover:focus {outline: none}
+    </style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+    </style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+    .MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+    </style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+    #MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+    #MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+    #MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+    </style><style type="text/css">.MathJax_Preview {color: #888}
+    #MathJax_Message {position: fixed; left: 1px; bottom: 2px; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+    #MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+    .MathJax_Error {color: #CC0000; font-style: italic}
+    </style><style type="text/css">.MJXp-script {font-size: .8em}
+    .MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+    .MJXp-bold {font-weight: bold}
+    .MJXp-italic {font-style: italic}
+    .MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+    .MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+    .MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+    .MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+    .MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+    .MJXp-largeop {font-size: 150%}
+    .MJXp-largeop.MJXp-int {vertical-align: -.2em}
+    .MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+    .MJXp-display {display: block; text-align: center; margin: 1em 0}
+    .MJXp-math span {display: inline-block}
+    .MJXp-box {display: block!important; text-align: center}
+    .MJXp-box:after {content: " "}
+    .MJXp-rule {display: block!important; margin-top: .1em}
+    .MJXp-char {display: block!important}
+    .MJXp-mo {margin: 0 .15em}
+    .MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+    .MJXp-denom {display: inline-table!important; width: 100%}
+    .MJXp-denom > * {display: table-row!important}
+    .MJXp-surd {vertical-align: top}
+    .MJXp-surd > * {display: block!important}
+    .MJXp-script-box > *  {display: table!important; height: 50%}
+    .MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+    .MJXp-script-box > *:last-child > * {vertical-align: bottom}
+    .MJXp-script-box > * > * > * {display: block!important}
+    .MJXp-mphantom {visibility: hidden}
+    .MJXp-munderover {display: inline-table!important}
+    .MJXp-over {display: inline-block!important; text-align: center}
+    .MJXp-over > * {display: block!important}
+    .MJXp-munderover > * {display: table-row!important}
+    .MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+    .MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+    .MJXp-mtr {display: table-row!important}
+    .MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+    .MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+    .MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+    .MJXp-mlabeledtr {display: table-row!important}
+    .MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+    .MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+    .MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+    .MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+    .MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+    .MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+    .MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+    .MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+    .MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+    .MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+    .MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+    .MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+    .MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+    .MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+    </style><style type="text/css">.mjx-chtml {display: inline-block; line-height: 0; text-indent: 0; text-align: left; text-transform: none; font-style: normal; font-weight: normal; font-size: 100%; font-size-adjust: none; letter-spacing: normal; word-wrap: normal; word-spacing: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0; min-height: 0; border: 0; margin: 0; padding: 1px 0}
+    .MJXc-display {display: block; text-align: center; margin: 1em 0; padding: 0}
+    .mjx-chtml[tabindex]:focus, body :focus .mjx-chtml[tabindex] {display: inline-table}
+    .mjx-full-width {text-align: center; display: table-cell!important; width: 10000em}
+    .mjx-math {display: inline-block; border-collapse: separate; border-spacing: 0}
+    .mjx-math * {display: inline-block; -webkit-box-sizing: content-box!important; -moz-box-sizing: content-box!important; box-sizing: content-box!important; text-align: left}
+    .mjx-numerator {display: block; text-align: center}
+    .mjx-denominator {display: block; text-align: center}
+    .MJXc-stacked {height: 0; position: relative}
+    .MJXc-stacked > * {position: absolute}
+    .MJXc-bevelled > * {display: inline-block}
+    .mjx-stack {display: inline-block}
+    .mjx-op {display: block}
+    .mjx-under {display: table-cell}
+    .mjx-over {display: block}
+    .mjx-over > * {padding-left: 0px!important; padding-right: 0px!important}
+    .mjx-under > * {padding-left: 0px!important; padding-right: 0px!important}
+    .mjx-stack > .mjx-sup {display: block}
+    .mjx-stack > .mjx-sub {display: block}
+    .mjx-prestack > .mjx-presup {display: block}
+    .mjx-prestack > .mjx-presub {display: block}
+    .mjx-delim-h > .mjx-char {display: inline-block}
+    .mjx-surd {vertical-align: top}
+    .mjx-mphantom * {visibility: hidden}
+    .mjx-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 2px 3px; font-style: normal; font-size: 90%}
+    .mjx-annotation-xml {line-height: normal}
+    .mjx-menclose > svg {fill: none; stroke: currentColor}
+    .mjx-mtr {display: table-row}
+    .mjx-mlabeledtr {display: table-row}
+    .mjx-mtd {display: table-cell; text-align: center}
+    .mjx-label {display: table-row}
+    .mjx-box {display: inline-block}
+    .mjx-block {display: block}
+    .mjx-span {display: inline}
+    .mjx-char {display: block; white-space: pre}
+    .mjx-itable {display: inline-table; width: auto}
+    .mjx-row {display: table-row}
+    .mjx-cell {display: table-cell}
+    .mjx-table {display: table; width: 100%}
+    .mjx-line {display: block; height: 0}
+    .mjx-strut {width: 0; padding-top: 1em}
+    .mjx-vsize {width: 0}
+    .MJXc-space1 {margin-left: .167em}
+    .MJXc-space2 {margin-left: .222em}
+    .MJXc-space3 {margin-left: .278em}
+    .mjx-chartest {display: block; visibility: hidden; position: absolute; top: 0; line-height: normal; font-size: 500%}
+    .mjx-chartest .mjx-char {display: inline}
+    .mjx-chartest .mjx-box {padding-top: 1000px}
+    .MJXc-processing {visibility: hidden; position: fixed; width: 0; height: 0; overflow: hidden}
+    .MJXc-processed {display: none}
+    .mjx-test {display: block; font-style: normal; font-weight: normal; font-size: 100%; font-size-adjust: none; text-indent: 0; text-transform: none; letter-spacing: normal; word-spacing: normal; overflow: hidden; height: 1px}
+    .mjx-ex-box-test {position: absolute; overflow: hidden; width: 1px; height: 60ex}
+    .mjx-line-box-test {display: table!important}
+    .mjx-line-box-test span {display: table-cell!important; width: 10000em!important; min-width: 0; max-width: none; padding: 0; border: 0; margin: 0}
+    #MathJax_CHTML_Tooltip {background-color: InfoBackground; color: InfoText; border: 1px solid black; box-shadow: 2px 2px 5px #AAAAAA; -webkit-box-shadow: 2px 2px 5px #AAAAAA; -moz-box-shadow: 2px 2px 5px #AAAAAA; -khtml-box-shadow: 2px 2px 5px #AAAAAA; padding: 3px 4px; z-index: 401; position: absolute; left: 0; top: 0; width: auto; height: auto; display: none}
+    .mjx-chtml .mjx-noError {line-height: 1.2; vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+    .MJXc-TeX-unknown-R {font-family: STIXGeneral,'Cambria Math','Arial Unicode MS',serif; font-style: normal; font-weight: normal}
+    .MJXc-TeX-unknown-I {font-family: STIXGeneral,'Cambria Math','Arial Unicode MS',serif; font-style: italic; font-weight: normal}
+    .MJXc-TeX-unknown-B {font-family: STIXGeneral,'Cambria Math','Arial Unicode MS',serif; font-style: normal; font-weight: bold}
+    .MJXc-TeX-unknown-BI {font-family: STIXGeneral,'Cambria Math','Arial Unicode MS',serif; font-style: italic; font-weight: bold}
+    .MJXc-TeX-ams-R {font-family: MJXc-TeX-ams-R,MJXc-TeX-ams-Rw}
+    .MJXc-TeX-cal-B {font-family: MJXc-TeX-cal-B,MJXc-TeX-cal-Bx,MJXc-TeX-cal-Bw}
+    .MJXc-TeX-frak-R {font-family: MJXc-TeX-frak-R,MJXc-TeX-frak-Rw}
+    .MJXc-TeX-frak-B {font-family: MJXc-TeX-frak-B,MJXc-TeX-frak-Bx,MJXc-TeX-frak-Bw}
+    .MJXc-TeX-math-BI {font-family: MJXc-TeX-math-BI,MJXc-TeX-math-BIx,MJXc-TeX-math-BIw}
+    .MJXc-TeX-sans-R {font-family: MJXc-TeX-sans-R,MJXc-TeX-sans-Rw}
+    .MJXc-TeX-sans-B {font-family: MJXc-TeX-sans-B,MJXc-TeX-sans-Bx,MJXc-TeX-sans-Bw}
+    .MJXc-TeX-sans-I {font-family: MJXc-TeX-sans-I,MJXc-TeX-sans-Ix,MJXc-TeX-sans-Iw}
+    .MJXc-TeX-script-R {font-family: MJXc-TeX-script-R,MJXc-TeX-script-Rw}
+    .MJXc-TeX-type-R {font-family: MJXc-TeX-type-R,MJXc-TeX-type-Rw}
+    .MJXc-TeX-cal-R {font-family: MJXc-TeX-cal-R,MJXc-TeX-cal-Rw}
+    .MJXc-TeX-main-B {font-family: MJXc-TeX-main-B,MJXc-TeX-main-Bx,MJXc-TeX-main-Bw}
+    .MJXc-TeX-main-I {font-family: MJXc-TeX-main-I,MJXc-TeX-main-Ix,MJXc-TeX-main-Iw}
+    .MJXc-TeX-main-R {font-family: MJXc-TeX-main-R,MJXc-TeX-main-Rw}
+    .MJXc-TeX-math-I {font-family: MJXc-TeX-math-I,MJXc-TeX-math-Ix,MJXc-TeX-math-Iw}
+    .MJXc-TeX-size1-R {font-family: MJXc-TeX-size1-R,MJXc-TeX-size1-Rw}
+    .MJXc-TeX-size2-R {font-family: MJXc-TeX-size2-R,MJXc-TeX-size2-Rw}
+    .MJXc-TeX-size3-R {font-family: MJXc-TeX-size3-R,MJXc-TeX-size3-Rw}
+    .MJXc-TeX-size4-R {font-family: MJXc-TeX-size4-R,MJXc-TeX-size4-Rw}
+    .MJXc-TeX-vec-R {font-family: MJXc-TeX-vec-R,MJXc-TeX-vec-Rw}
+    .MJXc-TeX-vec-B {font-family: MJXc-TeX-vec-B,MJXc-TeX-vec-Bx,MJXc-TeX-vec-Bw}
+    @font-face {font-family: MJXc-TeX-ams-R; src: local('MathJax_AMS'), local('MathJax_AMS-Regular')}
+    @font-face {font-family: MJXc-TeX-ams-Rw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/eot/MathJax_AMS-Regular.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/woff/MathJax_AMS-Regular.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/otf/MathJax_AMS-Regular.otf') format('opentype')}
+    @font-face {font-family: MJXc-TeX-cal-B; src: local('MathJax_Caligraphic Bold'), local('MathJax_Caligraphic-Bold')}
+    @font-face {font-family: MJXc-TeX-cal-Bx; src: local('MathJax_Caligraphic'); font-weight: bold}
+    @font-face {font-family: MJXc-TeX-cal-Bw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/eot/MathJax_Caligraphic-Bold.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/woff/MathJax_Caligraphic-Bold.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/otf/MathJax_Caligraphic-Bold.otf') format('opentype')}
+    @font-face {font-family: MJXc-TeX-frak-R; src: local('MathJax_Fraktur'), local('MathJax_Fraktur-Regular')}
+    @font-face {font-family: MJXc-TeX-frak-Rw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/eot/MathJax_Fraktur-Regular.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/woff/MathJax_Fraktur-Regular.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/otf/MathJax_Fraktur-Regular.otf') format('opentype')}
+    @font-face {font-family: MJXc-TeX-frak-B; src: local('MathJax_Fraktur Bold'), local('MathJax_Fraktur-Bold')}
+    @font-face {font-family: MJXc-TeX-frak-Bx; src: local('MathJax_Fraktur'); font-weight: bold}
+    @font-face {font-family: MJXc-TeX-frak-Bw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/eot/MathJax_Fraktur-Bold.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/woff/MathJax_Fraktur-Bold.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/otf/MathJax_Fraktur-Bold.otf') format('opentype')}
+    @font-face {font-family: MJXc-TeX-math-BI; src: local('MathJax_Math BoldItalic'), local('MathJax_Math-BoldItalic')}
+    @font-face {font-family: MJXc-TeX-math-BIx; src: local('MathJax_Math'); font-weight: bold; font-style: italic}
+    @font-face {font-family: MJXc-TeX-math-BIw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/eot/MathJax_Math-BoldItalic.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/woff/MathJax_Math-BoldItalic.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/otf/MathJax_Math-BoldItalic.otf') format('opentype')}
+    @font-face {font-family: MJXc-TeX-sans-R; src: local('MathJax_SansSerif'), local('MathJax_SansSerif-Regular')}
+    @font-face {font-family: MJXc-TeX-sans-Rw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/eot/MathJax_SansSerif-Regular.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/woff/MathJax_SansSerif-Regular.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/otf/MathJax_SansSerif-Regular.otf') format('opentype')}
+    @font-face {font-family: MJXc-TeX-sans-B; src: local('MathJax_SansSerif Bold'), local('MathJax_SansSerif-Bold')}
+    @font-face {font-family: MJXc-TeX-sans-Bx; src: local('MathJax_SansSerif'); font-weight: bold}
+    @font-face {font-family: MJXc-TeX-sans-Bw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/eot/MathJax_SansSerif-Bold.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/woff/MathJax_SansSerif-Bold.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/otf/MathJax_SansSerif-Bold.otf') format('opentype')}
+    @font-face {font-family: MJXc-TeX-sans-I; src: local('MathJax_SansSerif Italic'), local('MathJax_SansSerif-Italic')}
+    @font-face {font-family: MJXc-TeX-sans-Ix; src: local('MathJax_SansSerif'); font-style: italic}
+    @font-face {font-family: MJXc-TeX-sans-Iw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/eot/MathJax_SansSerif-Italic.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/woff/MathJax_SansSerif-Italic.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/otf/MathJax_SansSerif-Italic.otf') format('opentype')}
+    @font-face {font-family: MJXc-TeX-script-R; src: local('MathJax_Script'), local('MathJax_Script-Regular')}
+    @font-face {font-family: MJXc-TeX-script-Rw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/eot/MathJax_Script-Regular.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/woff/MathJax_Script-Regular.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/otf/MathJax_Script-Regular.otf') format('opentype')}
+    @font-face {font-family: MJXc-TeX-type-R; src: local('MathJax_Typewriter'), local('MathJax_Typewriter-Regular')}
+    @font-face {font-family: MJXc-TeX-type-Rw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/eot/MathJax_Typewriter-Regular.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/woff/MathJax_Typewriter-Regular.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/otf/MathJax_Typewriter-Regular.otf') format('opentype')}
+    @font-face {font-family: MJXc-TeX-cal-R; src: local('MathJax_Caligraphic'), local('MathJax_Caligraphic-Regular')}
+    @font-face {font-family: MJXc-TeX-cal-Rw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/eot/MathJax_Caligraphic-Regular.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/woff/MathJax_Caligraphic-Regular.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/otf/MathJax_Caligraphic-Regular.otf') format('opentype')}
+    @font-face {font-family: MJXc-TeX-main-B; src: local('MathJax_Main Bold'), local('MathJax_Main-Bold')}
+    @font-face {font-family: MJXc-TeX-main-Bx; src: local('MathJax_Main'); font-weight: bold}
+    @font-face {font-family: MJXc-TeX-main-Bw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/eot/MathJax_Main-Bold.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/woff/MathJax_Main-Bold.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/otf/MathJax_Main-Bold.otf') format('opentype')}
+    @font-face {font-family: MJXc-TeX-main-I; src: local('MathJax_Main Italic'), local('MathJax_Main-Italic')}
+    @font-face {font-family: MJXc-TeX-main-Ix; src: local('MathJax_Main'); font-style: italic}
+    @font-face {font-family: MJXc-TeX-main-Iw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/eot/MathJax_Main-Italic.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/woff/MathJax_Main-Italic.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/otf/MathJax_Main-Italic.otf') format('opentype')}
+    @font-face {font-family: MJXc-TeX-main-R; src: local('MathJax_Main'), local('MathJax_Main-Regular')}
+    @font-face {font-family: MJXc-TeX-main-Rw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/eot/MathJax_Main-Regular.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/woff/MathJax_Main-Regular.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/otf/MathJax_Main-Regular.otf') format('opentype')}
+    @font-face {font-family: MJXc-TeX-math-I; src: local('MathJax_Math Italic'), local('MathJax_Math-Italic')}
+    @font-face {font-family: MJXc-TeX-math-Ix; src: local('MathJax_Math'); font-style: italic}
+    @font-face {font-family: MJXc-TeX-math-Iw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/eot/MathJax_Math-Italic.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/woff/MathJax_Math-Italic.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/otf/MathJax_Math-Italic.otf') format('opentype')}
+    @font-face {font-family: MJXc-TeX-size1-R; src: local('MathJax_Size1'), local('MathJax_Size1-Regular')}
+    @font-face {font-family: MJXc-TeX-size1-Rw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/eot/MathJax_Size1-Regular.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/woff/MathJax_Size1-Regular.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/otf/MathJax_Size1-Regular.otf') format('opentype')}
+    @font-face {font-family: MJXc-TeX-size2-R; src: local('MathJax_Size2'), local('MathJax_Size2-Regular')}
+    @font-face {font-family: MJXc-TeX-size2-Rw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/eot/MathJax_Size2-Regular.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/woff/MathJax_Size2-Regular.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/otf/MathJax_Size2-Regular.otf') format('opentype')}
+    @font-face {font-family: MJXc-TeX-size3-R; src: local('MathJax_Size3'), local('MathJax_Size3-Regular')}
+    @font-face {font-family: MJXc-TeX-size3-Rw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/eot/MathJax_Size3-Regular.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/woff/MathJax_Size3-Regular.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/otf/MathJax_Size3-Regular.otf') format('opentype')}
+    @font-face {font-family: MJXc-TeX-size4-R; src: local('MathJax_Size4'), local('MathJax_Size4-Regular')}
+    @font-face {font-family: MJXc-TeX-size4-Rw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/eot/MathJax_Size4-Regular.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/woff/MathJax_Size4-Regular.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/otf/MathJax_Size4-Regular.otf') format('opentype')}
+    @font-face {font-family: MJXc-TeX-vec-R; src: local('MathJax_Vector'), local('MathJax_Vector-Regular')}
+    @font-face {font-family: MJXc-TeX-vec-Rw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/eot/MathJax_Vector-Regular.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/woff/MathJax_Vector-Regular.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/otf/MathJax_Vector-Regular.otf') format('opentype')}
+    @font-face {font-family: MJXc-TeX-vec-B; src: local('MathJax_Vector Bold'), local('MathJax_Vector-Bold')}
+    @font-face {font-family: MJXc-TeX-vec-Bx; src: local('MathJax_Vector'); font-weight: bold}
+    @font-face {font-family: MJXc-TeX-vec-Bw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/eot/MathJax_Vector-Bold.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/woff/MathJax_Vector-Bold.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/fonts/HTML-CSS/TeX/otf/MathJax_Vector-Bold.otf') format('opentype')}
+    </style></head>
+        <body class="layout-custom-kapitola-detail page page-custom-kapitola-detail" cz-shortcut-listen="true"><div id="MathJax_Message" style="display: none;"></div>
+    
+            
+            <header id="header">
+    
+            
+            <div class="header-background-illustration" style="background-image: url(/storage/app/media/Ilustrace/illustration-boy.png)"></div>
+        
+        
+        <div class="header-container">
+    
+            <nav class="navbar">
+    
+                <div class="container">
+    
+                    <div class="row">
+    
+                        <div class="col-xs-12">
+    
+                            <div class="navbar-header">
+    
+                                <a class="navbar-brand" href="http://prototyp.h-edu.cz">
+    
+                                                                        <img src="/storage/app/media/Logo/hejneho-metoda-logo-white.svg" alt="" width="214" height="22">
+                                    
+                                </a>
+    
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"><span class="text visible hidden-xs">Menu</span><span class="glyphicon glyphicon-menu-hamburger hidden visible-xs" <="" button="">
+    
+                            </span></button></div>
+    
+                            <div id="navbar" class="navbar-collapse collapse">
+    
+                                    <ul class="nav navbar-nav navbar-nav-primary">
+                <li class="  ">
+                <a href="http://prototyp.h-edu.cz/cs">
+                                        Úvod
+                                </a>
+            </li>
+                <li class="ucebnice active dropdown">
+                <a href="http://prototyp.h-edu.cz/cs/ucebnice">
+                                        Učebnice
+                                </a>
+            </li>
+                <li class="  dropdown">
+                <a href="http://prototyp.h-edu.cz/cs/o-nas">
+                                        O nás
+                                </a>
+            </li>
+                <li class="  ">
+                <a href="http://prototyp.h-edu.cz/cs/kontakt">
+                                        Kontakt
+                                </a>
+            </li>
+        
+            <li class="">
+    
+                <a href="http://prototyp.h-edu.cz/cs/nakupni-kosik " class="cart">
+                    
+                    <span class="icon-cart">
+                        <span class="icon-badge">3</span>
+                    </span>
+    
+                </a>
+            
+            </li>
+    
+        
+    </ul>
+                                <ul class="nav navbar-nav navbar-nav-account navbar-right">
+    
+                                    <li class="">
+                                                                                <a href="http://prototyp.h-edu.cz/cs/prihlaseni" class="icon-login">
+                                                Přihlásit se
+                                            </a>
+                                                                        </li>
+    
+                                </ul>
+    
+                            </div>
+    
+                        </div>
+    
+                    </div>
+    
+                </div>
+    
+            </nav>
+    
+    
+        </div>
+    
+        
+        
+            <div class="banner banner-red">
+    
+                <div id="banner" class="container">
+    
+        <div class="col-xs-12">
+    
+            <div class="banner-book-container" style="background-image: url(/storage/app/media/Ucebnice/matematika-a/matematika-a.png)">
+            
+                <div class="content">
+                
+                    <a href="#" class="btn btn-primary btn-title">Vybrat jinou učebnici</a>
+    
+                    <h1 class="title">Matematika A</h1>
+                    <p class="subtitle">Učebnice matematiky pro 2. stupeň a víceletá gymnázia.</p>
+                
+                </div>
+                
+                <div class="row">
+    
+                    <div class="col-xs-12 page-block-subtitle">
+    
+        
+        <h2 class="title ">Obsah učebnice</h2>
+    
+        <div class="line-dotted"></div>
+    
+        
+    
+        
+            <div class="row margin-top">
+    
+                
+                
+                    <div class="col-xs-12 ">
+    
+                        <div class="">
+    
+           <div class="block-chapters-list" id="menu-chapters"><div><p class=""><a class="chapter"><strong>6</strong></a></p><p class=""><a class="chapter"><strong>7</strong></a></p><p class=""><a class="chapter"><strong>8</strong></a></p><p class=""><a class="chapter"><strong>9</strong></a></p><p class=""><a class="chapter"><strong>10</strong></a></p><p class=""><a class="chapter"><strong>11</strong></a></p><p class=""><a class="chapter"><strong>12</strong></a></p><p class=""><a class="chapter"><strong>13</strong></a></p><p class=""><a class="chapter"><strong>14</strong></a></p><p class=""><a class="chapter"><strong>15</strong></a></p><p class=""><a class="chapter"><strong>16</strong></a></p><p class=""><a class="chapter"><strong>17</strong></a></p><p class=""><a class="chapter"><strong>18 (číslo 1)</strong></a></p><p class=""><a class="chapter"><strong>19 (číslo 2 a 3)</strong></a></p><p class=""><a class="chapter"><strong>20</strong></a></p><p class=""><a class="chapter"><strong>21</strong></a></p><p class=""><a class="chapter"><strong>22</strong></a></p><p class=""><a class="chapter"><strong>23</strong></a></p><p class=""><a class="chapter"><strong>24</strong></a></p><p class=""><a class="chapter"><strong>25</strong></a></p><p class=""><a class="chapter"><strong>26 (číslo 4 a 5)</strong></a></p><p class=""><a class="chapter"><strong>27 (číslo 6)</strong></a></p><p class=""><a class="chapter"><strong>28</strong></a></p><p class=""><a class="chapter"><strong>29</strong></a></p><p class=""><a class="chapter"><strong>30</strong></a></p><p class=""><a class="chapter"><strong>31</strong></a></p><p class=""><a class="chapter"><strong>32 (čísla 7 a 8)</strong></a></p><p class=""><a class="chapter"><strong>33 (číslo 9 a 10)</strong></a></p><p class=""><a class="chapter"><strong>34</strong></a></p><p class=""><a class="chapter"><strong>35</strong></a></p><p class=""><a class="chapter"><strong>36</strong></a></p><p class=""><a class="chapter"><strong>37</strong></a></p><p class=""><a class="chapter"><strong>38</strong></a></p><p class=""><a class="chapter"><strong>39</strong></a></p><p class=""><a class="chapter"><strong>40</strong></a></p></div></div>
+                                  
+                        </div>
+    
+                    </div>
+    
+                
+                
+            </div>
+    
+        
+    </div>
+                </div>
+            
+            </div>
+    
+        </div>
+    
+    
+    </div>
+            </div>
+    
+        
+        <div class="banner-final-arrow">
+    
+            
+                
+        <div class="container">
+    
+            <div class="row">
+    
+                <div class="col-xs-12 page-breadcrumbs">
+    
+                    <ul>
+    
+                        <li class="home">
+    
+                            <a href="http://prototyp.h-edu.cz">Úvod</a>
+    
+                        </li>
+    
+                        
+                            <li class="item-separator">/</li>
+    
+                            <li class="">
+    
+                                <a href="http://prototyp.h-edu.cz/cs/ucebnice">Učebnice</a>
+    
+                            </li>
+    
+                        
+                            <li class="item-separator">/</li>
+    
+                            <li class="">
+    
+                                <a href="http://prototyp.h-edu.cz/cs/ucebnice/matematika-a/ochutnavka">Matematika A</a>
+    
+                            </li>
+    
+                        
+                            <li class="item-separator">/</li>
+    
+                            <li class="active" id="menu-breadcrumbs-chapter">7</li>
+    
+                        
+                    </ul>
+    
+                </div>
+    
+            </div>
+    
+        </div>
+    
+    
+    
+            
+        </div>
+    
+    </header>
+        <div class="container block-chapter" id="content"><div><div class="fullscreen-overlay"><div class="layout-custom-kapitola-detail layout-custom-sandbox page page-custom-sandbox-detail"><div class="block-sandbox"><div class="container-full"><div class="row"><div class="col-xs-12"><div class="block-chapter-part"><ul class="menu"><li><a class="icon-close" data-toggle="tooltip" data-placement="left" title="Zavřít panel"></a></li></ul><div class="header"><div class="badge"><div class="number">4</div></div><h3 class="title">POSTAV VLÁČKY</h3></div><div class="content-container"><div class="content"><div>
+    <svg data-playground="{&quot;debug&quot;:true,&quot;_initialized&quot;:false}" id="environment-trains" width="500" height="500">
+        <g transform="translate(4,4)" data-playground="{&quot;amount&quot;:1,&quot;interactions&quot;:[{&quot;type&quot;:&quot;drag&quot;}],&quot;anchors&quot;:{&quot;donors&quot;:[{&quot;type&quot;:&quot;trains&quot;,&quot;position&quot;:{&quot;x&quot;:-15,&quot;y&quot;:0},&quot;follow&quot;:true}],&quot;acceptors&quot;:[{&quot;type&quot;:&quot;trains&quot;,&quot;position&quot;:{&quot;x&quot;:20,&quot;y&quot;:0},&quot;accepts&quot;:1}]}}">
+            <rect width="30" height="30" x="0" y="0" style="fill: white; stroke: #1A6AA3; stroke-width: 2;"></rect>
+        </g>
+        
+        <g transform="translate(82,239)" data-playground="{&quot;amount&quot;:1,&quot;interactions&quot;:[{&quot;type&quot;:&quot;drag&quot;}],&quot;anchors&quot;:{&quot;donors&quot;:[{&quot;type&quot;:&quot;trains&quot;,&quot;position&quot;:{&quot;x&quot;:-45,&quot;y&quot;:0},&quot;follow&quot;:true}],&quot;acceptors&quot;:[{&quot;type&quot;:&quot;trains&quot;,&quot;position&quot;:{&quot;x&quot;:50,&quot;y&quot;:0},&quot;accepts&quot;:1}]}}">
+            <rect width="90" height="30" x="0" y="0" style="fill: #43B94A; stroke: #1A6AA3; stroke-width: 2;"></rect>
+        </g><g transform="translate(177,239)" data-playground="{&quot;amount&quot;:1,&quot;interactions&quot;:[{&quot;type&quot;:&quot;drag&quot;}],&quot;anchors&quot;:{&quot;donors&quot;:[{&quot;type&quot;:&quot;trains&quot;,&quot;position&quot;:{&quot;x&quot;:-30,&quot;y&quot;:0},&quot;follow&quot;:true}],&quot;acceptors&quot;:[{&quot;type&quot;:&quot;trains&quot;,&quot;position&quot;:{&quot;x&quot;:35,&quot;y&quot;:0},&quot;accepts&quot;:1}]}}">
+            <rect width="60" height="30" x="0" y="0" style="fill: #E42C1A; stroke: #1A6AA3; stroke-width: 2;"></rect>
+        </g>
+    </svg>
+    <canvas style="border: 1px solid green; position: absolute; top: 95px; left: 85px;" width="500" height="500"></canvas></div></div></div></div></div></div></div><div class="block-environments block-environments-toggle collapse" id="block-environments"><ul class="nav nav-tabs nav-tabs-sm nav-tabs-inline" role="tablist"><ul class="nav-icons"><li><a href=".block-environments-toggle" class="icon-menu-hide" data-toggle="collapse"></a></li></ul><li role="presentation" class="active"><a href="#one-" aria-controls="one-" role="tab" data-toggle="tab">Dřívka</a></li><li role="presentation"><a href="#two-" aria-controls="two-" role="tab" data-toggle="tab">Parkety</a></li><li role="presentation"><a href="#three-" aria-controls="three-" role="tab" data-toggle="tab">...</a></li></ul><div class="tab-content tab-content-inline"><div role="tabpanel" class="tab-pane fade in active" id="one-"></div><div role="tabpanel" class="tab-pane fade" id="two-"></div><div role="tabpanel" class="tab-pane fade" id="three-"></div><div role="tabpanel" class="tab-pane fade" id="four-"></div></div></div></div></div></div><div class="row"><div class="col-xs-12"><div class="title-image" style="background-image: url(&quot;http://prototyp.h-edu.cz/storage/app/media/Ucebnice/matematika-a/matematika-a-ochutnavka.png&quot;);"></div><div class="title-container title-image-container row-full-height"><div class="col-full-height"><h2 class="title">7</h2></div><div class="col-full-height"><ul class="title-icons"><li style="visibility: hidden;"><a href="#" class="icon-print" data-toggle="tooltip" data-placement="left" title="Tisknout kapitolu"></a></li></ul></div></div><div class="page-number">&nbsp;</div></div></div><div class="row"><div class="col-xs-12"><div class="block-chapter-part"><div class="col col-badge"><div class="badge"><div class="number">1</div></div></div><div class="col"><div class="content-container"><h3 class="title">POSTAV</h3><div class="content"><div class="Problem problem-override"><title><span class="text">POSTAV</span></title><div class="Content problem-override"><div class="Question generic-override"><div class="Environment generic-override"><div class="book-image"><img src="http://api.h-edu.cz/file/build.png"></div></div></div></div></div></div></div></div><div class="col"><ul class="menu"><li><a class="icon-fullscreen" data-toggle="tooltip" data-placement="left" title="" data-original-title="Na celou obrazovku"></a></li></ul></div></div><div class="block-chapter-info collapse in" id="block-chapter-info-1"><ul class="nav nav-tabs" role="tablist"><ul class="nav-icons"></ul><li role="presentation" class="active"><a href="#one-1" aria-controls="one-1" role="tab" data-toggle="tab">Příručka učitele</a></li></ul><div class="tab-content"><div role="tabpanel" class="tab-pane fade in active" id="one-1"><div class="difficulty-container"></div><div class="tab-content-container"><p><p><div class="Comment generic-override"><span class="text">
+            Zavádíme nové prostředí Krychlové stavby. Viz blog o Hejného metodě: </span><a href="www.h-mat.cz/dp/krychlove_stavby"><span class="text">www.h-mat.cz/dp/krychlove_stavby</span></a><span class="text">.
+        </span></div></p><p><div class="Comment generic-override"><p><span class="text">
+                U těchto i všech dalších úloh s krychlovými stavbami je důležité, aby si žáci stavby sami  postavili. Učí se nejdříve číst rovinný obrázek (portrét) prostorové stavby. Učitel staví spolu s dětmi, nejlépe v kruhu na zemi, aby si děti mohly své stavby porovnávat a případně diskutovat o tom, jak to má být. O stavbách si povídáme. Například, že zelená stavba je věž a její výška je <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-1-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 113%; position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mn>4</mn></math>" role="presentation"><span id="MJXc-Node-1" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-2" class="mjx-mrow"><span id="MJXc-Node-3" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.39em; padding-bottom: 0.335em;">4</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>4</mn></math></span></span><script type="math/tex" id="MathJax-Element-1">4</script>, že žlutá stavba je krychlový vláček a jeho délka je <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-2-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 113%; position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mn>4</mn></math>" role="presentation"><span id="MJXc-Node-4" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-5" class="mjx-mrow"><span id="MJXc-Node-6" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.39em; padding-bottom: 0.335em;">4</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>4</mn></math></span></span><script type="math/tex" id="MathJax-Element-2">4</script>, že na obrázku je ještě jeden  vláček - červený, ze dvou kostek/krychlí, že poslední, oranžová stavba má v prvním podlaží dvě kostky a ve druhém podlaží jen jednu atd. Učitel používá nové slovo podlaží v činnosti, ukazuje přitom na příslušné podlaží, a tedy není třeba nic vysvětlovat. Když budou někteří žáci používat slovo patro, protože je znají z běžného jazyka, učitel se se žáky domluví, že u krychlových staveb budou používat slovo podlaží. Volíme tento termín z toho důvodu, že je běžné v hovorovém jazyce mluvit o jednopatrovém domě, který má ovšem dvě podlaží a modeloval by se dvoupodlažní stavbou. Zde by jistě mohlo docházet k nedorozumění, že jednopatrová stavba je modelována přinejmenším dvěma krychlemi na sobě.
+            </span></p><p><span class="text">
+                Tato úloha má dvě části. Nejdříve se žáci učí číst rovinný obraz krychlové stavby, potom evidují, zatím jen slovně, počty krychlí v každé stavbě, což je méně náročné. Učitel staví spolu s dětmi, nejlépe v kruhu na koberci. Vhodné je, aby společné demonstrační krychle byly velké a žáci měli každý své krychle menší. Každý žák staví před sebou podle obrázku a nejdříve učitel, pak nějaký žák staví z větších krychlí uprostřed koberce. Tím některým žákům s nerozvinutou prostorovou představivostí dává vzor, jak “číst” předložené obrázky. Učitel sleduje, zda děti tyto <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-3-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 113%; position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mn>2</mn><mi>D</mi></math>" role="presentation"><span id="MJXc-Node-7" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-8" class="mjx-mrow"><span id="MJXc-Node-9" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.39em; padding-bottom: 0.335em;">2</span></span><span id="MJXc-Node-10" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.445em; padding-bottom: 0.279em;">D</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>2</mn><mi>D</mi></math></span></span><script type="math/tex" id="MathJax-Element-3">2D</script> obrazy prostorové situace vnímají, jak je potřeba. Sleduje, kdo například zelenou věž nebo oranžovou stavbu vpravo modeluje “naležato”.  Při stavění zavede slova, metaforické termíny, které se budou dále používat - vláček a věž. Je důležité v  komunikaci se žáky používat  důsledně stále stejnou terminologii.
+            </span></p><p><span class="text">
+                Učitel, když je vše postaveno,  klade otázky na evidenci počtu krychlí v jednotlivých stavbách i počtu staveb stejného typu: Kolik jsme postavili vláčků? - dva. Z kolika krychliček je postaven  každý vláček? - <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-4-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 113%; position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mn>2</mn></math>" role="presentation"><span id="MJXc-Node-11" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-12" class="mjx-mrow"><span id="MJXc-Node-13" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.39em; padding-bottom: 0.335em;">2</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>2</mn></math></span></span><script type="math/tex" id="MathJax-Element-4">2</script>, <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-5-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 113%; position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mn>4</mn></math>" role="presentation"><span id="MJXc-Node-14" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-15" class="mjx-mrow"><span id="MJXc-Node-16" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.39em; padding-bottom: 0.335em;">4</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>4</mn></math></span></span><script type="math/tex" id="MathJax-Element-5">4</script>. Postav další vláček ze <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-6-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 113%; position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mn>3</mn></math>" role="presentation"><span id="MJXc-Node-17" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-18" class="mjx-mrow"><span id="MJXc-Node-19" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.39em; padding-bottom: 0.39em;">3</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>3</mn></math></span></span><script type="math/tex" id="MathJax-Element-6">3</script> krychlí. Kolik máme věží?  - <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-7-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 113%; position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mn>1</mn></math>" role="presentation"><span id="MJXc-Node-20" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-21" class="mjx-mrow"><span id="MJXc-Node-22" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.39em; padding-bottom: 0.335em;">1</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>1</mn></math></span></span><script type="math/tex" id="MathJax-Element-7">1</script>. Z kolika krychliček je vytvořena? - ze <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-8-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 113%; position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mn>4</mn></math>" role="presentation"><span id="MJXc-Node-23" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-24" class="mjx-mrow"><span id="MJXc-Node-25" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.39em; padding-bottom: 0.335em;">4</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>4</mn></math></span></span><script type="math/tex" id="MathJax-Element-8">4</script>. Její výška je <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-9-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 113%; position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mn>4</mn></math>" role="presentation"><span id="MJXc-Node-26" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-27" class="mjx-mrow"><span id="MJXc-Node-28" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.39em; padding-bottom: 0.335em;">4</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>4</mn></math></span></span><script type="math/tex" id="MathJax-Element-9">4</script>. Postav věž ze dvou krychlí. Postav věž, která má <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-10-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 113%; position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mn>3</mn></math>" role="presentation"><span id="MJXc-Node-29" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-30" class="mjx-mrow"><span id="MJXc-Node-31" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.39em; padding-bottom: 0.39em;">3</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>3</mn></math></span></span><script type="math/tex" id="MathJax-Element-10">3</script> podlaží. Kolik podlaží má stavba ….? V komunikaci pozoruje, kdo už si osvojil termín.
+            </span></p></div></p></p></div></div><div role="tabpanel" class="tab-pane fade" id="two-1"></div><div role="tabpanel" class="tab-pane fade" id="three-1"><div class="search-table-container"><div class="header"><div class="col col-buttons">&nbsp;</div><div class="col col-search"><form class="form-container"><div class="form-group"><input name="search-text" class="form-control search" placeholder="Hledat ..." type="text"></div></form></div></div><div class="content"><div class="table-responsive"><table class="table search-table"><thead><tr><th style="width: 240px;">Název<span class="glyphicon glyphicon-chevron-down"></span></th><th>Učebnice</th><th></th></tr></thead><tbody><tr><td><strong>Obrazec podle obrázku</strong></td><td>Elektronická učebnice A</td><td class="col-actions"><a class="btn btn-primary btn-sm" href="#">Zobrazit</a></td></tr><tr><td><strong>Přiložte 4 dřívka</strong></td><td>Elektronická učebnice B</td><td class="col-actions"><a class="btn btn-primary btn-sm" href="#">Zobrazit</a></td></tr><tr><td><strong>Zvětšení trojúhelníku</strong></td><td>Elektronická učebnice C</td><td class="col-actions"><a class="btn btn-primary btn-sm" href="#">Zobrazit</a></td></tr></tbody><tfoot><tr><td colspan="2">Celkem záznamů</td><td class="col-pagination"><span class="glyphicon glyphicon-chevron-left"></span> 1 <span class="glyphicon glyphicon-chevron-right"></span></td></tr></tfoot></table></div></div></div></div><div role="tabpanel" class="tab-pane fade" id="four-1"><div class="tab-content-container"><p>Prostředí dřívek je manipulativní. Na prvním stupni rozvíjí jemnou motoriku dětí, která je potřebná například i k rýsování. Také rozvíjí poznávání geometrických tvarů jako čtverec, obdélník, kosočtverec, kosodélník, trojúhelník, lichoběžník, konvexní i nekonvexní šestiúhelník atd. Při vytváření obrazců podle obrázku se žáci učí pozorovat vlastnosti obrazce. Tvořením dalších obrazců, přidáváním, ubíráním, přemísťováním dřívek se rozvíjí kombinatorické schopnosti a „umění vidět“ neboli představivost v rovině, zejména představivost o změnách. Věk 12 let je, podle Piagetových stádií kognitivního vývoje jedince, zlomovým věkem, kdy žák přechází ze stádia konkrétních operací do stádia formálních operací. Proto je důležité se ještě věnovat konkrétním manipulativním činnostem, ale zároveň už směrovat přemýšlení žáků k mentálním operacím s abstraktními pojmy.</p><p>V prostředí dřívek se budují a v činnostech rozvíjejí také pojmy obvod a obsah obrazce, pracuje se s různými jednotkami obsahu („kachlíky“ – jednotkové trojúhelníky nebo jednotkové čtverce), pracuje se se zlomky jako s částmi celku. Připravují se geometrické relace jako shodnost a podobnost a geometrické transformace – otáčení, osová souměrnost, posunutí. V tomto prostředí je možné postupně odhalovat jednoduché i složitější vazby a pomalu přecházet od jejich slovního popisu k popisu algebraickému.</p></div></div></div></div></div><div class="col-xs-12"><div class="block-chapter-part"><div class="col col-badge"><div class="badge"><div class="number">2</div></div></div><div class="col"><div class="content-container"><h3 class="title">ZAPIŠ POČET</h3><div class="content"><div class="Problem problem-override"><title><span class="text">ZAPIŠ POČET</span></title><div class="Content problem-override"><div class="Question generic-override"><div class="Environment generic-override"><div class="book-image"><img src="http://api.h-edu.cz/file/counting.png"></div></div></div></div></div></div></div></div><div class="col"><ul class="menu"><li><a class="icon-fullscreen" data-toggle="tooltip" data-placement="left" title="" data-original-title="Na celou obrazovku"></a></li></ul></div></div><div class="block-chapter-info collapse in" id="block-chapter-info-1"><ul class="nav nav-tabs" role="tablist"><ul class="nav-icons"></ul><li role="presentation" class="active"><a href="#one-1" aria-controls="one-1" role="tab" data-toggle="tab">Příručka učitele</a></li></ul><div class="tab-content"><div role="tabpanel" class="tab-pane fade in active" id="one-1"><div class="difficulty-container"></div><div class="tab-content-container"><p><p><div class="Comment generic-override"><span class="text">
+            Co postupně počítáme? Děti, zeleninu, ovoce, zeleninu, končetiny, psací potřeby, ovoce a zeleninu, sladkosti.
+        </span></div></p><p><div class="Comment generic-override"><p><span class="text">Úloha sleduje diagnostické cíle. U prvního obrázku některý žák udělá dvě čárky vlevo - jakožto dva hoši a jednu vpravo - jedna dívka. Jiný žák udělá tři čárky - tři děti. Učitel nechá oba žáky ukázat svůj zápis třídě a pak řekne, v této úloze budeme počítat všechno dohromady. Tím, že informaci „dva hoši a jedna dívka” žák redukuje na informaci „tři děti”, probíhá v jeho hlavě abstrakce. Učí se zanedbávat část informace. Odhlíží (abstrahuje) od pohlaví dítěte a vnímá pouze počet dětí. Důležité je, aby žáci pojmenovali jedním názvem to, co je na obrázku: <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-11-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 113%; position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mn>3</mn></math>" role="presentation"><span id="MJXc-Node-32" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-33" class="mjx-mrow"><span id="MJXc-Node-34" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.39em; padding-bottom: 0.39em;">3</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>3</mn></math></span></span><script type="math/tex" id="MathJax-Element-11">3</script> děti, <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-12-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 113%; position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mn>4</mn></math>" role="presentation"><span id="MJXc-Node-35" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-36" class="mjx-mrow"><span id="MJXc-Node-37" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.39em; padding-bottom: 0.335em;">4</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>4</mn></math></span></span><script type="math/tex" id="MathJax-Element-12">4</script> kusy zeleniny, <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-13-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 113%; position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mn>4</mn></math>" role="presentation"><span id="MJXc-Node-38" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-39" class="mjx-mrow"><span id="MJXc-Node-40" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.39em; padding-bottom: 0.335em;">4</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>4</mn></math></span></span><script type="math/tex" id="MathJax-Element-13">4</script> kusy ovoce, <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-14-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 113%; position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mn>5</mn></math>" role="presentation"><span id="MJXc-Node-41" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-42" class="mjx-mrow"><span id="MJXc-Node-43" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.39em; padding-bottom: 0.39em;">5</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>5</mn></math></span></span><script type="math/tex" id="MathJax-Element-14">5</script> kusů zeleniny, <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-15-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 113%; position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mn>2</mn></math>" role="presentation"><span id="MJXc-Node-44" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-45" class="mjx-mrow"><span id="MJXc-Node-46" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.39em; padding-bottom: 0.335em;">2</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>2</mn></math></span></span><script type="math/tex" id="MathJax-Element-15">2</script> končetiny (<span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-16-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 113%; position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mn>10</mn></math>" role="presentation"><span id="MJXc-Node-47" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-48" class="mjx-mrow"><span id="MJXc-Node-49" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.39em; padding-bottom: 0.39em;">10</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>10</mn></math></span></span><script type="math/tex" id="MathJax-Element-16">10</script> prstů), <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-17-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 113%; position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mn>3</mn></math>" role="presentation"><span id="MJXc-Node-50" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-51" class="mjx-mrow"><span id="MJXc-Node-52" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.39em; padding-bottom: 0.39em;">3</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>3</mn></math></span></span><script type="math/tex" id="MathJax-Element-17">3</script> psací potřeby. Poslední dva obrázky jsou výzvou pro hledání společného názvu.</span></p></div></p></p></div></div><div role="tabpanel" class="tab-pane fade" id="two-1"></div><div role="tabpanel" class="tab-pane fade" id="three-1"><div class="search-table-container"><div class="header"><div class="col col-buttons">&nbsp;</div><div class="col col-search"><form class="form-container"><div class="form-group"><input name="search-text" class="form-control search" placeholder="Hledat ..." type="text"></div></form></div></div><div class="content"><div class="table-responsive"><table class="table search-table"><thead><tr><th style="width: 240px;">Název<span class="glyphicon glyphicon-chevron-down"></span></th><th>Učebnice</th><th></th></tr></thead><tbody><tr><td><strong>Obrazec podle obrázku</strong></td><td>Elektronická učebnice A</td><td class="col-actions"><a class="btn btn-primary btn-sm" href="#">Zobrazit</a></td></tr><tr><td><strong>Přiložte 4 dřívka</strong></td><td>Elektronická učebnice B</td><td class="col-actions"><a class="btn btn-primary btn-sm" href="#">Zobrazit</a></td></tr><tr><td><strong>Zvětšení trojúhelníku</strong></td><td>Elektronická učebnice C</td><td class="col-actions"><a class="btn btn-primary btn-sm" href="#">Zobrazit</a></td></tr></tbody><tfoot><tr><td colspan="2">Celkem záznamů</td><td class="col-pagination"><span class="glyphicon glyphicon-chevron-left"></span> 1 <span class="glyphicon glyphicon-chevron-right"></span></td></tr></tfoot></table></div></div></div></div><div role="tabpanel" class="tab-pane fade" id="four-1"><div class="tab-content-container"><p>Prostředí dřívek je manipulativní. Na prvním stupni rozvíjí jemnou motoriku dětí, která je potřebná například i k rýsování. Také rozvíjí poznávání geometrických tvarů jako čtverec, obdélník, kosočtverec, kosodélník, trojúhelník, lichoběžník, konvexní i nekonvexní šestiúhelník atd. Při vytváření obrazců podle obrázku se žáci učí pozorovat vlastnosti obrazce. Tvořením dalších obrazců, přidáváním, ubíráním, přemísťováním dřívek se rozvíjí kombinatorické schopnosti a „umění vidět“ neboli představivost v rovině, zejména představivost o změnách. Věk 12 let je, podle Piagetových stádií kognitivního vývoje jedince, zlomovým věkem, kdy žák přechází ze stádia konkrétních operací do stádia formálních operací. Proto je důležité se ještě věnovat konkrétním manipulativním činnostem, ale zároveň už směrovat přemýšlení žáků k mentálním operacím s abstraktními pojmy.</p><p>V prostředí dřívek se budují a v činnostech rozvíjejí také pojmy obvod a obsah obrazce, pracuje se s různými jednotkami obsahu („kachlíky“ – jednotkové trojúhelníky nebo jednotkové čtverce), pracuje se se zlomky jako s částmi celku. Připravují se geometrické relace jako shodnost a podobnost a geometrické transformace – otáčení, osová souměrnost, posunutí. V tomto prostředí je možné postupně odhalovat jednoduché i složitější vazby a pomalu přecházet od jejich slovního popisu k popisu algebraickému.</p></div></div></div></div></div><div class="col-xs-12"><div class="block-chapter-part"><div class="col col-badge"><div class="badge"><div class="number">3</div></div></div><div class="col"><div class="content-container"><h3 class="title">TLESKÁME</h3><div class="content"><div class="Problem problem-override"><title><span class="text">TLESKÁME</span></title><div class="Content problem-override"><div class="Question generic-override"><div class="Environment generic-override"><div class="book-image"><img src="http://api.h-edu.cz/file/clap.png"></div></div></div></div></div></div></div></div><div class="col"><ul class="menu"><li><a class="icon-fullscreen" data-toggle="tooltip" data-placement="left" title="" data-original-title="Na celou obrazovku"></a></li></ul></div></div><div class="block-chapter-info collapse in" id="block-chapter-info-1"><ul class="nav nav-tabs" role="tablist"><ul class="nav-icons"></ul><li role="presentation" class="active"><a href="#one-1" aria-controls="one-1" role="tab" data-toggle="tab">Příručka učitele</a></li></ul><div class="tab-content"><div role="tabpanel" class="tab-pane fade in active" id="one-1"><div class="difficulty-container"></div><div class="tab-content-container"><p><p><div class="Comment generic-override"><span class="text">
+            Opakujeme říkánku Ten náš Pavel. Tleskáme. Sledujeme, zda žáci dobře synchronizují rytmus říkanky s rytmem tleskání. Pokud již většina žáků tento synchron zvládla, můžeme přidat i dupání do rytmu. Střídáme tlesknutí s dupnutím. </span><br><span class="text">
+            Můžeme přidat další básničku jako motivační pro aktivitu, která následuje. </span><br><span class="text">
+            Vláček </span><br><span class="text">
+            Jede vláček, jede krajem, </span><br><span class="text">
+            My si také na vlak hrajem. </span><br><span class="text">
+            Jeden vagon, druhý, třetí, </span><br><span class="text">
+            zapojte se všechny děti! </span><br><div class="Environment generic-override"><div class="Generic generic-override"><div class="book-image"><img src="http://api.h-edu.cz/file/book-1_1_2_picture.png"></div></div></div></div></p></p></div></div><div role="tabpanel" class="tab-pane fade" id="two-1"></div><div role="tabpanel" class="tab-pane fade" id="three-1"><div class="search-table-container"><div class="header"><div class="col col-buttons">&nbsp;</div><div class="col col-search"><form class="form-container"><div class="form-group"><input name="search-text" class="form-control search" placeholder="Hledat ..." type="text"></div></form></div></div><div class="content"><div class="table-responsive"><table class="table search-table"><thead><tr><th style="width: 240px;">Název<span class="glyphicon glyphicon-chevron-down"></span></th><th>Učebnice</th><th></th></tr></thead><tbody><tr><td><strong>Obrazec podle obrázku</strong></td><td>Elektronická učebnice A</td><td class="col-actions"><a class="btn btn-primary btn-sm" href="#">Zobrazit</a></td></tr><tr><td><strong>Přiložte 4 dřívka</strong></td><td>Elektronická učebnice B</td><td class="col-actions"><a class="btn btn-primary btn-sm" href="#">Zobrazit</a></td></tr><tr><td><strong>Zvětšení trojúhelníku</strong></td><td>Elektronická učebnice C</td><td class="col-actions"><a class="btn btn-primary btn-sm" href="#">Zobrazit</a></td></tr></tbody><tfoot><tr><td colspan="2">Celkem záznamů</td><td class="col-pagination"><span class="glyphicon glyphicon-chevron-left"></span> 1 <span class="glyphicon glyphicon-chevron-right"></span></td></tr></tfoot></table></div></div></div></div><div role="tabpanel" class="tab-pane fade" id="four-1"><div class="tab-content-container"><p>Prostředí dřívek je manipulativní. Na prvním stupni rozvíjí jemnou motoriku dětí, která je potřebná například i k rýsování. Také rozvíjí poznávání geometrických tvarů jako čtverec, obdélník, kosočtverec, kosodélník, trojúhelník, lichoběžník, konvexní i nekonvexní šestiúhelník atd. Při vytváření obrazců podle obrázku se žáci učí pozorovat vlastnosti obrazce. Tvořením dalších obrazců, přidáváním, ubíráním, přemísťováním dřívek se rozvíjí kombinatorické schopnosti a „umění vidět“ neboli představivost v rovině, zejména představivost o změnách. Věk 12 let je, podle Piagetových stádií kognitivního vývoje jedince, zlomovým věkem, kdy žák přechází ze stádia konkrétních operací do stádia formálních operací. Proto je důležité se ještě věnovat konkrétním manipulativním činnostem, ale zároveň už směrovat přemýšlení žáků k mentálním operacím s abstraktními pojmy.</p><p>V prostředí dřívek se budují a v činnostech rozvíjejí také pojmy obvod a obsah obrazce, pracuje se s různými jednotkami obsahu („kachlíky“ – jednotkové trojúhelníky nebo jednotkové čtverce), pracuje se se zlomky jako s částmi celku. Připravují se geometrické relace jako shodnost a podobnost a geometrické transformace – otáčení, osová souměrnost, posunutí. V tomto prostředí je možné postupně odhalovat jednoduché i složitější vazby a pomalu přecházet od jejich slovního popisu k popisu algebraickému.</p></div></div></div></div></div><div class="col-xs-12"><div class="block-chapter-part"><div class="col col-badge"><div class="badge"><div class="number">4</div></div></div><div class="col"><div class="content-container"><h3 class="title">POSTAV VLÁČKY</h3><div class="content"><div class="Problem problem-override"><title><span class="text">POSTAV VLÁČKY</span></title><div class="Content problem-override"><div class="Question generic-override"><span class="text">
+        Z VAGÓNKŮ POSTAV VLÁČKY.</span><br><div class="Environment generic-override"><item type="train" color="white" length="1"></item></div><div class="Environment generic-override"><item type="train" color="red" length="2"></item></div><div class="Environment generic-override"><item type="train" color="lightgreen" length="3"></item></div><div class="Environment generic-override"><div class="book-image"><img src="http://api.h-edu.cz/file/talking.png"></div></div></div></div></div></div></div></div><div class="col"><ul class="menu"><li><a class="icon-fullscreen" data-toggle="tooltip" data-placement="left" title="" data-original-title="Na celou obrazovku"></a></li></ul></div></div><div class="block-chapter-info collapse in" id="block-chapter-info-1"><ul class="nav nav-tabs" role="tablist"><ul class="nav-icons"></ul><li role="presentation" class="active"><a href="#one-1" aria-controls="one-1" role="tab" data-toggle="tab">Příručka učitele</a></li></ul><div class="tab-content"><div role="tabpanel" class="tab-pane fade in active" id="one-1"><div class="difficulty-container"></div><div class="tab-content-container"><p><p><div class="Comment generic-override"><span class="text">
+            Zavádíme nové prostředí Vláčky. Viz blog o Hejného metodě: </span><a href="www.h-mat.cz/dp/vlacky"><span class="text">www.h-mat.cz/dp/vlacky</span></a></div></p><p><div class="Comment generic-override"><p><span class="text">
+                Představujeme nové prostředí Vláčky. Využíváme pomůcku Vláčky - sadu barevných různě dlouhých hranolů, nebo můžeme využít i Cuisenairovy kostky. Barvy jsou zde důležité.  Zde jsou uvedeny pouze první tři (dalších sedm bude postupně zavedeno později). Je to prostředí, které modeluje malá přirozená čísla pomocí délky (veličiny, nikoliv počtu). Krychlové stavby podobně modelují malá přirozená čísla pomocí výšky. V tomto prostředí je důležitá manipulace, proto v případě, že žáci nemají k dispozici pomůcky (dřevěné barevné hranolky, nebo Cuisenairovy kostky, nebo vyrobené vlastní pomůcky - papírová náhražku), úlohy z tohoto prostředí odložíme, dokud si pomůcku neopatříme.
+            </span></p><p><span class="text">
+                V této úloze dostanou žáci k dispozici sadu <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-18-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 113%; position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mn>2</mn></math>" role="presentation"><span id="MJXc-Node-53" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-54" class="mjx-mrow"><span id="MJXc-Node-55" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.39em; padding-bottom: 0.335em;">2</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>2</mn></math></span></span><script type="math/tex" id="MathJax-Element-18">2</script> bílých, <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-19-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 113%; position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mn>1</mn></math>" role="presentation"><span id="MJXc-Node-56" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-57" class="mjx-mrow"><span id="MJXc-Node-58" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.39em; padding-bottom: 0.335em;">1</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>1</mn></math></span></span><script type="math/tex" id="MathJax-Element-19">1</script> červeného a <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-20-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 113%; position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mn>2</mn></math>" role="presentation"><span id="MJXc-Node-59" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-60" class="mjx-mrow"><span id="MJXc-Node-61" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.39em; padding-bottom: 0.335em;">2</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>2</mn></math></span></span><script type="math/tex" id="MathJax-Element-20">2</script> zelených vagónku. Z nich mohou žáci složit vláček obsahující dva, tři nebo i více vagónků. Za vláček považujeme i jediný vagónek. Učitel zadává úlohy typu: Postav vláček z bílého a červeného vagónku. Je tento vláček delší než zelený vagónek? Postav vláček z <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-21-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 113%; position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mn>2</mn></math>" role="presentation"><span id="MJXc-Node-62" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-63" class="mjx-mrow"><span id="MJXc-Node-64" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.39em; padding-bottom: 0.335em;">2</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>2</mn></math></span></span><script type="math/tex" id="MathJax-Element-21">2</script> červených vagónků a druhý vláček ze zeleného a bílého vagónku, který z vláčků je delší? atd. Délku porovnáváme manipulativně, ale zatím ji nevyjadřujeme číslem. Jestliže ovšem nějaké dítě přijde s tím, že zelený vagónek je stejně dlouhý jako vláček se třemi bílými vagónky, pak jej necháme, aby tuto myšlenku řeklo třídě. Někteří žáci budou intuitivně bílý vagónek chápat jako jednotku délky vláčku. Učitel sám tento přístup žáků nepřevezme.
+            </span></p></div></p></p></div></div><div role="tabpanel" class="tab-pane fade" id="two-1"></div><div role="tabpanel" class="tab-pane fade" id="three-1"><div class="search-table-container"><div class="header"><div class="col col-buttons">&nbsp;</div><div class="col col-search"><form class="form-container"><div class="form-group"><input name="search-text" class="form-control search" placeholder="Hledat ..." type="text"></div></form></div></div><div class="content"><div class="table-responsive"><table class="table search-table"><thead><tr><th style="width: 240px;">Název<span class="glyphicon glyphicon-chevron-down"></span></th><th>Učebnice</th><th></th></tr></thead><tbody><tr><td><strong>Obrazec podle obrázku</strong></td><td>Elektronická učebnice A</td><td class="col-actions"><a class="btn btn-primary btn-sm" href="#">Zobrazit</a></td></tr><tr><td><strong>Přiložte 4 dřívka</strong></td><td>Elektronická učebnice B</td><td class="col-actions"><a class="btn btn-primary btn-sm" href="#">Zobrazit</a></td></tr><tr><td><strong>Zvětšení trojúhelníku</strong></td><td>Elektronická učebnice C</td><td class="col-actions"><a class="btn btn-primary btn-sm" href="#">Zobrazit</a></td></tr></tbody><tfoot><tr><td colspan="2">Celkem záznamů</td><td class="col-pagination"><span class="glyphicon glyphicon-chevron-left"></span> 1 <span class="glyphicon glyphicon-chevron-right"></span></td></tr></tfoot></table></div></div></div></div><div role="tabpanel" class="tab-pane fade" id="four-1"><div class="tab-content-container"><p>Prostředí dřívek je manipulativní. Na prvním stupni rozvíjí jemnou motoriku dětí, která je potřebná například i k rýsování. Také rozvíjí poznávání geometrických tvarů jako čtverec, obdélník, kosočtverec, kosodélník, trojúhelník, lichoběžník, konvexní i nekonvexní šestiúhelník atd. Při vytváření obrazců podle obrázku se žáci učí pozorovat vlastnosti obrazce. Tvořením dalších obrazců, přidáváním, ubíráním, přemísťováním dřívek se rozvíjí kombinatorické schopnosti a „umění vidět“ neboli představivost v rovině, zejména představivost o změnách. Věk 12 let je, podle Piagetových stádií kognitivního vývoje jedince, zlomovým věkem, kdy žák přechází ze stádia konkrétních operací do stádia formálních operací. Proto je důležité se ještě věnovat konkrétním manipulativním činnostem, ale zároveň už směrovat přemýšlení žáků k mentálním operacím s abstraktními pojmy.</p><p>V prostředí dřívek se budují a v činnostech rozvíjejí také pojmy obvod a obsah obrazce, pracuje se s různými jednotkami obsahu („kachlíky“ – jednotkové trojúhelníky nebo jednotkové čtverce), pracuje se se zlomky jako s částmi celku. Připravují se geometrické relace jako shodnost a podobnost a geometrické transformace – otáčení, osová souměrnost, posunutí. V tomto prostředí je možné postupně odhalovat jednoduché i složitější vazby a pomalu přecházet od jejich slovního popisu k popisu algebraickému.</p></div></div></div></div></div><div class="col-xs-12"><div class="block-chapter-part"><div class="col col-badge"><div class="badge"><div class="number">5</div></div></div><div class="col"><div class="content-container"><h3 class="title">MLUVÍME O...</h3><div class="content"><div class="Problem problem-override"><title><span class="text">MLUVÍME O...</span></title><div class="Content problem-override"><div class="Question generic-override"><span class="text">
+        MLUVÍME O...
+        </span><div class="Environment generic-override"><div class="book-image"><img src="http://api.h-edu.cz/file/talking.png"></div></div></div></div></div></div></div></div><div class="col"><ul class="menu"><li><a class="icon-fullscreen" data-toggle="tooltip" data-placement="left" title="" data-original-title="Na celou obrazovku"></a></li></ul></div></div><div class="block-chapter-info collapse in" id="block-chapter-info-1"><ul class="nav nav-tabs" role="tablist"><ul class="nav-icons"></ul><li role="presentation" class="active"><a href="#one-1" aria-controls="one-1" role="tab" data-toggle="tab">Příručka učitele</a></li></ul><div class="tab-content"><div role="tabpanel" class="tab-pane fade in active" id="one-1"><div class="difficulty-container"></div><div class="tab-content-container"><p><p><div class="Comment generic-override"><span class="text">
+            Trénujeme paměť – diskutujeme o zvířátkách z obrázku na straně <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-22-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 113%; position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mn>4</mn></math>" role="presentation"><span id="MJXc-Node-65" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-66" class="mjx-mrow"><span id="MJXc-Node-67" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.39em; padding-bottom: 0.335em;">4</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>4</mn></math></span></span><script type="math/tex" id="MathJax-Element-22">4</script> a <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-23-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 113%; position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mn>5</mn></math>" role="presentation"><span id="MJXc-Node-68" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-69" class="mjx-mrow"><span id="MJXc-Node-70" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.39em; padding-bottom: 0.39em;">5</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>5</mn></math></span></span><script type="math/tex" id="MathJax-Element-23">5</script>. Obrázky nevidíme.
+        </span></div></p><p><div class="Comment generic-override"><p><span class="text">Povídáme si o zvířátkách z obrázku. Je možné začít pracovat se zavřenou učebnicí a zjistit, jak moc si žáci obrázek uchovali v paměti. Učitel se může ptát podobnými otázkami jako ze strany <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-24-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" style="font-size: 113%; position: relative;" data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mn>6</mn></math>" role="presentation"><span id="MJXc-Node-71" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-72" class="mjx-mrow"><span id="MJXc-Node-73" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.39em; padding-bottom: 0.39em;">6</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>6</mn></math></span></span><script type="math/tex" id="MathJax-Element-24">6</script>, např.: „Kolik je na obrázku zvířátek?“ apod. Učitel sleduje, jak žáky aktivita baví a pokud žáci chtějí, mohou vymýšlet své otázky pro ostatní spolužáky. Učitel znovu může zakončit aktivitu tím, že řekne:  „Příště si budeme povídat o hračkách.“
+            </span></p></div></p></p></div></div><div role="tabpanel" class="tab-pane fade" id="two-1"></div><div role="tabpanel" class="tab-pane fade" id="three-1"><div class="search-table-container"><div class="header"><div class="col col-buttons">&nbsp;</div><div class="col col-search"><form class="form-container"><div class="form-group"><input name="search-text" class="form-control search" placeholder="Hledat ..." type="text"></div></form></div></div><div class="content"><div class="table-responsive"><table class="table search-table"><thead><tr><th style="width: 240px;">Název<span class="glyphicon glyphicon-chevron-down"></span></th><th>Učebnice</th><th></th></tr></thead><tbody><tr><td><strong>Obrazec podle obrázku</strong></td><td>Elektronická učebnice A</td><td class="col-actions"><a class="btn btn-primary btn-sm" href="#">Zobrazit</a></td></tr><tr><td><strong>Přiložte 4 dřívka</strong></td><td>Elektronická učebnice B</td><td class="col-actions"><a class="btn btn-primary btn-sm" href="#">Zobrazit</a></td></tr><tr><td><strong>Zvětšení trojúhelníku</strong></td><td>Elektronická učebnice C</td><td class="col-actions"><a class="btn btn-primary btn-sm" href="#">Zobrazit</a></td></tr></tbody><tfoot><tr><td colspan="2">Celkem záznamů</td><td class="col-pagination"><span class="glyphicon glyphicon-chevron-left"></span> 1 <span class="glyphicon glyphicon-chevron-right"></span></td></tr></tfoot></table></div></div></div></div><div role="tabpanel" class="tab-pane fade" id="four-1"><div class="tab-content-container"><p>Prostředí dřívek je manipulativní. Na prvním stupni rozvíjí jemnou motoriku dětí, která je potřebná například i k rýsování. Také rozvíjí poznávání geometrických tvarů jako čtverec, obdélník, kosočtverec, kosodélník, trojúhelník, lichoběžník, konvexní i nekonvexní šestiúhelník atd. Při vytváření obrazců podle obrázku se žáci učí pozorovat vlastnosti obrazce. Tvořením dalších obrazců, přidáváním, ubíráním, přemísťováním dřívek se rozvíjí kombinatorické schopnosti a „umění vidět“ neboli představivost v rovině, zejména představivost o změnách. Věk 12 let je, podle Piagetových stádií kognitivního vývoje jedince, zlomovým věkem, kdy žák přechází ze stádia konkrétních operací do stádia formálních operací. Proto je důležité se ještě věnovat konkrétním manipulativním činnostem, ale zároveň už směrovat přemýšlení žáků k mentálním operacím s abstraktními pojmy.</p><p>V prostředí dřívek se budují a v činnostech rozvíjejí také pojmy obvod a obsah obrazce, pracuje se s různými jednotkami obsahu („kachlíky“ – jednotkové trojúhelníky nebo jednotkové čtverce), pracuje se se zlomky jako s částmi celku. Připravují se geometrické relace jako shodnost a podobnost a geometrické transformace – otáčení, osová souměrnost, posunutí. V tomto prostředí je možné postupně odhalovat jednoduché i složitější vazby a pomalu přecházet od jejich slovního popisu k popisu algebraickému.</p></div></div></div></div></div></div><div class="row"><div class="col-xs-12"><div class="block-chapter-part-separator"></div></div><div class="col-xs-12"><div class="block-chapter-end"><a class="btn btn-primary btn-large-prev"><span class="btn-subtitle">Předchozí kapitola</span><span class="btn-title">6</span></a><a class="btn btn-primary btn-large-next"><span class="btn-subtitle">Následující kapitola</span><span class="btn-title">8</span></a></div></div></div><style>
+                    
+                    #MathJax_Message{
+                        display: none !important;
+                    }
+    
+                    .content-container{
+                        max-width: 80% ;
+                    }
+    
+                    .book-image img{
+                        max-width: 100% ;
+                    }
+    
+                    .fullscreen-overlay{
+                        z-index: 10000;
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        background-color: white;
+                    }
+                    
+                    </style></div></div>
+            <footer id="footer" class="footer">
+    
+        <div class="container">
+    
+            <div class="row">
+    
+                
+                    <div class="col-xs-12 col-sm-4 col-lg-5">
+    
+                        <a class="brand" href="http://prototyp.h-edu.cz">
+    
+                            <img src="http://prototyp.h-edu.cz/storage/app/media/Logo/hejneho-metoda-logo-white.svg" alt="" width="214" height="22">
+    
+                        </a>
+    
+                        <div class="content">
+    
+                            <p>Maecenas blandit, dolor eget pharetra semper, massa diam tristique diam, sit amet malesuada lectus dolor eu lacus. Mauris lacinia volutpat molestie. Nunc consectetur vestibulum rhoncus.</p>
+                        </div>
+    
+                    </div>
+    
+                    <div class="col-xs-12 col-sm-4 col-lg-3">
+    
+                        <div class="content-line">
+    
+                            <ul class="nav nav-footer">
+                <li class="  ">
+                <a href="http://prototyp.h-edu.cz/cs">
+                                        Úvod
+                                </a>
+            </li>
+                <li class="ucebnice active dropdown">
+                <a href="http://prototyp.h-edu.cz/cs/ucebnice">
+                                        Učebnice
+                                </a>
+            </li>
+                <li class="  dropdown">
+                <a href="http://prototyp.h-edu.cz/cs/o-nas">
+                                        O nás
+                                </a>
+            </li>
+                <li class="  ">
+                <a href="http://prototyp.h-edu.cz/cs/kontakt">
+                                        Kontakt
+                                </a>
+            </li>
+        
+        
+    </ul>
+                        </div>
+    
+                    </div>
+    
+                    <div class="col-xs-12 col-sm-4 col-lg-4">
+    
+                        <div class="content-line">
+    
+                            <ul class="nav nav-footer">
+                <li class="  ">
+                <a href="http://prototyp.h-edu.cz/cs/obchodni-podminky">
+                                        Obchodní podmínky
+                                </a>
+            </li>
+                <li class="  ">
+                <a href="http://prototyp.h-edu.cz/cs/o-nas/nasi-partneri">
+                                        Naši partneři
+                                </a>
+            </li>
+        
+        
+    </ul>
+                        </div>
+    
+                    </div>
+    
+                
+            </div>
+    
+        </div>
+    
+        <div class="footer-secondary-line">
+    
+            <div class="container">
+    
+                <div class="row">
+    
+                    <div class="col-xs-12 col-sm-4">
+    
+                        <ul class="nav nav-footer copyright">
+    
+                            <li><a href="https://www.h-edu.cz" target="_blank">© 2018 H-edu, s.r.o.</a></li>
+    
+                        </ul>
+    
+                    </div>
+    
+                    <div class="col-xs-12 col-sm-4">
+    
+                        <ul class="nav nav-footer copyright text-center">
+                <li class="  ">
+                <a href="https://www.h-mat.cz/cookies" target="_blank">
+                                        Prohlášení o používání cookies
+                                </a>
+            </li>
+        
+        
+    </ul>
+                    </div>
+    
+                    <div class="col-xs-12 col-sm-4">
+    
+                        <ul class="nav nav-footer copyright text-right">
+                <li class="  ">
+                <a href="https://www.h-mat.cz/pro-lektory" target="_blank">
+                                        Pro lektory
+                                </a>
+            </li>
+        
+        
+    </ul>
+                    </div>
+    
+                </div>
+    
+            </div>
+    
+        </div>
+    
+    </footer>
+            <script> document.documentElement.className += ' js'</script>
+    
+    <script src="http://prototyp.h-edu.cz/themes/smalltheme3/assets/js/all.js"></script>
+    
+    
+    
+    
+    
+            
+            <script>
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip();
+                });
+            </script>
+    
+    
+    <script type="text/javascript" src="../../dist/touchcontroller.browser.js"></script>
+    <script type="text/javascript">
+        const TC = TouchController;
+    </script>
+    <script type="text/javascript" src="./js/Rect.js"></script>
+    <script type="text/javascript" src="./js/Playground.js"></script>
+    <script type="text/javascript" src="./js/Anchor.js"></script>
+    <script type="text/javascript" src="./js/Acceptor.js"></script>
+    <script type="text/javascript" src="./js/Donor.js"></script>
+    <script type="text/javascript" src="./js/index.js"></script>
+    <script type="text/javascript">
+        initializePlaygrounds();
+    </script>  
+
+    
+    <div class="stripe-loading-indicator loaded"><div class="stripe"></div><div class="stripe-loaded"></div></div><div>
+    
+            </div></body></html>

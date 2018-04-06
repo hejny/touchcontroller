@@ -1,9 +1,9 @@
 class Acceptor extends Anchor{
 
-    constructor(rect,type,relativePosition,accepts,parent){
+    constructor(rect,type,relativePosition,accepts){
         super(rect,type,relativePosition);
         this.accepts = accepts;
-        this.parent = parent;
+        //this.parent = parent;
 
         this.donors = [];
     }
@@ -23,4 +23,11 @@ class Acceptor extends Anchor{
         }
     }
 
+    isAccepting(donor){
+        return this.type===donor.type;
+    }
+
+    get followingDonors(){
+        return this.donors.filter((donor)=>donor.follow);
+    }
 }

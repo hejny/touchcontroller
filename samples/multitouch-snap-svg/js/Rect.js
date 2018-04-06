@@ -72,7 +72,7 @@ class Rect extends TC.BoundingBox {
         //if(recursion<5){
         
             for(const acceptor of this.anchors.acceptors/*.filter((acceptor)=>acceptor.parent)*/){
-                for(const donor of acceptor.donors){
+                for(const donor of acceptor.followingDonors){
 
                     donor.rect.applyTransformation(transformation,false,leader);
 
@@ -105,7 +105,7 @@ class Rect extends TC.BoundingBox {
         let targetPair1 = null;
 
         for(const donor of donors){//todo optimize
-            for(const acceptor of acceptors){
+            for(const acceptor of acceptors.filter((acceptor)=>acceptor.isAccepting(donor))){
                 const distance = donor.position.length(acceptor.position);
                 if(distance<50){
                     if(!targetPair1){
@@ -334,16 +334,16 @@ class Rect extends TC.BoundingBox {
             (donorConfig)=>new Donor(
                 this,
                 donorConfig.type,
-                new TC.Vector2(donorConfig.position.x,donorConfig.position.y)//.add(this.shadowBoundingBox.center)
+                new TC.Vector2(donorConfig.position.x,donorConfig.position.y),
+                donorConfig.follow
             )
         );       
         const acceptors = playgroundConfig.anchors.acceptors.map(
             (acceptorConfig)=>new Acceptor(
                 this,
                 acceptorConfig.type,
-                new TC.Vector2(acceptorConfig.position.x,acceptorConfig.position.y),//.add(this.shadowBoundingBox.center),
-                acceptorConfig.accepts,
-                acceptorConfig.parent
+                new TC.Vector2(acceptorConfig.position.x,acceptorConfig.position.y),
+                acceptorConfig.accepts
             )
         );
 

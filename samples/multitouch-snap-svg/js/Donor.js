@@ -1,7 +1,8 @@
 class Donor extends Anchor{
 
-    constructor(rect,type,relativePosition){
+    constructor(rect,type,relativePosition,follow=false){
         super(rect,type,relativePosition);
+        this.follow = follow;
         this.acceptor = null;
     }
 

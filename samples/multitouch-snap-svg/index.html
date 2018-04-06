@@ -80,16 +80,25 @@
         "interactions":[{"type": "drag"}],
         "anchors":{
             "donors": [
-            {"type": "cube-x", "position": {"x":-15,"y":0}},
-            {"type": "cube-y", "position": {"x":0,"y":15}},
-            //{"type": "cube-z", "position": {"x":15,"y":15}},
+                {"type": "cube-x-1", "position": {"x":-15,"y":0}},
+                {"type": "cube-y-1", "position": {"x":0,"y":15}},
+                {"type": "cube-z-1", "position": {"x":7,"y":-7}},
+
+                {"type": "cube-x-2", "position": {"x":15,"y":0}},
+                {"type": "cube-y-2", "position": {"x":0,"y":-15}},
+                {"type": "cube-z-2", "position": {"x":-7,"y":7}},
 
 
-        ], 
-        "acceptors": [
-            {"type": "cube-x", "position": {"x":15,"y":0}, "accepts": 1},
-            {"type": "cube-y", "position": {"x":0,"y":-15}, "accepts": 1}
-        ]}}
+            ], 
+            "acceptors": [
+                {"type": "cube-x-1", "position": {"x":15,"y":0}, "accepts": 1},
+                {"type": "cube-y-1", "position": {"x":0,"y":-15}, "accepts": 1},
+                {"type": "cube-z-1", "position": {"x":-7,"y":7}, "accepts": 1},
+
+                {"type": "cube-x-2", "position": {"x":-15,"y":0}, "accepts": 1, order: 'UP'},
+                {"type": "cube-y-2", "position": {"x":0,"y":15}, "accepts": 1, order: 'UP'},
+                {"type": "cube-z-2", "position": {"x":7,"y":-7}, "accepts": 1, order: 'UP'},
+            ]}}
     const dataPlaygroundAttr = JSON.stringify(dataPlayground);
 
     for(const groupElement of document.getElementById('environment-cubes').querySelectorAll('g')){

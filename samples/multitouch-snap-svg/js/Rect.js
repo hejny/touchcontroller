@@ -343,7 +343,8 @@ class Rect extends TC.BoundingBox {
                 this,
                 acceptorConfig.type,
                 new TC.Vector2(acceptorConfig.position.x,acceptorConfig.position.y),
-                acceptorConfig.accepts
+                acceptorConfig.accepts,
+                acceptorConfig.order
             )
         );
 

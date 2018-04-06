@@ -24,7 +24,7 @@ class Playground{
     _parseSvg(svgElement){
         for(const groupElement of svgElement.querySelectorAll('g')){
             const boundingBox = groupElement.getBoundingClientRect();//todo to rect
-            this._addRect(
+            this.addRect(
                 new Rect(
                     'transparent',//'rgba(1,0,0,0.5)',
                     groupElement,
@@ -44,7 +44,7 @@ class Playground{
     }
 
 
-    _addRect(rect){
+    addRect(rect){
         this.rects.push(rect);
     }
 

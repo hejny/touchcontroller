@@ -1,21 +1,47 @@
 class Rect extends TC.BoundingBox {
-    constructor(color, svgElement, center, size, rotation = 0, playground = []) {
+    constructor(color, svgElement, center, size, rotation, playground ) {
         super(center,size,rotation);
         this._anchorPairs = [];
         this.hovered = false;
         this.svgElement = svgElement;
         this.color = color;
-        this.rectangles = playground.rects;//todo store whole scene
-        this._initializeAnchorPoints(JSON.parse(svgElement.getAttribute('data-playground')));
-        this.startTransformations();
+        this.playground = playground;
+        this.playgroundData = JSON.parse(svgElement.getAttribute('data-playground'));//todo check config
+        this._initializeAnchorPoints();
+        this.startTransformations(true);
     }
     
-    startTransformations(){
+    startTransformations(initialize=false){
+
+        if(!initialize){
+            if(this.playgroundData.amount>1||this.playgroundData.amount===-1){
+                const svgElement = this.svgElement.cloneNode(true);
+                this.svgElement.parentNode.appendChild(svgElement);
+                const playgroundData = JSON.parse(JSON.stringify(this.playgroundData));//todo better
+                if(playgroundData.amount>1){
+                    playgroundData.amount--;
+                }
+                svgElement.setAttribute('data-playground',JSON.stringify(playgroundData));
+                this.playground.addRect(
+                    new Rect(
+                        'transparent',//'rgba(1,0,0,0.5)',
+                        svgElement,
+                        this.center.clone(),
+                        this.size.clone(),
+                        this.rotation,
+                        this.playground 
+                    )
+                );
+                this.playgroundData.amount = 1;
+            }
+        }
+
+
         this.shadowBoundingBox = this.cloneDeep();
         this.acceptors= [];
 
         //console.log(this);
-        for(const rect of this.rectangles){
+        for(const rect of this.playground.rects){
             if(rect!==this){
                 this.acceptors.push(
                     ...rect.anchors.acceptors.filter((acceptor)=>!acceptor.full)
@@ -298,7 +324,7 @@ class Rect extends TC.BoundingBox {
         return this._anchors(this);
     }*/
 
-    _initializeAnchorPoints(playgroundConfig){
+    _initializeAnchorPoints(){
 
         /*{
         "amount":1,
@@ -330,7 +356,7 @@ class Rect extends TC.BoundingBox {
             ]
         }
         }*/
-        const donors = playgroundConfig.anchors.donors.map(
+        const donors = this.playgroundData.anchors.donors.map(
             (donorConfig)=>new Donor(
                 this,
                 donorConfig.type,
@@ -338,7 +364,7 @@ class Rect extends TC.BoundingBox {
                 donorConfig.follow
             )
         );       
-        const acceptors = playgroundConfig.anchors.acceptors.map(
+        const acceptors = this.playgroundData.anchors.acceptors.map(
             (acceptorConfig)=>new Acceptor(
                 this,
                 acceptorConfig.type,

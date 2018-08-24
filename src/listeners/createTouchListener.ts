@@ -2,38 +2,36 @@ import IListener from './IListener';
 import Touch from '../Touch';
 import TouchFrame from '../TouchFrame';
 import Vector2 from '../Vector2';
-import {isNull} from "util";
+import { isNull } from 'util';
 
-
-export default function (buttons: number[] = [0]): IListener {
-    return (element: HTMLElement,
-            newTouch: (touch: Touch) => void,
-            newHoverFrame: (frame: TouchFrame) => void) => {
-
+export default function(buttons: number[] = [0]): IListener {
+    return (
+        element: HTMLElement,
+        newTouch: (touch: Touch) => void,
+        newHoverFrame: (frame: TouchFrame) => void,
+    ) => {
         element.addEventListener(
             'touchstart',
             (event) => _handleTouchesStart(event),
-            false
+            false,
         );
         element.addEventListener(
             'touchmove',
             (event) => _handleTouchesMove(event),
-            false
+            false,
         );
         element.addEventListener(
             'touchend',
             (event) => _handleTouchesEnd(event),
-            false
+            false,
         );
         element.addEventListener(
             'touchcancel',
             (event) => _handleTouchesEnd(event),
-            false
+            false,
         );
 
-
         let currentTouches: { [identifier: number]: Touch } = {};
-
 
         function _handleTouchesStart(event: TouchEvent) {
             event.preventDefault();
@@ -41,7 +39,7 @@ export default function (buttons: number[] = [0]): IListener {
             for (let i = 0, l = touches.length; i < l; i++) {
                 const currentTouch = new Touch(
                     'TOUCH',
-                    _createTouchFrameFromEvent(touches[i])
+                    _createTouchFrameFromEvent(touches[i]),
                 );
                 currentTouches[touches[i].identifier] = currentTouch;
                 newTouch(currentTouch);
@@ -52,11 +50,12 @@ export default function (buttons: number[] = [0]): IListener {
             event.preventDefault();
             const touches = event.changedTouches;
             for (let i = 0, l = touches.length; i < l; i++) {
-                const currentTouch = currentTouches[touches[i].identifier] || null;
+                const currentTouch =
+                    currentTouches[touches[i].identifier] || null;
                 if (!isNull(currentTouch)) {
                     currentTouch.move(
                         _createTouchFrameFromEvent(touches[i]),
-                        false
+                        false,
                     );
                 }
             }
@@ -66,30 +65,33 @@ export default function (buttons: number[] = [0]): IListener {
             event.preventDefault();
             const touches = event.changedTouches;
             for (let i = 0, l = touches.length; i < l; i++) {
-                const currentTouch = currentTouches[touches[i].identifier] || null;
+                const currentTouch =
+                    currentTouches[touches[i].identifier] || null;
                 if (!isNull(currentTouch)) {
                     currentTouch.move(
                         _createTouchFrameFromEvent(touches[i]),
-                        true
+                        true,
                     );
                     delete currentTouches[touches[i].identifier];
                 }
             }
         }
 
-        function _createTouchFrameFromEvent(event: { clientX: number; clientY: number; }) {
+        function _createTouchFrameFromEvent(event: {
+            clientX: number;
+            clientY: number;
+        }) {
             return new TouchFrame(
                 new Vector2(
                     event.clientX - element.offsetLeft,
-                    event.clientY - element.offsetTop
+                    event.clientY - element.offsetTop,
                 ),
-                performance.now()
+                performance.now(),
             );
         }
 
         return () => {
             //todo dispose
         };
-
-    }
+    };
 }

@@ -1,11 +1,11 @@
 import Vector2 from './Vector2';
 
 export default class Transformation {
-    constructor(public translate: Vector2 = Vector2.Zero(),
-                public rotate: number = 0,
-                public scale: number = 1) {
-
-    }
+    constructor(
+        public translate: Vector2 = Vector2.Zero(),
+        public rotate: number = 0,
+        public scale: number = 1,
+    ) {}
 
     static Zero(): Transformation {
         return new Transformation();
@@ -16,26 +16,22 @@ export default class Transformation {
     }
 
     static rotate(rotate: number): Transformation {
-        return new Transformation(undefined,rotate);
+        return new Transformation(undefined, rotate);
     }
 
     static scale(scale: number): Transformation {
-        return new Transformation(undefined,undefined,scale);
+        return new Transformation(undefined, undefined, scale);
     }
 
     clone(): Transformation {
-        return new Transformation(
-            this.translate,
-            this.rotate,
-            this.scale
-        );
+        return new Transformation(this.translate, this.rotate, this.scale);
     }
 
     cloneDeep(): Transformation {
         return new Transformation(
             this.translate.clone(),
             this.rotate,
-            this.scale
+            this.scale,
         );
     }
 
@@ -50,7 +46,7 @@ export default class Transformation {
     subtract(transformation: Transformation): Transformation {
         return new Transformation(
             this.translate.subtract(transformation.translate),
-            (this.rotate - transformation.rotate + (Math.PI * 2)) % (Math.PI * 2),
+            (this.rotate - transformation.rotate + Math.PI * 2) % (Math.PI * 2),
             this.scale / transformation.scale,
         );
     }

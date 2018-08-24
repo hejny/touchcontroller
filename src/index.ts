@@ -15,5 +15,5 @@ export {
     listeners,
     Vector2,
     Touch,
-    BoundingBox
+    BoundingBox,
 };

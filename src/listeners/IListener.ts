@@ -6,11 +6,10 @@ import TouchFrame from '../TouchFrame';
     unsetListeners: ()=>void,
 }*/
 
-
-export default interface IListener{
+export default interface IListener {
     (
         element: HTMLElement,
-        newTouch: (touch: Touch)=>void,
-        newHoverFrame: (frame: TouchFrame)=>void,
-    ): ()=>void;
+        newTouch: (touch: Touch) => void,
+        newHoverFrame: (frame: TouchFrame) => void,
+    ): () => void;
 }

@@ -1,6 +1,6 @@
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/share'
-import {Observer} from "rxjs/Observer";
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/share';
+import { Observer } from 'rxjs/Observer';
 import Touch from './Touch';
 import TouchFrame from './TouchFrame';
 import IListener from './listeners/IListener';
@@ -8,7 +8,6 @@ import * as listeners from './listeners/';
 
 //todo multitouch should be extended from this
 export default class TouchController {
-
     public touches: Observable<Touch>;
     public hoveredFrames: Observable<TouchFrame>;
     //private _touchesAutoIncrement: number = 0;
@@ -16,29 +15,20 @@ export default class TouchController {
     private _hoveredFramesObserver: Observer<TouchFrame>;
     //private _ongoingTouches: Touch[] = [];
 
-    constructor(public element: HTMLElement, setListeners = true) {
-        /*this.hover = new Touch(
-            this,
-            this._touchesAutoIncrement++,
-            'hover',//todo this should be external ID
-            'MOUSE',
-            new VectorTouch(
-                this,
-                Vector2.Zero(),
-                performance.now()
-            )//todo better
-        );*/
+    constructor(public elements: HTMLElement[], setListeners = true) {
         this.touches = Observable.create((observer: Observer<Touch>) => {
             this._touchesObserver = observer;
         }).share();
 
-        this.hoveredFrames = Observable.create((observer: Observer<TouchFrame>) => {
-            this._hoveredFramesObserver = observer;
-        }).share();
+        this.hoveredFrames = Observable.create(
+            (observer: Observer<TouchFrame>) => {
+                this._hoveredFramesObserver = observer;
+            },
+        ).share();
 
-        if(setListeners){
+        if (setListeners) {
             this.addListener(listeners.createMouseListener());
-            this.addListener(listeners.createMouseListener([1,2],true));
+            this.addListener(listeners.createMouseListener([1, 2], true));
             this.addListener(listeners.createTouchListener());
             //this.addListener(listeners.createMouseScaleListener());
         }
@@ -47,20 +37,22 @@ export default class TouchController {
     //todo dispose
 
     addListener(listener: IListener) {
-        listener(
-            this.element,
-            (touch: Touch)=>this._touchesObserver.next(touch),
-            (frame: TouchFrame)=>{
-                if(typeof this._hoveredFramesObserver !== 'undefined'){
-                    this._hoveredFramesObserver.next(frame)
-                }
-            }
-        );
-        //todo array of listeners disposers
+        for (const element of this.elements) {
+            listener(
+                element,
+                (touch: Touch) => this._touchesObserver.next(touch),
+                (frame: TouchFrame) => {
+                    if (typeof this._hoveredFramesObserver !== 'undefined') {
+                        this._hoveredFramesObserver.next(frame);
+                    }
+                },
+            );
+            //todo array of listeners disposers
+        }
     }
 
-    emulateTouch(touch: Touch){
-        setImmediate(()=>{
+    emulateTouch(touch: Touch) {
+        setImmediate(() => {
             this._touchesObserver.next(touch);
         });
     }
@@ -121,5 +113,4 @@ export default class TouchController {
     */
 
     //todo dispose
-
 }

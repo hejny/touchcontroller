@@ -1,23 +1,20 @@
 const commonConfig = {
-
     entry: {
-        first: __dirname + '/src/index'
+        first: __dirname + '/src/index',
     },
 
-    devtool: "source-map",
+    devtool: 'source-map',
 
     resolve: {
         // Add '.ts' and '.tsx' as a resolvable extension.
-        extensions: ['',".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
+        extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js'],
     },
     module: {
         loaders: [
             // all files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'
-            {test: /\.tsx?$/, loader: "ts-loader"}
-        ]
-    }
-
-
+            { test: /\.tsx?$/, loader: 'ts-loader' },
+        ],
+    },
 
     /*
      plugins: [
@@ -34,21 +31,24 @@ const commonConfig = {
 };
 
 const configs = [];
-configs.push(Object.assign({}, commonConfig, {
-    output: {
-        filename: 'touchcontroller.js',
-        path: __dirname + "/dist/",
-        libraryTarget: "commonjs"
-    }
-}));
-configs.push(Object.assign({}, commonConfig, {
-    output: {
-        filename: 'touchcontroller.browser.js',
-        path: __dirname + "/dist/",
-        libraryTarget: "var",
-        library: 'TouchController'
-    }
-}));
-
+configs.push(
+    Object.assign({}, commonConfig, {
+        output: {
+            filename: 'touchcontroller.js',
+            path: __dirname + '/dist/',
+            libraryTarget: 'commonjs',
+        },
+    }),
+);
+configs.push(
+    Object.assign({}, commonConfig, {
+        output: {
+            filename: 'touchcontroller.browser.js',
+            path: __dirname + '/dist/',
+            libraryTarget: 'var',
+            library: 'TouchController',
+        },
+    }),
+);
 
 module.exports = configs;

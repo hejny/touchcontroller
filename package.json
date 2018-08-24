@@ -5,6 +5,7 @@
   "main": "./dist/touchcontroller.js",
   "types": "./dist/typings/src/index.d.ts",
   "scripts": {
+    "start": "npm run develop",
     "build": "webpack",
     "develop": "webpack --watch",
     "deploy": "npm publish",

@@ -68,6 +68,7 @@ export default function(buttons: number[] = [0], rotating = false): IListener {
         }
 
         function _handleMouseMove(event: MouseEvent) {
+            console.log('_handleMouseMove');
             //console.log(event.buttons);
             if (event.buttons > 0) {
                 //if(buttons.indexOf(event.button)!==-1) {todo what the hack? Is thare event.button on mousemove event?

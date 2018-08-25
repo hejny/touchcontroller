@@ -13,9 +13,8 @@
         <div class="foreground">
             <canvas class="scene item" style="position: absolute;top:0;left:0;" width="40" height="40"></canvas>
             <canvas class="scene item" style="position: absolute;top:0;left:0;" width="40" height="40"></canvas>
-        </div>
+       
 
-        <hr>
 
 
     <svg data-playground='{"debug":true}' id="environment-trains"  width="500" height="500">
@@ -29,6 +28,8 @@
             <rect width="90" height="30" x="0" y="0" style="fill: #43B94A; stroke: #1A6AA3; stroke-width: 2;"></rect>
         </g>
     </svg>
+
+
 
 
     <svg data-playground='{"interactions":[{"type": "draw"}]}' id="environment-cubes" width="500" height="500">
@@ -59,14 +60,15 @@
             </g>
         </svg>
 
-
+    </div>
 
 <script src="../dist/touchcontroller.browser.js"></script>
 <script>
 
     const TC = TouchController;
     
-    const gElements = Array.from(document.querySelectorAll(/*'svg > g'*/'.item'));
+    const gElements = Array.from(document.querySelectorAll('.item'));
+    //const gElements = Array.from(document.querySelectorAll('svg > g'));
 
     /*/
     for(const gElement of gElements){
@@ -145,18 +147,7 @@
 
     ).subscribe(function (transformation) {
 
-            //console.log('transformation',transformation);
-            //console.log(multitouch.element.style.left,transformation.translate.x);
-
-            multitouch.element.style.left = (parseFloat(multitouch.element.style.left)+transformation.translate.x)+'px';
-            multitouch.element.style.top = (parseFloat(multitouch.element.style.top)+transformation.translate.y)+'px';
-
-            /*multitouch.element.center = transformation.translate;
-            multitouch.element.rotation = transformation.rotate;
-            multitouch.element.size.x = transformation.scale;
-            multitouch.element.size.y = transformation.scale * sizeRatio;*/
-
-            //multitouch.element.position = multitouch.element.position.add(transformation.translate);
+            transformation.applyOnHtmlElement(multitouch.element);
 
 
         },
@@ -165,7 +156,7 @@
         function () {
             if(multitouch.empty){
 
-                alert(`You have selected element.`);
+                console.log(`You have selected element.`);
 
             }
         });

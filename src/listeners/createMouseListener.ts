@@ -95,12 +95,14 @@ export default function(buttons: number[] = [0], rotating = false): IListener {
         }
 
         function _createTouchFrameFromEvent(event: MouseEvent) {
+            //console.log('event.clientX',event.clientX,element.offsetLeft);
+            const boundingRect = element.getBoundingClientRect();
             return new TouchFrame(
                 element,
                 anchorElement,
                 new Vector2(
-                    event.clientX - element.offsetLeft,
-                    event.clientY - element.offsetTop,
+                    event.clientX - boundingRect.left,
+                    event.clientY - boundingRect.top,
                 ),
                 performance.now(),
                 rotating,

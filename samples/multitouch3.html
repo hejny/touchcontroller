@@ -17,7 +17,7 @@
 
 
 
-    <svg data-playground='{"debug":true}' id="environment-trains"  width="500" height="500">
+    <svg data-playground='{"debug":true}' style="overflow:visible"  width="500" height="500">
         <g transform="translate(4,4)" data-playground='{"amount": 1, "interactions": [{"type": "drag"}], "anchors":{"donors": [{"type": "trains", "position": {"x":-15,"y":0}}], "acceptors": [{"type": "trains", "position": {"x":20,"y":0}, "accepts": 1, "parent": true}]}}'>
             <rect width="30" height="30" x="0" y="0" style="fill: white; stroke: #1A6AA3; stroke-width: 2;"></rect>
         </g>
@@ -32,7 +32,7 @@
 
 
 
-    <svg data-playground='{"interactions":[{"type": "draw"}]}' id="environment-cubes" width="500" height="500">
+    <svg data-playground='{"interactions":[{"type": "draw"}]}' style="overflow:visible" width="500" height="500">
             <g transform="translate(4,4)">
                 <rect width="30" height="30" x="0" y="15" style="fill: #FF3820; stroke: #1A6AA3; stroke-width: 2;"></rect>
                 <polygon points="0,15 0,15 15,0 45,0 45,0 30,15" style="fill: #FF3820; stroke: #1A6AA3; stroke-width: 2;"></polygon>
@@ -67,8 +67,8 @@
 
     const TC = TouchController;
     
-    const gElements = Array.from(document.querySelectorAll('.item'));
-    //const gElements = Array.from(document.querySelectorAll('svg > g'));
+    //const gElements = Array.from(document.querySelectorAll('.item'));
+    const gElements = Array.from(document.querySelectorAll('svg > g'));
 
     /*/
     for(const gElement of gElements){
@@ -96,6 +96,7 @@
             
             //console.log('frame',frame);
             //console.log('frame.position',frame.position);
+            //console.log('frame.positionRelative',frame.positionRelative);
 
             ctx.strokeStyle = color;
             ctx.beginPath();
@@ -147,8 +148,12 @@
 
     ).subscribe(function (transformation) {
 
-            transformation.applyOnHtmlElement(multitouch.element);
+            //transformation.applyOnHtmlElement(multitouch.element);
+            transformation.applyOnSvgElement(multitouch.element);
 
+            //console.log(multitouch.element);
+            //console.log('transformation',transformation);
+            //console.log('transformation.position',transformation.position);
 
         },
         function () {

@@ -1,4 +1,5 @@
 import Vector2 from './Vector2';
+import { translateToVector,vectorToTranslate } from './tools/svgTools';
 
 export default class Transformation {
     constructor(
@@ -55,6 +56,16 @@ export default class Transformation {
     applyOnHtmlElement(element: HTMLElement){
         element.style.left = (parseFloat(element.style.left||'0px')+this.translate.x)+'px';//todo bounding box as default
         element.style.top = (parseFloat(element.style.top||'0px')+this.translate.y)+'px';
+    }
+
+    applyOnSvgElement(element: SVGGElement){
+        console.log(element.getAttribute('transform'));
+        element.setAttribute('transform',
+        vectorToTranslate(
+        translateToVector(element.getAttribute('transform')||undefined).add(this.translate)
+        ));
+
+        
     }
 
     /*nest(transformation: Transformation, center: Vector2 = Vector2.Zero()): Transformation {

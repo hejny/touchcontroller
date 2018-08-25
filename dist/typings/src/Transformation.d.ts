@@ -13,4 +13,5 @@ export default class Transformation {
     add(transformation: Transformation): Transformation;
     subtract(transformation: Transformation): Transformation;
     applyOnHtmlElement(element: HTMLElement): void;
+    applyOnSvgElement(element: SVGGElement): void;
 }

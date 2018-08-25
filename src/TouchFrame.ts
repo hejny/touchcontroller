@@ -7,7 +7,7 @@ export default class TouchFrame {
     constructor(
         public element: HTMLElement,
         public anchorElement: HTMLElement,
-        public relativePosition: Vector2 = Vector2.Zero(),
+        public positionRelative: Vector2 = Vector2.Zero(),
         public time: number = performance.now(),
         public rotating: boolean = false,
         //public rotation: number = 0,
@@ -22,7 +22,7 @@ export default class TouchFrame {
                     anchorElement.getBoundingClientRect(),
                 ),
             );
-            this.position = this.relativePosition.add(offset);
+            this.position = this.positionRelative.add(offset);
             //console.log('this.position',this.position);
     }
 
@@ -30,7 +30,7 @@ export default class TouchFrame {
         return new TouchFrame(
             this.element,
             this.anchorElement,
-            this.relativePosition,
+            this.positionRelative,
             this.time,
             this.rotating,
             this.force,

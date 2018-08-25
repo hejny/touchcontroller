@@ -2,6 +2,7 @@ import Vector2 from './Vector2';
 
 export default class TouchFrame {
     constructor(
+        public element: Element,
         public position: Vector2 = Vector2.Zero(),
         public time: number = performance.now(),
         public rotating: boolean = false,

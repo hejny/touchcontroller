@@ -3,7 +3,7 @@ import 'rxjs/add/operator/share';
 import { Observer } from 'rxjs/Observer';
 import TouchController from './TouchController';
 import MultiTouch from './MultiTouch';
-import Vector2 from './Vector2';
+import TouchFrame from './TouchFrame';
 
 export default class MultiTouchController<TElement> {
     public ongoingMultiTouches: MultiTouch<TElement | undefined>[] = []; //todo null vs. undefined
@@ -12,7 +12,7 @@ export default class MultiTouchController<TElement> {
 
     constructor(
         public touchController: TouchController,
-        private _elementBinder: (position: Vector2) => TElement | undefined,
+        private _elementBinder: (frame: TouchFrame) => TElement | undefined,//todo maybe rename private properties - remove _
     ) {
         this.multiTouches = Observable.create(
             (observer: Observer<MultiTouch<TElement | undefined>>) => {
@@ -21,7 +21,7 @@ export default class MultiTouchController<TElement> {
         ).share();
 
         this.touchController.touches.subscribe((touch) => {
-            const element = this._elementBinder(touch.firstFrame.position);
+            const element = this._elementBinder(touch.firstFrame);
 
             //todo why can not be used find
             let multiTouch = this.ongoingMultiTouches.filter(
@@ -52,7 +52,7 @@ export default class MultiTouchController<TElement> {
     get hoveredElements(): Observable<TElement | undefined> {
         return Observable.create((observer: Observer<TElement | undefined>) => {
             this.touchController.hoveredFrames.subscribe((frame) => {
-                observer.next(this._elementBinder(frame.position));
+                observer.next(this._elementBinder(frame));
             });
         });
     }

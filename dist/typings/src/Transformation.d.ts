@@ -4,7 +4,7 @@ export default class Transformation {
     rotate: number;
     scale: number;
     constructor(translate?: Vector2, rotate?: number, scale?: number);
-    static Zero(): Transformation;
+    static Neutral(): Transformation;
     static translate(translate: Vector2): Transformation;
     static rotate(rotate: number): Transformation;
     static scale(scale: number): Transformation;

@@ -51,8 +51,8 @@ export default class Touch {
         return `Touch`;
     }
 
-    static Click(position: Vector2): Touch {
-        const touch = new Touch('MOUSE', new TouchFrame(position));
+    static Click(element: Element, position: Vector2): Touch {
+        const touch = new Touch('MOUSE', new TouchFrame(element, position));
         setTimeout(() => {
             touch.end();
         }, 100);

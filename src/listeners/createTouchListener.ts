@@ -82,6 +82,7 @@ export default function(buttons: number[] = [0]): IListener {
             clientY: number;
         }) {
             return new TouchFrame(
+                element,
                 new Vector2(
                     event.clientX - element.offsetLeft,
                     event.clientY - element.offsetTop,

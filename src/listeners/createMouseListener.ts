@@ -93,6 +93,7 @@ export default function(buttons: number[] = [0], rotating = false): IListener {
 
         function _createTouchFrameFromEvent(event: MouseEvent) {
             return new TouchFrame(
+                element,
                 new Vector2(
                     event.clientX - element.offsetLeft,
                     event.clientY - element.offsetTop,

@@ -16,6 +16,8 @@
 <script type="text/javascript" src="../dist/touchcontroller.browser.js"></script>
 <script type="text/javascript">
 
+    const TC = TouchController;
+
     var scene1 = document.getElementById('scene1');
     var scene2 = document.getElementById('scene2');
     var ctx = scene1.getContext('2d');
@@ -23,7 +25,7 @@
     ctx.lineCap = "round";
 
 
-    var touchController = new TouchController.TouchController([scene1,scene2]);
+    var touchController = new TC.TouchController([scene1,scene2]);
     touchController.touches.subscribe(function(touch){
 
         console.log(touch);

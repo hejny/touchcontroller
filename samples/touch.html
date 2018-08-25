@@ -14,13 +14,15 @@
 <script type="text/javascript" src="../dist/touchcontroller.browser.js"></script>
 <script type="text/javascript">
 
+    const TC = TouchController;
+
     var scene = document.getElementById('scene');
     var ctx = scene.getContext('2d');
     ctx.lineWidth = 10;
     ctx.lineCap = "round";
 
 
-    var touchController = new TouchController.TouchController(scene);
+    var touchController = new TC.TouchController(scene);
     touchController.touches.subscribe(function(touch){
 
         console.log(touch);

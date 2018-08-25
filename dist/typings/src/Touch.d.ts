@@ -16,5 +16,5 @@ export default class Touch {
     end(): void;
     readonly start: number;
     toString(): string;
-    static Click(position: Vector2): Touch;
+    static Click(element: Element, position: Vector2): Touch;
 }

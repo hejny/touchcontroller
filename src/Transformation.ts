@@ -7,7 +7,7 @@ export default class Transformation {
         public scale: number = 1,
     ) {}
 
-    static Zero(): Transformation {
+    static Neutral(): Transformation {
         return new Transformation();
     }
 

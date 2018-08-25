@@ -16,6 +16,7 @@ export default class Touch {
 
     constructor(
         public type: 'TOUCH' | 'MOUSE', //todo second optional param
+        public anchorElement: HTMLElement,
         public firstFrame: TouchFrame,
     ) {
         this.lastFrame = firstFrame;
@@ -51,8 +52,8 @@ export default class Touch {
         return `Touch`;
     }
 
-    static Click(element: Element, position: Vector2): Touch {
-        const touch = new Touch('MOUSE', new TouchFrame(element, position));
+    static Click(element: HTMLElement,anchorElement: HTMLElement, position: Vector2): Touch {
+        const touch = new Touch('MOUSE', anchorElement, new TouchFrame(element, anchorElement, position));
         setTimeout(() => {
             touch.end();
         }, 100);

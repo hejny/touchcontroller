@@ -1,4 +1,4 @@
-//todo multidimensional
+//todo to other my library - combine TC, Vire
 export default class Vector2 {
     constructor(public x: number, public y: number) {}
 
@@ -22,12 +22,13 @@ export default class Vector2 {
         );
     }
 
-    addInPlace(...vectors: Vector2[]): void {
+    addInPlace(...vectors: Vector2[]): this {
         //todo void vs. never
         for (const vector of vectors) {
             this.x += vector.x;
             this.y += vector.y;
         }
+        return this;
     }
 
     static add(...vectors: Vector2[]) {
@@ -41,13 +42,20 @@ export default class Vector2 {
         return new Vector2(this.x - vector2.x, this.y - vector2.y);
     }
 
+    subtractInPlace(vector2: Vector2): this {
+        this.x -= vector2.x;
+        this.y -= vector2.y;
+        return this;
+    }
+
     scale(scale: number): Vector2 {
         return new Vector2(this.x * scale, this.y * scale);
     }
 
-    scaleInPlace(scale: number): void {
+    scaleInPlace(scale: number): this {
         this.x *= scale;
         this.y *= scale;
+        return this;
     }
 
     length(vector2: Vector2 = Vector2.Zero()): number {
@@ -76,5 +84,9 @@ export default class Vector2 {
 
     toString(): string {
         return `[${this.x}, ${this.y}]`;
+    }
+
+    static fromTopLeft(boundingBox: { top: number; left: number }) {
+        return new Vector2(boundingBox.left, boundingBox.top);
     }
 }

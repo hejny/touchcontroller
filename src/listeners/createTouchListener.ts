@@ -7,6 +7,7 @@ import { isNull } from 'util';
 export default function(buttons: number[] = [0]): IListener {
     return (
         element: HTMLElement,
+        anchorElement: HTMLElement,
         newTouch: (touch: Touch) => void,
         newHoverFrame: (frame: TouchFrame) => void,
     ) => {
@@ -39,6 +40,7 @@ export default function(buttons: number[] = [0]): IListener {
             for (let i = 0, l = touches.length; i < l; i++) {
                 const currentTouch = new Touch(
                     'TOUCH',
+                    anchorElement,
                     _createTouchFrameFromEvent(touches[i]),
                 );
                 currentTouches[touches[i].identifier] = currentTouch;
@@ -83,6 +85,7 @@ export default function(buttons: number[] = [0]): IListener {
         }) {
             return new TouchFrame(
                 element,
+                anchorElement,
                 new Vector2(
                     event.clientX - element.offsetLeft,
                     event.clientY - element.offsetTop,

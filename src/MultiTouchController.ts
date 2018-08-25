@@ -12,7 +12,7 @@ export default class MultiTouchController<TElement> {
 
     constructor(
         public touchController: TouchController,
-        private _elementBinder: (frame: TouchFrame) => TElement | undefined,//todo maybe rename private properties - remove _
+        private _elementBinder: (frame: TouchFrame) => TElement | undefined, //todo maybe rename private properties - remove _
     ) {
         this.multiTouches = Observable.create(
             (observer: Observer<MultiTouch<TElement | undefined>>) => {

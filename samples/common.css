@@ -3,22 +3,21 @@
     border: 2px solid black;
 }
 
-
-#scene-background{
+#scene-background {
     border: 2px solid green;
     position: fixed;
-    top:0;
+    top: 0;
     left: 0;
     z-index: 10;
     background-color: red;
 }
 
-.foreground{
+.foreground {
     position: absolute;
     z-index: 20;
 }
 
-.item{
+.item {
 }
 
 .log {

@@ -15,7 +15,12 @@ export default class TouchController {
     private _hoveredFramesObserver: Observer<TouchFrame>;
     //private _ongoingTouches: Touch[] = [];
 
-    constructor(public elements: HTMLElement[], setListeners = true) {
+    constructor(
+        public elements: HTMLElement[],
+        public anchorElement: HTMLElement,
+        setListeners = true,
+    ) {
+        //todo HTMLElement vs Element
         this.touches = Observable.create((observer: Observer<Touch>) => {
             this._touchesObserver = observer;
         }).share();
@@ -40,6 +45,7 @@ export default class TouchController {
         for (const element of this.elements) {
             listener(
                 element,
+                this.anchorElement,
                 (touch: Touch) => this._touchesObserver.next(touch),
                 (frame: TouchFrame) => {
                     if (typeof this._hoveredFramesObserver !== 'undefined') {

@@ -82,7 +82,7 @@
     ctx.lineCap = "round";
 
 
-    var touchController = new TC.TouchController(gElements);
+    var touchController = new TC.TouchController(gElements,scene);
     touchController.touches.subscribe(function(touch){
 
         //console.log('touch',touch);
@@ -93,6 +93,7 @@
         touch.frames.subscribe(function(frame){
             
             //console.log('frame',frame);
+            //console.log('frame.position',frame.position);
 
             ctx.strokeStyle = color;
             ctx.beginPath();
@@ -144,7 +145,7 @@
 
     ).subscribe(function (transformation) {
 
-            console.log('transformation',transformation);
+            //console.log('transformation',transformation);
             //console.log(multitouch.element.style.left,transformation.translate.x);
 
             multitouch.element.style.left = (parseFloat(multitouch.element.style.left)+transformation.translate.x)+'px';

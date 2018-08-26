@@ -1,6 +1,10 @@
 //todo to other my library - combine TC, Vire
 export default class Vector2 {
-    constructor(public x: number, public y: number) {}
+    constructor(public x: number, public y: number) {
+        if(isNaN(x) || isNaN(y)){
+            throw new Error(`Vector2(${x},${y}) can not be created due to NaN values.`);
+        }
+    }
 
     static Zero() {
         return new Vector2(0, 0);

@@ -83,12 +83,13 @@ export default function(buttons: number[] = [0]): IListener {
             clientX: number;
             clientY: number;
         }) {
+            const boundingRect = element.getBoundingClientRect();
             return new TouchFrame(
                 element,
                 anchorElement,
                 new Vector2(
-                    event.clientX - element.offsetLeft,
-                    event.clientY - element.offsetTop,
+                    event.clientX - boundingRect.left,
+                    event.clientY - boundingRect.top,
                 ),
                 performance.now(),
             );

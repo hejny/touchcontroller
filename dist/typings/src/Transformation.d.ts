@@ -12,6 +12,7 @@ export default class Transformation {
     cloneDeep(): Transformation;
     add(transformation: Transformation): Transformation;
     subtract(transformation: Transformation): Transformation;
+    applyOnElement(element: Element): void;
     applyOnHtmlElement(element: HTMLElement): void;
     applyOnSvgElement(element: SVGGElement): void;
 }

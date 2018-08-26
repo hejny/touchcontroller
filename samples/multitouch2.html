@@ -82,10 +82,10 @@
     render();
 
 
-    const touchController = new TC.TouchController(scene);
+    const touchController = new TC.TouchController.fromCanvas(scene);
     const multiTouchController = new TC.MultiTouchController(
         touchController,
-        (position)=>rects.find((rect) => rect.intersects(position))
+        (frame)=>rects.find((rect) => rect.intersects(frame.position))
     );
 
 

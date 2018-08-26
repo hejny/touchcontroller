@@ -52,6 +52,15 @@ export default class Transformation {
         );
     }
 
+    applyOnElement(element: Element){
+        switch(element.tagName){
+            case 'g':
+                this.applyOnSvgElement(element as SVGGElement);
+            break;
+            default:
+                this.applyOnHtmlElement(element as HTMLElement);
+        }
+    }
 
     applyOnHtmlElement(element: HTMLElement){
         element.style.left = (parseFloat(element.style.left||'0px')+this.translate.x)+'px';//todo bounding box as default
@@ -59,7 +68,7 @@ export default class Transformation {
     }
 
     applyOnSvgElement(element: SVGGElement){
-        console.log(element.getAttribute('transform'));
+        //console.log(element.getAttribute('transform'));
         element.setAttribute('transform',
         vectorToTranslate(
         translateToVector(element.getAttribute('transform')||undefined).add(this.translate)

@@ -15,8 +15,12 @@ export default class TouchController {
     private _hoveredFramesObserver: Observer<TouchFrame>;
     //private _ongoingTouches: Touch[] = [];
 
+    static fromCanvas(canvas: HTMLCanvasElement){
+        return new TouchController([canvas],canvas,true);
+    }
+
     constructor(
-        public elements: HTMLElement[],
+        public elements: HTMLElement[],//todo syntax sugar if set only one element
         public anchorElement: HTMLElement,
         setListeners = true,
     ) {

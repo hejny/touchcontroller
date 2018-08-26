@@ -10,6 +10,7 @@ export default class TouchController {
     hoveredFrames: Observable<TouchFrame>;
     private _touchesObserver;
     private _hoveredFramesObserver;
+    static fromCanvas(canvas: HTMLCanvasElement): TouchController;
     constructor(elements: HTMLElement[], anchorElement: HTMLElement, setListeners?: boolean);
     addListener(listener: IListener): void;
     emulateTouch(touch: Touch): void;

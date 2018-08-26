@@ -22,7 +22,7 @@
     ctx.lineCap = "round";
 
 
-    var touchController = new TC.TouchController(scene);
+    var touchController = new TC.TouchController.fromCanvas(scene);
     touchController.touches.subscribe(function(touch){
 
         console.log(touch);

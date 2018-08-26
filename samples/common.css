@@ -4,17 +4,22 @@
 }
 
 #scene-background {
-    border: 2px solid green;
     position: fixed;
     top: 0;
     left: 0;
+    width: 100vw;
+    height: 100vh;
     z-index: 10;
-    background-color: red;
 }
 
 .foreground {
     position: absolute;
     z-index: 20;
+}
+
+svg{
+    background-color: rgba(200,200,200,0.5);
+    box-shadow: black 0 0 10px;
 }
 
 .item {

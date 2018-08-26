@@ -8,7 +8,7 @@
 <body>
 
 
-        <canvas id="scene-background" width="400" height="400"></canvas>
+        <canvas id="scene-background"></canvas>
 
         <div class="foreground">
             <canvas class="scene item" style="position: absolute;top:0;left:0;" width="40" height="40"></canvas>
@@ -67,8 +67,7 @@
 
     const TC = TouchController;
     
-    //const gElements = Array.from(document.querySelectorAll('.item'));
-    const gElements = Array.from(document.querySelectorAll('svg > g'));
+    const dragElements = [...Array.from(document.querySelectorAll('.item')),...Array.from(document.querySelectorAll('svg > g'))];
 
     /*/
     for(const gElement of gElements){
@@ -79,12 +78,16 @@
     /**/
 
     var scene = document.getElementById('scene-background');
+    scene.width = scene.getBoundingClientRect().width;
+    scene.height = scene.getBoundingClientRect().height;
     var ctx = scene.getContext('2d');
     ctx.lineWidth = 10;
     ctx.lineCap = "round";
 
+    
 
-    var touchController = new TC.TouchController(gElements,scene);
+
+    var touchController = new TC.TouchController(dragElements,scene);
     touchController.touches.subscribe(function(touch){
 
         //console.log('touch',touch);
@@ -149,7 +152,7 @@
     ).subscribe(function (transformation) {
 
             //transformation.applyOnHtmlElement(multitouch.element);
-            transformation.applyOnSvgElement(multitouch.element);
+            transformation.applyOnElement(multitouch.element);
 
             //console.log(multitouch.element);
             //console.log('transformation',transformation);

@@ -25,7 +25,7 @@
     ctx.lineCap = "round";
 
 
-    var touchController = new TouchController.TouchController(scene);
+    var touchController = new TouchController.TouchController.fromCanvas(scene);
     var multiTouchController = new TouchController.MultiTouchController(
         touchController,
         function (position) {

@@ -58,9 +58,15 @@ export default function(buttons: number[] = [0], rotating = false): IListener {
                     false,
                 );
 
-                const mouseUpListener = ()=>{
+                const mouseUpListenerOnDocument = ()=>{
 
-                    //console.log('mouseup');
+                    console.log('mouseup');
+
+                    if (currentTouch) {
+                        //currentTouch.move(_createTouchFrameFromEvent(event), true);
+                        currentTouch.end;
+                        currentTouch = null;
+                    }
                 
                     document.removeEventListener(
                         'mousemove',
@@ -69,14 +75,14 @@ export default function(buttons: number[] = [0], rotating = false): IListener {
 
                     document.removeEventListener(
                         'mouseup',
-                        mouseUpListener
+                        mouseUpListenerOnDocument
                     );
 
                 }
                 
                 document.addEventListener(
                     'mouseup',
-                    mouseUpListener,
+                    mouseUpListenerOnDocument,
                     false,
                 );
 
@@ -113,10 +119,7 @@ export default function(buttons: number[] = [0], rotating = false): IListener {
         /*function _handleMouseUp(event: MouseEvent) {
             if (buttons.indexOf(event.button) !== -1) {
                 event.preventDefault();
-                if (!isNull(currentTouch)) {
-                    currentTouch.move(_createTouchFrameFromEvent(event), true);
-                    currentTouch = null;
-                }
+
             }
         }*/
 

@@ -15,7 +15,13 @@ export default function(buttons: number[] = [0], rotating = false): IListener {
     ) => {
         element.addEventListener(
             'mousedown',
-            (event) => _handleMouseDown(event),
+            (event) => _handleMouseDownOnElement(event),
+            false,
+        );
+
+        element.addEventListener(
+            'mousemove',
+            (event) => _handleMouseMoveOnElement(event),
             false,
         );
 
@@ -31,7 +37,7 @@ export default function(buttons: number[] = [0], rotating = false): IListener {
 
         let currentTouch: Touch | null = null;
 
-        function _handleMouseDown(event: MouseEvent) {
+        function _handleMouseDownOnElement(event: MouseEvent) {
             if (buttons.indexOf(event.button) !== -1) {
                 //_handleMouseUp(event);
                 if (onlyTouch) {
@@ -48,17 +54,17 @@ export default function(buttons: number[] = [0], rotating = false): IListener {
 
                 document.addEventListener(
                     'mousemove',
-                    _handleMouseMove,
+                    _handleMouseMoveOnDocument,
                     false,
                 );
 
                 const mouseUpListener = ()=>{
 
-                    console.log('mouseup');
+                    //console.log('mouseup');
                 
                     document.removeEventListener(
                         'mousemove',
-                        _handleMouseMove
+                        _handleMouseMoveOnDocument
                     );
 
                     document.removeEventListener(
@@ -74,9 +80,6 @@ export default function(buttons: number[] = [0], rotating = false): IListener {
                     false,
                 );
 
-               
-
-
                 newTouch(currentTouch);
                 onlyTouch = currentTouch;
             }
@@ -84,7 +87,7 @@ export default function(buttons: number[] = [0], rotating = false): IListener {
         }
 
         
-        function _handleMouseMove(event: MouseEvent) {
+        function _handleMouseMoveOnDocument(event: MouseEvent) {
             event.preventDefault();
             event.stopPropagation();
             //const globalPosition = new Vector2(event.clientX,event.clientY);
@@ -97,22 +100,15 @@ export default function(buttons: number[] = [0], rotating = false): IListener {
         }
 
 
-        /*function _handleMouseMove(event: MouseEvent) {
-            console.log('_handleMouseMove');
-            //console.log(event.buttons);
+        function _handleMouseMoveOnElement(event: MouseEvent) {
+            //console.log('_handleMouseMove');
             if (event.buttons > 0) {
-                //if(buttons.indexOf(event.button)!==-1) {todo what the hack? Is thare event.button on mousemove event?
-                if (!isNull(currentTouch)) {
-                    event.preventDefault();
-                    currentTouch.move(_createTouchFrameFromEvent(event), false);
-                }
-                //}
             } else {
-                if (isNull(currentTouch)) {
+                if (!currentTouch) {
                     newHoverFrame(_createTouchFrameFromEvent(event));
                 }
             }
-        }*/
+        }
 
         /*function _handleMouseUp(event: MouseEvent) {
             if (buttons.indexOf(event.button) !== -1) {

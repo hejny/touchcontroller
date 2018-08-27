@@ -2,7 +2,6 @@ import IListener from './IListener';
 import Touch from '../Touch';
 import TouchFrame from '../TouchFrame';
 import Vector2 from '../Vector2';
-import { isNull } from 'util';
 
 export default function(buttons: number[] = [0]): IListener {
     return (
@@ -54,7 +53,7 @@ export default function(buttons: number[] = [0]): IListener {
             for (let i = 0, l = touches.length; i < l; i++) {
                 const currentTouch =
                     currentTouches[touches[i].identifier] || null;
-                if (!isNull(currentTouch)) {
+                if (currentTouch) {
                     currentTouch.move(
                         _createTouchFrameFromEvent(touches[i]),
                         false,
@@ -69,7 +68,7 @@ export default function(buttons: number[] = [0]): IListener {
             for (let i = 0, l = touches.length; i < l; i++) {
                 const currentTouch =
                     currentTouches[touches[i].identifier] || null;
-                if (!isNull(currentTouch)) {
+                if (currentTouch) {
                     currentTouch.move(
                         _createTouchFrameFromEvent(touches[i]),
                         true,
@@ -96,7 +95,7 @@ export default function(buttons: number[] = [0]): IListener {
         }
 
         return () => {
-            //todo dispose
+            //todo return disposer
         };
     };
 }

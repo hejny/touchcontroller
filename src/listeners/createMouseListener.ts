@@ -39,14 +39,10 @@ export default function(buttons: number[] = [0], rotating = false): IListener {
 
         function _handleMouseDownOnElement(event: MouseEvent) {
             if (buttons.indexOf(event.button) !== -1) {
-                //_handleMouseUp(event);
                 if (onlyTouch) {
                     onlyTouch.end();
                 }
                 currentTouch = new Touch(
-                    //this,
-                    //this._touchesAutoIncrement++,
-                    //eventId,
                     'MOUSE',
                     anchorElement,
                     _createTouchFrameFromEvent(event),
@@ -58,28 +54,25 @@ export default function(buttons: number[] = [0], rotating = false): IListener {
                     false,
                 );
 
-                const mouseUpListenerOnDocument = ()=>{
-
+                const mouseUpListenerOnDocument = () => {
                     console.log('mouseup');
 
                     if (currentTouch) {
-                        //currentTouch.move(_createTouchFrameFromEvent(event), true);
-                        currentTouch.end;
+                        currentTouch.end();
                         currentTouch = null;
                     }
-                
+
                     document.removeEventListener(
                         'mousemove',
-                        _handleMouseMoveOnDocument
+                        _handleMouseMoveOnDocument,
                     );
 
                     document.removeEventListener(
                         'mouseup',
-                        mouseUpListenerOnDocument
+                        mouseUpListenerOnDocument,
                     );
+                };
 
-                }
-                
                 document.addEventListener(
                     'mouseup',
                     mouseUpListenerOnDocument,
@@ -89,25 +82,17 @@ export default function(buttons: number[] = [0], rotating = false): IListener {
                 newTouch(currentTouch);
                 onlyTouch = currentTouch;
             }
-            //createNewTouch();
         }
 
-        
         function _handleMouseMoveOnDocument(event: MouseEvent) {
             event.preventDefault();
             event.stopPropagation();
-            //const globalPosition = new Vector2(event.clientX,event.clientY);
-            //console.log('_handleMouseMove',globalPosition);
-
-            if(currentTouch){
-                //console.log('Moving current touch.');
+            if (currentTouch) {
                 currentTouch.move(_createTouchFrameFromEvent(event), false);
             }
         }
 
-
         function _handleMouseMoveOnElement(event: MouseEvent) {
-            //console.log('_handleMouseMove');
             if (event.buttons > 0) {
             } else {
                 if (!currentTouch) {
@@ -116,15 +101,7 @@ export default function(buttons: number[] = [0], rotating = false): IListener {
             }
         }
 
-        /*function _handleMouseUp(event: MouseEvent) {
-            if (buttons.indexOf(event.button) !== -1) {
-                event.preventDefault();
-
-            }
-        }*/
-
         function _createTouchFrameFromEvent(event: MouseEvent) {
-            //console.log('event.clientX',event.clientX,element.offsetLeft);
             const boundingRect = element.getBoundingClientRect();
             return new TouchFrame(
                 element,
@@ -139,7 +116,7 @@ export default function(buttons: number[] = [0], rotating = false): IListener {
         }
 
         return () => {
-            //todo dispose
+            //todo return disposer
         };
     };
 }

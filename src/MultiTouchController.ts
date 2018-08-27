@@ -29,7 +29,6 @@ export default class MultiTouchController<TElement> {
             )[0];
 
             if (typeof multiTouch === 'undefined') {
-                //console.log('creating new multitouch');
                 multiTouch = new MultiTouch(element, touch);
                 this.ongoingMultiTouches.push(multiTouch);
                 this._multiTouchesObserver.next(multiTouch);
@@ -77,5 +76,5 @@ export default class MultiTouchController<TElement> {
         );
     }
 
-    //todo dispose
+    //todo method for dispose
 }

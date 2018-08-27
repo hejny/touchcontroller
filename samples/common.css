@@ -17,15 +17,9 @@
     z-index: 20;
 }
 
-svg{
-    background-color: rgba(200,200,200,0.5);
+svg {
+    background-color: rgba(200, 200, 200, 0.5);
     box-shadow: black 0 0 10px;
-}
-
-.item {
-}
-
-.log {
 }
 
 .log-title {

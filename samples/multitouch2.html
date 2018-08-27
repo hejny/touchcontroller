@@ -62,7 +62,7 @@
             new TC.Vector2(100, 100),
             new TC.Vector2(100, 150),
             Math.PI / 10
-        ),/**/
+        ),
         new Rect(
             'green',
             new TC.Vector2(300, 300),
@@ -81,40 +81,13 @@
     }
     render();
 
-
     const touchController = new TC.TouchController.fromCanvas(scene);
     const multiTouchController = new TC.MultiTouchController(
         touchController,
         (frame)=>rects.find((rect) => rect.intersects(frame.position))
     );
 
-
-    //touchController.emulateTouch(TC.Touch.Rotate(new TC.Vector2(100,100),Math.PI/2));
-    //todo touchController.emulateTouch(TC.Touch.Drag(new TC.Vector2(100,100),new TC.Vector2(200,200),1000));
-
-
-    /*let lastHoverPosition = null;
-    touchController.hover.frames.subscribe((frame)=>{
-        const position = frame.position;
-        if(rects.some((rect)=>rect.intersects(position))){
-            if(lastHoverPosition) {
-                ctx.strokeStyle = '#ff00ff';//rects[0].color;
-                ctx.lineCap = 'round';
-                ctx.lineWidth = 3;
-                ctx.beginPath();
-                ctx.moveTo(lastHoverPosition.x, lastHoverPosition.y);
-                ctx.lineTo(position.x, position.y);
-                ctx.stroke();
-            }
-            lastHoverPosition = position;
-        }else{
-            lastHoverPosition = null;
-    }
-    });*/
-
-    //console.log(multiTouchController);
     multiTouchController.hoveredElementsChanges.subscribe(([elementNew,elementOld])=>{
-        //console.log([elementNew,elementOld]);
         if(elementNew||false){
             elementNew.hovered = true;
         }
@@ -130,31 +103,13 @@
         const rect = multitouch.element;
         const sizeRatio = rect.size.y / rect.size.x;
         multitouch.transformations(
-            /*new TC.Transformation(
-                rect.center,
-                rect.rotation,
-                rect.size.x
-            )*/
             multitouch.element
         ).subscribe(function (transformation) {
-
-                //console.log(transformation);
-
-                /*multitouch.element.center = transformation.translate;
-                multitouch.element.rotation = transformation.rotate;
-                multitouch.element.size.x = transformation.scale;
-                multitouch.element.size.y = transformation.scale * sizeRatio;*/
-
-                //multitouch.element.position = multitouch.element.position.add(transformation.translate);
-
-
             },
             function () {
             },
             function () {
                 if(multitouch.empty){
-
-                    //alert(`You have selected ${multitouch.element.color} rectangle.`);
                     rect.rotation += (Math.PI*2)/36;
                 }
             });

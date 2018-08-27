@@ -3,12 +3,10 @@ import 'rxjs/add/operator/share';
 import { Observer } from 'rxjs/Observer';
 import 'rxjs/add/observable/range';
 import 'rxjs/add/operator/share';
-//import AbstractClassWithSubscribe from './AbstractClassWithSubscribe';
 import TouchFrame from './TouchFrame';
 import Vector2 from './Vector2';
 
 export default class Touch {
-    //public uuid: string;
     public frames: Observable<TouchFrame>;
     private _framesObserver: Observer<TouchFrame>;
     public lastFrame: TouchFrame;
@@ -48,12 +46,19 @@ export default class Touch {
     }
 
     toString() {
-        //return `Touch(${this.id})`
         return `Touch`;
     }
 
-    static Click(element: HTMLElement,anchorElement: HTMLElement, position: Vector2): Touch {
-        const touch = new Touch('MOUSE', anchorElement, new TouchFrame(element, anchorElement, position));
+    static Click(
+        element: HTMLElement,
+        anchorElement: HTMLElement,
+        position: Vector2,
+    ): Touch {
+        const touch = new Touch(
+            'MOUSE',
+            anchorElement,
+            new TouchFrame(element, anchorElement, position),
+        );
         setTimeout(() => {
             touch.end();
         }, 100);

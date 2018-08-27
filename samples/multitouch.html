@@ -28,27 +28,17 @@
     var touchController = new TouchController.TouchController.fromCanvas(scene);
     var multiTouchController = new TouchController.MultiTouchController(
         touchController,
-        function (position) {
-            return Math.round(position.x / 100);
+        function (frame) {
+            return Math.round(frame.position.x / 100);
         }
     );
-    //console.log(multiTouchController);
 
-    //multiTouchController.multiTouches.subscribe(function (multitouch) {console.log('a1',multitouch)});
-    //multiTouchController.multiTouches.subscribe(function (multitouch) {console.log('a2',multitouch)});
     multiTouchController.multiTouches.subscribe(function (multitouch) {
-
-        //console.log(multitouch);
 
         var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
 
         var logMultitouch = $('<div class="log-multitouch"><div class="log-title">' + multitouch + '</div><div class="log-multitouch-last-transformation"></div></div>');
         $('#log').append(logMultitouch)
-
-
-        //multitouch.touches.subscribe(function (touch) {console.log('b1',touch)});
-        //multitouch.touches.subscribe(function (touch) {console.log('b2',touch)});
-
 
         multitouch.transformations().subscribe(function (transformation) {
             $(logMultitouch).find('.log-multitouch-last-transformation').html(`
@@ -71,10 +61,6 @@
         });
 
         multitouch.touches.subscribe(function (touch) {
-
-                //touch.frames.subscribe(function (frame) {console.log('c1',frame)});
-                //touch.frames.subscribe(function (frame) {console.log('c2',frame)});
-
 
                 var logTouch = $('<div class="log-touch"><div class="log-title">' + touch + '</div><div class="log-touch-frames"></div><div class="log-touch-last-frame"></div></div></div>');
                 $(logMultitouch).append(logTouch);
@@ -112,19 +98,6 @@
                             </tr>
                         </table>
                     `);
-
-                        /*var lastFrame = multitouch.ongoingTouches[0].lastFrame;
-                        for (var i = 1, l = multitouch.ongoingTouches.length; i < l; i++) {
-                            var position = multitouch.ongoingTouches[i].lastFrame;
-
-                            ctx.strokeStyle = color;
-                            ctx.beginPath();
-                            ctx.moveTo(lastFrame.x, lastFrame.y);
-                            ctx.lineTo(position.x, position.y);
-                            ctx.stroke();
-
-                            lastFrame = position;
-                        }*/
 
                     },
                     function () {

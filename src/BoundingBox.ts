@@ -1,3 +1,4 @@
+//todo to other my library - combine TC, Vire
 import Vector2 from './Vector2';
 import Transformation from './Transformation';
 

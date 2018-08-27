@@ -10,17 +10,15 @@ import * as listeners from './listeners/';
 export default class TouchController {
     public touches: Observable<Touch>;
     public hoveredFrames: Observable<TouchFrame>;
-    //private _touchesAutoIncrement: number = 0;
     private _touchesObserver: Observer<Touch>;
     private _hoveredFramesObserver: Observer<TouchFrame>;
-    //private _ongoingTouches: Touch[] = [];
 
-    static fromCanvas(canvas: HTMLCanvasElement){
-        return new TouchController([canvas],canvas,true);
+    static fromCanvas(canvas: HTMLCanvasElement) {
+        return new TouchController([canvas], canvas, true);
     }
 
     constructor(
-        public elements: HTMLElement[],//todo syntax sugar if set only one element
+        public elements: HTMLElement[], //todo syntax sugar if set only one element
         public anchorElement: HTMLElement,
         setListeners = true,
     ) {
@@ -39,11 +37,8 @@ export default class TouchController {
             this.addListener(listeners.createMouseListener());
             this.addListener(listeners.createMouseListener([1, 2], true));
             this.addListener(listeners.createTouchListener());
-            //this.addListener(listeners.createMouseScaleListener());
         }
     }
-
-    //todo dispose
 
     addListener(listener: IListener) {
         for (const element of this.elements) {
@@ -67,60 +62,5 @@ export default class TouchController {
         });
     }
 
-    /*touchStart(eventId: string, type: 'TOUCH' | 'MOUSE', event: IEvent) {
-        const touch = new Touch(
-            this,
-            this._touchesAutoIncrement++,
-            eventId,
-            type,
-            this._createVectorFromEvent(event)
-        );
-        this._ongoingTouches.push(touch);
-        this._touchesObserver.next(touch);
-    }
-
-    touchMove(eventId: string, end: boolean, event: IEvent) {
-        const index = this._ongoingTouchIndexById(eventId);
-        if (index !== -1) {
-            const touch = this._ongoingTouches[index];
-            touch.move(this._createVectorFromEvent(event), end);
-            if (end) {
-                this._ongoingTouches.splice(index, 1);
-                //this.callSubscribers('END', touch);
-            } else {
-                //this.callSubscribers('MOVE', touch);
-            }
-        } else {
-            this.hoverMove(event);
-        }
-    }
-
-    hoverMove(event: IEvent) {
-        this.hover.move(this._createVectorFromEvent(event));
-    }
-
-    private _createVectorFromEvent(event: IEvent) {
-        return new VectorTouch(
-            this,
-            new Vector2(
-                event.clientX - this.element.offsetLeft,
-                event.clientY - this.element.offsetTop
-            ),
-            performance.now()
-        );
-    }
-
-    private _ongoingTouchIndexById(eventIdToFind: string): number {
-        for (let i = 0; i < this._ongoingTouches.length; i++) {
-            const eventId = this._ongoingTouches[i].eventId;
-
-            if (eventId === eventIdToFind) {
-                return i;
-            }
-        }
-        return -1;
-    }
-    */
-
-    //todo dispose
+    //todo method for dispose
 }

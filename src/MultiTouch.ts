@@ -10,7 +10,6 @@ import BoundingBox from './BoundingBox';
 
 //todo multitouch should be extended from this
 export default class MultiTouch<TElement> {
-    //public id: string;
     public empty: boolean = true;
     public ongoingTouches: Touch[] = [];
     public touches: Observable<Touch>;
@@ -20,20 +19,15 @@ export default class MultiTouch<TElement> {
         public element: TElement, //todo this should be external
         public firstTouch: Touch,
     ) {
-        //this.id = uuidv4();
         this.touches = Observable.create((observer: Observer<Touch>) => {
             this._touchesObserver = observer;
             setImmediate(() => this.addTouch(firstTouch));
         }).share();
-        //console.log(`------------------------------Creating ${this} `);
     }
 
     addTouch(touch: Touch) {
-        //console.log(this.touches.);
         this.ongoingTouches.push(touch);
         this._touchesObserver.next(touch);
-
-        //console.log(`Adding ${touch} To ${this}.`);
 
         touch.frames.subscribe(
             (frame) => {
@@ -45,10 +39,9 @@ export default class MultiTouch<TElement> {
                 }
             },
             () => {
-                //console.log("Touch in multitouch error.");
+                //todo is empty functions needed - if yes create empty function in tools
             },
             () => {
-                //console.log(`Complete ${touch} in ${this}.`);
                 this.ongoingTouches = this.ongoingTouches.filter(
                     (touch2) => touch2 !== touch,
                 );

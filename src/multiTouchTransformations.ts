@@ -12,8 +12,6 @@ export default function multiTouchTransformations<TElement>(
     boundingBox: BoundingBox = BoundingBox.One(),
 ): Observable<Transformation> {
     return Observable.create((observer: Observer<Transformation>) => {
-        //objectTransformation = objectTransformation.clone();
-
         let subscriptions: Subscription[] = [];
 
         multiTouch.ongoingTouchesChanges.subscribe(
@@ -23,39 +21,13 @@ export default function multiTouchTransformations<TElement>(
                 }
                 //todo maybe subscription = [];
 
-                /*for(const touch of touches){
-                 touch.chop();
-                 }*/
-
                 let countTouchesTransformation: (
                     ...touches: Touch[]
                 ) => Transformation;
-
-                //const countAggregatedRotation = ()=>touches.reduce((sum,touch)=>sum+touch.lastFrame.rotation,0);
-
-                //console.log(touches);
                 if (touches.length === 1) {
-                    /*
-                     const touch = touches[0];
-                     subscriptions = [touch.frames.subscribe((position)=>{
-                     //console.log( position.subtract(touch.firstFrame));
-                     observer.next(
-                     //todo optimize
-                     objectTransformation.add(new Transformation(
-                     position.subtract(touch.firstFrame),
-                     0,
-                     1
-                     ))
-                     );
-                     })];*/
-
                     if (!touches[0].lastFrame.rotating) {
                         countTouchesTransformation = (touch1) =>
-                            new Transformation(
-                                touch1.lastFrame.position,
-                                0, //countAggregatedRotation(),
-                                1,
-                            );
+                            new Transformation(touch1.lastFrame.position, 0, 1);
                     } else {
                         //todo this should be like second picked point is center of bounding box
                         countTouchesTransformation = (touch1) =>
@@ -108,10 +80,6 @@ export default function multiTouchTransformations<TElement>(
                 subscriptions = touches.map((touch) =>
                     touch.frames.subscribe(touchMoveCallback),
                 );
-                /*subscriptions = [
-                 touch1.frames.subscribe(touchMoveCallback),
-                 touch2.frames.subscribe(touchMoveCallback)
-                 ];*/
             },
             () => {},
             () => {

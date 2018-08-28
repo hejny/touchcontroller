@@ -40,21 +40,36 @@ export default class TouchController {
         }
     }
 
+    private listeners: IListener[] = [];
+
     addListener(listener: IListener) {
+        this.listeners.push(listener);
         for (const element of this.elements) {
-            listener(
-                element,
-                this.anchorElement,
-                (touch: Touch) => this._touchesObserver.next(touch),
-                (frame: TouchFrame) => {
-                    if (typeof this._hoveredFramesObserver !== 'undefined') {
-                        this._hoveredFramesObserver.next(frame);
-                    }
-                },
-            );
-            //todo array of listeners disposers
+            this.callListenerOnElement(listener,element);
         }
     }
+
+    addElement(element: HTMLElement) {
+        this.elements.push(element);
+        for (const listener of this.listeners) {
+            this.callListenerOnElement(listener,element);
+        }
+    }
+
+    callListenerOnElement(listener:IListener, element: HTMLElement){
+        listener(
+            element,
+            this.anchorElement,
+            (touch: Touch) => this._touchesObserver.next(touch),
+            (frame: TouchFrame) => {
+                if (typeof this._hoveredFramesObserver !== 'undefined') {
+                    this._hoveredFramesObserver.next(frame);
+                }
+            },
+        );
+        //todo array of listeners disposers
+    }
+
 
     emulateTouch(touch: Touch) {
         setImmediate(() => {

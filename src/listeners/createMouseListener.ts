@@ -55,7 +55,7 @@ export default function(buttons: number[] = [0], rotating = false): IListener {
                 );
 
                 const mouseUpListenerOnDocument = () => {
-                    console.log('mouseup');
+                    //console.log('mouseup');
 
                     if (currentTouch) {
                         currentTouch.end();

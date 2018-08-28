@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample of TC (ES6)</title>
+    <link rel="stylesheet" type="text/css" href="./common.css">
+</head>
+<body>
+
+    <div class="foreground">
+        <svg style="overflow:visible" width="500" height="500">
+            <g transform="translate(4,4)">
+                <rect width="30" height="30" x="0" y="15" style="fill: #FF3820; stroke: #1A6AA3; stroke-width: 2;"></rect>
+                <polygon points="0,15 0,15 15,0 45,0 45,0 30,15" style="fill: #FF3820; stroke: #1A6AA3; stroke-width: 2;"></polygon>
+                <polygon points="45,0 45,0 30,15 30,45 30,45 45,30" style="fill: #FF3820; stroke: #1A6AA3; stroke-width: 2;"></polygon>
+            </g>
+            <g transform="translate(4,59)" >
+                <rect width="30" height="30" x="0" y="15" style="fill: #40CEF6; stroke: #1A6AA3; stroke-width: 2;"></rect>
+                <polygon points="0,15 0,15 15,0 45,0 45,0 30,15" style="fill: #40CEF6; stroke: #1A6AA3; stroke-width: 2;"></polygon>
+                <polygon points="45,0 45,0 30,15 30,45 30,45 45,30" style="fill: #28A4D1; stroke: #1A6AA3; stroke-width: 2;"></polygon>
+            </g>
+            <g transform="translate(4,114)" >
+                <rect width="30" height="30" x="0" y="15" style="fill: #43B94A; stroke: #1A6AA3; stroke-width: 2;"></rect>
+                <polygon points="0,15 0,15 15,0 45,0 45,0 30,15" style="fill: #58C05F; stroke: #1A6AA3; stroke-width: 2;"></polygon>
+                <polygon points="45,0 45,0 30,15 30,45 30,45 45,30" style="fill: #39943B; stroke: #1A6AA3; stroke-width: 2;"></polygon>
+            </g>
+            <g transform="translate(59,4)" >
+                <rect width="30" height="30" x="0" y="15" style="fill: #9BA2A6; stroke: #1A6AA3; stroke-width: 2;"></rect>
+                <polygon points="0,15 0,15 15,0 45,0 45,0 30,15" style="fill: #AEB5B9; stroke: #1A6AA3; stroke-width: 2;"></polygon>
+                <polygon points="45,0 45,0 30,15 30,45 30,45 45,30" style="fill: #888E93; stroke: #1A6AA3; stroke-width: 2;"></polygon>
+            </g>
+            <g transform="translate(59,59)" >
+                <rect width="30" height="30" x="0" y="15" style="fill: #FFEA3D; stroke: #1A6AA3; stroke-width: 2;"></rect>
+                <polygon points="0,15 0,15 15,0 45,0 45,0 30,15" style="fill: #FFEA3D; stroke: #1A6AA3; stroke-width: 2;"></polygon>
+                <polygon points="45,0 45,0 30,15 30,45 30,45 45,30" style="fill: #FFEA3D; stroke: #1A6AA3; stroke-width: 2;"></polygon>
+            </g>
+        </svg>
+    </div>
+
+<script src="../dist/touchcontroller.browser.js"></script>
+<script>
+
+    const TC = TouchController;
+
+    const dragElements = [...Array.from(document.querySelectorAll('.item')),...Array.from(document.querySelectorAll('svg > g'))];
+
+    var touchController = new TC.TouchController(dragElements,document.body);//todo document.body as default
+    
+    const multiTouchController = new TC.MultiTouchController(
+        touchController,
+        (frame)=>frame.element
+    );
+
+    multiTouchController.multiTouches.subscribe(function (multitouch) {
+
+        if(typeof multitouch.element === 'undefined')return;
+
+        let draggingElement = multitouch.element;
+
+        if(!multitouch.element.hasAttribute('data-clone')){
+            
+            const draggingElement = multitouch.element.cloneNode(true);
+            multitouch.element.parentNode.appendChild(draggingElement);
+            touchController.addElement(draggingElement);
+            multitouch.element.setAttribute('data-clone','true');
+        }
+
+
+        multitouch.transformations(
+            TC.BoundingBox.One()
+        ).subscribe(function (transformation) {
+                transformation.applyOnElement(draggingElement);
+            },
+            function () {
+            },
+            function () {
+                if(multitouch.empty){
+                    console.log(`You have selected element.`);
+                }
+            });
+    });
+
+
+</script>
+</body>
+</html>

@@ -52,7 +52,7 @@ export default class Transformation {
         );
     }
 
-    applyOnElement(element: Element) {
+    applyOnElement(element: Element, options:IApplyOnOptions) {
         switch (element.tagName) {
             case 'g':
                 this.applyOnSvgElement(element as SVGGElement);
@@ -62,21 +62,38 @@ export default class Transformation {
         }
     }
 
-    applyOnHtmlElement(element: HTMLElement) {
+    applyOnHtmlElement(element: HTMLElement, options:IApplyOnOptions) {
         element.style.left =
             parseFloat(element.style.left || '0px') + this.translate.x + 'px'; //todo bounding box as default
         element.style.top =
             parseFloat(element.style.top || '0px') + this.translate.y + 'px';
+
+        //todo rotation
+
     }
 
-    applyOnSvgElement(element: SVGGElement) {
+    applyOnSvgElement(element: SVGGElement, options: IApplyOnOptions) {
+        
+        //todo preserve other transforms
+
+        const transformObject = transformToObject(element.getAttribute('transform') || undefined);
+        
+        transformObject.translate.addInPlace(this.translate);
+        transformObject.rotation
+
         element.setAttribute(
             'transform',
             vectorToTranslate(
-                translateToVector(
-                    element.getAttribute('transform') || undefined,
-                ).add(this.translate),
+                .add(this.translate),
             ),
         );
+
+
     }
+}
+
+
+interface IApplyOnOptions{
+    translate: boolean;
+    rotate: boolean;
 }

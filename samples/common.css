@@ -22,6 +22,11 @@ svg {
     box-shadow: black 0 0 10px;
 }
 
+svg g{
+    cursor: pointer;
+    user-select: none;
+}
+
 .log-title {
     background-color: bisque;
 }

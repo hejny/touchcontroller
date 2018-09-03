@@ -39,6 +39,10 @@ export default function(buttons: number[] = [0], rotating = false): IListener {
 
         function _handleMouseDownOnElement(event: MouseEvent) {
             if (buttons.indexOf(event.button) !== -1) {
+
+                event.preventDefault();
+                event.stopPropagation();
+
                 if (onlyTouch) {
                     onlyTouch.end();
                 }

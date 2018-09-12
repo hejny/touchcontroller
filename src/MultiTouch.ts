@@ -9,7 +9,7 @@ import Transformation from './Transformation';
 import BoundingBox from './BoundingBox';
 
 //todo multitouch should be extended from this
-export default class MultiTouch<TElement> {
+export class MultiTouch<TElement> {
     public empty: boolean = true;
     public ongoingTouches: Touch[] = [];
     public touches: Observable<Touch>;

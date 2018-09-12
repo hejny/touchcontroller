@@ -1,10 +1,10 @@
 import Vector2 from './Vector2';
-import { translateToVector, vectorToTranslate } from './tools/svgTools';
-
-export default class Transformation {
+export class Transformation {
+    
     constructor(
         public translate: Vector2 = Vector2.Zero(),
         public rotate: number = 0,
+        public rotateCenter: Vector2 = Vector2.Zero(),
         public scale: number = 1,
     ) {}
 
@@ -32,6 +32,7 @@ export default class Transformation {
         return new Transformation(
             this.translate.clone(),
             this.rotate,
+            this.rotateCenter.clone(),
             this.scale,
         );
     }
@@ -40,6 +41,7 @@ export default class Transformation {
         return new Transformation(
             this.translate.add(transformation.translate),
             (this.rotate + transformation.rotate) % (Math.PI * 2),
+            this.rotateCenter.add(transformation.rotateCenter),//todo is it correct
             this.scale * transformation.scale,
         );
     }
@@ -48,10 +50,14 @@ export default class Transformation {
         return new Transformation(
             this.translate.subtract(transformation.translate),
             (this.rotate - transformation.rotate + Math.PI * 2) % (Math.PI * 2),
+            this.rotateCenter.subtract(transformation.rotateCenter),//todo is it correct
             this.scale / transformation.scale,
         );
     }
 
+
+
+    //todo move to other function
     applyOnElement(element: Element) {
         switch (element.tagName) {
             case 'g':
@@ -70,13 +76,13 @@ export default class Transformation {
     }
 
     applyOnSvgElement(element: SVGGElement) {
-        element.setAttribute(
+        /*element.setAttribute(
             'transform',
             vectorToTranslate(
                 translateToVector(
                     element.getAttribute('transform') || undefined,
                 ).add(this.translate),
             ),
-        );
+        );*/
     }
 }

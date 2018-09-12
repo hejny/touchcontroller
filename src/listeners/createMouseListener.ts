@@ -1,12 +1,9 @@
-import IListener from './IListener';
-import Touch from '../Touch';
-import TouchFrame from '../TouchFrame';
-import Vector2 from '../Vector2';
+
 
 //todo singleton :(
 let onlyTouch: Touch | null = null;
 
-export default function(buttons: number[] = [0], rotating = false): IListener {
+export function createMouseListener(buttons: number[] = [0], rotating = false): IListener {
     return (
         element: HTMLElement,
         anchorElement: HTMLElement,

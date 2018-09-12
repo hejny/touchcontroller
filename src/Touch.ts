@@ -6,7 +6,7 @@ import 'rxjs/add/operator/share';
 import TouchFrame from './TouchFrame';
 import Vector2 from './Vector2';
 
-export default class Touch {
+export class Touch {
     public frames: Observable<TouchFrame>;
     private _framesObserver: Observer<TouchFrame>;
     public lastFrame: TouchFrame;

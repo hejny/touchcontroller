@@ -1,5 +1,5 @@
 //todo to other my library - combine TC, Vire
-export default class Vector2 {
+export class Vector2 {
     constructor(public x: number, public y: number) {
         if (isNaN(x) || isNaN(y)) {
             throw new Error(

@@ -1,6 +1,6 @@
 import Vector2 from './Vector2';
 
-export default class TouchFrame {
+export class TouchFrame {
     public position: Vector2;
 
     constructor(

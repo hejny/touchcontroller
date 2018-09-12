@@ -7,7 +7,7 @@ import IListener from './listeners/IListener';
 import * as listeners from './listeners/';
 
 //todo multitouch should be extended from this
-export default class TouchController {
+export class TouchController {
     public touches: Observable<Touch>;
     public hoveredFrames: Observable<TouchFrame>;
     private _touchesObserver: Observer<Touch>;

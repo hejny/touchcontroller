@@ -3,7 +3,7 @@ import Touch from '../Touch';
 import TouchFrame from '../TouchFrame';
 import Vector2 from '../Vector2';
 
-export default function(buttons: number[] = [0]): IListener {
+export function createTouchListener(buttons: number[] = [0]): IListener {
     return (
         element: HTMLElement,
         anchorElement: HTMLElement,

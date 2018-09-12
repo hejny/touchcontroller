@@ -7,7 +7,7 @@ import Transformation from './Transformation';
 import BoundingBox from './BoundingBox';
 import Vector2 from './Vector2';
 
-export default function multiTouchTransformations<TElement>(
+export function multiTouchTransformations<TElement>(
     multiTouch: MultiTouch<TElement>,
     boundingBox: BoundingBox = BoundingBox.One(),
 ): Observable<Transformation> {

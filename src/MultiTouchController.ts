@@ -5,7 +5,7 @@ import TouchController from './TouchController';
 import MultiTouch from './MultiTouch';
 import TouchFrame from './TouchFrame';
 
-export default class MultiTouchController<TElement> {
+export class MultiTouchController<TElement> {
     public ongoingMultiTouches: MultiTouch<TElement | undefined>[] = []; //todo null vs. undefined
     public multiTouches: Observable<MultiTouch<TElement | undefined>>;
     private _multiTouchesObserver: Observer<MultiTouch<TElement | undefined>>;

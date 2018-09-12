@@ -1,7 +1,7 @@
-import IListener from './IListener';
-import Touch from '../Touch';
-import TouchFrame from '../TouchFrame';
-import Vector2 from '../Vector2';
+import { IListener } from './IListener';
+import { TouchFrame } from '../TouchFrame';
+import { Touch } from '../Touch';
+
 
 export function createTouchListener(buttons: number[] = [0]): IListener {
     return (

@@ -1,8 +1,9 @@
+import { Vector2 } from './Vector2';
+import { Transformation } from './Transformation';
 //todo to other my library - combine TC, Vire
-import Vector2 from './Vector2';
-import Transformation from './Transformation';
 
-export default class BoundingBox {
+
+export class BoundingBox {
     constructor(
         public center: Vector2 = Vector2.Zero(),
         public size: Vector2 = Vector2.One(),
@@ -111,6 +112,7 @@ export default class BoundingBox {
         return new Transformation(
             destinationBoundingBox.center.subtract(this.center),
             destinationBoundingBox.rotation - this.rotation,
+            undefined,
             destinationBoundingBox.size.x / destinationBoundingBox.size.x, //todo better
         );
     }

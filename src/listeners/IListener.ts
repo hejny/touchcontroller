@@ -1,5 +1,4 @@
-import Touch from '../Touch';
-import TouchFrame from '../TouchFrame';
+import TouchFrame from "../../dist/typings/src/TouchFrame";
 
 export interface IListener {
     (

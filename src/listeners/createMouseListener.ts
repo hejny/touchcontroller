@@ -1,3 +1,6 @@
+import { TouchFrame } from './../TouchFrame';
+import { IListener } from './IListener';
+import { Touch } from '../Touch';
 
 
 //todo singleton :(

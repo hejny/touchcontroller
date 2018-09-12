@@ -1,11 +1,10 @@
+import { MultiTouch } from './MultiTouch';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { Subscription } from 'rxjs/Subscription';
-import Touch from './Touch';
-import MultiTouch from './MultiTouch';
-import Transformation from './Transformation';
-import BoundingBox from './BoundingBox';
-import Vector2 from './Vector2';
+import { BoundingBox } from './BoundingBox';
+import { Transformation } from './Transformation';
+
 
 export function multiTouchTransformations<TElement>(
     multiTouch: MultiTouch<TElement>,

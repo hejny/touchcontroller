@@ -1,10 +1,11 @@
+import { Vector2 } from './Vector2';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/share';
 import { Observer } from 'rxjs/Observer';
 import 'rxjs/add/observable/range';
 import 'rxjs/add/operator/share';
-import TouchFrame from './TouchFrame';
-import Vector2 from './Vector2';
+import TouchFrame from '../dist/typings/src/TouchFrame';
+
 
 export class Touch {
     public frames: Observable<TouchFrame>;

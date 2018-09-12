@@ -1,4 +1,5 @@
-import Vector2 from './Vector2';
+import { Vector2 } from './Vector2';
+
 export class Transformation {
     
     constructor(
@@ -21,11 +22,11 @@ export class Transformation {
     }
 
     static scale(scale: number): Transformation {
-        return new Transformation(undefined, undefined, scale);
+        return new Transformation(undefined, undefined, undefined, scale);
     }
 
     clone(): Transformation {
-        return new Transformation(this.translate, this.rotate, this.scale);
+        return new Transformation(this.translate, this.rotate, this.rotateCenter, this.scale);
     }
 
     cloneDeep(): Transformation {

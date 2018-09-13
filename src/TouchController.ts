@@ -2,9 +2,10 @@ import { IListener } from './listeners/IListener';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/share';
 import { Observer } from 'rxjs/Observer';
-import TouchFrame from '../dist/typings/src/TouchFrame';
+import {TouchFrame} from './TouchFrame';
 import { createMouseListener } from './listeners/createMouseListener';
 import { createTouchListener } from './listeners/createTouchListener';
+import { Touch } from './Touch';
 
 
 //todo multitouch should be extended from this

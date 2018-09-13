@@ -4,7 +4,7 @@ import 'rxjs/add/operator/share';
 import { Observer } from 'rxjs/Observer';
 import 'rxjs/add/observable/range';
 import 'rxjs/add/operator/share';
-import TouchFrame from '../dist/typings/src/TouchFrame';
+import { TouchFrame } from './TouchFrame';
 
 
 export class Touch {

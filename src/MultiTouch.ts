@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/share';
 import { Observer } from 'rxjs/Observer';
-import { multiTouchTransformations } from '../dist/typings/src';
+import { multiTouchTransformations } from './multiTouchTransformations';
 
 //todo multitouch should be extended from this
 export class MultiTouch<TElement> {

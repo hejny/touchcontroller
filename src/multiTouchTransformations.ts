@@ -27,7 +27,7 @@ export function multiTouchTransformations<TElement>(
                 if (touches.length === 1) {
                     if (!touches[0].lastFrame.rotating) {
                         countTouchesTransformation = (touch1) =>
-                            new Transformation(touch1.lastFrame.position, 0, 1);
+                            new Transformation(touch1.lastFrame.position, 0, undefined , 1);
                     } else {
                         //todo this should be like second picked point is center of bounding box
                         countTouchesTransformation = (touch1) =>

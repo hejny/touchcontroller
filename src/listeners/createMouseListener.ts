@@ -1,6 +1,7 @@
 import { TouchFrame } from './../TouchFrame';
 import { IListener } from './IListener';
 import { Touch } from '../Touch';
+import { Vector2 } from '../Vector2';
 
 //todo singleton :(
 let onlyTouch: Touch | null = null;

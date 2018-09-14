@@ -1,6 +1,6 @@
 import { expect } from "chai";
-import Vector2 from "../src/Vector2";
-import BoundingBox from "../src/BoundingBox";
+import {Vector2} from "../src/Vector2";
+import {BoundingBox} from "../src/BoundingBox";
 
 describe("BoundingBox", function() {
 

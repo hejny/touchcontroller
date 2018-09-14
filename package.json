@@ -10,7 +10,7 @@
     "develop": "webpack --watch",
     "deploy": "npm publish",
     "test": "",
-    "prettier": "prettier --config .prettierrc --write \"{src,samples}/**/*.{ts,tsx,js,html,css}\" webpack.config.js",
+    "prettier": "prettier --config .prettierrc --write \"{src,test,samples}/**/*.{ts,tsx,js,html,css}\" webpack.config.js",
     "prettier-watch": "onchange \"**/*.{js,ts,tsx,json}\" -- npm run prettier"
   },
   "repository": {

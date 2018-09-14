@@ -58,7 +58,7 @@ export class Transformation {
 
 
 
-    //todo move to other function
+    //todo maybe move to other function
     applyOnElement(element: Element) {
         switch (element.tagName) {
             case 'g':

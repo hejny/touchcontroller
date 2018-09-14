@@ -4,7 +4,8 @@ import { Observer } from 'rxjs/Observer';
 import { Subscription } from 'rxjs/Subscription';
 import { BoundingBox } from './BoundingBox';
 import { Transformation } from './Transformation';
-
+import { Touch } from './Touch';
+import { Vector2 } from './Vector2';
 
 export function multiTouchTransformations<TElement>(
     multiTouch: MultiTouch<TElement>,
@@ -35,6 +36,7 @@ export function multiTouchTransformations<TElement>(
                                 boundingBox.center.rotation(
                                     touch1.lastFrame.position,
                                 ),
+                                undefined,
                                 1,
                             );
                     }
@@ -52,6 +54,7 @@ export function multiTouchTransformations<TElement>(
                             touches[0].lastFrame.position.rotation(
                                 touches[1].lastFrame.position,
                             ),
+                            undefined,
                             touches[0].lastFrame.position.length(
                                 touches[1].lastFrame.position,
                             ),

@@ -10,7 +10,7 @@ import { Vector2 } from './Vector2';
 
 const listeners = {
     createMouseListener,
-    createTouchListener
+    createTouchListener,
 };
 
 export {

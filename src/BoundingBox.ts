@@ -2,7 +2,6 @@ import { Vector2 } from './Vector2';
 import { Transformation } from './Transformation';
 //todo to other my library - combine TC, Vire
 
-
 export class BoundingBox {
     constructor(
         public center: Vector2 = Vector2.Zero(),

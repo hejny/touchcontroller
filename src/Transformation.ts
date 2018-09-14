@@ -1,7 +1,6 @@
 import { Vector2 } from './Vector2';
 
 export class Transformation {
-    
     constructor(
         public translate: Vector2 = Vector2.Zero(),
         public rotate: number = 0,
@@ -26,7 +25,12 @@ export class Transformation {
     }
 
     clone(): Transformation {
-        return new Transformation(this.translate, this.rotate, this.rotateCenter, this.scale);
+        return new Transformation(
+            this.translate,
+            this.rotate,
+            this.rotateCenter,
+            this.scale,
+        );
     }
 
     cloneDeep(): Transformation {
@@ -42,7 +46,7 @@ export class Transformation {
         return new Transformation(
             this.translate.add(transformation.translate),
             (this.rotate + transformation.rotate) % (Math.PI * 2),
-            this.rotateCenter.add(transformation.rotateCenter),//todo is it correct
+            this.rotateCenter.add(transformation.rotateCenter), //todo is it correct
             this.scale * transformation.scale,
         );
     }
@@ -51,12 +55,10 @@ export class Transformation {
         return new Transformation(
             this.translate.subtract(transformation.translate),
             (this.rotate - transformation.rotate + Math.PI * 2) % (Math.PI * 2),
-            this.rotateCenter.subtract(transformation.rotateCenter),//todo is it correct
+            this.rotateCenter.subtract(transformation.rotateCenter), //todo is it correct
             this.scale / transformation.scale,
         );
     }
-
-
 
     //todo maybe move to other function
     applyOnElement(element: Element) {

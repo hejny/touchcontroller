@@ -2,11 +2,13 @@ import { TouchFrame } from './../TouchFrame';
 import { IListener } from './IListener';
 import { Touch } from '../Touch';
 
-
 //todo singleton :(
 let onlyTouch: Touch | null = null;
 
-export function createMouseListener(buttons: number[] = [0], rotating = false): IListener {
+export function createMouseListener(
+    buttons: number[] = [0],
+    rotating = false,
+): IListener {
     return (
         element: HTMLElement,
         anchorElement: HTMLElement,
@@ -39,7 +41,6 @@ export function createMouseListener(buttons: number[] = [0], rotating = false): 
 
         function _handleMouseDownOnElement(event: MouseEvent) {
             if (buttons.indexOf(event.button) !== -1) {
-
                 event.preventDefault();
                 event.stopPropagation();
 

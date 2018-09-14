@@ -6,7 +6,6 @@ import 'rxjs/add/observable/range';
 import 'rxjs/add/operator/share';
 import { TouchFrame } from './TouchFrame';
 
-
 export class Touch {
     public frames: Observable<TouchFrame>;
     private _framesObserver: Observer<TouchFrame>;

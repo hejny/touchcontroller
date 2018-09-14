@@ -1,6 +1,5 @@
 import { Vector2 } from './Vector2';
 
-
 export class TouchFrame {
     public position: Vector2;
 

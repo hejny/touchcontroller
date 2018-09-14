@@ -2,11 +2,10 @@ import { IListener } from './listeners/IListener';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/share';
 import { Observer } from 'rxjs/Observer';
-import {TouchFrame} from './TouchFrame';
+import { TouchFrame } from './TouchFrame';
 import { createMouseListener } from './listeners/createMouseListener';
 import { createTouchListener } from './listeners/createTouchListener';
 import { Touch } from './Touch';
-
 
 //todo multitouch should be extended from this
 export class TouchController {
@@ -47,18 +46,18 @@ export class TouchController {
     addListener(listener: IListener) {
         this.listeners.push(listener);
         for (const element of this.elements) {
-            this.callListenerOnElement(listener,element);
+            this.callListenerOnElement(listener, element);
         }
     }
 
     addElement(element: HTMLElement) {
         this.elements.push(element);
         for (const listener of this.listeners) {
-            this.callListenerOnElement(listener,element);
+            this.callListenerOnElement(listener, element);
         }
     }
 
-    callListenerOnElement(listener:IListener, element: HTMLElement){
+    callListenerOnElement(listener: IListener, element: HTMLElement) {
         listener(
             element,
             this.anchorElement,
@@ -71,7 +70,6 @@ export class TouchController {
         );
         //todo array of listeners disposers
     }
-
 
     emulateTouch(touch: Touch) {
         setImmediate(() => {

@@ -96,17 +96,18 @@ export class Transformation {
         console.log('this',this);
         console.log('element',element);*/
 
-        const transformationStringBefore = element.getAttribute('transform') || '';
-        const transformationBefore = svgTransformationDecode(transformationStringBefore);
-        
-        const transformationAfter = transformationBefore.add(this);
-        const transformationStringAfter = svgTransformationEncode(transformationAfter);
-
-        element.setAttribute(
-            'transform',
-            transformationStringAfter,
+        const transformationStringBefore =
+            element.getAttribute('transform') || '';
+        const transformationBefore = svgTransformationDecode(
+            transformationStringBefore,
         );
-        
+
+        const transformationAfter = transformationBefore.add(this);
+        const transformationStringAfter = svgTransformationEncode(
+            transformationAfter,
+        );
+
+        element.setAttribute('transform', transformationStringAfter);
 
         /*
         console.log('transformationBefore',transformationBefore);
@@ -123,22 +124,18 @@ export class Transformation {
     }
 }
 
-
-
-setImmediate(()=>{
-
+setImmediate(() => {
     const element = document.getElementsByTagName('g')[0];
-    const transformation = Transformation.rotate(.2);
+    const transformation = Transformation.rotate(0.2);
 
-    console.log('element',element);
-    console.log('transformation',transformation);
+    console.log('element', element);
+    console.log('transformation', transformation);
 
-    const interval = setInterval(()=>{
+    const interval = setInterval(() => {
         transformation.applyOnSvgElement(element);
-    },100);
+    }, 100);
 
-    setTimeout(()=>{
+    setTimeout(() => {
         clearInterval(interval);
-    },1000);
-
-})
+    }, 1000);
+});

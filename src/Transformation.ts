@@ -91,16 +91,54 @@ export class Transformation {
                     element.getAttribute('transform') || undefined,
                 ).add(this.translate),
             ),
-        );*/
-        console.log('element',element);
-
-        const transformationBefore = svgTransformationDecode(
-            element.getAttribute('transform') || '',
         );
+        console.groupCollapsed('applyOnSvgElement');
+        console.log('this',this);
+        console.log('element',element);*/
+
+        const transformationStringBefore = element.getAttribute('transform') || '';
+        const transformationBefore = svgTransformationDecode(transformationStringBefore);
+        
         const transformationAfter = transformationBefore.add(this);
+        const transformationStringAfter = svgTransformationEncode(transformationAfter);
+
         element.setAttribute(
             'transform',
-            svgTransformationEncode(transformationAfter),
+            transformationStringAfter,
         );
+        
+
+        /*
+        console.log('transformationBefore',transformationBefore);
+        console.log('transformationAfter',transformationAfter);
+
+        console.log('transformationStringBefore',transformationStringBefore);
+        console.log('transformationStringAfter',transformationStringAfter);
+
+        console.log('check',element.getAttribute('transform'));
+
+
+        console.groupEnd();
+        */
     }
 }
+
+
+
+setImmediate(()=>{
+
+    const element = document.getElementsByTagName('g')[0];
+    const transformation = Transformation.rotate(.2);
+
+    console.log('element',element);
+    console.log('transformation',transformation);
+
+    const interval = setInterval(()=>{
+        transformation.applyOnSvgElement(element);
+    },100);
+
+    setTimeout(()=>{
+        clearInterval(interval);
+    },1000);
+
+})

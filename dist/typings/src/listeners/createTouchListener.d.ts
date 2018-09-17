@@ -1,2 +1,2 @@
-import IListener from './IListener';
-export default function (buttons?: number[]): IListener;
+import { IListener } from './IListener';
+export declare function createTouchListener(buttons?: number[]): IListener;

@@ -1,3 +1,3 @@
-import Vector2 from '../Vector2';
-export declare function vectorToTranslate(vector: Vector2): string;
-export declare function translateToVector(translate?: string): Vector2;
+import { Transformation } from '../Transformation';
+export declare function svgTransformationDecode(transform: string): Transformation;
+export declare function svgTransformationEncode(transformation: Transformation): string;

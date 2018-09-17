@@ -1,6 +1,6 @@
-import Vector2 from './Vector2';
-import Transformation from './Transformation';
-export default class BoundingBox {
+import { Vector2 } from './Vector2';
+import { Transformation } from './Transformation';
+export declare class BoundingBox {
     center: Vector2;
     size: Vector2;
     rotation: number;

@@ -1,4 +1,8 @@
 import { Vector2 } from './Vector2';
+import {
+    svgTransformationDecode,
+    svgTransformationEncode,
+} from './tools/svgTools';
 
 export class Transformation {
     constructor(
@@ -42,6 +46,7 @@ export class Transformation {
         );
     }
 
+    //todo in place methods
     add(transformation: Transformation): Transformation {
         return new Transformation(
             this.translate.add(transformation.translate),
@@ -87,5 +92,15 @@ export class Transformation {
                 ).add(this.translate),
             ),
         );*/
+        console.log('element',element);
+
+        const transformationBefore = svgTransformationDecode(
+            element.getAttribute('transform') || '',
+        );
+        const transformationAfter = transformationBefore.add(this);
+        element.setAttribute(
+            'transform',
+            svgTransformationEncode(transformationAfter),
+        );
     }
 }

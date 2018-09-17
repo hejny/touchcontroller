@@ -8,7 +8,6 @@ import { createMouseListener } from './listeners/createMouseListener';
 import { createTouchListener } from './listeners/createTouchListener';
 import { Vector2 } from './Vector2';
 
-
 export {
     TouchController,
     MultiTouchController,
@@ -17,7 +16,6 @@ export {
     Vector2,
     Touch,
     BoundingBox,
-
-    createMouseListener,//todo maybe wrap to object listeners
+    createMouseListener, //todo maybe wrap to object listeners
     createTouchListener,
 };

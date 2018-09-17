@@ -1,10 +1,10 @@
+import { Transformation } from './Transformation';
+import { BoundingBox } from './BoundingBox';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/share';
-import Touch from './Touch';
-import Transformation from './Transformation';
-import BoundingBox from './BoundingBox';
-export default class MultiTouch<TElement> {
+import { Touch } from './Touch';
+export declare class MultiTouch<TElement> {
     element: TElement;
     firstTouch: Touch;
     empty: boolean;

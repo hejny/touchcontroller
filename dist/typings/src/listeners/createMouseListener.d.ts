@@ -1,2 +1,2 @@
-import IListener from './IListener';
-export default function (buttons?: number[], rotating?: boolean): IListener;
+import { IListener } from './IListener';
+export declare function createMouseListener(buttons?: number[], rotating?: boolean): IListener;

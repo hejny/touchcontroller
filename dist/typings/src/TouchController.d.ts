@@ -1,9 +1,9 @@
+import { IListener } from './listeners/IListener';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/share';
-import Touch from './Touch';
-import TouchFrame from './TouchFrame';
-import IListener from './listeners/IListener';
-export default class TouchController {
+import { TouchFrame } from './TouchFrame';
+import { Touch } from './Touch';
+export declare class TouchController {
     elements: HTMLElement[];
     anchorElement: HTMLElement;
     touches: Observable<Touch>;

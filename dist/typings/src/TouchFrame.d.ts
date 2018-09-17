@@ -1,5 +1,5 @@
-import Vector2 from './Vector2';
-export default class TouchFrame {
+import { Vector2 } from './Vector2';
+export declare class TouchFrame {
     element: HTMLElement;
     anchorElement: HTMLElement;
     positionRelative: Vector2;

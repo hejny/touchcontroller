@@ -1,10 +1,10 @@
+import { Vector2 } from './Vector2';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/observable/range';
 import 'rxjs/add/operator/share';
-import TouchFrame from './TouchFrame';
-import Vector2 from './Vector2';
-export default class Touch {
+import { TouchFrame } from './TouchFrame';
+export declare class Touch {
     type: 'TOUCH' | 'MOUSE';
     anchorElement: HTMLElement;
     firstFrame: TouchFrame;

@@ -11,7 +11,9 @@ const ROTATE = /^rotate\(\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*,?\s*(\-?\d*\.?\d+(
 //console.log(TRANSLATE.exec('translate(4,84)'));
 //console.log(TRANSLATE.exec('translate(4,84)'));
 
-export function svgTransformationDecode(transform: string): Transformation {
+export function svgTransformationDecode(
+    transform: string = '',
+): Transformation {
     let transformation = Transformation.Neutral();
 
     TRANSFORM.lastIndex = 0;

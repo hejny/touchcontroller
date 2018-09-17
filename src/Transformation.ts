@@ -124,7 +124,7 @@ export class Transformation {
     }
 }
 
-setImmediate(() => {
+/*setImmediate(() => {
     const element = document.getElementsByTagName('g')[0];
     const transformation = Transformation.rotate(0.2);
 
@@ -139,3 +139,4 @@ setImmediate(() => {
         clearInterval(interval);
     }, 1000);
 });
+*/

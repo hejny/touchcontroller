@@ -11,35 +11,75 @@
 <canvas id="scene" width="500" height="500"></canvas>
 
 
-<script type="text/javascript" src="../dist/touchcontroller.browser.js"></script>
-<script type="text/javascript">
+<script src="../dist/touchcontroller.browser.js"></script>
+<script>
+        const TC = TouchController;
+    
+        const sceneElement = document.getElementById('scene');
+        const sceneContext = sceneElement.getContext('2d');
+
+        const canvasParticlesRenderer = new TC.CanvasParticlesRenderer(new TC.Vector2(500,500));
+        canvasParticlesRenderer.addContext(sceneContext);
+    
+        const touchController = new TC.TouchController.fromCanvas(sceneElement);
+        touchController.touches.subscribe((touch)=>{
+
+            touch.frames.subscribe((frame)=>{
+                canvasParticlesRenderer.addPoint(frame.position);    
+            });
+            
+        
+        });
+    </script>
+<script type="module">/*
+    import { Scene } from './touch3/Scene.js';
+    import { Particle } from './touch3/Particle.js';
+    import { Vector2 } from './touch3/Vector2.js';
 
     const TC = TouchController;
 
-    var scene = document.getElementById('scene');
-    var ctx = scene.getContext('2d');
-    ctx.lineWidth = 10;
-    ctx.lineCap = "round";
+    const sceneElement = document.getElementById('scene');
+    const scene = new Scene(sceneElement , 0.05);
+   
+    {
+        let timeLast = null;
+        function loop(time) {
+            if (timeLast) scene.update((time - timeLast) / 1000);
+            timeLast = time;
+            scene.render();
+            requestAnimationFrame(loop);
+        }
+        requestAnimationFrame(loop);
+    }
+
+    const touchController = new TC.TouchController.fromCanvas(sceneElement);
+    touchController.touches.subscribe((touch)=>{
 
 
-    var touchController = new TC.TouchController.fromCanvas(scene);
-    touchController.touches.subscribe(function(touch){
+        touch.frames.subscribe((frame)=>{
+           
+            const particle = new Mesh(
+                './touch3/particle.png',
+                new Vector2(0.5, 0.5),
+                1,
+                frame.position,//spaceship.position.clone(),
+                -Math.PI / 2,
+                1,
+            );
+            particle.movement = new Vector2(
+                        (Math.random() - 0.5) * 10,
+                        (Math.random() - 0.5) * 10,
+                    );
+            particle.rotationMovement =
+                ((Math.random() - 0.5) * Math.PI * 2) / 100;
+            particle.growth = 1;
+            //particle.lifetime = 1;
+            scene.addObject(particle);
 
-        console.log(touch);
 
-        var color = '#'+Math.floor(Math.random()*16777215).toString(16);
-        var lastFrame = touch.firstFrame;
-
-        touch.frames.subscribe(function(frame){
-            ctx.strokeStyle = color;
-            ctx.beginPath();
-            ctx.moveTo(lastFrame.position.x,lastFrame.position.y);
-            ctx.lineTo(frame.position.x,frame.position.y);
-            ctx.stroke();
-            lastFrame = frame;
         });
 
-    });
+    });*/
 </script>
 
 

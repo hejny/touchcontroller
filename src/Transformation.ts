@@ -109,9 +109,6 @@ export class Transformation {
 
         element.setAttribute('transform', transformationStringAfter);
 
-
-
-        
         /*
         console.log('transformationBefore',transformationBefore);
         console.log('transformationAfter',transformationAfter);

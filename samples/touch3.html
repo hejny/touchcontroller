@@ -10,6 +10,12 @@
 
 <canvas id="scene" width="500" height="500"></canvas>
 
+<div>
+    <b>Live:</b> <span id="liveParticlesCount"></span>
+</div>
+<div>
+    <b>Dead:</b> <span id="deadParticlesCount"></span>
+</div>
 
 <script src="../dist/touchcontroller.browser.js"></script>
 <script>
@@ -24,12 +30,41 @@
         const touchController = new TC.TouchController.fromCanvas(sceneElement);
         touchController.touches.subscribe((touch)=>{
 
+            const color = '#'+Math.floor(Math.random()*16777215).toString(16);
+
             touch.frames.subscribe((frame)=>{
-                canvasParticlesRenderer.addPoint(frame.position);    
+                canvasParticlesRenderer.addPoint(
+                    {
+                        shapeSrc: './particle.png',
+                        shapeCenter: new TC.Vector2(0.5, 0.5),
+                        color,
+                        current: {
+                            position: frame.position,
+                            rotation: 0,
+                            widthSize: 1,
+                        }, 
+                        movement: {
+                            position: new TC.Vector2(
+                                (Math.random() - 0.5) * 10, //todo depend this value
+                                (Math.random() - 0.5) * 10,
+                            ),
+                            rotation: ((Math.random() - 0.5) * Math.PI * 2),
+                            widthSize: 20,
+                        },
+                        friction:  0.2
+                    }
+                );    
             });
             
         
         });
+
+
+        setInterval(()=>{
+            document.getElementById('liveParticlesCount').innerText = canvasParticlesRenderer.liveParticlesCount;
+            document.getElementById('deadParticlesCount').innerText = canvasParticlesRenderer.deadParticlesCount;
+
+        },100);
     </script>
 <script type="module">/*
     import { Scene } from './touch3/Scene.js';

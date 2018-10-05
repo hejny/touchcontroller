@@ -1,59 +1,100 @@
 import { Vector2 } from './../Vector2';
 import { sign } from '../tools/mathTools';
+import { createColoredCanvasFromSrc } from '../tools/imageTools';
+
+export interface IParticleOptions {
+    shapeSrc: string;
+    shapeCenter: Vector2;
+    color: string;
+    current: IParticleOptionsExternals;
+    movement: IParticleOptionsExternals;
+    friction: number;
+}
+
+export interface IParticleOptionsExternals {
+    position: Vector2;
+    rotation: number;
+    widthSize: number;
+}
 
 export class Particle {
-    private image: HTMLImageElement;
-    public movement: Vector2;
-    public rotationMovement: number;
-    public growth: number;
+    private shapeData: null | HTMLImageElement | HTMLCanvasElement = null;
 
-    constructor(
-        src: string,
-        public center: Vector2,
-        public zIndex: number,
-        public position: Vector2,
-        public rotation: number,
-        public width: number,
-    ) {
-        this.image = window.document.createElement('IMG') as HTMLImageElement;
-        this.image.src = src;
-        this.movement = Vector2.Zero();
-        this.rotationMovement = 0;
-        this.growth = 0;
+    constructor(private options: IParticleOptions, public zIndex: number) {
+        this.initializeSource();
+    }
+
+    async initializeSource() {
+        this.shapeData = await createColoredCanvasFromSrc(
+            this.options.shapeSrc,
+            this.options.color,
+        ); //todo optimize image loads
     }
 
     get size() {
+        if (!this.shapeData) {
+            //todo maybe only warn and return width,width
+            throw new Error(`Particle image is not yet loaded.`);
+        }
+
         return new Vector2(
-            this.width,
-            (this.width / this.image.width) * this.image.height,
+            this.options.current.widthSize,
+            (this.options.current.widthSize / this.shapeData.width) *
+                this.shapeData.height,
         );
     }
 
-    get live():boolean {
+    get live(): boolean {
         //todo tresshold in config
-        return this.movement.length()>0.5||this.rotationMovement>0.5||this.growth>0.5
+        return (
+            this.options.movement.position.length() > 0.5 ||
+            this.options.movement.rotation > 0.5 ||
+            this.options.movement.widthSize > 0.5
+        );
+    }
+
+    update(delta: number) {
+        this.options.current.position.addInPlace(
+            this.options.movement.position.scale(delta),
+        );
+        this.options.current.rotation += this.options.movement.rotation * delta;
+        this.options.current.widthSize +=
+            this.options.movement.widthSize * delta;
+
+        const frictionPowered = Math.pow(this.options.friction, delta);
+        this.options.movement.position.scaleInPlace(frictionPowered);
+        this.options.movement.rotation *= frictionPowered;
+        this.options.movement.widthSize *= frictionPowered; //todo maybe as area
     }
 
     render(ctx: CanvasRenderingContext2D) {
+        if (!this.shapeData) {
+            //todo maybe console.warn(`Particle image is not yet loaded.`);
+            return;
+        }
+
         ctx.save();
-        ctx.translate(this.position.x, this.position.y);
-        ctx.rotate(this.rotation + Math.PI / 2);
+        ctx.translate(
+            this.options.current.position.x,
+            this.options.current.position.y,
+        );
+        ctx.rotate(this.options.current.rotation + Math.PI / 2);
         //ctx.globalAlpha = this.lifetime === -1 ? 1 : Math.sqrt(this.lifetime / 10);
         ctx.drawImage(
-            this.image,
+            this.shapeData,
             0,
             0,
-            this.image.width,
-            this.image.height,
-            -this.size.x * this.center.x,
-            -this.size.y * this.center.y,
+            this.shapeData.width,
+            this.shapeData.height,
+            -this.size.x * this.options.shapeCenter.x,
+            -this.size.y * this.options.shapeCenter.y,
             this.size.x,
             this.size.y,
         );
         ctx.restore();
     }
 
-    static compare(a:Particle,b:Particle){
+    static compare(a: Particle, b: Particle) {
         return sign(a.zIndex - b.zIndex);
     }
 }

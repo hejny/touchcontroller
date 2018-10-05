@@ -3,9 +3,9 @@ import { Particle } from './Particle';
 
 export class Scene {
     //private ctx: CanvasRenderingContext2D;
-    private particles: Particle[];
+    public particles: Particle[];
 
-    constructor(private ctx: CanvasRenderingContext2D, private friction: number) {
+    constructor(private ctx: CanvasRenderingContext2D) {
         //const { width, height } = sceneElement.getBoundingClientRect();
         //sceneElement.width = width;
         //sceneElement.height = height;
@@ -19,35 +19,28 @@ export class Scene {
 
     render() {
         //this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-        for (const object of this.particles.sort(Particle.compare)){
-            object.render(this.ctx);
+        for (const particle of this.particles.sort(Particle.compare)) {
+            particle.render(this.ctx);
         }
     }
 
     update(delta: number) {
         for (const object of this.particles) {
             //console.log(object.position,object.movement);
-            object.position.addInPlace(object.movement.scale(delta));
-            object.rotation += object.rotationMovement;
-            object.width += object.growth;
-
-            const frictionWithDelta = Math.pow(this.friction, delta);
-            object.movement.scaleInPlace(frictionWithDelta);
-            object.rotationMovement *= frictionWithDelta;
-            object.growth *= frictionWithDelta;
+            object.update(delta);
         }
 
-        const live:Particle[] = [];
-        const dead:Particle[] = [];
+        const live: Particle[] = [];
+        const dead: Particle[] = [];
 
-        for(const particle of this.particles){
-            if(particle.live){
+        for (const particle of this.particles) {
+            if (particle.live) {
                 live.push(particle);
-            }else{
+            } else {
                 dead.push(particle);
             }
         }
-        
+
         this.particles = live;
         return dead;
     }

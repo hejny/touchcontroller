@@ -3,19 +3,28 @@ import { Scene } from './Scene';
 import { Particle } from './Particle';
 export class CanvasParticlesRenderer {
 
-    private ctx: CanvasRenderingContext2D;
+    private liveCtx: CanvasRenderingContext2D;
+    private deadCtx: CanvasRenderingContext2D;
     private scene: Scene;
 
     constructor(quality: Vector2) {
-        const canvas = document.createElement('canvas');
-        console.log(quality)
-        canvas.width = quality.x;
-        canvas.height = quality.y;
-        console.log(canvas);
-        this.ctx = canvas.getContext('2d')!;
-        console.log(this.ctx);
-        console.log(this.ctx.canvas);
-        this.scene = new Scene(this.ctx, 0.05); //todo depend this value
+
+        {
+            const canvas = document.createElement('canvas');
+            canvas.width  = quality.x;
+            canvas.height = quality.y;
+            this.liveCtx = canvas.getContext('2d')!;
+        }
+        {
+            const canvas = document.createElement('canvas');
+            canvas.width  = quality.x;
+            canvas.height = quality.y;
+            this.deadCtx = canvas.getContext('2d')!;
+            this.deadCtx.fillStyle = '#ffffff';
+            this.deadCtx.fillRect(0, 0, this.deadCtx.canvas.width, this.deadCtx.canvas.height);
+        }
+
+        this.scene = new Scene(this.liveCtx, 0.05); //todo depend this value
 
         //todo maybe with run?
         requestAnimationFrame((now) => this.render(now));
@@ -57,31 +66,31 @@ export class CanvasParticlesRenderer {
 
     private lastRenderNow: null | number = null;
     private render(now: number) {
-        this.ctx.fillStyle = 'white';
-        this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+        //this.liveCtx.fillRect(0, 0, this.liveCtx.canvas.width, this.liveCtx.canvas.height);
 
-        if (this.lastRenderNow)
-            this.scene.update((now - this.lastRenderNow) / 1000);
+
+        if (this.lastRenderNow){
+            const deadParticles = this.scene.update((now - this.lastRenderNow) / 1000);
+            for (const object of deadParticles.sort(Particle.compare)){
+                object.render(this.deadCtx);
+                console.log(`rendring to dead ctx`);
+
+            }
+        }
         this.lastRenderNow = now;
+
+        this.liveCtx.drawImage(this.deadCtx.canvas,0, 0);
         this.scene.render();
         
-        //console.log(this.ctx.canvas);
-
+   
         for (const ctx of this._contexts) {
-
-            /*ctx.drawImage(
-                this.ctx.canvas,
-                0,
-                0
-            );*/
-
-            //todo is canvas starting from 0,0 or 1,1
+            //ctx.fillRect(0, 0, this.liveCtx.canvas.width, this.liveCtx.canvas.height);
             ctx.drawImage(
-                this.ctx.canvas,
+                this.liveCtx.canvas,
                 0,
                 0,
-                this.ctx.canvas.width,
-                this.ctx.canvas.height,
+                this.liveCtx.canvas.width,
+                this.liveCtx.canvas.height,
                 0,
                 0,
                 ctx.canvas.width,

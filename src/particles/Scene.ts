@@ -1,34 +1,31 @@
 import { Vector2 } from './../Vector2';
 import { Particle } from './Particle';
-import { sign } from '../tools/mathTools';
 
 export class Scene {
     //private ctx: CanvasRenderingContext2D;
-    private objects: Particle[];
+    private particles: Particle[];
 
     constructor(private ctx: CanvasRenderingContext2D, private friction: number) {
         //const { width, height } = sceneElement.getBoundingClientRect();
         //sceneElement.width = width;
         //sceneElement.height = height;
         //this.ctx = sceneElement.getContext('2d')!;
-        this.objects = [];
+        this.particles = [];
     }
 
     addObject(object: Particle) {
-        this.objects.push(object);
+        this.particles.push(object);
     }
 
     render() {
-        this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-        for (const object of this.objects.sort((a, b) =>
-            sign(a.zIndex - b.zIndex),
-        )) {
+        //this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+        for (const object of this.particles.sort(Particle.compare)){
             object.render(this.ctx);
         }
     }
 
     update(delta: number) {
-        for (const object of this.objects) {
+        for (const object of this.particles) {
             //console.log(object.position,object.movement);
             object.position.addInPlace(object.movement.scale(delta));
             object.rotation += object.rotationMovement;
@@ -38,14 +35,21 @@ export class Scene {
             object.movement.scaleInPlace(frictionWithDelta);
             object.rotationMovement *= frictionWithDelta;
             object.growth *= frictionWithDelta;
+        }
 
-            if (object.lifetime !== -1) {
-                object.lifetime -= delta;
+        const live:Particle[] = [];
+        const dead:Particle[] = [];
+
+        for(const particle of this.particles){
+            if(particle.live){
+                live.push(particle);
+            }else{
+                dead.push(particle);
             }
         }
-        this.objects = this.objects.filter(
-            (object) => object.lifetime === -1 || object.lifetime > 0,
-        );
+        
+        this.particles = live;
+        return dead;
     }
 
     get size() {

@@ -1,6 +1,7 @@
 import { Vector2 } from './../Vector2';
 export declare class CanvasParticlesRenderer {
-    private ctx;
+    private liveCtx;
+    private deadCtx;
     private scene;
     constructor(quality: Vector2);
     private _contexts;

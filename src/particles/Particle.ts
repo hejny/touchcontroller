@@ -1,11 +1,11 @@
 import { Vector2 } from './../Vector2';
+import { sign } from '../tools/mathTools';
 
 export class Particle {
     private image: HTMLImageElement;
     public movement: Vector2;
     public rotationMovement: number;
     public growth: number;
-    public lifetime: number;
 
     constructor(
         src: string,
@@ -20,7 +20,6 @@ export class Particle {
         this.movement = Vector2.Zero();
         this.rotationMovement = 0;
         this.growth = 0;
-        this.lifetime = -1;
     }
 
     get size() {
@@ -30,12 +29,16 @@ export class Particle {
         );
     }
 
+    get live():boolean {
+        //todo tresshold in config
+        return this.movement.length()>0.5||this.rotationMovement>0.5||this.growth>0.5
+    }
+
     render(ctx: CanvasRenderingContext2D) {
         ctx.save();
         ctx.translate(this.position.x, this.position.y);
         ctx.rotate(this.rotation + Math.PI / 2);
-        ctx.globalAlpha =
-            this.lifetime === -1 ? 1 : Math.sqrt(this.lifetime / 10);
+        //ctx.globalAlpha = this.lifetime === -1 ? 1 : Math.sqrt(this.lifetime / 10);
         ctx.drawImage(
             this.image,
             0,
@@ -48,5 +51,9 @@ export class Particle {
             this.size.y,
         );
         ctx.restore();
+    }
+
+    static compare(a:Particle,b:Particle){
+        return sign(a.zIndex - b.zIndex);
     }
 }

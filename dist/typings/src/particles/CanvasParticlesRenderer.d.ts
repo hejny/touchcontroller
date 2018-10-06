@@ -12,7 +12,7 @@ export declare class CanvasParticlesRenderer {
     subscribe(callback: () => void): void;
     private callSubscribers();
     drawPoint(options: IParticleOptions): void;
-    drawLine(options: IParticleOptions, position2: Vector2, segmentSize: number): void;
+    drawLine(options1: IParticleOptions, options2: IParticleOptions, segmentSize: number): void;
     readonly liveParticlesCount: number;
     private lastRenderNow;
     private render(now);

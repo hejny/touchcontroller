@@ -1,6 +1,7 @@
 import { Vector2 } from './../Vector2';
 import { Scene } from './Scene';
 import { Particle, IParticleOptions } from './Particle';
+import { particleOptionsAverage } from '../tools/average';
 export class CanvasParticlesRenderer {
     private liveCtx: CanvasRenderingContext2D;
     private deadCtx: CanvasRenderingContext2D;
@@ -8,7 +9,7 @@ export class CanvasParticlesRenderer {
     private scene: Scene;
 
     //todo initial do better
-    constructor(quality: Vector2,initialColor:string='#ffffff') {
+    constructor(quality: Vector2, initialColor: string = '#ffffff') {
         {
             const canvas = document.createElement('canvas');
             canvas.width = quality.x;
@@ -55,19 +56,28 @@ export class CanvasParticlesRenderer {
         this.scene.addObject(particle);
     }
 
-    drawLine(options:IParticleOptions , position2: Vector2, segmentSize: number){
+    drawLine(
+        options1: IParticleOptions,
+        options2: IParticleOptions,
+        segmentSize: number,
+    ) {
 
-        const position1 = options.current.position;
-        const segments = Math.ceil(position1.length(position2)/segmentSize);
-        
-        const positionAdd = position2.subtract(position1).scaleInPlace(1/segments);
-        const positionCurrent = position1.clone();
+        //console.log('options1',options1);
+        //console.log('options2',options2);
 
-        for(let i =0;i<segments;i++){
-            const particleOptions = JSON.parse(JSON.stringify(options));//todo better
-            particleOptions.current.position = positionCurrent;
-            this.drawPoint(particleOptions);
-            positionCurrent.addInPlace(positionAdd);
+        const segmentsCount = Math.ceil(
+            options1.current.position.length(options2.current.position) /
+                segmentSize,
+        );
+
+        for (let i = 0; i < segmentsCount; i++) {
+            const weight1 = i / segmentsCount;
+            const options = particleOptionsAverage(
+                { value: options1, weight: weight1 },
+                { value: options2, weight: 1 - weight1 },
+            );
+            //console.log('options',options);
+            this.drawPoint(options);
         }
     }
 

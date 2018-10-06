@@ -32,11 +32,30 @@
 
             const color = '#'+Math.floor(Math.random()*16777215).toString(16);
 
-            lastPosition = null;
+            let lastPosition = null;
             touch.frames.subscribe((frame)=>{
                 
                 if(lastPosition)
                 canvasParticlesRenderer.drawLine(
+                    {
+                        shapeSrc: './particle.png',
+                        shapeCenter: new TC.Vector2(0.5, 0.5),
+                        color,
+                        current: {
+                            position: lastPosition,
+                            rotation: 0,
+                            widthSize: 1,
+                        }, 
+                        movement: {
+                            position: new TC.Vector2(
+                                (Math.random() - 0.5) * 10, //todo depend this value
+                                (Math.random() - 0.5) * 10,
+                            ),
+                            rotation: ((Math.random() - 0.5) * Math.PI * 2),
+                            widthSize: 20,
+                        },
+                        friction:  0.2
+                    },
                     {
                         shapeSrc: './particle.png',
                         shapeCenter: new TC.Vector2(0.5, 0.5),
@@ -56,8 +75,7 @@
                         },
                         friction:  0.2
                     },
-                    lastPosition,
-                    20
+                    5
                 ); 
                     
                 lastPosition = frame.position;

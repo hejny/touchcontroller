@@ -7,7 +7,8 @@ export class CanvasParticlesRenderer {
     public deadParticlesCount = 0;
     private scene: Scene;
 
-    constructor(quality: Vector2) {
+    //todo initial do better
+    constructor(quality: Vector2,initialColor:string='#ffffff') {
         {
             const canvas = document.createElement('canvas');
             canvas.width = quality.x;
@@ -19,7 +20,7 @@ export class CanvasParticlesRenderer {
             canvas.width = quality.x;
             canvas.height = quality.y;
             this.deadCtx = canvas.getContext('2d')!;
-            this.deadCtx.fillStyle = '#ffffff';
+            this.deadCtx.fillStyle = initialColor;
             this.deadCtx.fillRect(
                 0,
                 0,
@@ -49,9 +50,25 @@ export class CanvasParticlesRenderer {
         }
     }
 
-    addPoint(options: IParticleOptions) {
+    drawPoint(options: IParticleOptions) {
         const particle = new Particle(options, 1); //todo particle zIndex
         this.scene.addObject(particle);
+    }
+
+    drawLine(options:IParticleOptions , position2: Vector2, segmentSize: number){
+
+        const position1 = options.current.position;
+        const segments = Math.ceil(position1.length(position2)/segmentSize);
+        
+        const positionAdd = position2.subtract(position1).scaleInPlace(1/segments);
+        const positionCurrent = position1.clone();
+
+        for(let i =0;i<segments;i++){
+            const particleOptions = JSON.parse(JSON.stringify(options));//todo better
+            particleOptions.current.position = positionCurrent;
+            this.drawPoint(particleOptions);
+            positionCurrent.addInPlace(positionAdd);
+        }
     }
 
     get liveParticlesCount(): number {

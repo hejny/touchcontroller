@@ -5,13 +5,14 @@ export declare class CanvasParticlesRenderer {
     private deadCtx;
     deadParticlesCount: number;
     private scene;
-    constructor(quality: Vector2);
+    constructor(quality: Vector2, initialColor?: string);
     private _contexts;
     addContext(context: CanvasRenderingContext2D): void;
     private _subscribers;
     subscribe(callback: () => void): void;
     private callSubscribers();
-    addPoint(options: IParticleOptions): void;
+    drawPoint(options: IParticleOptions): void;
+    drawLine(options: IParticleOptions, position2: Vector2, segmentSize: number): void;
     readonly liveParticlesCount: number;
     private lastRenderNow;
     private render(now);

@@ -8,7 +8,7 @@
 <body>
 
 
-<canvas id="scene" width="500" height="500"></canvas>
+<canvas id="scene" width="800" height="500"></canvas>
 
 <div>
     <b>Live:</b> <span id="liveParticlesCount"></span>
@@ -24,7 +24,7 @@
         const sceneElement = document.getElementById('scene');
         const sceneContext = sceneElement.getContext('2d');
 
-        const canvasParticlesRenderer = new TC.CanvasParticlesRenderer(new TC.Vector2(500,500));
+        const canvasParticlesRenderer = new TC.CanvasParticlesRenderer(new TC.Vector2(800,500));
         canvasParticlesRenderer.addContext(sceneContext);
     
         const touchController = new TC.TouchController.fromCanvas(sceneElement);
@@ -32,8 +32,11 @@
 
             const color = '#'+Math.floor(Math.random()*16777215).toString(16);
 
+            lastPosition = null;
             touch.frames.subscribe((frame)=>{
-                canvasParticlesRenderer.addPoint(
+                
+                if(lastPosition)
+                canvasParticlesRenderer.drawLine(
                     {
                         shapeSrc: './particle.png',
                         shapeCenter: new TC.Vector2(0.5, 0.5),
@@ -52,8 +55,12 @@
                             widthSize: 20,
                         },
                         friction:  0.2
-                    }
-                );    
+                    },
+                    lastPosition,
+                    20
+                ); 
+                    
+                lastPosition = frame.position;
             });
             
         

@@ -1,9 +1,12 @@
-const commonConfig = {
+module.exports = {
+
+    
     entry: {
         first: __dirname + '/src/index',
     },
 
     devtool: 'source-map',
+
 
     resolve: {
         // Add '.ts' and '.tsx' as a resolvable extension.
@@ -36,26 +39,3 @@ const commonConfig = {
         ]
     */
 };
-
-const configs = [];
-configs.push(
-    Object.assign({}, commonConfig, {
-        output: {
-            filename: 'touchcontroller.js',
-            path: __dirname + '/dist/',
-            libraryTarget: 'commonjs',
-        },
-    }),
-);
-configs.push(
-    Object.assign({}, commonConfig, {
-        output: {
-            filename: 'touchcontroller.browser.js',
-            path: __dirname + '/dist/',
-            libraryTarget: 'var',
-            library: 'TouchController',
-        },
-    }),
-);
-
-module.exports = configs;

@@ -6,8 +6,8 @@
   "types": "./dist/typings/src/index.d.ts",
   "scripts": {
     "start": "npm run develop",
-    "build": "webpack",
-    "develop": "webpack --watch",
+    "build": "webpack --config webpack.production.config.js",
+    "develop": "onchange \"src/**/*.{ts,tsx}\" --initial --kill --delay 500  -- webpack --config webpack.development.config.js",
     "deploy": "npm publish",
     "expose": "node server.js",
     "test": "",
@@ -29,6 +29,7 @@
   "homepage": "https://github.com/hejny/touchcontroller#readme",
   "devDependencies": {
     "prettier": "^1.12.1",
+    "onchange": "^5.0.2",
     "ts-loader": "^4.5.0",
     "ts-node": "^4.0.1",
     "typescript": "^2.6.2",
@@ -43,5 +44,6 @@
     "serve-static": "^1.13.2",
     "update": "^0.7.4"
   },
-  "dependencies": {}
+  "dependencies": {
+  }
 }

@@ -1,5 +1,5 @@
 import { Vector2 } from './../Vector2';
-import { IParticleOptions } from '../particles/Particle';
+import { IParticleOptions } from '../drawController/Particle';
 export declare type TAverageItems<T> = {
     value: T;
     weight: number;

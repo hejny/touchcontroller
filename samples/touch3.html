@@ -24,8 +24,8 @@
         const sceneElement = document.getElementById('scene');
         const sceneContext = sceneElement.getContext('2d');
 
-        const canvasParticlesRenderer = new TC.CanvasParticlesRenderer(new TC.Vector2(800,500));
-        canvasParticlesRenderer.addContext(sceneContext);
+        const drawController = new TC.DrawController(new TC.Vector2(800,500));
+        drawController.addContext(sceneContext);
     
         const touchController = new TC.TouchController.fromCanvas(sceneElement);
         touchController.touches.subscribe((touch)=>{
@@ -36,9 +36,9 @@
             touch.frames.subscribe((frame)=>{
                 
                 if(lastPosition)
-                canvasParticlesRenderer.drawLine(
+                drawController.drawLine(
                     {
-                        shapeSrc: './particle.png',
+                        shapeSrc: './assets/particle2.png',
                         shapeCenter: new TC.Vector2(0.5, 0.5),
                         color,
                         current: {
@@ -57,7 +57,7 @@
                         friction:  0.2
                     },
                     {
-                        shapeSrc: './particle.png',
+                        shapeSrc: './assets/particle2.png',
                         shapeCenter: new TC.Vector2(0.5, 0.5),
                         color,
                         current: {
@@ -86,9 +86,8 @@
 
 
         setInterval(()=>{
-            document.getElementById('liveParticlesCount').innerText = canvasParticlesRenderer.liveParticlesCount;
-            document.getElementById('deadParticlesCount').innerText = canvasParticlesRenderer.deadParticlesCount;
-
+            document.getElementById('liveParticlesCount').innerText = sceneElement.liveParticlesCount;
+            document.getElementById('deadParticlesCount').innerText = sceneElement.deadParticlesCount;
         },100);
     </script>
 <script type="module">/*

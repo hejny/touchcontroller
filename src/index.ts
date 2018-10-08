@@ -1,4 +1,4 @@
-import { CanvasParticlesRenderer } from './particles/CanvasParticlesRenderer';
+import { DrawController } from './drawController/CanvasParticlesRenderer';
 import { BoundingBox } from './BoundingBox';
 import { Touch } from './Touch';
 import { Transformation } from './Transformation';
@@ -25,5 +25,5 @@ export {
     createTouchListener,
     svgTransformationDecode,
     svgTransformationEncode,
-    CanvasParticlesRenderer,
+    DrawController,
 };

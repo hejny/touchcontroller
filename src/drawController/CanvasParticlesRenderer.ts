@@ -2,7 +2,8 @@ import { Vector2 } from './../Vector2';
 import { Scene } from './Scene';
 import { Particle, IParticleOptions } from './Particle';
 import { particleOptionsAverage } from '../tools/average';
-export class CanvasParticlesRenderer {
+
+export class DrawController {
     private liveCtx: CanvasRenderingContext2D;
     private deadCtx: CanvasRenderingContext2D;
     public deadParticlesCount = 0;

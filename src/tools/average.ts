@@ -2,7 +2,7 @@ import { Vector2 } from './../Vector2';
 import {
     IParticleOptions,
     IParticleOptionsExternals,
-} from '../particles/Particle';
+} from '../drawController/Particle';
 
 export type TAverageItems<T> = { value: T; weight: number }[];
 

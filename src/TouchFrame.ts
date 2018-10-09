@@ -4,7 +4,7 @@ export class TouchFrame {
     public position: Vector2;
 
     constructor(
-        public element: HTMLElement,
+        public element: HTMLElement|SVGElement,
         public anchorElement: HTMLElement,
         public positionRelative: Vector2 = Vector2.Zero(),
         public time: number = performance.now(),

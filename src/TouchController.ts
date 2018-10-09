@@ -19,7 +19,7 @@ export class TouchController {
     }
 
     constructor(
-        public elements: HTMLElement[], //todo syntax sugar if set only one element
+        public elements: (HTMLElement|SVGElement)[], //todo syntax sugar if set only one element
         public anchorElement: HTMLElement,
         setListeners = true,
     ) {
@@ -46,18 +46,18 @@ export class TouchController {
     addListener(listener: IListener) {
         this.listeners.push(listener);
         for (const element of this.elements) {
-            this.callListenerOnElement(listener, element);
+            this.callListenerOnElement(listener, element, false);
         }
     }
 
-    addElement(element: HTMLElement) {
+    addElement(element: HTMLElement|SVGElement,immediateDrag=false) {
         this.elements.push(element);
         for (const listener of this.listeners) {
-            this.callListenerOnElement(listener, element);
+            this.callListenerOnElement(listener, element, immediateDrag);
         }
     }
 
-    callListenerOnElement(listener: IListener, element: HTMLElement) {
+    private callListenerOnElement(listener: IListener, element: HTMLElement|SVGElement,immediateDrag:boolean) {
         listener(
             element,
             this.anchorElement,
@@ -67,6 +67,7 @@ export class TouchController {
                     this._hoveredFramesObserver.next(frame);
                 }
             },
+            immediateDrag
         );
         //todo array of listeners disposers
     }

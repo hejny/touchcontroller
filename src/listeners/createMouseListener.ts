@@ -11,20 +11,21 @@ export function createMouseListener(
     rotating = false,
 ): IListener {
     return (
-        element: HTMLElement,
+        element: HTMLElement|SVGElement,
         anchorElement: HTMLElement,
         newTouch: (touch: Touch) => void,
         newHoverFrame: (frame: TouchFrame) => void,
+        immediateDrag:boolean
     ) => {
         element.addEventListener(
             'mousedown',
-            (event) => _handleMouseDownOnElement(event),
+            (event) => _handleMouseDownOnElement(event as any),
             false,
         );
 
         element.addEventListener(
             'mousemove',
-            (event) => _handleMouseMoveOnElement(event),
+            (event) => _handleMouseMoveOnElement(event as any),
             false,
         );
 
@@ -40,18 +41,40 @@ export function createMouseListener(
 
         let currentTouch: Touch | null = null;
 
+        console.log(immediateDrag);
+        if(immediateDrag){
+            setImmediate(()=>{
+                console.log('_handleDownOn');
+                _handleStart(new TouchFrame(
+                    element,
+                    anchorElement,
+                    new Vector2(
+                        0,
+                        0,
+                    ),
+                    performance.now()
+                ));
+            });
+        }
+
         function _handleMouseDownOnElement(event: MouseEvent) {
             if (buttons.indexOf(event.button) !== -1) {
                 event.preventDefault();
                 event.stopPropagation();
+                _handleStart(_createTouchFrameFromEvent(event));
+            }
+        }
+
+        function _handleStart(firstTouchFrame: TouchFrame) {
 
                 if (onlyTouch) {
                     onlyTouch.end();
                 }
+
                 currentTouch = new Touch(
                     'MOUSE',
                     anchorElement,
-                    _createTouchFrameFromEvent(event),
+                    firstTouchFrame,
                 );
 
                 document.addEventListener(
@@ -87,7 +110,7 @@ export function createMouseListener(
 
                 newTouch(currentTouch);
                 onlyTouch = currentTouch;
-            }
+            
         }
 
         function _handleMouseMoveOnDocument(event: MouseEvent) {

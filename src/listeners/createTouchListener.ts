@@ -5,29 +5,30 @@ import { Vector2 } from '../Vector2';
 
 export function createTouchListener(buttons: number[] = [0]): IListener {
     return (
-        element: HTMLElement,
+        element: HTMLElement|SVGElement,
         anchorElement: HTMLElement,
         newTouch: (touch: Touch) => void,
         newHoverFrame: (frame: TouchFrame) => void,
+        immediateDrag: boolean
     ) => {
         element.addEventListener(
             'touchstart',
-            (event) => _handleTouchesStart(event),
+            (event) => _handleTouchesStart(event as any),
             false,
         );
         element.addEventListener(
             'touchmove',
-            (event) => _handleTouchesMove(event),
+            (event) => _handleTouchesMove(event as any),
             false,
         );
         element.addEventListener(
             'touchend',
-            (event) => _handleTouchesEnd(event),
+            (event) => _handleTouchesEnd(event as any),
             false,
         );
         element.addEventListener(
             'touchcancel',
-            (event) => _handleTouchesEnd(event),
+            (event) => _handleTouchesEnd(event as any),
             false,
         );
 

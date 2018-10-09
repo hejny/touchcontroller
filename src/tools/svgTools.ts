@@ -100,7 +100,7 @@ export function svgTransformationDecode(
 export function svgTransformationEncode(
     transformation: Transformation,
 ): string {
-    const { translate, rotate, rotateCenter, scale } = transformation;
+    const { translate, rotate, rotateCenter/*, scale*/ } = transformation;
     return `translate(${translate.x} ${translate.y}) rotate(${(rotate /
         Math.PI) *
         180} ${rotateCenter.x} ${rotateCenter.y})`; //todo is it better with spaces or colons?

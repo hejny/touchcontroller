@@ -1,4 +1,4 @@
-import { IListener } from './listeners/IListener';
+import { IListener } from './interfaces/IListener';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/share';
 import { Observer } from 'rxjs/Observer';
@@ -6,6 +6,7 @@ import { TouchFrame } from './TouchFrame';
 import { createMouseListener } from './listeners/createMouseListener';
 import { createTouchListener } from './listeners/createTouchListener';
 import { Touch } from './Touch';
+import { IEvent } from './interfaces/IEvent';
 
 //todo multitouch should be extended from this
 export class TouchController {
@@ -46,18 +47,18 @@ export class TouchController {
     addListener(listener: IListener) {
         this.listeners.push(listener);
         for (const element of this.elements) {
-            this.callListenerOnElement(listener, element, false);
+            this.callListenerOnElement(listener, element, null);
         }
     }
 
-    addElement(element: HTMLElement|SVGElement,immediateDrag=false) {
+    addElement(element: HTMLElement|SVGElement,immediateDrag:null|IEvent = null) {
         this.elements.push(element);
         for (const listener of this.listeners) {
             this.callListenerOnElement(listener, element, immediateDrag);
         }
     }
 
-    private callListenerOnElement(listener: IListener, element: HTMLElement|SVGElement,immediateDrag:boolean) {
+    private callListenerOnElement(listener: IListener, element: HTMLElement|SVGElement,immediateDrag:null|IEvent) {
         listener(
             element,
             this.anchorElement,

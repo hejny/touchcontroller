@@ -1,5 +1,6 @@
+import { IEvent } from './../interfaces/IEvent';
 import { TouchFrame } from './../TouchFrame';
-import { IListener } from './IListener';
+import { IListener } from '../interfaces/IListener';
 import { Touch } from '../Touch';
 import { Vector2 } from '../Vector2';
 
@@ -15,7 +16,7 @@ export function createMouseListener(
         anchorElement: HTMLElement,
         newTouch: (touch: Touch) => void,
         newHoverFrame: (frame: TouchFrame) => void,
-        immediateDrag:boolean
+        immediateDrag:null|IEvent
     ) => {
         element.addEventListener(
             'mousedown',
@@ -41,19 +42,9 @@ export function createMouseListener(
 
         let currentTouch: Touch | null = null;
 
-        console.log(immediateDrag);
         if(immediateDrag){
             setImmediate(()=>{
-                console.log('_handleDownOn');
-                _handleStart(new TouchFrame(
-                    element,
-                    anchorElement,
-                    new Vector2(
-                        0,
-                        0,
-                    ),
-                    performance.now()
-                ));
+                _handleStart(_createTouchFrameFromEvent(immediateDrag));
             });
         }
 
@@ -130,7 +121,7 @@ export function createMouseListener(
             }
         }
 
-        function _createTouchFrameFromEvent(event: MouseEvent) {
+        function _createTouchFrameFromEvent(event: IEvent) {
             const boundingRect = element.getBoundingClientRect();
             return new TouchFrame(
                 element,

@@ -5,7 +5,7 @@ import { Touch } from '../Touch';
 import { Vector2 } from '../Vector2';
 
 export function createTouchListener(buttons: number[] = [0]): IListener {
-    return (
+    const listener:any = (
         element: HTMLElement|SVGElement,
         anchorElement: HTMLElement,
         newTouch: (touch: Touch) => void,
@@ -97,4 +97,9 @@ export function createTouchListener(buttons: number[] = [0]): IListener {
             //todo return disposer
         };
     };
+
+    listener.title = `TOUCH`;
+    listener.acceptsEvent = (event:Event)=>event instanceof TouchEvent;
+
+    return listener;
 }

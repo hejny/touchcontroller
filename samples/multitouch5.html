@@ -42,13 +42,13 @@
     const touchController = new TC.TouchController([],document.body);//todo document.body as default
 
     for(const dragElement of Array.from(document.querySelectorAll('svg > g'))){
-        dragElement.addEventListener('pointerdown',(event)=>{
-
+        const pointerDown = (event)=>{
             const dragElementNew = dragElement.cloneNode(true);
             dragElement.parentElement.appendChild(dragElementNew);
-
             touchController.addElement(dragElementNew,event);
-        });
+        }
+        dragElement.addEventListener('mousedown',pointerDown);
+        dragElement.addEventListener('touchstart',pointerDown);
     }
 
     const multiTouchController = new TC.MultiTouchController(

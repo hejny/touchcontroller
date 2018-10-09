@@ -11,7 +11,7 @@ export function createMouseListener(
     buttons: number[] = [0],
     rotating = false,
 ): IListener {
-    return (
+    const listener:any =  (
         element: HTMLElement|SVGElement,
         anchorElement: HTMLElement,
         newTouch: (touch: Touch) => void,
@@ -139,4 +139,10 @@ export function createMouseListener(
             //todo return disposer
         };
     };
+
+    listener.title = `MOUSE(${buttons.join(',')})`;
+    listener.acceptsEvent = (event:Event)=>event instanceof MouseEvent&&buttons.indexOf(event.button) !== -1;
+
+    return listener;
+
 }

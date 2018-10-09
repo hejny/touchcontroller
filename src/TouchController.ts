@@ -51,10 +51,19 @@ export class TouchController {
         }
     }
 
-    addElement(element: HTMLElement|SVGElement,immediateDrag:null|IEvent = null) {
+    addElement(element: HTMLElement|SVGElement,immediateDrag:null|Event&IEvent = null) {
         this.elements.push(element);
         for (const listener of this.listeners) {
-            this.callListenerOnElement(listener, element, immediateDrag);
+
+            console.log(listener.title,immediateDrag,listener,immediateDrag&&listener.acceptsEvent(immediateDrag));
+
+            if(immediateDrag&&listener.acceptsEvent(immediateDrag)){
+                this.callListenerOnElement(listener, element, immediateDrag);
+                //immediateDrag = null;//todo maybe create helper var dragging.
+            }else{
+                this.callListenerOnElement(listener, element, null);
+            }
+            
         }
     }
 

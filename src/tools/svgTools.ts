@@ -4,6 +4,7 @@ import { Vector2 } from '../Vector2';
 const TRANSFORM = /\w*\([^)]*\)/g;
 const TRANSLATE = /^translate\(\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*,?\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*\)$/g;
 const ROTATE = /^rotate\(\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*,?\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*,?\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*\)$/g;
+const SCALE = /^scale\(\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*,?\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*\)$/g;
 
 //todo is (\-?\d*\.?\d+) correct for number?
 //todo rotate(1.00342672343173e-7,0,0)
@@ -64,6 +65,26 @@ export function svgTransformationDecode(
 
             transformation.rotate = (angleDegrees / 180) * Math.PI;
             transformation.rotateCenter = new Vector2(x, y);
+        } else if (SCALE.test(part)) {
+
+            /* todo
+            SCALE.lastIndex = 0;
+            console.log(SCALE.exec(part)!);
+
+            SCALE.lastIndex = 0;
+            const [full, x, xe, y, ye] = SCALE.exec(part)!.map((n) =>
+                parseFloat(n),
+            );
+            full;
+            xe;
+            y;
+            ye;
+
+            //console.log([full, x, xe, y, ye]);
+
+            transformation.scale = x;//todo y is not saved
+            */
+
         } else {
             console.warn(
                 `Unknown part of svg transform "${part}".`,
@@ -79,8 +100,9 @@ export function svgTransformationDecode(
 export function svgTransformationEncode(
     transformation: Transformation,
 ): string {
-    const { translate, rotate, rotateCenter } = transformation;
+    const { translate, rotate, rotateCenter, scale } = transformation;
     return `translate(${translate.x} ${translate.y}) rotate(${(rotate /
         Math.PI) *
         180} ${rotateCenter.x} ${rotateCenter.y})`; //todo is it better with spaces or colons?
+        //todo scale(${scale} ${scale})
 }

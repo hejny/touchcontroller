@@ -63,6 +63,7 @@
             },
             function () {
                 if(multitouch.empty){
+                    TC.Transformation.rotate(Math.PI*2/36).applyOnElement(draggingElement);
                     console.log(`You have selected element.`);
                 }
             });

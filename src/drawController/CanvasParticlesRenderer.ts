@@ -62,7 +62,6 @@ export class DrawController {
         options2: IParticleOptions,
         segmentSize: number,
     ) {
-
         //console.log('options1',options1);
         //console.log('options2',options2);
 

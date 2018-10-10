@@ -15,7 +15,7 @@ export function average<T>(
     let count: null | T = null;
     for (const item of items) {
         sum += item.weight;
-        const value = multiply(item.value,item.weight);
+        const value = multiply(item.value, item.weight);
         count = !count ? value : add(count, value);
     }
     if (!count) {
@@ -23,10 +23,8 @@ export function average<T>(
             `There must be at least one item when counting average.`,
         );
     }
-    if (sum<=0) {
-        throw new Error(
-            `Sum of weights should be positive number.`,
-        );
+    if (sum <= 0) {
+        throw new Error(`Sum of weights should be positive number.`);
     }
     return multiply(count, 1 / sum);
 }

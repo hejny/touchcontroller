@@ -1,4 +1,4 @@
-export interface IEvent{
-    clientX:  number;
-    clientY:  number;
+export interface IEvent {
+    clientX: number;
+    clientY: number;
 }

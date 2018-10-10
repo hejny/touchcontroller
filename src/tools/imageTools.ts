@@ -1,4 +1,4 @@
-import { SourceCache } from "./Cache";
+import { SourceCache } from './Cache';
 
 export function createImageFromSrc(src: string): Promise<HTMLImageElement> {
     return new Promise((resolve, reject) => {
@@ -8,12 +8,12 @@ export function createImageFromSrc(src: string): Promise<HTMLImageElement> {
     });
 }
 
-const canvasFromSrcCache = new SourceCache<string,HTMLCanvasElement>();
+const canvasFromSrcCache = new SourceCache<string, HTMLCanvasElement>();
 
 export async function createCanvasFromSrc(
     src: string,
 ): Promise<HTMLCanvasElement> {
-    if(canvasFromSrcCache.hasItem(src)){
+    if (canvasFromSrcCache.hasItem(src)) {
         return canvasFromSrcCache.getItem(src)!;
     }
     const image = await createImageFromSrc(src);
@@ -22,18 +22,18 @@ export async function createCanvasFromSrc(
     canvas.height = image.height;
     const ctx = canvas.getContext('2d')!; //todo is this canvas usable?
     ctx.drawImage(image, 0, 0);
-    canvasFromSrcCache.setItem(src,canvas);
+    canvasFromSrcCache.setItem(src, canvas);
     return canvas;
 }
 
-const canvasColoredFromSrcCache = new SourceCache<string,HTMLCanvasElement>();
+const canvasColoredFromSrcCache = new SourceCache<string, HTMLCanvasElement>();
 
 export async function createColoredCanvasFromSrc(
     src: string,
     color: string,
 ): Promise<HTMLCanvasElement> {
     const id = `${src}#${color}`;
-    if(canvasColoredFromSrcCache.hasItem(id)){
+    if (canvasColoredFromSrcCache.hasItem(id)) {
         return canvasColoredFromSrcCache.getItem(id)!;
     }
     const canvas = await createCanvasFromSrc(src);
@@ -53,13 +53,14 @@ export async function createColoredCanvasFromSrc(
         data[p + 3] = 255;
     }
 
-
-    const canvasColored = window.document.createElement('CANVAS') as HTMLCanvasElement;
+    const canvasColored = window.document.createElement(
+        'CANVAS',
+    ) as HTMLCanvasElement;
     canvasColored.width = canvas.width;
     canvasColored.height = canvas.height;
     const ctxColored = canvasColored.getContext('2d')!;
     ctxColored.putImageData(imageData, 0, 0);
-    canvasColoredFromSrcCache.setItem(id,canvasColored);
+    canvasColoredFromSrcCache.setItem(id, canvasColored);
     return canvasColored;
 }
 

@@ -4,6 +4,11 @@ import { IListener } from '../interfaces/IListener';
 import { Touch } from '../Touch';
 import { Vector2 } from '../Vector2';
 
+const MOUSE_LISTENER_OPTIONS = {
+    capture: true,
+    passive: false
+};
+
 //todo singleton :(
 let onlyTouch: Touch | null = null;
 
@@ -11,23 +16,23 @@ export function createMouseListener(
     buttons: number[] = [0],
     rotating = false,
 ): IListener {
-    const listener:any =  (
-        element: HTMLElement|SVGElement,
+    const listener: any = (
+        element: HTMLElement | SVGElement,
         anchorElement: HTMLElement,
         newTouch: (touch: Touch) => void,
         newHoverFrame: (frame: TouchFrame) => void,
-        immediateDrag:null|IEvent
+        immediateDrag: null | IEvent,
     ) => {
         element.addEventListener(
             'mousedown',
             (event) => _handleMouseDownOnElement(event as any),
-            false,
+            MOUSE_LISTENER_OPTIONS,
         );
 
         element.addEventListener(
             'mousemove',
             (event) => _handleMouseMoveOnElement(event as any),
-            false,
+            MOUSE_LISTENER_OPTIONS,
         );
 
         //todo configurable mouse buttons
@@ -42,8 +47,8 @@ export function createMouseListener(
 
         let currentTouch: Touch | null = null;
 
-        if(immediateDrag){
-            setImmediate(()=>{
+        if (immediateDrag) {
+            setImmediate(() => {
                 _handleStart(_createTouchFrameFromEvent(immediateDrag));
             });
         }
@@ -57,51 +62,45 @@ export function createMouseListener(
         }
 
         function _handleStart(firstTouchFrame: TouchFrame) {
+            if (onlyTouch) {
+                onlyTouch.end();
+            }
 
-                if (onlyTouch) {
-                    onlyTouch.end();
+            currentTouch = new Touch('MOUSE', anchorElement, firstTouchFrame);
+
+            document.addEventListener(
+                'mousemove',
+                _handleMouseMoveOnDocument,
+                MOUSE_LISTENER_OPTIONS,
+            );
+
+            const mouseUpListenerOnDocument = () => {
+                //console.log('mouseup');
+
+                if (currentTouch) {
+                    currentTouch.end();
+                    currentTouch = null;
                 }
 
-                currentTouch = new Touch(
-                    'MOUSE',
-                    anchorElement,
-                    firstTouchFrame,
-                );
-
-                document.addEventListener(
+                document.removeEventListener(
                     'mousemove',
                     _handleMouseMoveOnDocument,
-                    false,
                 );
 
-                const mouseUpListenerOnDocument = () => {
-                    //console.log('mouseup');
-
-                    if (currentTouch) {
-                        currentTouch.end();
-                        currentTouch = null;
-                    }
-
-                    document.removeEventListener(
-                        'mousemove',
-                        _handleMouseMoveOnDocument,
-                    );
-
-                    document.removeEventListener(
-                        'mouseup',
-                        mouseUpListenerOnDocument,
-                    );
-                };
-
-                document.addEventListener(
+                document.removeEventListener(
                     'mouseup',
                     mouseUpListenerOnDocument,
-                    false,
                 );
+            };
 
-                newTouch(currentTouch);
-                onlyTouch = currentTouch;
-            
+            document.addEventListener(
+                'mouseup',
+                mouseUpListenerOnDocument,
+                MOUSE_LISTENER_OPTIONS,
+            );
+
+            newTouch(currentTouch);
+            onlyTouch = currentTouch;
         }
 
         function _handleMouseMoveOnDocument(event: MouseEvent) {
@@ -141,8 +140,8 @@ export function createMouseListener(
     };
 
     listener.title = `MOUSE(${buttons.join(',')})`;
-    listener.acceptsEvent = (event:Event)=>event instanceof MouseEvent&&buttons.indexOf(event.button) !== -1;
+    listener.acceptsEvent = (event: Event) =>
+        event instanceof MouseEvent && buttons.indexOf(event.button) !== -1;
 
     return listener;
-
 }

@@ -7,7 +7,7 @@
 /coverage
 
 # production
-/dist
+/dist/touchcontroller.dev*
 
 # misc
 .DS_Store

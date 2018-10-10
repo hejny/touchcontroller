@@ -6,7 +6,7 @@ import { Vector2 } from '../Vector2';
 
 const MOUSE_LISTENER_OPTIONS = {
     capture: true,
-    passive: false
+    passive: false,
 };
 
 //todo singleton :(

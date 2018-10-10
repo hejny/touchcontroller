@@ -6,7 +6,7 @@ import { Vector2 } from '../Vector2';
 
 const TOUCH_LISTENER_OPTIONS = {
     capture: true,
-    passive: false
+    passive: false,
 };
 
 export function createTouchListener(buttons: number[] = [0]): IListener {
@@ -121,11 +121,10 @@ export function createTouchListener(buttons: number[] = [0]): IListener {
                         );
 
                     const handleTouchMoveOnDocument = (event: TouchEvent) => {
-   
                         //todo problems with zoom whole page
 
                         const touch = getTouchFromEvent(event);
-                        if (touch) {    
+                        if (touch) {
                             event.preventDefault();
                             event.stopPropagation();
                             currentTouch.move(
@@ -141,23 +140,22 @@ export function createTouchListener(buttons: number[] = [0]): IListener {
                     );
 
                     const handleTouchUpOnDocument = (event: TouchEvent) => {
-
                         //const touch = getTouchFromEvent(event);
                         //console.log(event.touches);
                         //console.log(touch);
 
                         //if (touch) {
-                            currentTouch.end();
+                        currentTouch.end();
 
-                            document.removeEventListener(
-                                'touchmove',
-                                handleTouchMoveOnDocument,
-                            );
+                        document.removeEventListener(
+                            'touchmove',
+                            handleTouchMoveOnDocument,
+                        );
 
-                            document.removeEventListener(
-                                'touchend',
-                                handleTouchUpOnDocument,
-                            );
+                        document.removeEventListener(
+                            'touchend',
+                            handleTouchUpOnDocument,
+                        );
                         //}
                     };
 

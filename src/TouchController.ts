@@ -6,7 +6,6 @@ import { TouchFrame } from './TouchFrame';
 import { createMouseListener } from './listeners/createMouseListener';
 import { createTouchListener } from './listeners/createTouchListener';
 import { Touch } from './Touch';
-import { IEvent } from './interfaces/IEvent';
 
 //todo multitouch should be extended from this
 export class TouchController {
@@ -53,7 +52,7 @@ export class TouchController {
 
     addElement(
         element: HTMLElement | SVGElement,
-        immediateDrag: null | Event & IEvent = null,
+        immediateDrag: null | Event = null,
     ) {
         this.elements.push(element);
         for (const listener of this.listeners) {
@@ -69,7 +68,7 @@ export class TouchController {
     private callListenerOnElement(
         listener: IListener,
         element: HTMLElement | SVGElement,
-        immediateDrag: null | IEvent,
+        immediateDrag: null | Event,
     ) {
         listener(
             element,

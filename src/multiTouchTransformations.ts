@@ -1,13 +1,13 @@
+import { MultiTouch } from './MultiTouch';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { Subscription } from 'rxjs/Subscription';
-import Touch from './Touch';
-import MultiTouch from './MultiTouch';
-import Transformation from './Transformation';
-import BoundingBox from './BoundingBox';
-import Vector2 from './Vector2';
+import { BoundingBox } from './BoundingBox';
+import { Transformation } from './Transformation';
+import { Touch } from './Touch';
+import { Vector2 } from './Vector2';
 
-export default function multiTouchTransformations<TElement>(
+export function multiTouchTransformations<TElement>(
     multiTouch: MultiTouch<TElement>,
     boundingBox: BoundingBox = BoundingBox.One(),
 ): Observable<Transformation> {
@@ -27,7 +27,12 @@ export default function multiTouchTransformations<TElement>(
                 if (touches.length === 1) {
                     if (!touches[0].lastFrame.rotating) {
                         countTouchesTransformation = (touch1) =>
-                            new Transformation(touch1.lastFrame.position, 0, 1);
+                            new Transformation(
+                                touch1.lastFrame.position,
+                                0,
+                                undefined,
+                                1,
+                            );
                     } else {
                         //todo this should be like second picked point is center of bounding box
                         countTouchesTransformation = (touch1) =>
@@ -36,6 +41,7 @@ export default function multiTouchTransformations<TElement>(
                                 boundingBox.center.rotation(
                                     touch1.lastFrame.position,
                                 ),
+                                undefined,
                                 1,
                             );
                     }
@@ -53,6 +59,7 @@ export default function multiTouchTransformations<TElement>(
                             touches[0].lastFrame.position.rotation(
                                 touches[1].lastFrame.position,
                             ),
+                            undefined,
                             touches[0].lastFrame.position.length(
                                 touches[1].lastFrame.position,
                             ),

@@ -1,9 +1,10 @@
-import Vector2 from './Vector2';
-export default class Transformation {
+import { Vector2 } from './Vector2';
+export declare class Transformation {
     translate: Vector2;
     rotate: number;
+    rotateCenter: Vector2;
     scale: number;
-    constructor(translate?: Vector2, rotate?: number, scale?: number);
+    constructor(translate?: Vector2, rotate?: number, rotateCenter?: Vector2, scale?: number);
     static Neutral(): Transformation;
     static translate(translate: Vector2): Transformation;
     static rotate(rotate: number): Transformation;

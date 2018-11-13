@@ -1,13 +1,14 @@
+import { IListener } from './interfaces/IListener';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/share';
 import { Observer } from 'rxjs/Observer';
-import Touch from './Touch';
-import TouchFrame from './TouchFrame';
-import IListener from './listeners/IListener';
-import * as listeners from './listeners/';
+import { TouchFrame } from './TouchFrame';
+import { createMouseListener } from './listeners/createMouseListener';
+import { createTouchListener } from './listeners/createTouchListener';
+import { Touch } from './Touch';
 
 //todo multitouch should be extended from this
-export default class TouchController {
+export class TouchController {
     public touches: Observable<Touch>;
     public hoveredFrames: Observable<TouchFrame>;
     private _touchesObserver: Observer<Touch>;
@@ -18,7 +19,7 @@ export default class TouchController {
     }
 
     constructor(
-        public elements: HTMLElement[], //todo syntax sugar if set only one element
+        public elements: (HTMLElement | SVGElement)[], //todo syntax sugar if set only one element
         public anchorElement: HTMLElement,
         setListeners = true,
     ) {
@@ -34,9 +35,9 @@ export default class TouchController {
         ).share();
 
         if (setListeners) {
-            this.addListener(listeners.createMouseListener());
-            this.addListener(listeners.createMouseListener([1, 2], true));
-            this.addListener(listeners.createTouchListener());
+            this.addListener(createMouseListener());
+            this.addListener(createMouseListener([1, 2], true));
+            this.addListener(createTouchListener());
         }
     }
 
@@ -45,18 +46,30 @@ export default class TouchController {
     addListener(listener: IListener) {
         this.listeners.push(listener);
         for (const element of this.elements) {
-            this.callListenerOnElement(listener,element);
+            this.callListenerOnElement(listener, element, null);
         }
     }
 
-    addElement(element: HTMLElement) {
+    addElement(
+        element: HTMLElement | SVGElement,
+        immediateDrag: null | Event = null,
+    ) {
         this.elements.push(element);
         for (const listener of this.listeners) {
-            this.callListenerOnElement(listener,element);
+            if (immediateDrag && listener.acceptsEvent(immediateDrag)) {
+                this.callListenerOnElement(listener, element, immediateDrag);
+                //immediateDrag = null;//todo maybe create helper var dragging.
+            } else {
+                this.callListenerOnElement(listener, element, null);
+            }
         }
     }
 
-    callListenerOnElement(listener:IListener, element: HTMLElement){
+    private callListenerOnElement(
+        listener: IListener,
+        element: HTMLElement | SVGElement,
+        immediateDrag: null | Event,
+    ) {
         listener(
             element,
             this.anchorElement,
@@ -66,10 +79,10 @@ export default class TouchController {
                     this._hoveredFramesObserver.next(frame);
                 }
             },
+            immediateDrag,
         );
         //todo array of listeners disposers
     }
-
 
     emulateTouch(touch: Touch) {
         setImmediate(() => {

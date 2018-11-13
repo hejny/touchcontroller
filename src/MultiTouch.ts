@@ -1,15 +1,15 @@
+import { Transformation } from './Transformation';
+import { BoundingBox } from './BoundingBox';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/share';
 import { Observer } from 'rxjs/Observer';
-import Touch from './Touch';
-import multiTouchTransformations from './multiTouchTransformations';
-import Transformation from './Transformation';
-import BoundingBox from './BoundingBox';
+import { multiTouchTransformations } from './multiTouchTransformations';
+import { Touch } from './Touch';
 
 //todo multitouch should be extended from this
-export default class MultiTouch<TElement> {
+export class MultiTouch<TElement> {
     public empty: boolean = true;
     public ongoingTouches: Touch[] = [];
     public touches: Observable<Touch>;

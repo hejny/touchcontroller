@@ -1,34 +1,41 @@
-import IListener from './IListener';
-import Touch from '../Touch';
-import TouchFrame from '../TouchFrame';
-import Vector2 from '../Vector2';
+import { IEvent } from './../interfaces/IEvent';
+import { IListener } from '../interfaces/IListener';
+import { TouchFrame } from '../TouchFrame';
+import { Touch } from '../Touch';
+import { Vector2 } from '../Vector2';
 
-export default function(buttons: number[] = [0]): IListener {
-    return (
-        element: HTMLElement,
+const TOUCH_LISTENER_OPTIONS = {
+    capture: true,
+    passive: false,
+};
+
+export function createTouchListener(buttons: number[] = [0]): IListener {
+    const listener: any = (
+        element: HTMLElement | SVGElement,
         anchorElement: HTMLElement,
         newTouch: (touch: Touch) => void,
         newHoverFrame: (frame: TouchFrame) => void,
+        immediateDrag: null | IEvent,
     ) => {
         element.addEventListener(
             'touchstart',
-            (event) => _handleTouchesStart(event),
-            false,
+            (event) => _handleTouchesStart(event as any),
+            TOUCH_LISTENER_OPTIONS,
         );
         element.addEventListener(
             'touchmove',
-            (event) => _handleTouchesMove(event),
-            false,
+            (event) => _handleTouchesMove(event as any),
+            TOUCH_LISTENER_OPTIONS,
         );
         element.addEventListener(
             'touchend',
-            (event) => _handleTouchesEnd(event),
-            false,
+            (event) => _handleTouchesEnd(event as any),
+            TOUCH_LISTENER_OPTIONS,
         );
         element.addEventListener(
             'touchcancel',
-            (event) => _handleTouchesEnd(event),
-            false,
+            (event) => _handleTouchesEnd(event as any),
+            TOUCH_LISTENER_OPTIONS,
         );
 
         let currentTouches: { [identifier: number]: Touch } = {};
@@ -78,10 +85,7 @@ export default function(buttons: number[] = [0]): IListener {
             }
         }
 
-        function _createTouchFrameFromEvent(event: {
-            clientX: number;
-            clientY: number;
-        }) {
+        function _createTouchFrameFromEvent(event: IEvent) {
             const boundingRect = element.getBoundingClientRect();
             return new TouchFrame(
                 element,
@@ -94,8 +98,86 @@ export default function(buttons: number[] = [0]): IListener {
             );
         }
 
+        if (immediateDrag) {
+            setImmediate(() => {
+                const identifier = (immediateDrag as any).touches[0].identifier;
+                //console.log((immediateDrag as any).touches[0].identifier);
+
+                {
+                    //todo maybe DRY this block with block in createMouseListener
+                    //todo better naming in this block
+
+                    const currentTouch = new Touch(
+                        'TOUCH',
+                        anchorElement,
+                        _createTouchFrameFromEvent(
+                            (immediateDrag as any).touches[0],
+                        ),
+                    );
+
+                    const getTouchFromEvent = (event: TouchEvent) =>
+                        Array.from(event.touches).find(
+                            (touch) => touch.identifier === identifier,
+                        );
+
+                    const handleTouchMoveOnDocument = (event: TouchEvent) => {
+                        //todo problems with zoom whole page
+
+                        const touch = getTouchFromEvent(event);
+                        if (touch) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            currentTouch.move(
+                                _createTouchFrameFromEvent(touch),
+                                false,
+                            );
+                        }
+                    };
+                    document.addEventListener(
+                        'touchmove',
+                        handleTouchMoveOnDocument,
+                        TOUCH_LISTENER_OPTIONS,
+                    );
+
+                    const handleTouchUpOnDocument = (event: TouchEvent) => {
+                        //const touch = getTouchFromEvent(event);
+                        //console.log(event.touches);
+                        //console.log(touch);
+
+                        //if (touch) {
+                        currentTouch.end();
+
+                        document.removeEventListener(
+                            'touchmove',
+                            handleTouchMoveOnDocument,
+                        );
+
+                        document.removeEventListener(
+                            'touchend',
+                            handleTouchUpOnDocument,
+                        );
+                        //}
+                    };
+
+                    document.addEventListener(
+                        'touchend',
+                        handleTouchUpOnDocument,
+                        TOUCH_LISTENER_OPTIONS,
+                    );
+
+                    newTouch(currentTouch);
+                    //onlyTouch = currentTouch;
+                }
+            });
+        }
+
         return () => {
             //todo return disposer
         };
     };
+
+    listener.title = `TOUCH`;
+    listener.acceptsEvent = (event: Event) => event instanceof TouchEvent;
+
+    return listener;
 }

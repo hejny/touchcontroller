@@ -1,10 +1,14 @@
-import Vector2 from './Vector2';
-import { translateToVector, vectorToTranslate } from './tools/svgTools';
+import { Vector2 } from './Vector2';
+import {
+    svgTransformationDecode,
+    svgTransformationEncode,
+} from './tools/svgTools';
 
-export default class Transformation {
+export class Transformation {
     constructor(
         public translate: Vector2 = Vector2.Zero(),
         public rotate: number = 0,
+        public rotateCenter: Vector2 = Vector2.Zero(),
         public scale: number = 1,
     ) {}
 
@@ -21,25 +25,33 @@ export default class Transformation {
     }
 
     static scale(scale: number): Transformation {
-        return new Transformation(undefined, undefined, scale);
+        return new Transformation(undefined, undefined, undefined, scale);
     }
 
     clone(): Transformation {
-        return new Transformation(this.translate, this.rotate, this.scale);
+        return new Transformation(
+            this.translate,
+            this.rotate,
+            this.rotateCenter,
+            this.scale,
+        );
     }
 
     cloneDeep(): Transformation {
         return new Transformation(
             this.translate.clone(),
             this.rotate,
+            this.rotateCenter.clone(),
             this.scale,
         );
     }
 
+    //todo in place methods
     add(transformation: Transformation): Transformation {
         return new Transformation(
             this.translate.add(transformation.translate),
             (this.rotate + transformation.rotate) % (Math.PI * 2),
+            this.rotateCenter.add(transformation.rotateCenter), //todo is it correct
             this.scale * transformation.scale,
         );
     }
@@ -48,10 +60,12 @@ export default class Transformation {
         return new Transformation(
             this.translate.subtract(transformation.translate),
             (this.rotate - transformation.rotate + Math.PI * 2) % (Math.PI * 2),
+            this.rotateCenter.subtract(transformation.rotateCenter), //todo is it correct
             this.scale / transformation.scale,
         );
     }
 
+    //todo maybe move to other function
     applyOnElement(element: Element) {
         switch (element.tagName) {
             case 'g':
@@ -70,7 +84,7 @@ export default class Transformation {
     }
 
     applyOnSvgElement(element: SVGGElement) {
-        element.setAttribute(
+        /*element.setAttribute(
             'transform',
             vectorToTranslate(
                 translateToVector(
@@ -78,5 +92,51 @@ export default class Transformation {
                 ).add(this.translate),
             ),
         );
+        console.groupCollapsed('applyOnSvgElement');
+        console.log('this',this);
+        console.log('element',element);*/
+
+        const transformationStringBefore =
+            element.getAttribute('transform') || '';
+        const transformationBefore = svgTransformationDecode(
+            transformationStringBefore,
+        );
+
+        const transformationAfter = transformationBefore.add(this);
+        const transformationStringAfter = svgTransformationEncode(
+            transformationAfter,
+        );
+
+        element.setAttribute('transform', transformationStringAfter);
+
+        /*
+        console.log('transformationBefore',transformationBefore);
+        console.log('transformationAfter',transformationAfter);
+
+        console.log('transformationStringBefore',transformationStringBefore);
+        console.log('transformationStringAfter',transformationStringAfter);
+
+        console.log('check',element.getAttribute('transform'));
+
+
+        console.groupEnd();
+        */
     }
 }
+
+/*setImmediate(() => {
+    const element = document.getElementsByTagName('g')[0];
+    const transformation = Transformation.rotate(0.2);
+
+    console.log('element', element);
+    console.log('transformation', transformation);
+
+    const interval = setInterval(() => {
+        transformation.applyOnSvgElement(element);
+    }, 100);
+
+    setTimeout(() => {
+        clearInterval(interval);
+    }, 1000);
+});
+*/

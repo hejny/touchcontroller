@@ -1,0 +1,100 @@
+import { Vector2 } from './../Vector2';
+import { sign } from '../tools/mathTools';
+import { createColoredCanvasFromSrc } from '../tools/imageTools';
+
+export interface IParticleOptions {
+    shapeSrc: string;
+    shapeCenter: Vector2;
+    color: string;
+    current: IParticleOptionsExternals;
+    movement: IParticleOptionsExternals;
+    friction: number;
+}
+
+export interface IParticleOptionsExternals {
+    position: Vector2;
+    rotation: number;
+    widthSize: number;
+}
+
+export class Particle {
+    private shapeData: null | HTMLImageElement | HTMLCanvasElement = null;
+
+    constructor(private options: IParticleOptions, public zIndex: number) {
+        this.initializeSource();
+    }
+
+    async initializeSource() {
+        this.shapeData = await createColoredCanvasFromSrc(
+            this.options.shapeSrc,
+            this.options.color,
+        ); //todo optimize image loads
+    }
+
+    get size() {
+        if (!this.shapeData) {
+            //todo maybe only warn and return width,width
+            throw new Error(`Particle image is not yet loaded.`);
+        }
+
+        return new Vector2(
+            this.options.current.widthSize,
+            (this.options.current.widthSize / this.shapeData.width) *
+                this.shapeData.height,
+        );
+    }
+
+    get live(): boolean {
+        //todo tresshold in config
+        return (
+            this.options.movement.position.length() > 0.5 ||
+            this.options.movement.rotation > 0.5 ||
+            this.options.movement.widthSize > 0.5
+        );
+    }
+
+    update(delta: number) {
+        this.options.current.position.addInPlace(
+            this.options.movement.position.scale(delta),
+        );
+        this.options.current.rotation += this.options.movement.rotation * delta;
+        this.options.current.widthSize +=
+            this.options.movement.widthSize * delta;
+
+        const frictionPowered = Math.pow(this.options.friction, delta);
+        this.options.movement.position.scaleInPlace(frictionPowered);
+        this.options.movement.rotation *= frictionPowered;
+        this.options.movement.widthSize *= frictionPowered; //todo maybe as area
+    }
+
+    render(ctx: CanvasRenderingContext2D) {
+        if (!this.shapeData) {
+            //todo maybe console.warn(`Particle image is not yet loaded.`);
+            return;
+        }
+
+        ctx.save();
+        ctx.translate(
+            this.options.current.position.x,
+            this.options.current.position.y,
+        );
+        ctx.rotate(this.options.current.rotation + Math.PI / 2);
+        //ctx.globalAlpha = this.lifetime === -1 ? 1 : Math.sqrt(this.lifetime / 10);
+        ctx.drawImage(
+            this.shapeData,
+            0,
+            0,
+            this.shapeData.width,
+            this.shapeData.height,
+            -this.size.x * this.options.shapeCenter.x,
+            -this.size.y * this.options.shapeCenter.y,
+            this.size.x,
+            this.size.y,
+        );
+        ctx.restore();
+    }
+
+    static compare(a: Particle, b: Particle) {
+        return sign(a.zIndex - b.zIndex);
+    }
+}

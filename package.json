@@ -1,16 +1,17 @@
 {
   "name": "touchcontroller",
-  "version": "0.10.1",
+  "version": "0.13.2",
   "description": "Touch and mouse controller for web apps and games",
   "main": "./dist/touchcontroller.js",
   "types": "./dist/typings/src/index.d.ts",
   "scripts": {
     "start": "npm run develop",
-    "build": "webpack",
-    "develop": "webpack --watch",
+    "build": "webpack --config webpack.production.config.js",
+    "develop": "onchange \"src/**/*.{ts,tsx}\" --initial --kill --delay 500  -- webpack --config webpack.development.config.js",
     "deploy": "npm publish",
+    "expose": "node server.js",
     "test": "",
-    "prettier": "prettier --config .prettierrc --write \"{src,samples}/**/*.{ts,tsx,js,html,css}\" webpack.config.js",
+    "prettier": "prettier --config .prettierrc --write \"{src,test,samples}/**/*.{ts,tsx,js,html,css}\" webpack.config.js",
     "prettier-watch": "onchange \"**/*.{js,ts,tsx,json}\" -- npm run prettier"
   },
   "repository": {
@@ -28,18 +29,20 @@
   "homepage": "https://github.com/hejny/touchcontroller#readme",
   "devDependencies": {
     "prettier": "^1.12.1",
+    "onchange": "^5.0.2",
     "ts-loader": "^4.5.0",
     "ts-node": "^4.0.1",
     "typescript": "^2.6.2",
     "webpack": "^4.17.1",
-    "webpack-cli": "^3.1.0"
-  },
-  "dependencies": {
+    "webpack-cli": "^3.1.0",
     "@types/chai": "^4.0.10",
     "@types/mocha": "^2.2.44",
     "chai": "^4.1.2",
+    "express": "^4.16.3",
     "mocha": "^4.0.1",
     "rxjs": "^5.5.5",
+    "serve-static": "^1.13.2",
     "update": "^0.7.4"
-  }
+  },
+  "dependencies": {}
 }

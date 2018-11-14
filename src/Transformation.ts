@@ -124,7 +124,7 @@ export class Transformation {
     }
 }
 
-/*setImmediate(() => {
+/*window.setImmediate(() => {
     const element = document.getElementsByTagName('g')[0];
     const transformation = Transformation.rotate(0.2);
 

@@ -3,6 +3,7 @@ import { IListener } from '../interfaces/IListener';
 import { TouchFrame } from '../TouchFrame';
 import { Touch } from '../Touch';
 import { Vector2 } from '../Vector2';
+import window from '@heduapp/fake-window';
 
 const TOUCH_LISTENER_OPTIONS = {
     capture: true,
@@ -99,7 +100,7 @@ export function createTouchListener(buttons: number[] = [0]): IListener {
         }
 
         if (immediateDrag) {
-            setImmediate(() => {
+            window.setImmediate(() => {
                 const identifier = (immediateDrag as any).touches[0].identifier;
                 //console.log((immediateDrag as any).touches[0].identifier);
 

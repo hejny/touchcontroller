@@ -1,6 +1,6 @@
 {
   "name": "touchcontroller",
-  "version": "0.13.2",
+  "version": "0.13.3",
   "description": "Touch and mouse controller for web apps and games",
   "main": "./dist/touchcontroller.js",
   "types": "./dist/typings/src/index.d.ts",
@@ -44,5 +44,7 @@
     "serve-static": "^1.13.2",
     "update": "^0.7.4"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@heduapp/fake-window": "^1.0.0"
+  }
 }

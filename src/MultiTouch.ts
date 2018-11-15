@@ -7,6 +7,7 @@ import 'rxjs/add/operator/share';
 import { Observer } from 'rxjs/Observer';
 import { multiTouchTransformations } from './multiTouchTransformations';
 import { Touch } from './Touch';
+import window from '@heduapp/fake-window';
 
 //todo multitouch should be extended from this
 export class MultiTouch<TElement> {
@@ -21,7 +22,7 @@ export class MultiTouch<TElement> {
     ) {
         this.touches = Observable.create((observer: Observer<Touch>) => {
             this._touchesObserver = observer;
-            setImmediate(() => this.addTouch(firstTouch));
+            window.setImmediate(() => this.addTouch(firstTouch));
         }).share();
     }
 
@@ -61,7 +62,7 @@ export class MultiTouch<TElement> {
                         (touch) => {},
                         () => {},
                         () => {
-                            setImmediate(() =>
+                            window.setImmediate(() =>
                                 observer.next(this.ongoingTouches),
                             );
                         },

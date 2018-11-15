@@ -5,6 +5,7 @@ import { Observer } from 'rxjs/Observer';
 import 'rxjs/add/observable/range';
 import 'rxjs/add/operator/share';
 import { TouchFrame } from './TouchFrame';
+import window from '@heduapp/fake-window';
 
 export class Touch {
     public frames: Observable<TouchFrame>;
@@ -20,7 +21,7 @@ export class Touch {
         this.lastFrame = firstFrame;
         this.lastFrame2 = firstFrame;
         this.frames = Observable.create((observer: Observer<TouchFrame>) => {
-            observer.next(firstFrame); //todo maybe setImmediate(()=>
+            observer.next(firstFrame); //todo maybe window.setImmediate(()=>
             this._framesObserver = observer;
         }).share(); //todo share vs publish
     }
@@ -59,7 +60,7 @@ export class Touch {
             anchorElement,
             new TouchFrame(element, anchorElement, position),
         );
-        setTimeout(() => {
+        window.setTimeout(() => {
             touch.end();
         }, 100);
         return touch;

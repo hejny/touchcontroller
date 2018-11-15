@@ -6,6 +6,7 @@ import { TouchFrame } from './TouchFrame';
 import { createMouseListener } from './listeners/createMouseListener';
 import { createTouchListener } from './listeners/createTouchListener';
 import { Touch } from './Touch';
+import window from '@heduapp/fake-window';
 
 //todo multitouch should be extended from this
 export class TouchController {
@@ -85,7 +86,7 @@ export class TouchController {
     }
 
     emulateTouch(touch: Touch) {
-        setImmediate(() => {
+        window.setImmediate(() => {
             this._touchesObserver.next(touch);
         });
     }

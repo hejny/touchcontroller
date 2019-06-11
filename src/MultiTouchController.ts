@@ -1,9 +1,9 @@
-import { TouchFrame } from './TouchFrame';
-import { MultiTouch } from './MultiTouch';
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/share';
+import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
+import { MultiTouch } from './MultiTouch';
 import { TouchController } from './TouchController';
+import { TouchFrame } from './TouchFrame';
 
 export class MultiTouchController<TElement> {
     public ongoingMultiTouches: MultiTouch<TElement | undefined>[] = []; //todo null vs. undefined

@@ -1,8 +1,8 @@
-import { Vector2 } from './Vector2';
 import {
     svgTransformationDecode,
     svgTransformationEncode,
 } from './tools/svgTools';
+import { Vector2 } from './Vector2';
 
 export class Transformation {
     constructor(

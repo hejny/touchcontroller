@@ -38,7 +38,7 @@ export class Touch {
     }
 
     end() {
-        if(this._framesObserver){
+        if (this._framesObserver) {
             this._framesObserver.complete();
         }
     }

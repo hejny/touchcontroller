@@ -1,13 +1,13 @@
-import { Transformation } from './Transformation';
-import { BoundingBox } from './BoundingBox';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import window from '@heduapp/fake-window';
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/share';
+import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
+import { Subscription } from 'rxjs/Subscription';
+import { BoundingBox } from './BoundingBox';
 import { multiTouchTransformations } from './multiTouchTransformations';
 import { Touch } from './Touch';
-import window from '@heduapp/fake-window';
+import { Transformation } from './Transformation';
 
 //todo multitouch should be extended from this
 export class MultiTouch<TElement> {

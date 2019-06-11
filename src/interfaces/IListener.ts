@@ -1,5 +1,5 @@
-import { TouchFrame } from '../TouchFrame';
 import { Touch } from '../Touch';
+import { TouchFrame } from '../TouchFrame';
 
 export interface IListener {
     title: (event: Event) => boolean;

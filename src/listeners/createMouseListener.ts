@@ -1,9 +1,9 @@
-import { IEvent } from './../interfaces/IEvent';
-import { TouchFrame } from './../TouchFrame';
+import window from '@heduapp/fake-window';
 import { IListener } from '../interfaces/IListener';
 import { Touch } from '../Touch';
 import { Vector2 } from '../Vector2';
-import window from '@heduapp/fake-window';
+import { IEvent } from './../interfaces/IEvent';
+import { TouchFrame } from './../TouchFrame';
 
 const MOUSE_LISTENER_OPTIONS = {
     capture: true,

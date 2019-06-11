@@ -1,8 +1,8 @@
-import { Vector2 } from './../Vector2';
 import {
     IParticleOptions,
     IParticleOptionsExternals,
 } from '../drawController/Particle';
+import { Vector2 } from './../Vector2';
 
 export type TAverageItems<T> = { value: T; weight: number }[];
 

@@ -1,9 +1,9 @@
-import { IEvent } from './../interfaces/IEvent';
-import { IListener } from '../interfaces/IListener';
-import { TouchFrame } from '../TouchFrame';
-import { Touch } from '../Touch';
-import { Vector2 } from '../Vector2';
 import window from '@heduapp/fake-window';
+import { IListener } from '../interfaces/IListener';
+import { Touch } from '../Touch';
+import { TouchFrame } from '../TouchFrame';
+import { Vector2 } from '../Vector2';
+import { IEvent } from './../interfaces/IEvent';
 
 const TOUCH_LISTENER_OPTIONS = {
     capture: true,

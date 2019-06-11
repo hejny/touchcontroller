@@ -1,4 +1,3 @@
-import window from '@heduapp/fake-window';
 import { IListener } from '../interfaces/IListener';
 import { Touch } from '../Touch';
 import { Vector2 } from '../Vector2';
@@ -49,7 +48,7 @@ export function createMouseListener(
         let currentTouch: Touch | null = null;
 
         if (immediateDrag) {
-            window.setImmediate(() => {
+            setImmediate(() => {
                 _handleStart(_createTouchFrameFromEvent(immediateDrag));
             });
         }

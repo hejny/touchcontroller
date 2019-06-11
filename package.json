@@ -7,9 +7,9 @@
   "scripts": {
     "start": "npm run develop",
     "build": "webpack --config webpack.production.config.js",
-    "develop": "onchange \"src/**/*.{ts,tsx}\" --initial --kill --delay 500  -- webpack --config webpack.development.config.js",
+    "build-watch": "onchange \"src/**/*.{ts,tsx}\" --initial --kill --delay 500  -- webpack --config webpack.development.config.js",
     "deploy": "npm publish",
-    "expose": "node server.js",
+    "server": "node server.js",
     "test": "",
     "prettier": "prettier --config .prettierrc --write \"{src,test,samples}/**/*.{ts,tsx,js,html,css}\" webpack.config.js",
     "prettier-watch": "onchange \"**/*.{js,ts,tsx,json}\" -- npm run prettier"

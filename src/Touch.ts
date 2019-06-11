@@ -1,11 +1,10 @@
-import { Vector2 } from './Vector2';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/share';
-import { Observer } from 'rxjs/Observer';
+import window from '@heduapp/fake-window';
 import 'rxjs/add/observable/range';
 import 'rxjs/add/operator/share';
+import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
 import { TouchFrame } from './TouchFrame';
-import window from '@heduapp/fake-window';
+import { Vector2 } from './Vector2';
 
 export class Touch {
     public frames: Observable<TouchFrame>;
@@ -39,7 +38,9 @@ export class Touch {
     }
 
     end() {
-        this._framesObserver.complete();
+        if(this._framesObserver){
+            this._framesObserver.complete();
+        }
     }
 
     get start() {

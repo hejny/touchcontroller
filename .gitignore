@@ -1,13 +1,13 @@
-# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+# build
+/lib
+/dist
 
 # dependencies
 /node_modules
 
 # testing
 /coverage
-
-# production
-/dist/touchcontroller.dev*
 
 # misc
 .DS_Store

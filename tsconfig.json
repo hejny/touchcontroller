@@ -1,17 +1,17 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
     "target": "es5",
-    "lib": ["es6", "dom"],
-    "sourceMap": true,
+    "module": "umd",
     "declaration": true,
-    "declarationDir": "typings",
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noUnusedLocals": true,    
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "suppressImplicitAnyIndexErrors": true
-  }
+    "outDir": "./dist",
+    "alwaysStrict": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["dom", "es2017"],
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "resolveJsonModule": false
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "test"]
 }

@@ -1,4 +1,4 @@
-/*import { expect } from "chai";
+/*
 import TouchController from "../src/TouchController";
 import MultiTouchController from "../src/MultiTouchController";
 

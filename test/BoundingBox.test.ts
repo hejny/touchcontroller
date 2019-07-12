@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { BoundingBox } from '../src/BoundingBox';
 import { Vector2 } from '../src/Vector2';
 
@@ -10,8 +9,8 @@ describe('BoundingBox', function() {
     );
 
     it('intersects is working.', function() {
-        expect(boundingBox1.intersects(new Vector2(1, 1))).equal(true);
-        expect(boundingBox1.intersects(new Vector2(2, 2))).equal(true);
-        expect(boundingBox1.intersects(new Vector2(3, 3))).equal(false);
+        expect(boundingBox1.intersects(new Vector2(1, 1))).toEqual(true);
+        expect(boundingBox1.intersects(new Vector2(2, 2))).toEqual(true);
+        expect(boundingBox1.intersects(new Vector2(3, 3))).toEqual(false);
     });
 });

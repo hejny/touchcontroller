@@ -37,10 +37,8 @@
         </svg>
     </div>
 
-<script src="../dist/touchcontroller.dev.browser.js"></script>
-<script>
-
-    const TC = TouchController;
+<script type="module">
+    import * as TC from '../../dist/index.js';
 
     const dragElements = [...Array.from(document.querySelectorAll('.item')),...Array.from(document.querySelectorAll('svg > g'))];
 

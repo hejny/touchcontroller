@@ -42,22 +42,22 @@
   "devDependencies": {
     "@heduapp/fake-window": "^1.0.0",
     "@types/jest": "^24.0.13",
-    "chai": "^4.2.0",
     "codecov": "^3.5.0",
     "express": "^4.17.1",
     "jest": "^24.8.0",
     "onchange": "^3.3.0",
     "opn": "^6.0.0",
     "prettier": "github:prettier/prettier",
-    "rxjs": "^5.5.12",
     "serve-index": "^1.9.1",
     "serve-static": "^1.14.1",
     "ts-jest": "^24.0.2",
     "tslint": "^5.17.0",
     "tslint-config-prettier": "^1.18.0",
     "typedoc": "^0.14.2",
-    "typescript": "^3.5.1",
-    "update": "^0.7.4"
+    "typescript": "^3.5.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "waitasecond": "^0.1.5",
+    "rxjs": "^5.5.12"
+  }
 }

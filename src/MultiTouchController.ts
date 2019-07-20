@@ -4,11 +4,12 @@ import { Observer } from 'rxjs/Observer';
 import { MultiTouch } from './MultiTouch';
 import { TouchController } from './TouchController';
 import { TouchFrame } from './TouchFrame';
+import { forValueDefined } from 'waitasecond';
 
 export class MultiTouchController<TElement> {
     public ongoingMultiTouches: MultiTouch<TElement | undefined>[] = []; //todo null vs. undefined
     public multiTouches: Observable<MultiTouch<TElement | undefined>>;
-    private _multiTouchesObserver: Observer<MultiTouch<TElement | undefined>>;
+    private _multiTouchesObserver?: Observer<MultiTouch<TElement | undefined>>;
 
     constructor(
         public touchController: TouchController,
@@ -20,7 +21,7 @@ export class MultiTouchController<TElement> {
             },
         ).share();
 
-        this.touchController.touches.subscribe((touch) => {
+        this.touchController.touches.subscribe(async (touch) => {
             const element = this._elementBinder(touch.firstFrame);
 
             //todo why can not be used find
@@ -31,7 +32,9 @@ export class MultiTouchController<TElement> {
             if (typeof multiTouch === 'undefined') {
                 multiTouch = new MultiTouch(element, touch);
                 this.ongoingMultiTouches.push(multiTouch);
-                this._multiTouchesObserver.next(multiTouch);
+
+                const multiTouchesObserver = await forValueDefined(()=>this._multiTouchesObserver);
+                multiTouchesObserver.next(multiTouch);
 
                 multiTouch.touches.subscribe(
                     () => {},

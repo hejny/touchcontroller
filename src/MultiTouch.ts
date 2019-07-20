@@ -1,3 +1,4 @@
+import { forImmediate, forValueDefined } from 'waitasecond';
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/share';
 import { Observable } from 'rxjs/Observable';
@@ -13,21 +14,23 @@ export class MultiTouch<TElement> {
     public empty: boolean = true;
     public ongoingTouches: Touch[] = [];
     public touches: Observable<Touch>;
-    private _touchesObserver: Observer<Touch>;
+    private _touchesObserver?: Observer<Touch>;
 
     constructor(
         public element: TElement, //todo this should be external
         public firstTouch: Touch,
     ) {
-        this.touches = Observable.create((observer: Observer<Touch>) => {
+        this.touches = Observable.create(async (observer: Observer<Touch>) => {
             this._touchesObserver = observer;
-            setImmediate(() => this.addTouch(firstTouch));
+            await forImmediate();
+            this.addTouch(firstTouch);
         }).share();
     }
 
-    addTouch(touch: Touch) {
+    async addTouch(touch: Touch) {
         this.ongoingTouches.push(touch);
-        this._touchesObserver.next(touch);
+        const touchesObserver = await forValueDefined(()=>this._touchesObserver);
+        touchesObserver.next(touch);
 
         touch.frames.subscribe(
             (frame) => {
@@ -46,7 +49,7 @@ export class MultiTouch<TElement> {
                     (touch2) => touch2 !== touch,
                 );
                 if (this.ongoingTouches.length === 0) {
-                    this._touchesObserver.complete();
+                    touchesObserver.complete();
                 }
             },
         );
@@ -58,7 +61,7 @@ export class MultiTouch<TElement> {
                 (touch) => {
                     observer.next(this.ongoingTouches);
                     touch.frames.subscribe(
-                        (touch) => {},
+                        () => {},
                         () => {},
                         () => {
                             setImmediate(() =>

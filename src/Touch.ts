@@ -1,4 +1,4 @@
-import window from '@heduapp/fake-window';
+// TODO: import window from '@heduapp/fake-window';
 import 'rxjs/add/observable/range';
 import 'rxjs/add/operator/share';
 import { Observable } from 'rxjs/Observable';
@@ -8,7 +8,7 @@ import { Vector2 } from './Vector2';
 
 export class Touch {
     public frames: Observable<TouchFrame>;
-    private _framesObserver: Observer<TouchFrame>;
+    private _framesObserver?: Observer<TouchFrame>;
     public lastFrame: TouchFrame;
     public lastFrame2: TouchFrame; //todo maybe function with offest
 

@@ -9,12 +9,12 @@ const TOUCH_LISTENER_OPTIONS = {
     passive: false,
 };
 
-export function createTouchListener(buttons: number[] = [0]): IListener {
+export function createTouchListener(/*buttons: number[] = [0]*/): IListener {
     const listener: any = (
         element: HTMLElement | SVGElement,
         anchorElement: HTMLElement,
         newTouch: (touch: Touch) => void,
-        newHoverFrame: (frame: TouchFrame) => void,
+        // TODO: maybe? newHoverFrame: (frame: TouchFrame) => void,
         immediateDrag: null | IEvent,
     ) => {
         element.addEventListener(
@@ -139,7 +139,7 @@ export function createTouchListener(buttons: number[] = [0]): IListener {
                         TOUCH_LISTENER_OPTIONS,
                     );
 
-                    const handleTouchUpOnDocument = (event: TouchEvent) => {
+                    const handleTouchUpOnDocument = (/*event: TouchEvent*/) => {
                         //const touch = getTouchFromEvent(event);
                         //console.log(event.touches);
                         //console.log(touch);

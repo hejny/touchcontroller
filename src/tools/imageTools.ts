@@ -1,7 +1,7 @@
 import { SourceCache } from './Cache';
 
 export function createImageFromSrc(src: string): Promise<HTMLImageElement> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         const image = window.document.createElement('IMG') as HTMLImageElement;
         image.addEventListener('load', () => resolve(image));
         image.src = src;
@@ -68,6 +68,7 @@ export async function createColoredCanvasFromSrc(
 function hexToRgb(color: string) {
     var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
     color = color.replace(shorthandRegex, function(m, r, g, b) {
+        m;
         return r + r + g + g + b + b;
     });
 

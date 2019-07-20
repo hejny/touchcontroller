@@ -1,4 +1,4 @@
-import window from '@heduapp/fake-window';
+// TODO: import window from '@heduapp/fake-window';
 import 'rxjs/add/operator/share';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
@@ -7,13 +7,14 @@ import { createMouseListener } from './listeners/createMouseListener';
 import { createTouchListener } from './listeners/createTouchListener';
 import { Touch } from './Touch';
 import { TouchFrame } from './TouchFrame';
+import { forValueDefined, forImmediate } from 'waitasecond';
 
 //todo multitouch should be extended from this
 export class TouchController {
     public touches: Observable<Touch>;
     public hoveredFrames: Observable<TouchFrame>;
-    private _touchesObserver: Observer<Touch>;
-    private _hoveredFramesObserver: Observer<TouchFrame>;
+    private _touchesObserver?: Observer<Touch>;
+    private _hoveredFramesObserver?: Observer<TouchFrame>;
 
     static fromCanvas(canvas: HTMLCanvasElement) {
         return new TouchController([canvas], canvas, true);
@@ -74,7 +75,7 @@ export class TouchController {
         listener(
             element,
             this.anchorElement,
-            (touch: Touch) => this._touchesObserver.next(touch),
+            async (touch: Touch) => (await forValueDefined(()=>this._touchesObserver)).next(touch),
             (frame: TouchFrame) => {
                 if (typeof this._hoveredFramesObserver !== 'undefined') {
                     this._hoveredFramesObserver.next(frame);
@@ -85,10 +86,9 @@ export class TouchController {
         //todo array of listeners disposers
     }
 
-    emulateTouch(touch: Touch) {
-        window.setImmediate(() => {
-            this._touchesObserver.next(touch);
-        });
+    async emulateTouch(touch: Touch) {
+        await forImmediate();
+        (await forValueDefined(()=>this._touchesObserver)).next(touch);      
     }
 
     //todo method for dispose

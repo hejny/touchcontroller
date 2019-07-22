@@ -1,6 +1,6 @@
 # Touchcontroller
 
-A very simple tool library for the waiting using Promises.
+A framework above browser mouse, touch and pointer events
 
 # Install
 

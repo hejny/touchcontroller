@@ -1,28 +1,18 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "es6",
+    "module": "umd",
     "declaration": true,
     "outDir": "./dist",
     "alwaysStrict": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": [
-      "dom",
-      "es2017"
-    ],
+    "lib": ["dom", "es2017"],
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "resolveJsonModule": false,
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "noImplicitAny": true
+    "moduleResolution": "node"
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules",
-    "test"
-  ]
+  "include": ["src"],
+  "exclude": ["node_modules", "test"]
 }

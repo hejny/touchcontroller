@@ -1,7 +1,7 @@
 // TODO: import window from '@heduapp/fake-window';
-import 'rxjs/add/observable/range';
-import 'rxjs/add/operator/share';
-import { Observable } from 'rxjs/Observable';
+import '../node_modules/rxjs/add/observable/range';
+import '../node_modules/rxjs/add/operator/share';
+import { Observable } from '../node_modules/rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { TouchFrame } from './TouchFrame';
 import { Vector2 } from './Vector2';

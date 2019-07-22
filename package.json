@@ -1,13 +1,12 @@
 {
   "name": "touchcontroller",
-  "version": "0.13.5",
-  "description": "Touch and mouse controller for web apps and games",
-  "main": "./dist/index.js",
+  "version": "1.0.0",
+  "description": "A framework above browser mouse, touch and pointer events",
+  "main": "./dist/main.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "start": "npm run build-watch",
-    "build": "tsc",
-    "build-watch": "tsc --watch",
+    "start": "webpack-dev-server",
+    "build": "webpack",
     "prettier": "prettier --config .prettierrc --write \"{src,test,.vscode}/**/*.{ts,json}\"",
     "prettier-watch": "onchange \"{src,test,.vscode}/**/*.{ts,json}\" -- prettier --config .prettierrc --write {{changed}}",
     "documentation": "git diff --exit-code && typedoc --excludePrivate --hideGenerator --mode file --theme minimal --out docs --name \"Wait second\" ./src && git add docs && git commit -m \"Documentation\"",
@@ -16,7 +15,7 @@
     "lint": "tslint -p tsconfig.json",
     "preversion": "npm test && npm run lint && npm run build && npm run documentation",
     "postversion": "git push && git push --tags && npm publish",
-    "server": "node server.js",
+    "-old-server": "node server.js",
     "-old-start": "npm run develop",
     "-old-build": "webpack --config webpack.production.config.js",
     "-old-build-watch": "onchange \"src/**/*.{ts,tsx}\" --initial --kill --delay 500  -- webpack --config webpack.development.config.js",
@@ -24,7 +23,9 @@
     "-old-test": "TODO:",
     "-old-test-watch": "TODO:",
     "-old-prettier": "prettier --config .prettierrc --write \"{src,test,samples}/**/*.{ts,tsx,js,html,css}\" webpack.config.js",
-    "-old-prettier-watch": "onchange \"**/*.{js,ts,tsx,json}\" -- npm run prettier"
+    "-old-prettier-watch": "onchange \"**/*.{js,ts,tsx,json}\" -- npm run prettier",
+    "--experimental--owc": "npx owc-dev-server --app-index samples/multitouch4.html --open --watch --port=6012",
+    "--experimental-build-browser": "npx webpack-cli dist/index.js -o dist/index.browser.js"
   },
   "repository": {
     "type": "git",
@@ -42,22 +43,30 @@
   "devDependencies": {
     "@heduapp/fake-window": "^1.0.0",
     "@types/jest": "^24.0.13",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "codecov": "^3.5.0",
     "express": "^4.17.1",
     "jest": "^24.8.0",
     "onchange": "^3.3.0",
     "opn": "^6.0.0",
+    "owc-dev-server": "^1.0.0",
     "prettier": "github:prettier/prettier",
     "serve-index": "^1.9.1",
     "serve-static": "^1.14.1",
     "ts-jest": "^24.0.2",
+    "ts-loader": "^6.0.2",
     "tslint": "^5.17.0",
     "tslint-config-prettier": "^1.18.0",
     "typedoc": "^0.14.2",
-    "typescript": "^3.5.1"
+    "typescript": "^3.5.3",
+    "webpack": "^4.36.1",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.7.2"
   },
   "dependencies": {
-    "waitasecond": "^0.1.5",
-    "rxjs": "^5.5.12"
+    "@webpack-cli/init": "^0.2.2",
+    "rxjs": "^6.5.2",
+    "rxjs-compat": "^6.5.2",
+    "waitasecond": "^0.1.5"
   }
 }

@@ -1,10 +1,10 @@
-import 'rxjs/add/operator/share';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
+import '../node_modules/rxjs/add/operator/share';
+import { Observable } from '../node_modules/rxjs/Observable';
+import { Observer } from '../node_modules/rxjs/Observer';
 import { MultiTouch } from './MultiTouch';
 import { TouchController } from './TouchController';
 import { TouchFrame } from './TouchFrame';
-import { forValueDefined } from 'waitasecond';
+import { forValueDefined } from '../node_modules/waitasecond/dist/index';
 
 export class MultiTouchController<TElement> {
     public ongoingMultiTouches: MultiTouch<TElement | undefined>[] = []; //todo null vs. undefined

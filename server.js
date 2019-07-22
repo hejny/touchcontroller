@@ -11,9 +11,11 @@ const staticBasePath = './';
 
 const app = express();
 
-app.use(serveStatic(staticBasePath, {'index': false}))  
-app.use(serveIndex(staticBasePath, {'icons': true}))  
+app.use(serveStatic(staticBasePath, {index: false, extensions: ['js']}))  
+app.use(serveIndex(staticBasePath, {icons: true}))  
 app.listen(PORT);
+
+// TODO: implement here middleware transforming node_module imports like in  owc-dev-server
 
 console.log(`Static server listening on port ${PORT}.`);
 opn(`http://localhost:${PORT}/samples/`);

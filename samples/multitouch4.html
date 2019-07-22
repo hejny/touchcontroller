@@ -37,9 +37,21 @@
         </svg>
     </div>
 
-<script type="module">
-    import * as TC from '../../dist/index.js';
 
+<script src="../../dist/main.js"></script>
+<script type="module">
+
+    import * as TCX from '../../dist/main.js'; 
+
+    console.log(window.TC);
+    console.log(TCX);
+
+    /*requirejs(["../../dist/index.js"], function(TC) {
+        console.log(TC);
+    //});
+
+    console.log(TC);
+    
     const dragElements = [...Array.from(document.querySelectorAll('.item')),...Array.from(document.querySelectorAll('svg > g'))];
 
     var touchController = new TC.TouchController(dragElements,document.body);//todo document.body as default
@@ -77,6 +89,8 @@
                 }
             });
     });
+
+        */
 
 
 </script>

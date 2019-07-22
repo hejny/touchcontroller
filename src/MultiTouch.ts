@@ -1,7 +1,7 @@
-import { forImmediate, forValueDefined } from 'waitasecond';
-import 'rxjs/add/operator/finally';
-import 'rxjs/add/operator/share';
-import { Observable } from 'rxjs/Observable';
+import { forImmediate, forValueDefined } from '../node_modules/waitasecond/dist/index';
+import '../node_modules/rxjs/add/operator/finally';
+import '../node_modules/rxjs/add/operator/share';
+import { Observable } from '../node_modules/rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { Subscription } from 'rxjs/Subscription';
 import { BoundingBox } from './BoundingBox';

@@ -9,9 +9,6 @@ const SCALE = /^scale\(\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*,?\s*(\-?\d*\.?\d+(e\
 //todo is (\-?\d*\.?\d+) correct for number?
 //todo rotate(1.00342672343173e-7,0,0)
 
-//console.log(TRANSLATE.exec('translate(4,84)'));
-//console.log(TRANSLATE.exec('translate(4,84)'));
-
 export function svgTransformationDecode(
     transform: string = '',
 ): Transformation {

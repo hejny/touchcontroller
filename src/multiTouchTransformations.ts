@@ -1,6 +1,6 @@
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable } from '../node_modules/rxjs/Observable';
+import { Observer } from '../node_modules/rxjs/Observer';
+import { Subscription } from '../node_modules/rxjs/Subscription';
 import { BoundingBox } from './BoundingBox';
 import { MultiTouch } from './MultiTouch';
 import { Touch } from './Touch';

@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "A framework above browser mouse, touch and pointer events",
   "main": "./dist/main.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/main.d.ts",
   "scripts": {
-    "start": "webpack-dev-server",
-    "build": "webpack",
-    "build-watch": "webpack --watch",
+    "start": "node ./start.js",
+    "build": "tsc",
+    "build-watch": "tsc --watch",
     "prettier": "prettier --config .prettierrc --write \"{src,test,.vscode}/**/*.{ts,json}\"",
     "prettier-watch": "onchange \"{src,test,.vscode}/**/*.{ts,json}\" -- prettier --config .prettierrc --write {{changed}}",
     "documentation": "git diff --exit-code && typedoc --excludePrivate --hideGenerator --mode file --theme minimal --out docs --name \"Wait second\" ./src && git add docs && git commit -m \"Documentation\"",
@@ -59,13 +59,9 @@
     "tslint": "^5.17.0",
     "tslint-config-prettier": "^1.18.0",
     "typedoc": "^0.14.2",
-    "typescript": "^3.5.3",
-    "webpack": "^4.36.1",
-    "webpack-cli": "^3.3.6",
-    "webpack-dev-server": "^3.7.2"
+    "typescript": "^3.5.3"
   },
   "dependencies": {
-    "@webpack-cli/init": "^0.2.2",
     "rxjs": "^6.5.2",
     "rxjs-compat": "^6.5.2",
     "waitasecond": "^0.1.5"

@@ -8,8 +8,11 @@ module.exports = {
 
 	output: {
 		filename: '[name].js',
-		path: path.resolve(__dirname, 'dist')
+		path: path.resolve(__dirname, 'dist'),
+		libraryTarget: 'umd',
 	},
+
+	devtool: 'source-map',
 
 	plugins: [new webpack.ProgressPlugin()/*, new HtmlWebpackPlugin()*/],
 

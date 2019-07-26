@@ -5,15 +5,30 @@
   "main": "./dist/touchcontroller.js",
   "types": "./dist/typings/src/index.d.ts",
   "scripts": {
-    "start": "npm run develop",
-    "build": "webpack --config webpack.production.config.js",
-    "build-watch": "onchange \"src/**/*.{ts,tsx}\" --initial --kill --delay 500  -- webpack --config webpack.development.config.js",
-    "deploy": "npm publish",
-    "server": "node server.js",
-    "test": "TODO:",
-    "test-watch": "TODO:",
-    "prettier": "prettier --config .prettierrc --write \"{src,test,samples}/**/*.{ts,tsx,js,html,css}\" webpack.config.js",
-    "prettier-watch": "onchange \"**/*.{js,ts,tsx,json}\" -- npm run prettier"
+    "start": "npm run build-watch",
+    "build": "tsc",
+    "build-watch": "tsc --watch",
+    "prettier": "prettier --config .prettierrc --write \"{src,test,.vscode}/**/*.{ts,json}\"",
+    "prettier-watch": "onchange \"{src,test,.vscode}/**/*.{ts,json}\" -- prettier --config .prettierrc --write {{changed}}",
+    "documentation": "git diff --exit-code && typedoc --excludePrivate --hideGenerator --mode file --theme minimal --out docs --name \"Config checker\" ./src  && git add docs && git commit -m \"Documentation\"",
+    "test": "jest --config jestconfig.json",
+    "test-watch": "jest --config jestconfig.json --watchAll",
+    "lint": "tslint -p tsconfig.json",
+    "prepublish": "npm test && npm run lint && npm run build && npm run documentation && git push",
+    "preversion": "npm run lint",
+    "postversion": "git push && git push --tags && npm publish",
+
+
+
+    "--old--start": "npm run develop",
+    "--old--build": "webpack --config webpack.production.config.js",
+    "--old--build-watch": "onchange \"src/**/*.{ts,tsx}\" --initial --kill --delay 500  -- webpack --config webpack.development.config.js",
+    "--old--deploy": "npm publish",
+    "--old--server": "node server.js",
+    "--old--test": "TODO:",
+    "--old--test-watch": "TODO:",
+    "--old--prettier": "prettier --config .prettierrc --write \"{src,test,samples}/**/*.{ts,tsx,js,html,css}\" webpack.config.js",
+    "--old--prettier-watch": "onchange \"**/*.{js,ts,tsx,json}\" -- npm run prettier"
   },
   "repository": {
     "type": "git",

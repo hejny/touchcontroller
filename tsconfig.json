@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "umd",
+    "module": "esnext",
     "declaration": true,
     "outDir": "./dist",
     "alwaysStrict": true,

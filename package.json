@@ -2,7 +2,7 @@
   "name": "touchcontroller",
   "version": "0.13.5",
   "description": "Touch and mouse controller for web apps and games",
-  "main": "./dist/touchcontroller.js",
+  "main": "./dist/main.js",
   "types": "./dist/typings/src/index.d.ts",
   "scripts": {
     "start": "npm run build-watch",

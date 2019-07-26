@@ -2,8 +2,8 @@
     "autokill": true,
     "terminals": [
         {
-            "name": "server",
-            "command": "npm run server"
+            "name": "develop",
+            "command": "npm start"
         },
         {
             "name": "build-watch",

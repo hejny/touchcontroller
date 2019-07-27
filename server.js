@@ -1,7 +1,7 @@
 const express = require('express')  
 const serveStatic = require('serve-static')
 const serveIndex = require('serve-index')
-const opn = require('opn')
+const opn = require('open')
 
 // TODO: as indipendent library
 

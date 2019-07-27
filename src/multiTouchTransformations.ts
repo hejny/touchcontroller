@@ -1,8 +1,8 @@
+import { BoundingBox } from './BoundingBox';
+import { MultiTouch } from './MultiTouch';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { Subscription } from 'rxjs/Subscription';
-import { BoundingBox } from './BoundingBox';
-import { MultiTouch } from './MultiTouch';
 import { Touch } from './Touch';
 import { Transformation } from './Transformation';
 import { Vector2 } from './Vector2';
@@ -19,7 +19,7 @@ export function multiTouchTransformations<TElement>(
                 for (const subscription of subscriptions) {
                     subscription.unsubscribe();
                 }
-                //todo maybe subscription = [];
+                // TODO: maybe subscription = [];
 
                 let countTouchesTransformation: (
                     ...touches: Touch[]
@@ -34,7 +34,7 @@ export function multiTouchTransformations<TElement>(
                                 1,
                             );
                     } else {
-                        //todo this should be like second picked point is center of bounding box
+                        // TODO: this should be like second picked point is center of bounding box
                         countTouchesTransformation = (touch1) =>
                             new Transformation(
                                 undefined,
@@ -46,7 +46,7 @@ export function multiTouchTransformations<TElement>(
                             );
                     }
                 } else {
-                    //todo how to figure out with 3, 4, 5,... finger on one object?
+                    // TODO: how to figure out with 3, 4, 5,... finger on one object?
                     countTouchesTransformation = (...touches) =>
                         new Transformation(
                             Vector2.Zero()

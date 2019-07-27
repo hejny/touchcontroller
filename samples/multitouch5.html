@@ -39,7 +39,7 @@
 <script>
 
     const TC = TouchController;
-    const touchController = new TC.TouchController([],document.body);//todo document.body as default
+    const touchController = new TC.TouchController([],document.body);// TODO: document.body as default
 
     for(const dragElement of Array.from(document.querySelectorAll('svg > g'))){
         const pointerDown = (event)=>{

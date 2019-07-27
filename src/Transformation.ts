@@ -1,8 +1,8 @@
+import { Vector2 } from './Vector2';
 import {
     svgTransformationDecode,
     svgTransformationEncode,
 } from './tools/svgTools';
-import { Vector2 } from './Vector2';
 
 export class Transformation {
     constructor(
@@ -46,12 +46,12 @@ export class Transformation {
         );
     }
 
-    //todo in place methods
+    // TODO: in place methods
     add(transformation: Transformation): Transformation {
         return new Transformation(
             this.translate.add(transformation.translate),
             (this.rotate + transformation.rotate) % (Math.PI * 2),
-            this.rotateCenter.add(transformation.rotateCenter), //todo is it correct
+            this.rotateCenter.add(transformation.rotateCenter), // TODO: is it correct
             this.scale * transformation.scale,
         );
     }
@@ -60,12 +60,12 @@ export class Transformation {
         return new Transformation(
             this.translate.subtract(transformation.translate),
             (this.rotate - transformation.rotate + Math.PI * 2) % (Math.PI * 2),
-            this.rotateCenter.subtract(transformation.rotateCenter), //todo is it correct
+            this.rotateCenter.subtract(transformation.rotateCenter), // TODO: is it correct
             this.scale / transformation.scale,
         );
     }
 
-    //todo maybe move to other function
+    // TODO: maybe move to other function
     applyOnElement(element: Element) {
         switch (element.tagName) {
             case 'g':
@@ -78,7 +78,7 @@ export class Transformation {
 
     applyOnHtmlElement(element: HTMLElement) {
         element.style.left =
-            parseFloat(element.style.left || '0px') + this.translate.x + 'px'; //todo bounding box as default
+            parseFloat(element.style.left || '0px') + this.translate.x + 'px'; // TODO: bounding box as default
         element.style.top =
             parseFloat(element.style.top || '0px') + this.translate.y + 'px';
     }

@@ -1,7 +1,7 @@
-import { particleOptionsAverage } from '../tools/average';
-import { Vector2 } from './../Vector2';
 import { IParticleOptions, Particle } from './Particle';
+import { particleOptionsAverage } from '../tools/average';
 import { Scene } from './Scene';
+import { Vector2 } from './../Vector2';
 
 export class DrawController {
     private liveCtx: CanvasRenderingContext2D;
@@ -9,7 +9,7 @@ export class DrawController {
     public deadParticlesCount = 0;
     private scene: Scene;
 
-    //todo initial do better
+    // TODO: initial do better
     constructor(quality: Vector2, initialColor: string = '#ffffff') {
         {
             const canvas = document.createElement('canvas');
@@ -33,7 +33,7 @@ export class DrawController {
 
         this.scene = new Scene(this.liveCtx);
 
-        //todo maybe with run?
+        // TODO: maybe with run?
         requestAnimationFrame((now) => this.render(now));
     }
 
@@ -53,7 +53,7 @@ export class DrawController {
     }
 
     drawPoint(options: IParticleOptions) {
-        const particle = new Particle(options, 1); //todo particle zIndex
+        const particle = new Particle(options, 1); // TODO: particle zIndex
         this.scene.addObject(particle);
     }
 

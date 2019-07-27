@@ -28,12 +28,12 @@ export class Particle {
         this.shapeData = await createColoredCanvasFromSrc(
             this.options.shapeSrc,
             this.options.color,
-        ); //todo optimize image loads
+        ); // TODO: optimize image loads
     }
 
     get size() {
         if (!this.shapeData) {
-            //todo maybe only warn and return width,width
+            // TODO: maybe only warn and return width,width
             throw new Error(`Particle image is not yet loaded.`);
         }
 
@@ -45,7 +45,7 @@ export class Particle {
     }
 
     get live(): boolean {
-        //todo tresshold in config
+        // TODO: tresshold in config
         return (
             this.options.movement.position.length() > 0.5 ||
             this.options.movement.rotation > 0.5 ||
@@ -64,12 +64,12 @@ export class Particle {
         const frictionPowered = Math.pow(this.options.friction, delta);
         this.options.movement.position.scaleInPlace(frictionPowered);
         this.options.movement.rotation *= frictionPowered;
-        this.options.movement.widthSize *= frictionPowered; //todo maybe as area
+        this.options.movement.widthSize *= frictionPowered; // TODO: maybe as area
     }
 
     render(ctx: CanvasRenderingContext2D) {
         if (!this.shapeData) {
-            //todo maybe console.warn(`Particle image is not yet loaded.`);
+            // TODO: maybe console.warn(`Particle image is not yet loaded.`);
             return;
         }
 

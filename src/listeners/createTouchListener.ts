@@ -1,8 +1,8 @@
+import { IEvent } from './../interfaces/IEvent';
 import { IListener } from '../interfaces/IListener';
 import { Touch } from '../Touch';
 import { TouchFrame } from '../TouchFrame';
 import { Vector2 } from '../Vector2';
-import { IEvent } from './../interfaces/IEvent';
 
 const TOUCH_LISTENER_OPTIONS = {
     capture: true,
@@ -104,8 +104,8 @@ export function createTouchListener(buttons: number[] = [0]): IListener {
                 //console.log((immediateDrag as any).touches[0].identifier);
 
                 {
-                    //todo maybe DRY this block with block in createMouseListener
-                    //todo better naming in this block
+                    // TODO: maybe DRY this block with block in createMouseListener
+                    // TODO: better naming in this block
 
                     const currentTouch = new Touch(
                         'TOUCH',
@@ -121,7 +121,7 @@ export function createTouchListener(buttons: number[] = [0]): IListener {
                         );
 
                     const handleTouchMoveOnDocument = (event: TouchEvent) => {
-                        //todo problems with zoom whole page
+                        // TODO: problems with zoom whole page
 
                         const touch = getTouchFromEvent(event);
                         if (touch) {
@@ -172,7 +172,7 @@ export function createTouchListener(buttons: number[] = [0]): IListener {
         }
 
         return () => {
-            //todo return disposer
+            // TODO: return disposer
         };
     };
 

@@ -1,15 +1,15 @@
+import { IEvent } from './../interfaces/IEvent';
 import { IListener } from '../interfaces/IListener';
 import { Touch } from '../Touch';
-import { Vector2 } from '../Vector2';
-import { IEvent } from './../interfaces/IEvent';
 import { TouchFrame } from './../TouchFrame';
+import { Vector2 } from '../Vector2';
 
 const MOUSE_LISTENER_OPTIONS = {
     capture: true,
     passive: false,
 };
 
-//todo singleton :(
+// TODO: singleton :(
 let onlyTouch: Touch | null = null;
 
 export function createMouseListener(
@@ -35,7 +35,7 @@ export function createMouseListener(
             MOUSE_LISTENER_OPTIONS,
         );
 
-        //todo configurable mouse buttons
+        // TODO: configurable mouse buttons
         element.addEventListener(
             'contextmenu',
             (event) => {
@@ -135,7 +135,7 @@ export function createMouseListener(
         }
 
         return () => {
-            //todo return disposer
+            // TODO: return disposer
         };
     };
 

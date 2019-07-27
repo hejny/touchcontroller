@@ -20,7 +20,7 @@ export async function createCanvasFromSrc(
     const canvas = window.document.createElement('CANVAS') as HTMLCanvasElement;
     canvas.width = image.width;
     canvas.height = image.height;
-    const ctx = canvas.getContext('2d')!; //todo is this canvas usable?
+    const ctx = canvas.getContext('2d')!; // TODO: is this canvas usable?
     ctx.drawImage(image, 0, 0);
     canvasFromSrcCache.setItem(src, canvas);
     return canvas;
@@ -37,7 +37,7 @@ export async function createColoredCanvasFromSrc(
         return canvasColoredFromSrcCache.getItem(id)!;
     }
     const canvas = await createCanvasFromSrc(src);
-    const ctx = canvas.getContext('2d')!; //todo is this canvas usable?
+    const ctx = canvas.getContext('2d')!; // TODO: is this canvas usable?
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
     const data = imageData.data;
@@ -64,7 +64,7 @@ export async function createColoredCanvasFromSrc(
     return canvasColored;
 }
 
-//todo to separate file
+// TODO: to separate file
 function hexToRgb(color: string) {
     var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
     color = color.replace(shorthandRegex, function(m, r, g, b) {

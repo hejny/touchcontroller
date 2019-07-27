@@ -44,7 +44,7 @@
 
     const dragElements = [...Array.from(document.querySelectorAll('.item')),...Array.from(document.querySelectorAll('svg > g'))];
 
-    var touchController = new TC.TouchController(dragElements,document.body);//todo document.body as default
+    var touchController = new TC.TouchController(dragElements,document.body);// TODO: document.body as default
     
     const multiTouchController = new TC.MultiTouchController(
         touchController,

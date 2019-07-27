@@ -6,13 +6,13 @@ import { TouchFrame } from './TouchFrame';
 import 'rxjs/add/operator/share';
 
 export class MultiTouchController<TElement> {
-    public ongoingMultiTouches: MultiTouch<TElement | undefined>[] = []; //todo null vs. undefined
+    public ongoingMultiTouches: MultiTouch<TElement | undefined>[] = []; // TODO: null vs. undefined
     public multiTouches: Observable<MultiTouch<TElement | undefined>>;
     private _multiTouchesObserver: Observer<MultiTouch<TElement | undefined>>;
 
     constructor(
         public touchController: TouchController,
-        private _elementBinder: (frame: TouchFrame) => TElement | undefined, //todo maybe rename private properties - remove _
+        private _elementBinder: (frame: TouchFrame) => TElement | undefined, // TODO: maybe rename private properties - remove _
     ) {
         this.multiTouches = Observable.create(
             (observer: Observer<MultiTouch<TElement | undefined>>) => {
@@ -23,7 +23,7 @@ export class MultiTouchController<TElement> {
         this.touchController.touches.subscribe((touch) => {
             const element = this._elementBinder(touch.firstFrame);
 
-            //todo why can not be used find
+            // TODO: why can not be used find
             let multiTouch = this.ongoingMultiTouches.filter(
                 (multiTouch) => multiTouch.element === element,
             )[0];
@@ -76,5 +76,5 @@ export class MultiTouchController<TElement> {
         );
     }
 
-    //todo method for dispose
+    // TODO: method for dispose
 }

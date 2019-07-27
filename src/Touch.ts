@@ -9,24 +9,24 @@ export class Touch {
     public frames: Observable<TouchFrame>;
     private _framesObserver: Observer<TouchFrame>;
     public lastFrame: TouchFrame;
-    public lastFrame2: TouchFrame; //todo maybe function with offest
+    public lastFrame2: TouchFrame; // TODO: maybe function with offest
 
     constructor(
-        public type: 'TOUCH' | 'MOUSE', //todo second optional param
+        public type: 'TOUCH' | 'MOUSE', // TODO: second optional param
         public anchorElement: HTMLElement,
         public firstFrame: TouchFrame,
     ) {
         this.lastFrame = firstFrame;
         this.lastFrame2 = firstFrame;
         this.frames = Observable.create((observer: Observer<TouchFrame>) => {
-            observer.next(firstFrame); //todo maybe window.setImmediate(()=>
+            observer.next(firstFrame); // TODO: maybe window.setImmediate(()=>
             this._framesObserver = observer;
-        }).share(); //todo share vs publish
+        }).share(); // TODO: share vs publish
     }
 
     move(newFrame: TouchFrame, end = false) {
         if (typeof this._framesObserver === 'undefined') {
-            return; //todo better;
+            return; // TODO: better;
         }
         this.lastFrame2 = this.lastFrame;
         this.lastFrame = newFrame;

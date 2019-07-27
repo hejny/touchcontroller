@@ -1,5 +1,16 @@
-//todo to other my library - combine TC, Vire
+// TODO: to other my library - combine TC, Vire
+
 export class Vector2 {
+
+    public static Zero() {
+        return new Vector2(0, 0);
+    }
+
+    public static One() {
+        return new Vector2(1, 1);
+    }
+
+
     constructor(public x: number, public y: number) {
         if (isNaN(x) || isNaN(y)) {
             throw new Error(
@@ -8,19 +19,11 @@ export class Vector2 {
         }
     }
 
-    static Zero() {
-        return new Vector2(0, 0);
-    }
-
-    static One() {
-        return new Vector2(1, 1);
-    }
-
     clone(): Vector2 {
         return new Vector2(this.x, this.y);
     }
 
-    //todo consolidate 2 add methods and 1 static method
+    // TODO: consolidate 2 add methods and 1 static method
     add(...vectors: Vector2[]): Vector2 {
         return new Vector2(
             vectors.reduce((x, vector2) => x + vector2.x, this.x),
@@ -29,7 +32,7 @@ export class Vector2 {
     }
 
     addInPlace(...vectors: Vector2[]): this {
-        //todo void vs. never
+        // TODO: void vs. never
         for (const vector of vectors) {
             this.x += vector.x;
             this.y += vector.y;

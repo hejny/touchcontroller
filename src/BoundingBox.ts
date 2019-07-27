@@ -1,6 +1,6 @@
 import { Transformation } from './Transformation';
 import { Vector2 } from './Vector2';
-//todo to other my library - combine TC, Vire
+// TODO: to other my library - combine TC, Vire
 
 export class BoundingBox {
     constructor(
@@ -66,7 +66,7 @@ export class BoundingBox {
     }
 
     rotate(radians = 0, position = this.center) {
-        this.center = this.center.rotate(radians, position); //todo maybe in place
+        this.center = this.center.rotate(radians, position); // TODO: maybe in place
         this.rotation += radians;
     }
 
@@ -112,7 +112,7 @@ export class BoundingBox {
             destinationBoundingBox.center.subtract(this.center),
             destinationBoundingBox.rotation - this.rotation,
             undefined,
-            destinationBoundingBox.size.x / destinationBoundingBox.size.x, //todo better
+            destinationBoundingBox.size.x / destinationBoundingBox.size.x, // TODO: better
         );
     }
 

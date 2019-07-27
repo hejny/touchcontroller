@@ -1,8 +1,8 @@
+import { Vector2 } from './../Vector2';
 import {
     IParticleOptions,
     IParticleOptionsExternals,
 } from '../drawController/Particle';
-import { Vector2 } from './../Vector2';
 
 export type TAverageItems<T> = { value: T; weight: number }[];
 
@@ -29,7 +29,7 @@ export function average<T>(
     return multiply(count, 1 / sum);
 }
 
-//todo not used
+// TODO: not used
 export function vector2Average(...items: TAverageItems<Vector2>) {
     return average<Vector2>(
         (a, b) => Vector2.add(a, b),
@@ -67,7 +67,7 @@ export function particleOptionsAverage(
         (a, b) => ({
             shapeSrc: a.shapeSrc,
             shapeCenter: Vector2.add(a.shapeCenter, b.shapeCenter),
-            color: a.color, //todo with color
+            color: a.color, // TODO: with color
             current: particleOptionsExternalsAdd(a.current, b.current),
             movement: particleOptionsExternalsAdd(a.movement, b.movement),
             friction: a.friction + b.friction,
@@ -75,7 +75,7 @@ export function particleOptionsAverage(
         (a, b) => ({
             shapeSrc: a.shapeSrc,
             shapeCenter: a.shapeCenter.scale(b),
-            color: a.color, //todo with color
+            color: a.color, // TODO: with color
             current: particleOptionsExternalsMultiply(a.current, b),
             movement: particleOptionsExternalsMultiply(a.movement, b),
             friction: a.friction * b,

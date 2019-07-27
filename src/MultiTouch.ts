@@ -1,14 +1,14 @@
-import 'rxjs/add/operator/finally';
-import 'rxjs/add/operator/share';
+import { BoundingBox } from './BoundingBox';
+import { multiTouchTransformations } from './multiTouchTransformations';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { Subscription } from 'rxjs/Subscription';
-import { BoundingBox } from './BoundingBox';
-import { multiTouchTransformations } from './multiTouchTransformations';
 import { Touch } from './Touch';
 import { Transformation } from './Transformation';
+import 'rxjs/add/operator/finally';
+import 'rxjs/add/operator/share';
 
-//todo multitouch should be extended from this
+// TODO: multitouch should be extended from this
 export class MultiTouch<TElement> {
     public empty: boolean = true;
     public ongoingTouches: Touch[] = [];
@@ -16,7 +16,7 @@ export class MultiTouch<TElement> {
     private _touchesObserver: Observer<Touch>;
 
     constructor(
-        public element: TElement, //todo this should be external
+        public element: TElement, // TODO: this should be external
         public firstTouch: Touch,
     ) {
         this.touches = Observable.create((observer: Observer<Touch>) => {
@@ -39,7 +39,7 @@ export class MultiTouch<TElement> {
                 }
             },
             () => {
-                //todo is empty functions needed - if yes create empty function in tools
+                // TODO: is empty functions needed - if yes create empty function in tools
             },
             () => {
                 this.ongoingTouches = this.ongoingTouches.filter(

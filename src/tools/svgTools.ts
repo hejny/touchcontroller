@@ -6,8 +6,8 @@ const TRANSLATE = /^translate\(\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*,?\s*(\-?\d*\
 const ROTATE = /^rotate\(\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*,?\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*,?\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*\)$/g;
 const SCALE = /^scale\(\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*,?\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*\)$/g;
 
-//todo is (\-?\d*\.?\d+) correct for number?
-//todo rotate(1.00342672343173e-7,0,0)
+// TODO: is (\-?\d*\.?\d+) correct for number?
+// TODO: rotate(1.00342672343173e-7,0,0)
 
 //console.log(TRANSLATE.exec('translate(4,84)'));
 //console.log(TRANSLATE.exec('translate(4,84)'));
@@ -81,7 +81,7 @@ export function svgTransformationDecode(
 
             //console.log([full, x, xe, y, ye]);
 
-            transformation.scale = x;//todo y is not saved
+            transformation.scale = x;// TODO: y is not saved
             */
         } else {
             console.warn(
@@ -101,6 +101,6 @@ export function svgTransformationEncode(
     const { translate, rotate, rotateCenter /*, scale*/ } = transformation;
     return `translate(${translate.x} ${translate.y}) rotate(${(rotate /
         Math.PI) *
-        180} ${rotateCenter.x} ${rotateCenter.y})`; //todo is it better with spaces or colons?
-    //todo scale(${scale} ${scale})
+        180} ${rotateCenter.x} ${rotateCenter.y})`; // TODO: is it better with spaces or colons?
+    // TODO: scale(${scale} ${scale})
 }

@@ -1,12 +1,11 @@
-import window from '@heduapp/fake-window';
-import 'rxjs/add/operator/share';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
-import { IListener } from './interfaces/IListener';
 import { createMouseListener } from './listeners/createMouseListener';
 import { createTouchListener } from './listeners/createTouchListener';
+import { IListener } from './interfaces/IListener';
+import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
 import { Touch } from './Touch';
 import { TouchFrame } from './TouchFrame';
+import 'rxjs/add/operator/share';
 
 //todo multitouch should be extended from this
 export class TouchController {

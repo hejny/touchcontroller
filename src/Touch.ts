@@ -1,10 +1,9 @@
-import window from '@heduapp/fake-window';
-import 'rxjs/add/observable/range';
-import 'rxjs/add/operator/share';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { TouchFrame } from './TouchFrame';
 import { Vector2 } from './Vector2';
+import 'rxjs/add/observable/range';
+import 'rxjs/add/operator/share';
 
 export class Touch {
     public frames: Observable<TouchFrame>;

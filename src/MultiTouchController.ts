@@ -6,7 +6,7 @@ import { TouchController } from './TouchController';
 import { TouchFrame } from './TouchFrame';
 
 export class MultiTouchController<TElement> {
-    public ongoingMultiTouches: MultiTouch<TElement | undefined>[] = []; // TODO: null vs. undefined
+    public ongoingMultiTouches: Array<MultiTouch<TElement | undefined>> = []; // TODO: null vs. undefined
     public multiTouches: Observable<MultiTouch<TElement | undefined>>;
     private multiTouchesObserver: Observer<MultiTouch<TElement | undefined>>;
 
@@ -25,7 +25,7 @@ export class MultiTouchController<TElement> {
 
             // TODO: why can not be used find
             let multiTouch = this.ongoingMultiTouches.filter(
-                (multiTouch) => multiTouch.element === element,
+                (ongoingMultiTouch) => ongoingMultiTouch.element === element,
             )[0];
 
             if (typeof multiTouch === 'undefined') {
@@ -34,8 +34,8 @@ export class MultiTouchController<TElement> {
                 this.multiTouchesObserver.next(multiTouch);
 
                 multiTouch.touches.subscribe(
-                    () => {},
-                    () => {},
+                    () => undefined,
+                    () => undefined,
                     () => {
                         this.ongoingMultiTouches = this.ongoingMultiTouches.filter(
                             (multiTouch2) => multiTouch2 !== multiTouch,

@@ -1,8 +1,8 @@
-import { IEvent } from './../interfaces/IEvent';
 import { IListener } from '../interfaces/IListener';
 import { Touch } from '../Touch';
-import { TouchFrame } from './../TouchFrame';
 import { Vector2 } from '../Vector2';
+import { IEvent } from './../interfaces/IEvent';
+import { TouchFrame } from './../TouchFrame';
 
 const MOUSE_LISTENER_OPTIONS = {
     capture: true,
@@ -75,7 +75,7 @@ export function createMouseListener(
             );
 
             const mouseUpListenerOnDocument = () => {
-                //console.log('mouseup');
+                // console.log('mouseup');
 
                 if (currentTouch) {
                     currentTouch.end();

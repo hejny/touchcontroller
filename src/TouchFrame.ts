@@ -20,7 +20,7 @@ export class TouchFrame {
         this.position = this.positionRelative.add(offset);
     }
 
-    clone(): TouchFrame {
+    public clone(): TouchFrame {
         return new TouchFrame(
             this.element,
             this.anchorElement,

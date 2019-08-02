@@ -1,8 +1,8 @@
-import { BoundingBox } from './BoundingBox';
-import { MultiTouch } from './MultiTouch';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { Subscription } from 'rxjs/Subscription';
+import { BoundingBox } from './BoundingBox';
+import { MultiTouch } from './MultiTouch';
 import { Touch } from './Touch';
 import { Transformation } from './Transformation';
 import { Vector2 } from './Vector2';

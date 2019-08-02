@@ -9,9 +9,6 @@ const SCALE = /^scale\(\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*,?\s*(\-?\d*\.?\d+(e\
 // TODO: is (\-?\d*\.?\d+) correct for number?
 // TODO: rotate(1.00342672343173e-7,0,0)
 
-//console.log(TRANSLATE.exec('translate(4,84)'));
-//console.log(TRANSLATE.exec('translate(4,84)'));
-
 export function svgTransformationDecode(
     transform: string = '',
 ): Transformation {
@@ -29,16 +26,16 @@ export function svgTransformationDecode(
         return Transformation.Neutral();
     }
 
-    //console.log('transform => transforms',transform,transforms);
+    // console.log('transform => transforms',transform,transforms);
 
     transforms.map((part) => {
         TRANSLATE.lastIndex = 0;
         ROTATE.lastIndex = 0;
 
         if (TRANSLATE.test(part)) {
-            //console.log(part, TRANSLATE);
-            //console.log(part.match(TRANSLATE));
-            //onsole.log(TRANSLATE.exec(part));
+            // console.log(part, TRANSLATE);
+            // console.log(part.match(TRANSLATE));
+            // onsole.log(TRANSLATE.exec(part));
 
             TRANSLATE.lastIndex = 0;
             const [full, x, xe, y, ye] = TRANSLATE.exec(part)!.map((n) =>

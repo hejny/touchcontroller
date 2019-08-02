@@ -1,13 +1,16 @@
-import { IParticleOptions, Particle } from './Particle';
 import { particleOptionsAverage } from '../tools/average';
-import { Scene } from './Scene';
 import { Vector2 } from './../Vector2';
+import { IParticleOptions, Particle } from './Particle';
+import { Scene } from './Scene';
 
 export class DrawController {
+    public deadParticlesCount = 0;
     private liveCtx: CanvasRenderingContext2D;
     private deadCtx: CanvasRenderingContext2D;
-    public deadParticlesCount = 0;
     private scene: Scene;
+    private lastRenderNow: null | number = null;
+    private contexts: CanvasRenderingContext2D[] = [];
+    private subscribers: Array<() => void> = [];
 
     // TODO: initial do better
     constructor(quality: Vector2, initialColor: string = '#ffffff') {
@@ -37,33 +40,18 @@ export class DrawController {
         requestAnimationFrame((now) => this.render(now));
     }
 
-    private _contexts: CanvasRenderingContext2D[] = [];
-    addContext(context: CanvasRenderingContext2D) {
-        this._contexts.push(context);
-    }
-
-    private _subscribers: (() => void)[] = [];
-    subscribe(callback: () => void) {
-        this._subscribers.push(callback);
-    }
-    private callSubscribers() {
-        for (const subscriber of this._subscribers) {
-            subscriber();
-        }
-    }
-
-    drawPoint(options: IParticleOptions) {
+    public drawPoint(options: IParticleOptions) {
         const particle = new Particle(options, 1); // TODO: particle zIndex
         this.scene.addObject(particle);
     }
 
-    drawLine(
+    public drawLine(
         options1: IParticleOptions,
         options2: IParticleOptions,
         segmentSize: number,
     ) {
-        //console.log('options1',options1);
-        //console.log('options2',options2);
+        // console.log('options1',options1);
+        // console.log('options2',options2);
 
         const segmentsCount = Math.ceil(
             options1.current.position.length(options2.current.position) /
@@ -76,18 +64,31 @@ export class DrawController {
                 { value: options1, weight: weight1 },
                 { value: options2, weight: 1 - weight1 },
             );
-            //console.log('options',options);
+            // console.log('options',options);
             this.drawPoint(options);
         }
     }
 
-    get liveParticlesCount(): number {
+    public get liveParticlesCount(): number {
         return this.scene.particles.length;
     }
 
-    private lastRenderNow: null | number = null;
+    public addContext(context: CanvasRenderingContext2D) {
+        this.contexts.push(context);
+    }
+
+    public subscribe(callback: () => void) {
+        this.subscribers.push(callback);
+    }
+
+    private callSubscribers() {
+        for (const subscriber of this.subscribers) {
+            subscriber();
+        }
+    }
+
     private render(now: number) {
-        //this.liveCtx.fillRect(0, 0, this.liveCtx.canvas.width, this.liveCtx.canvas.height);
+        // this.liveCtx.fillRect(0, 0, this.liveCtx.canvas.width, this.liveCtx.canvas.height);
 
         if (this.lastRenderNow) {
             const deadParticles = this.scene.update(
@@ -103,8 +104,8 @@ export class DrawController {
         this.liveCtx.drawImage(this.deadCtx.canvas, 0, 0);
         this.scene.render();
 
-        for (const ctx of this._contexts) {
-            //ctx.fillRect(0, 0, this.liveCtx.canvas.width, this.liveCtx.canvas.height);
+        for (const ctx of this.contexts) {
+            // ctx.fillRect(0, 0, this.liveCtx.canvas.width, this.liveCtx.canvas.height);
             ctx.drawImage(
                 this.liveCtx.canvas,
                 0,

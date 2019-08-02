@@ -24,14 +24,14 @@ export class Particle {
         this.initializeSource();
     }
 
-    async initializeSource() {
+    public async initializeSource() {
         this.shapeData = await createColoredCanvasFromSrc(
             this.options.shapeSrc,
             this.options.color,
         ); // TODO: optimize image loads
     }
 
-    get size() {
+    public get size() {
         if (!this.shapeData) {
             // TODO: maybe only warn and return width,width
             throw new Error(`Particle image is not yet loaded.`);
@@ -44,7 +44,7 @@ export class Particle {
         );
     }
 
-    get live(): boolean {
+    public get live(): boolean {
         // TODO: tresshold in config
         return (
             this.options.movement.position.length() > 0.5 ||
@@ -53,7 +53,7 @@ export class Particle {
         );
     }
 
-    update(delta: number) {
+    public update(delta: number) {
         this.options.current.position.addInPlace(
             this.options.movement.position.scale(delta),
         );
@@ -67,7 +67,7 @@ export class Particle {
         this.options.movement.widthSize *= frictionPowered; // TODO: maybe as area
     }
 
-    render(ctx: CanvasRenderingContext2D) {
+    public render(ctx: CanvasRenderingContext2D) {
         if (!this.shapeData) {
             // TODO: maybe console.warn(`Particle image is not yet loaded.`);
             return;
@@ -79,7 +79,7 @@ export class Particle {
             this.options.current.position.y,
         );
         ctx.rotate(this.options.current.rotation + Math.PI / 2);
-        //ctx.globalAlpha = this.lifetime === -1 ? 1 : Math.sqrt(this.lifetime / 10);
+        // ctx.globalAlpha = this.lifetime === -1 ? 1 : Math.sqrt(this.lifetime / 10);
         ctx.drawImage(
             this.shapeData,
             0,
@@ -94,7 +94,7 @@ export class Particle {
         ctx.restore();
     }
 
-    static compare(a: Particle, b: Particle) {
+    public static compare(a: Particle, b: Particle) {
         return sign(a.zIndex - b.zIndex);
     }
 }

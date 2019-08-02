@@ -1,8 +1,8 @@
-import { IEvent } from './../interfaces/IEvent';
 import { IListener } from '../interfaces/IListener';
 import { Touch } from '../Touch';
 import { TouchFrame } from '../TouchFrame';
 import { Vector2 } from '../Vector2';
+import { IEvent } from './../interfaces/IEvent';
 
 const TOUCH_LISTENER_OPTIONS = {
     capture: true,

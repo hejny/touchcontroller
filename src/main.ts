@@ -1,17 +1,17 @@
 import { BoundingBox } from './BoundingBox';
+import { DrawController } from './drawController/CanvasParticlesRenderer';
 import { createMouseListener } from './listeners/createMouseListener';
 import { createTouchListener } from './listeners/createTouchListener';
-import { DrawController } from './drawController/CanvasParticlesRenderer';
 import { MultiTouchController } from './MultiTouchController';
 import { multiTouchTransformations } from './multiTouchTransformations';
-import { Touch } from './Touch';
-import { TouchController } from './TouchController';
-import { Transformation } from './Transformation';
-import { Vector2 } from './Vector2';
 import {
     svgTransformationDecode,
     svgTransformationEncode,
 } from './tools/svgTools';
+import { Touch } from './Touch';
+import { TouchController } from './TouchController';
+import { Transformation } from './Transformation';
+import { Vector2 } from './Vector2';
 
 export {
     TouchController,

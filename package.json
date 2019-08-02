@@ -4,6 +4,9 @@
   "description": "Touch and mouse controller for web apps and games",
   "main": "./dist/main.js",
   "types": "./dist/typings/src/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
   "scripts": {
     "start": "npm run develop",
     "build": "webpack --config webpack.production.config.js",

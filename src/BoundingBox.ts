@@ -107,8 +107,6 @@ export class BoundingBox {
             .rotate(this.rotation, this.center);
     }
 
- 
-
     public countTransformation(destinationBoundingBox: BoundingBox) {
         return new Transformation(
             destinationBoundingBox.center.subtract(this.center),

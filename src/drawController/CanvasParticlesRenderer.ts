@@ -88,8 +88,8 @@ export class DrawController {
         }
     }
 
-    private async renderLoop(){
-        while(true){
+    private async renderLoop() {
+        while (true) {
             this.render(await forAnimationFrame());
         }
     }

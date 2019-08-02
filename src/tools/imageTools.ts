@@ -48,7 +48,9 @@ export async function createColoredCanvasFromSrc(
     const rgbColor = hexToRgb(color);
 
     for (let p = 0, len = data.length; p < len; p += 4) {
-        if (data[p + 3] === 0){continue;}
+        if (data[p + 3] === 0) {
+            continue;
+        }
         data[p + 0] = rgbColor.r;
         data[p + 1] = rgbColor.g;
         data[p + 2] = rgbColor.b;
@@ -69,7 +71,7 @@ export async function createColoredCanvasFromSrc(
 // TODO: to separate file
 function hexToRgb(color: string) {
     const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-    color = color.replace(shorthandRegex, (m, r, g, b)=>{
+    color = color.replace(shorthandRegex, (m, r, g, b) => {
         return r + r + g + g + b + b;
     });
 

@@ -64,8 +64,7 @@ export class MultiTouch<TElement> {
                         () => undefined,
                         async () => {
                             await forImmediate();
-                            observer.next(this.ongoingTouches)
-                            
+                            observer.next(this.ongoingTouches);
                         },
                     );
                 },

@@ -24,7 +24,6 @@ export function svgTransformationDecode(
     }
 
     if (!transforms) {
-
         // tslint:disable-next-line
         console.warn(`Can not decode svg transform "${transform}".`);
         return Transformation.Neutral();
@@ -42,19 +41,23 @@ export function svgTransformationDecode(
             // onsole.log(TRANSLATE.exec(part));
 
             TRANSLATE.lastIndex = 0;
-            const [/*full*/, x, /*xe*/, y, /*ye*/] = TRANSLATE.exec(part)!.map((n) =>
-                parseFloat(n),
+            const [, /*full*/ x /*xe*/, , y /*ye*/] = TRANSLATE.exec(part)!.map(
+                (n) => parseFloat(n),
             );
-      
 
             transformation.translate = new Vector2(x, y);
         } else if (ROTATE.test(part)) {
             // console.log(ROTATE.exec(part));
 
             ROTATE.lastIndex = 0;
-            const [/*full*/, angleDegrees, /*ade*/, x, /*xe*/, y, /*ye*/] = ROTATE.exec(
-                part,
-            )!.map((n) => parseFloat(n));
+            const [
+                ,
+                /*full*/ angleDegrees /*ade*/,
+                ,
+                x /*xe*/,
+                ,
+                y /*ye*/,
+            ] = ROTATE.exec(part)!.map((n) => parseFloat(n));
 
             // console.log(full, angleDegrees, ade, x, xe, y, ye);
 

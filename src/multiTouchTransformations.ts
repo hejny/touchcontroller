@@ -26,9 +26,9 @@ export function multiTouchTransformations<TElement>(
                 ) => Transformation;
                 if (touches.length === 1) {
                     if (!touches[0].lastFrame.rotating) {
-                        countTouchesTransformation = (touch1) =>
+                        countTouchesTransformation = () =>
                             new Transformation(
-                                touch1.lastFrame.position,
+                                touches[0].lastFrame.position,
                                 0,
                                 undefined,
                                 1,

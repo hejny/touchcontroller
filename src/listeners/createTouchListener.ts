@@ -19,42 +19,42 @@ export function createTouchListener(buttons: number[] = [0]): IListener {
     ) => {
         element.addEventListener(
             'touchstart',
-            (event) => _handleTouchesStart(event as any),
+            (event) => handleTouchesStart(event as any),
             TOUCH_LISTENER_OPTIONS,
         );
         element.addEventListener(
             'touchmove',
-            (event) => _handleTouchesMove(event as any),
+            (event) => handleTouchesMove(event as any),
             TOUCH_LISTENER_OPTIONS,
         );
         element.addEventListener(
             'touchend',
-            (event) => _handleTouchesEnd(event as any),
+            (event) => handleTouchesEnd(event as any),
             TOUCH_LISTENER_OPTIONS,
         );
         element.addEventListener(
             'touchcancel',
-            (event) => _handleTouchesEnd(event as any),
+            (event) => handleTouchesEnd(event as any),
             TOUCH_LISTENER_OPTIONS,
         );
 
-        let currentTouches: { [identifier: number]: Touch } = {};
+        const currentTouches: { [identifier: number]: Touch } = {};
 
-        function _handleTouchesStart(event: TouchEvent) {
+        function handleTouchesStart(event: TouchEvent) {
             event.preventDefault();
             const touches = event.changedTouches;
             for (let i = 0, l = touches.length; i < l; i++) {
                 const currentTouch = new Touch(
                     'TOUCH',
                     anchorElement,
-                    _createTouchFrameFromEvent(touches[i]),
+                    createTouchFrameFromEvent(touches[i]),
                 );
                 currentTouches[touches[i].identifier] = currentTouch;
                 newTouch(currentTouch);
             }
         }
 
-        function _handleTouchesMove(event: TouchEvent) {
+        function handleTouchesMove(event: TouchEvent) {
             event.preventDefault();
             const touches = event.changedTouches;
             for (let i = 0, l = touches.length; i < l; i++) {
@@ -62,14 +62,14 @@ export function createTouchListener(buttons: number[] = [0]): IListener {
                     currentTouches[touches[i].identifier] || null;
                 if (currentTouch) {
                     currentTouch.move(
-                        _createTouchFrameFromEvent(touches[i]),
+                        createTouchFrameFromEvent(touches[i]),
                         false,
                     );
                 }
             }
         }
 
-        function _handleTouchesEnd(event: TouchEvent) {
+        function handleTouchesEnd(event: TouchEvent) {
             event.preventDefault();
             const touches = event.changedTouches;
             for (let i = 0, l = touches.length; i < l; i++) {
@@ -77,7 +77,7 @@ export function createTouchListener(buttons: number[] = [0]): IListener {
                     currentTouches[touches[i].identifier] || null;
                 if (currentTouch) {
                     currentTouch.move(
-                        _createTouchFrameFromEvent(touches[i]),
+                        createTouchFrameFromEvent(touches[i]),
                         true,
                     );
                     delete currentTouches[touches[i].identifier];
@@ -85,7 +85,7 @@ export function createTouchListener(buttons: number[] = [0]): IListener {
             }
         }
 
-        function _createTouchFrameFromEvent(event: IEvent) {
+        function createTouchFrameFromEvent(event: IEvent) {
             const boundingRect = element.getBoundingClientRect();
             return new TouchFrame(
                 element,
@@ -101,7 +101,7 @@ export function createTouchListener(buttons: number[] = [0]): IListener {
         if (immediateDrag) {
             setImmediate(() => {
                 const identifier = (immediateDrag as any).touches[0].identifier;
-                //console.log((immediateDrag as any).touches[0].identifier);
+                // console.log((immediateDrag as any).touches[0].identifier);
 
                 {
                     // TODO: maybe DRY this block with block in createMouseListener
@@ -110,7 +110,7 @@ export function createTouchListener(buttons: number[] = [0]): IListener {
                     const currentTouch = new Touch(
                         'TOUCH',
                         anchorElement,
-                        _createTouchFrameFromEvent(
+                        createTouchFrameFromEvent(
                             (immediateDrag as any).touches[0],
                         ),
                     );
@@ -128,7 +128,7 @@ export function createTouchListener(buttons: number[] = [0]): IListener {
                             event.preventDefault();
                             event.stopPropagation();
                             currentTouch.move(
-                                _createTouchFrameFromEvent(touch),
+                                createTouchFrameFromEvent(touch),
                                 false,
                             );
                         }
@@ -140,11 +140,11 @@ export function createTouchListener(buttons: number[] = [0]): IListener {
                     );
 
                     const handleTouchUpOnDocument = (event: TouchEvent) => {
-                        //const touch = getTouchFromEvent(event);
-                        //console.log(event.touches);
-                        //console.log(touch);
+                        // const touch = getTouchFromEvent(event);
+                        // console.log(event.touches);
+                        // console.log(touch);
 
-                        //if (touch) {
+                        // if (touch) {
                         currentTouch.end();
 
                         document.removeEventListener(
@@ -156,7 +156,7 @@ export function createTouchListener(buttons: number[] = [0]): IListener {
                             'touchend',
                             handleTouchUpOnDocument,
                         );
-                        //}
+                        // }
                     };
 
                     document.addEventListener(
@@ -166,7 +166,7 @@ export function createTouchListener(buttons: number[] = [0]): IListener {
                     );
 
                     newTouch(currentTouch);
-                    //onlyTouch = currentTouch;
+                    // onlyTouch = currentTouch;
                 }
             });
         }

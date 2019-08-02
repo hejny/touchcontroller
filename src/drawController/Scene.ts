@@ -2,7 +2,7 @@ import { Vector2 } from './../Vector2';
 import { Particle } from './Particle';
 
 export class Scene {
-    //private ctx: CanvasRenderingContext2D;
+    // private ctx: CanvasRenderingContext2D;
     public particles: Particle[];
 
     constructor(private ctx: CanvasRenderingContext2D) {

@@ -18,7 +18,13 @@ export interface IParticleOptionsExternals {
 }
 
 export class Particle {
+
+    public static compare(a: Particle, b: Particle) {
+        return sign(a.zIndex - b.zIndex);
+    }
+
     private shapeData: null | HTMLImageElement | HTMLCanvasElement = null;
+
 
     constructor(private options: IParticleOptions, public zIndex: number) {
         this.initializeSource();
@@ -94,7 +100,5 @@ export class Particle {
         ctx.restore();
     }
 
-    public static compare(a: Particle, b: Particle) {
-        return sign(a.zIndex - b.zIndex);
-    }
+
 }

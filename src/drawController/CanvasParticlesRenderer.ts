@@ -120,6 +120,6 @@ export class DrawController {
         }
 
         this.callSubscribers();
-        requestAnimationFrame((now) => this.render(now));
+        requestAnimationFrame((argument) => this.render(argument));
     }
 }

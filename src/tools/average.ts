@@ -4,7 +4,7 @@ import {
 } from '../drawController/Particle';
 import { Vector2 } from './../Vector2';
 
-export type TAverageItems<T> = { value: T; weight: number }[];
+export type TAverageItems<T> = Array<{ value: T; weight: number }>;
 
 export function average<T>(
     add: (a: T, b: T) => T,

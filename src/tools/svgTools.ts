@@ -12,16 +12,20 @@ const SCALE = /^scale\(\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*,?\s*(\-?\d*\.?\d+(e\
 export function svgTransformationDecode(
     transform: string = '',
 ): Transformation {
-    let transformation = Transformation.Neutral();
+    const transformation = Transformation.Neutral();
 
     TRANSFORM.lastIndex = 0;
     const transforms: string[] = [];
     let execPart: RegExpExecArray | null = null;
+
+    // tslint:disable-next-line
     while ((execPart = TRANSFORM.exec(transform))) {
         transforms.push(execPart[0]);
     }
 
     if (!transforms) {
+
+        // tslint:disable-next-line
         console.warn(`Can not decode svg transform "${transform}".`);
         return Transformation.Neutral();
     }
@@ -38,27 +42,21 @@ export function svgTransformationDecode(
             // onsole.log(TRANSLATE.exec(part));
 
             TRANSLATE.lastIndex = 0;
-            const [full, x, xe, y, ye] = TRANSLATE.exec(part)!.map((n) =>
+            const [/*full*/, x, /*xe*/, y, /*ye*/] = TRANSLATE.exec(part)!.map((n) =>
                 parseFloat(n),
             );
-            full;
-            xe;
-            ye;
+      
 
             transformation.translate = new Vector2(x, y);
         } else if (ROTATE.test(part)) {
-            //console.log(ROTATE.exec(part));
+            // console.log(ROTATE.exec(part));
 
             ROTATE.lastIndex = 0;
-            const [full, angleDegrees, ade, x, xe, y, ye] = ROTATE.exec(
+            const [/*full*/, angleDegrees, /*ade*/, x, /*xe*/, y, /*ye*/] = ROTATE.exec(
                 part,
             )!.map((n) => parseFloat(n));
-            full;
-            ade;
-            xe;
-            ye;
 
-            //console.log(full, angleDegrees, ade, x, xe, y, ye);
+            // console.log(full, angleDegrees, ade, x, xe, y, ye);
 
             transformation.rotate = (angleDegrees / 180) * Math.PI;
             transformation.rotateCenter = new Vector2(x, y);
@@ -81,6 +79,7 @@ export function svgTransformationDecode(
             transformation.scale = x;// TODO: y is not saved
             */
         } else {
+            // tslint:disable-next-line
             console.warn(
                 `Unknown part of svg transform "${part}".`,
                 TRANSLATE.test(part),

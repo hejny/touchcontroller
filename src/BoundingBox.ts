@@ -85,6 +85,10 @@ export class BoundingBox {
             .rotate(this.rotation, this.center);
     }
 
+    public set topLeft(value: Vector2) {
+        this.center = this.center.add(value.subtract(this.topLeft));
+    }
+
     public get topRight() {
         return this.center
             .add(new Vector2(this.size.x * 0.5, this.size.y * -0.5))
@@ -103,9 +107,7 @@ export class BoundingBox {
             .rotate(this.rotation, this.center);
     }
 
-    public set topLeft(value: Vector2) {
-        this.center = this.center.add(value.subtract(this.topLeft));
-    }
+ 
 
     public countTransformation(destinationBoundingBox: BoundingBox) {
         return new Transformation(

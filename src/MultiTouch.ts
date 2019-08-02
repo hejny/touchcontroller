@@ -3,6 +3,7 @@ import 'rxjs/add/operator/share';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { Subscription } from 'rxjs/Subscription';
+import { forImmediate } from 'waitasecond';
 import { BoundingBox } from './BoundingBox';
 import { multiTouchTransformations } from './multiTouchTransformations';
 import { Touch } from './Touch';
@@ -58,16 +59,16 @@ export class MultiTouch<TElement> {
                 (touch) => {
                     observer.next(this.ongoingTouches);
                     touch.frames.subscribe(
-                        (touch) => {},
-                        () => {},
-                        () => {
-                            setImmediate(() =>
-                                observer.next(this.ongoingTouches),
-                            );
+                        (/*touch*/) => undefined,
+                        () => undefined,
+                        async () => {
+                            await forImmediate();
+                            observer.next(this.ongoingTouches)
+                            
                         },
                     );
                 },
-                () => {},
+                () => undefined,
                 () => {
                     observer.complete();
                 },
@@ -90,7 +91,7 @@ export class MultiTouch<TElement> {
                         }),
                     );
                 },
-                () => {},
+                () => undefined,
                 () => {
                     observer.complete();
                 },

@@ -11,22 +11,14 @@
     "develop-build": "onchange \"src/**/*.{ts,tsx}\" --initial --kill --delay 500  -- webpack --config webpack.development.config.js",
     "prettier": "prettier --config .prettierrc --write \"{src,test,.vscode}/**/*.{ts,json}\"",
     "prettier-watch": "onchange \"{src,test,.vscode}/**/*.{ts,json}\" -- prettier --config .prettierrc --write {{changed}}",
-    "documentation": "git diff --exit-code && typedoc --excludePrivate --hideGenerator --mode file --theme minimal --out docs --name \"Config checker\" ./src  && git add docs && git commit -m \"Documentation\"",
+    "prettier-commit": "git diff --exit-code && npm run prettier && git add src && git commit --allow-empty -m \"Prettier\"",
+    "documentation": "typedoc --excludePrivate --hideGenerator --mode file --theme minimal --out docs --name \"TouchController\" ./src",
+    "documentation-commit": "git diff --exit-code && npm run documentation && git add docs && git commit --allow-empty -m \"TouchController\"",
     "test": "jest --config jestconfig.json",
     "test-watch": "jest --config jestconfig.json --watchAll",
     "lint": "tslint -p tsconfig.json",
-    "prepublish": "npm test && npm run lint && npm run build && npm run documentation && git push",
-    "preversion": "npm run lint",
-    "postversion": "git push && git push --tags && npm publish",
-    "--old--start": "npm run develop",
-    "--old--build": "webpack --config webpack.production.config.js",
-    "--old--build-watch": "onchange \"src/**/*.{ts,tsx}\" --initial --kill --delay 500  -- webpack --config webpack.development.config.js",
-    "--old--deploy": "npm publish",
-    "--old--server": "node server.js",
-    "--old--test": "TODO:",
-    "--old--test-watch": "TODO:",
-    "--old--prettier": "prettier --config .prettierrc --write \"{src,test,samples}/**/*.{ts,tsx,js,html,css}\" webpack.config.js",
-    "--old--prettier-watch": "onchange \"**/*.{js,ts,tsx,json}\" -- npm run prettier"
+    "preversion": "npm test && npm run lint && npm run build && npm run prettier-commit && npm run documentation-commit",
+    "postversion": "git push && git push --tags && npm publish"
   },
   "repository": {
     "type": "git",
@@ -60,8 +52,8 @@
     "typedoc": "^0.14.2",
     "typescript": "^2.6.2",
     "update": "^0.7.4",
-    "waitasecond": "^0.1.5",
-    "webpack": "^4.38.0",
+    "waitasecond": "^0.2.1",
+    "webpack": "^4.39.1",
     "webpack-cli": "^3.3.6"
   }
 }

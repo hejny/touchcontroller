@@ -20,9 +20,10 @@ export class MultiTouch<TElement> {
         public element: TElement, // TODO: this should be external
         public firstTouch: Touch,
     ) {
-        this.touches = Observable.create((observer: Observer<Touch>) => {
+        this.touches = Observable.create(async (observer: Observer<Touch>) => {
             this.touchesObserver = observer;
-            setImmediate(() => this.addTouch(firstTouch));
+            await forImmediate();
+            this.addTouch(firstTouch);
         }).share();
     }
 

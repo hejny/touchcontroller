@@ -1,3 +1,4 @@
+import { forAnimationFrame } from 'waitasecond';
 import { particleOptionsAverage } from '../tools/average';
 import { Vector2 } from './../Vector2';
 import { IParticleOptions, Particle } from './Particle';
@@ -37,7 +38,7 @@ export class DrawController {
         this.scene = new Scene(this.liveCtx);
 
         // TODO: maybe with run?
-        requestAnimationFrame((now) => this.render(now));
+        this.renderLoop();
     }
 
     public drawPoint(options: IParticleOptions) {
@@ -87,6 +88,12 @@ export class DrawController {
         }
     }
 
+    private async renderLoop(){
+        while(true){
+            this.render(await forAnimationFrame());
+        }
+    }
+
     private render(now: number) {
         // this.liveCtx.fillRect(0, 0, this.liveCtx.canvas.width, this.liveCtx.canvas.height);
 
@@ -120,6 +127,5 @@ export class DrawController {
         }
 
         this.callSubscribers();
-        requestAnimationFrame((argument) => this.render(argument));
     }
 }

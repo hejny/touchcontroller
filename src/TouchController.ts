@@ -44,9 +44,8 @@ export class TouchController {
         }
     }
 
-    public get listenersInitialEventType():string[]{
-        return this.listeners.map((listener)=>listener.initialEventType);
-    
+    public get listenersInitialEventType(): string[] {
+        return this.listeners.map((listener) => listener.initialEventType);
     }
 
     public addListener(listener: IListener) {
@@ -62,14 +61,11 @@ export class TouchController {
     ) {
         this.elements.push(element);
 
-        
         // let someListenerAcceptedImmediateDrag = false;
 
         for (const listener of this.listeners) {
-            
             // TODO: Check if the event is correct
-            if (immediateDrag/* && listener.acceptsEvent(immediateDrag)*/) {
-
+            if (immediateDrag /* && listener.acceptsEvent(immediateDrag)*/) {
                 // console.log(immediateDrag);
                 // console.log(listener.title);
                 this.callListenerOnElement(listener, element, immediateDrag);

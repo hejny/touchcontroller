@@ -7,7 +7,6 @@ import { createMouseListener } from './listeners/createMouseListener';
 import { createTouchListener } from './listeners/createTouchListener';
 import { Touch } from './Touch';
 import { TouchFrame } from './TouchFrame';
-import { listeners } from 'cluster';
 
 // TODO: multitouch should be extended from this
 export class TouchController {
@@ -64,17 +63,17 @@ export class TouchController {
         this.elements.push(element);
 
         
-        //let someListenerAcceptedImmediateDrag = false;
+        // let someListenerAcceptedImmediateDrag = false;
 
         for (const listener of this.listeners) {
             
             // TODO: Check if the event is correct
             if (immediateDrag/* && listener.acceptsEvent(immediateDrag)*/) {
 
-                //console.log(immediateDrag);
-                //console.log(listener.title);
+                // console.log(immediateDrag);
+                // console.log(listener.title);
                 this.callListenerOnElement(listener, element, immediateDrag);
-                //someListenerAcceptedImmediateDrag = true;
+                // someListenerAcceptedImmediateDrag = true;
                 // immediateDrag = null;// TODO: maybe create helper var dragging.
             } else {
                 this.callListenerOnElement(listener, element, null);

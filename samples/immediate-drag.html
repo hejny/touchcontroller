@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample of TC (ES6)</title>
+    <link rel="stylesheet" type="text/css" href="./common.css">
+</head>
+<body>
+
+    <div class="foreground">
+        <svg style="overflow:visible" width="500" height="500">
+            <g transform="translate(4,4)" style="visibility:hidden">
+                <rect width="30" height="30" x="0" y="15" style="fill: #FF3820; stroke: #1A6AA3; stroke-width: 2;"></rect>
+                <polygon points="0,15 0,15 15,0 45,0 45,0 30,15" style="fill: #FF3820; stroke: #1A6AA3; stroke-width: 2;"></polygon>
+                <polygon points="45,0 45,0 30,15 30,45 30,45 45,30" style="fill: #FF3820; stroke: #1A6AA3; stroke-width: 2;"></polygon>
+            </g>
+        </svg>
+    </div>
+
+<script src="../dist/main.dev.browser.js"></script>
+<script>
+
+    const TC = TouchController;
+
+    const dragElements = [...Array.from(document.querySelectorAll('.item')),...Array.from(document.querySelectorAll('svg > g'))];
+
+    var touchController = new TC.TouchController(dragElements,document.body);// TODO: document.body as default
+    
+    const multiTouchController = new TC.MultiTouchController(
+        touchController,
+        (frame)=>frame.element
+    );
+
+    multiTouchController.multiTouches.subscribe(function (multitouch) {
+
+        if(typeof multitouch.element === 'undefined')return;
+
+        let draggingElement = multitouch.element;
+
+
+        multitouch.transformations(
+            TC.BoundingBox.One()
+        ).subscribe(function (transformation) {
+                transformation.applyOnElement(draggingElement);
+            },
+            function () {
+            },
+            function () {
+                if(multitouch.empty){
+                    console.log(`You have selected element.`);
+                }
+            });
+    });
+
+
+    
+    window.addEventListener('pointerdown',(event)=>{
+
+        const newDrawElement = dragElements[0].cloneNode(true);
+        dragElements[0].parentNode.appendChild(newDrawElement);
+
+        newDrawElement.style.visibility = 'visible';
+
+        touchController.addElement(newDrawElement,event);
+
+
+    });
+    
+
+
+</script>
+</body>
+</html>

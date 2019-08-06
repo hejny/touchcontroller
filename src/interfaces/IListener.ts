@@ -12,5 +12,5 @@ export interface IListener {
     ): // acceptsEvent: (event:any)=>boolean
     () => void;
     initialEventType: string;
-    //acceptsEvent: (event: Event) => boolean;
+    // acceptsEvent: (event: Event) => boolean;
 }

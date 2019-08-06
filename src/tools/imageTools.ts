@@ -20,13 +20,15 @@ export async function createCanvasFromSrc(
     const canvas = window.document.createElement('CANVAS') as HTMLCanvasElement;
     canvas.width = image.width;
     canvas.height = image.height;
-    const ctx = canvas.getContext('2d')!; //todo is this canvas usable?
+    const ctx = canvas.getContext('2d')!; // TODO: is this canvas usable?
     ctx.drawImage(image, 0, 0);
     canvasFromSrcCache.setItem(src, canvas);
     return canvas;
 }
 
 const canvasColoredFromSrcCache = new SourceCache<string, HTMLCanvasElement>();
+
+// TODO: Color library
 
 export async function createColoredCanvasFromSrc(
     src: string,
@@ -37,16 +39,18 @@ export async function createColoredCanvasFromSrc(
         return canvasColoredFromSrcCache.getItem(id)!;
     }
     const canvas = await createCanvasFromSrc(src);
-    const ctx = canvas.getContext('2d')!; //todo is this canvas usable?
+    const ctx = canvas.getContext('2d')!; // TODO: is this canvas usable?
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
     const data = imageData.data;
 
     // convert image to grayscale
-    var rgbColor = hexToRgb(color);
+    const rgbColor = hexToRgb(color);
 
-    for (var p = 0, len = data.length; p < len; p += 4) {
-        if (data[p + 3] == 0) continue;
+    for (let p = 0, len = data.length; p < len; p += 4) {
+        if (data[p + 3] === 0) {
+            continue;
+        }
         data[p + 0] = rgbColor.r;
         data[p + 1] = rgbColor.g;
         data[p + 2] = rgbColor.b;
@@ -64,14 +68,14 @@ export async function createColoredCanvasFromSrc(
     return canvasColored;
 }
 
-//todo to separate file
+// TODO: to separate file
 function hexToRgb(color: string) {
-    var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-    color = color.replace(shorthandRegex, function(m, r, g, b) {
+    const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    color = color.replace(shorthandRegex, (m, r, g, b) => {
         return r + r + g + g + b + b;
     });
 
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
     return result
         ? {
               r: parseInt(result[1], 16),

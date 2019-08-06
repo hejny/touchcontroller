@@ -3,31 +3,33 @@ import 'rxjs/add/operator/share';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { Subscription } from 'rxjs/Subscription';
+import { forImmediate } from 'waitasecond';
 import { BoundingBox } from './BoundingBox';
 import { multiTouchTransformations } from './multiTouchTransformations';
 import { Touch } from './Touch';
 import { Transformation } from './Transformation';
 
-//todo multitouch should be extended from this
+// TODO: multitouch should be extended from this
 export class MultiTouch<TElement> {
     public empty: boolean = true;
     public ongoingTouches: Touch[] = [];
     public touches: Observable<Touch>;
-    private _touchesObserver: Observer<Touch>;
+    private touchesObserver: Observer<Touch>;
 
     constructor(
-        public element: TElement, //todo this should be external
+        public element: TElement, // TODO: this should be external
         public firstTouch: Touch,
     ) {
-        this.touches = Observable.create((observer: Observer<Touch>) => {
-            this._touchesObserver = observer;
-            setImmediate(() => this.addTouch(firstTouch));
+        this.touches = Observable.create(async (observer: Observer<Touch>) => {
+            this.touchesObserver = observer;
+            await forImmediate();
+            this.addTouch(firstTouch);
         }).share();
     }
 
-    addTouch(touch: Touch) {
+    public addTouch(touch: Touch) {
         this.ongoingTouches.push(touch);
-        this._touchesObserver.next(touch);
+        this.touchesObserver.next(touch);
 
         touch.frames.subscribe(
             (frame) => {
@@ -39,35 +41,34 @@ export class MultiTouch<TElement> {
                 }
             },
             () => {
-                //todo is empty functions needed - if yes create empty function in tools
+                // TODO: is empty functions needed - if yes create empty function in tools
             },
             () => {
                 this.ongoingTouches = this.ongoingTouches.filter(
                     (touch2) => touch2 !== touch,
                 );
                 if (this.ongoingTouches.length === 0) {
-                    this._touchesObserver.complete();
+                    this.touchesObserver.complete();
                 }
             },
         );
     }
 
-    get ongoingTouchesChanges(): Observable<Touch[]> {
+    public get ongoingTouchesChanges(): Observable<Touch[]> {
         return Observable.create((observer: Observer<Touch[]>) => {
             this.touches.subscribe(
                 (touch) => {
                     observer.next(this.ongoingTouches);
                     touch.frames.subscribe(
-                        (touch) => {},
-                        () => {},
-                        () => {
-                            setImmediate(() =>
-                                observer.next(this.ongoingTouches),
-                            );
+                        (/*touch*/) => undefined,
+                        () => undefined,
+                        async () => {
+                            await forImmediate();
+                            observer.next(this.ongoingTouches);
                         },
                     );
                 },
-                () => {},
+                () => undefined,
                 () => {
                     observer.complete();
                 },
@@ -75,7 +76,7 @@ export class MultiTouch<TElement> {
         });
     }
 
-    get ongoingPositionsChanges(): Observable<Touch[]> {
+    public get ongoingPositionsChanges(): Observable<Touch[]> {
         return Observable.create((observer: Observer<Touch[]>) => {
             let subscriptions: Subscription[] = [];
             this.ongoingTouchesChanges.subscribe(
@@ -90,7 +91,7 @@ export class MultiTouch<TElement> {
                         }),
                     );
                 },
-                () => {},
+                () => undefined,
                 () => {
                     observer.complete();
                 },
@@ -98,13 +99,13 @@ export class MultiTouch<TElement> {
         });
     }
 
-    transformations(
+    public transformations(
         boundingBox: BoundingBox = BoundingBox.One(),
     ): Observable<Transformation> {
         return multiTouchTransformations(this, boundingBox);
     }
 
-    toString() {
+    public toString() {
         return `MultiTouch`;
     }
 }

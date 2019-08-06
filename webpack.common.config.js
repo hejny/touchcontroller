@@ -2,7 +2,7 @@ module.exports = {
 
     
     entry: {
-        first: __dirname + '/src/index',
+        first: __dirname + '/src/main',
     },
 
     devtool: 'source-map',

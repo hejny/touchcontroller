@@ -1,23 +1,31 @@
 {
   "name": "touchcontroller",
-  "version": "0.13.5",
+  "version": "1.0.1",
   "description": "Touch and mouse controller for web apps and games",
-  "main": "./dist/touchcontroller.js",
+  "main": "./dist/main.js",
   "types": "./dist/typings/src/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
   "scripts": {
     "start": "npm run develop",
     "build": "webpack --config webpack.production.config.js",
-    "build-watch": "onchange \"src/**/*.{ts,tsx}\" --initial --kill --delay 500  -- webpack --config webpack.development.config.js",
-    "deploy": "npm publish",
-    "server": "node server.js",
-    "test": "TODO:",
-    "test-watch": "TODO:",
-    "prettier": "prettier --config .prettierrc --write \"{src,test,samples}/**/*.{ts,tsx,js,html,css}\" webpack.config.js",
-    "prettier-watch": "onchange \"**/*.{js,ts,tsx,json}\" -- npm run prettier"
+    "develop-server": "node server.js",
+    "develop-build": "onchange \"src/**/*.{ts,tsx}\" --initial --kill --delay 500  -- webpack --config webpack.development.config.js",
+    "prettier": "prettier --config .prettierrc --write \"{src,test,.vscode}/**/*.{ts,json}\"",
+    "prettier-watch": "onchange \"{src,test,.vscode}/**/*.{ts,json}\" -- prettier --config .prettierrc --write {{changed}}",
+    "prettier-commit": "git diff --exit-code && npm run prettier && git add src && git commit --allow-empty -m \"Prettier\"",
+    "documentation": "typedoc --excludePrivate --hideGenerator --mode file --theme minimal --out docs --name \"TouchController\" ./src",
+    "documentation-commit": "git diff --exit-code && npm run documentation && git add docs && git commit --allow-empty -m \"TouchController\"",
+    "test": "jest --config jestconfig.json",
+    "test-watch": "jest --config jestconfig.json --watchAll",
+    "lint": "tslint -p tsconfig.json",
+    "preversion": "npm test && npm run lint && npm run build && npm run prettier-commit && npm run documentation-commit",
+    "postversion": "git push && git push --tags && npm publish"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hejny/gridbuilding.git"
+    "url": "git+https://github.com/hejny/touchcontroller.git"
   },
   "keywords": [
     "ascii"
@@ -27,27 +35,28 @@
   "bugs": {
     "url": "https://github.com/hejny/touchcontroller/issues"
   },
-  "homepage": "https://github.com/hejny/touchcontroller#readme",
-  "devDependencies": {
-    "prettier": "^1.12.1",
-    "onchange": "^5.0.2",
+  "homepage": "https://github.com/hejny/touchcontroller",
+  "dependencies": {
+    "@types/jest": "^24.0.13",
+    "codecov": "^3.5.0",
+    "express": "^4.16.3",
+    "jest": "^24.8.0",
+    "onchange": "^3.3.0",
+    "open": "^6.4.0",
+    "prettier": "^1.18.2",
+    "rxjs": "^5.5.5",
+    "serve-index": "^1.9.1",
+    "serve-static": "^1.13.2",
+    "ts-jest": "^24.0.2",
     "ts-loader": "^4.5.0",
     "ts-node": "^4.0.1",
+    "tslint": "^5.17.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typedoc": "^0.14.2",
     "typescript": "^2.6.2",
-    "webpack": "^4.17.1",
-    "webpack-cli": "^3.1.0",
-    "@types/chai": "^4.0.10",
-    "@types/mocha": "^2.2.44",
-    "chai": "^4.1.2",
-    "express": "^4.16.3",
-    "mocha": "^4.0.1",
-    "rxjs": "^5.5.5",
-    "serve-static": "^1.13.2",
-    "update": "^0.7.4"
-  },
-  "dependencies": {
-    "@heduapp/fake-window": "^1.0.0",
-    "opn": "^6.0.0",
-    "serve-index": "^1.9.1"
+    "update": "^0.7.4",
+    "waitasecond": "^0.2.1",
+    "webpack": "^4.39.1",
+    "webpack-cli": "^3.3.6"
   }
 }

@@ -1,4 +1,3 @@
-import window from '@heduapp/fake-window';
 import 'rxjs/add/observable/range';
 import 'rxjs/add/operator/share';
 import { Observable } from 'rxjs/Observable';
@@ -7,51 +6,7 @@ import { TouchFrame } from './TouchFrame';
 import { Vector2 } from './Vector2';
 
 export class Touch {
-    public frames: Observable<TouchFrame>;
-    private _framesObserver: Observer<TouchFrame>;
-    public lastFrame: TouchFrame;
-    public lastFrame2: TouchFrame; //todo maybe function with offest
-
-    constructor(
-        public type: 'TOUCH' | 'MOUSE', //todo second optional param
-        public anchorElement: HTMLElement,
-        public firstFrame: TouchFrame,
-    ) {
-        this.lastFrame = firstFrame;
-        this.lastFrame2 = firstFrame;
-        this.frames = Observable.create((observer: Observer<TouchFrame>) => {
-            observer.next(firstFrame); //todo maybe window.setImmediate(()=>
-            this._framesObserver = observer;
-        }).share(); //todo share vs publish
-    }
-
-    move(newFrame: TouchFrame, end = false) {
-        if (typeof this._framesObserver === 'undefined') {
-            return; //todo better;
-        }
-        this.lastFrame2 = this.lastFrame;
-        this.lastFrame = newFrame;
-        this._framesObserver.next(newFrame);
-        if (end) {
-            this.end();
-        }
-    }
-
-    end() {
-        if (this._framesObserver) {
-            this._framesObserver.complete();
-        }
-    }
-
-    get start() {
-        return this.firstFrame.time;
-    }
-
-    toString() {
-        return `Touch`;
-    }
-
-    static Click(
+    public static Click(
         element: HTMLElement,
         anchorElement: HTMLElement,
         position: Vector2,
@@ -65,6 +20,50 @@ export class Touch {
             touch.end();
         }, 100);
         return touch;
+    }
+
+    public frames: Observable<TouchFrame>;
+    public lastFrame: TouchFrame;
+    public lastFrame2: TouchFrame; // TODO: maybe function with offest
+    private framesObserver: Observer<TouchFrame>;
+
+    constructor(
+        public type: 'TOUCH' | 'MOUSE', // TODO: second optional param
+        public anchorElement: HTMLElement,
+        public firstFrame: TouchFrame,
+    ) {
+        this.lastFrame = firstFrame;
+        this.lastFrame2 = firstFrame;
+        this.frames = Observable.create((observer: Observer<TouchFrame>) => {
+            observer.next(firstFrame); // TODO: maybe window.setImmediate(()=>
+            this.framesObserver = observer;
+        }).share(); // TODO: share vs publish
+    }
+
+    public move(newFrame: TouchFrame, end = false) {
+        if (typeof this.framesObserver === 'undefined') {
+            return; // TODO: better;
+        }
+        this.lastFrame2 = this.lastFrame;
+        this.lastFrame = newFrame;
+        this.framesObserver.next(newFrame);
+        if (end) {
+            this.end();
+        }
+    }
+
+    public end() {
+        if (this.framesObserver) {
+            this.framesObserver.complete();
+        }
+    }
+
+    public get start() {
+        return this.firstFrame.time;
+    }
+
+    public toString() {
+        return `Touch`;
     }
 
     /*
@@ -92,9 +91,9 @@ export class Touch {
 
             console.log(progress,position);
 
-            //if (progress < 1) {
+            // if (progress < 1) {
                 requestAnimationFrame(animationFrame);
-            //}else{
+            // }else{
             touch.end();
             }
         }

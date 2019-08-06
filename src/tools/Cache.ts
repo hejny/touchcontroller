@@ -1,16 +1,18 @@
-export class SourceCache<TId, TSource> {
-    private storage: { id: TId; source: TSource }[] = [];
+// TODO: To library
 
-    hasItem(id: TId) {
+export class SourceCache<TId, TSource> {
+    private storage: Array<{ id: TId; source: TSource }> = [];
+
+    public hasItem(id: TId) {
         return this.storage.some((item) => item.id === id);
     }
 
-    getItem(id: TId): TSource | null {
+    public getItem(id: TId): TSource | null {
         return (this.storage.find((item) => item.id === id) || { source: null })
             .source;
     }
 
-    setItem(id: TId, source: TSource) {
+    public setItem(id: TId, source: TSource) {
         return this.storage.push({ id, source });
     }
 }

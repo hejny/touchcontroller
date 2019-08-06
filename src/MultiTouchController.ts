@@ -6,36 +6,36 @@ import { TouchController } from './TouchController';
 import { TouchFrame } from './TouchFrame';
 
 export class MultiTouchController<TElement> {
-    public ongoingMultiTouches: MultiTouch<TElement | undefined>[] = []; //todo null vs. undefined
+    public ongoingMultiTouches: Array<MultiTouch<TElement | undefined>> = []; // TODO: null vs. undefined
     public multiTouches: Observable<MultiTouch<TElement | undefined>>;
-    private _multiTouchesObserver: Observer<MultiTouch<TElement | undefined>>;
+    private multiTouchesObserver: Observer<MultiTouch<TElement | undefined>>;
 
     constructor(
         public touchController: TouchController,
-        private _elementBinder: (frame: TouchFrame) => TElement | undefined, //todo maybe rename private properties - remove _
+        private elementBinder: (frame: TouchFrame) => TElement | undefined, // TODO: maybe rename private properties - remove _
     ) {
         this.multiTouches = Observable.create(
             (observer: Observer<MultiTouch<TElement | undefined>>) => {
-                this._multiTouchesObserver = observer;
+                this.multiTouchesObserver = observer;
             },
         ).share();
 
         this.touchController.touches.subscribe((touch) => {
-            const element = this._elementBinder(touch.firstFrame);
+            const element = this.elementBinder(touch.firstFrame);
 
-            //todo why can not be used find
+            // TODO: why can not be used find
             let multiTouch = this.ongoingMultiTouches.filter(
-                (multiTouch) => multiTouch.element === element,
+                (ongoingMultiTouch) => ongoingMultiTouch.element === element,
             )[0];
 
             if (typeof multiTouch === 'undefined') {
                 multiTouch = new MultiTouch(element, touch);
                 this.ongoingMultiTouches.push(multiTouch);
-                this._multiTouchesObserver.next(multiTouch);
+                this.multiTouchesObserver.next(multiTouch);
 
                 multiTouch.touches.subscribe(
-                    () => {},
-                    () => {},
+                    () => undefined,
+                    () => undefined,
                     () => {
                         this.ongoingMultiTouches = this.ongoingMultiTouches.filter(
                             (multiTouch2) => multiTouch2 !== multiTouch,
@@ -48,15 +48,15 @@ export class MultiTouchController<TElement> {
         });
     }
 
-    get hoveredElements(): Observable<TElement | undefined> {
+    public get hoveredElements(): Observable<TElement | undefined> {
         return Observable.create((observer: Observer<TElement | undefined>) => {
             this.touchController.hoveredFrames.subscribe((frame) => {
-                observer.next(this._elementBinder(frame));
+                observer.next(this.elementBinder(frame));
             });
         });
     }
 
-    get hoveredElementsChanges(): Observable<
+    public get hoveredElementsChanges(): Observable<
         [TElement | undefined, TElement | undefined]
     > {
         return Observable.create(
@@ -76,5 +76,5 @@ export class MultiTouchController<TElement> {
         );
     }
 
-    //todo method for dispose
+    // TODO: method for dispose
 }

@@ -1,37 +1,39 @@
-import window from '@heduapp/fake-window';
 import 'rxjs/add/operator/share';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
+import { forImmediate } from 'waitasecond';
 import { IListener } from './interfaces/IListener';
 import { createMouseListener } from './listeners/createMouseListener';
 import { createTouchListener } from './listeners/createTouchListener';
 import { Touch } from './Touch';
 import { TouchFrame } from './TouchFrame';
 
-//todo multitouch should be extended from this
+// TODO: multitouch should be extended from this
 export class TouchController {
-    public touches: Observable<Touch>;
-    public hoveredFrames: Observable<TouchFrame>;
-    private _touchesObserver: Observer<Touch>;
-    private _hoveredFramesObserver: Observer<TouchFrame>;
-
-    static fromCanvas(canvas: HTMLCanvasElement) {
+    public static fromCanvas(canvas: HTMLCanvasElement) {
         return new TouchController([canvas], canvas, true);
     }
 
+    public touches: Observable<Touch>;
+    public hoveredFrames: Observable<TouchFrame>;
+
+    private touchesObserver: Observer<Touch>;
+    private hoveredFramesObserver: Observer<TouchFrame>;
+    private listeners: IListener[] = [];
+
     constructor(
-        public elements: (HTMLElement | SVGElement)[], //todo syntax sugar if set only one element
+        public elements: Array<HTMLElement | SVGElement>, // TODO: syntax sugar if set only one element
         public anchorElement: HTMLElement,
         setListeners = true,
     ) {
-        //todo HTMLElement vs Element
+        // TODO: HTMLElement vs Element
         this.touches = Observable.create((observer: Observer<Touch>) => {
-            this._touchesObserver = observer;
+            this.touchesObserver = observer;
         }).share();
 
         this.hoveredFrames = Observable.create(
             (observer: Observer<TouchFrame>) => {
-                this._hoveredFramesObserver = observer;
+                this.hoveredFramesObserver = observer;
             },
         ).share();
 
@@ -42,16 +44,14 @@ export class TouchController {
         }
     }
 
-    private listeners: IListener[] = [];
-
-    addListener(listener: IListener) {
+    public addListener(listener: IListener) {
         this.listeners.push(listener);
         for (const element of this.elements) {
             this.callListenerOnElement(listener, element, null);
         }
     }
 
-    addElement(
+    public addElement(
         element: HTMLElement | SVGElement,
         immediateDrag: null | Event = null,
     ) {
@@ -59,11 +59,16 @@ export class TouchController {
         for (const listener of this.listeners) {
             if (immediateDrag && listener.acceptsEvent(immediateDrag)) {
                 this.callListenerOnElement(listener, element, immediateDrag);
-                //immediateDrag = null;//todo maybe create helper var dragging.
+                // immediateDrag = null;// TODO: maybe create helper var dragging.
             } else {
                 this.callListenerOnElement(listener, element, null);
             }
         }
+    }
+
+    public async emulateTouch(touch: Touch) {
+        await forImmediate();
+        this.touchesObserver.next(touch);
     }
 
     private callListenerOnElement(
@@ -74,22 +79,16 @@ export class TouchController {
         listener(
             element,
             this.anchorElement,
-            (touch: Touch) => this._touchesObserver.next(touch),
+            (touch: Touch) => this.touchesObserver.next(touch),
             (frame: TouchFrame) => {
-                if (typeof this._hoveredFramesObserver !== 'undefined') {
-                    this._hoveredFramesObserver.next(frame);
+                if (typeof this.hoveredFramesObserver !== 'undefined') {
+                    this.hoveredFramesObserver.next(frame);
                 }
             },
             immediateDrag,
         );
-        //todo array of listeners disposers
+        // TODO: array of listeners disposers
     }
 
-    emulateTouch(touch: Touch) {
-        window.setImmediate(() => {
-            this._touchesObserver.next(touch);
-        });
-    }
-
-    //todo method for dispose
+    // TODO: method for dispose
 }

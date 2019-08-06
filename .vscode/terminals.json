@@ -2,12 +2,12 @@
     "autokill": true,
     "terminals": [
         {
-            "name": "server",
-            "command": "npm run server"
+            "name": "develop-server",
+            "command": "npm run develop-server"
         },
         {
-            "name": "build-watch",
-            "command": "npm run build-watch"
+            "name": "develop-build",
+            "command": "npm run develop-build"
         },
         {
             "name": "prettier-watch",

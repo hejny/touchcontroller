@@ -9,7 +9,7 @@ const MOUSE_LISTENER_OPTIONS = {
     passive: false,
 };
 
-//todo singleton :(
+// TODO: singleton :(
 let onlyTouch: Touch | null = null;
 
 export function createMouseListener(
@@ -25,17 +25,17 @@ export function createMouseListener(
     ) => {
         element.addEventListener(
             'mousedown',
-            (event) => _handleMouseDownOnElement(event as any),
+            (event) => handleMouseDownOnElement(event as any),
             MOUSE_LISTENER_OPTIONS,
         );
 
         element.addEventListener(
             'mousemove',
-            (event) => _handleMouseMoveOnElement(event as any),
+            (event) => handleMouseMoveOnElement(event as any),
             MOUSE_LISTENER_OPTIONS,
         );
 
-        //todo configurable mouse buttons
+        // TODO: configurable mouse buttons
         element.addEventListener(
             'contextmenu',
             (event) => {
@@ -49,19 +49,19 @@ export function createMouseListener(
 
         if (immediateDrag) {
             setImmediate(() => {
-                _handleStart(_createTouchFrameFromEvent(immediateDrag));
+                handleStart(createTouchFrameFromEvent(immediateDrag));
             });
         }
 
-        function _handleMouseDownOnElement(event: MouseEvent) {
+        function handleMouseDownOnElement(event: MouseEvent) {
             if (buttons.indexOf(event.button) !== -1) {
                 event.preventDefault();
                 event.stopPropagation();
-                _handleStart(_createTouchFrameFromEvent(event));
+                handleStart(createTouchFrameFromEvent(event));
             }
         }
 
-        function _handleStart(firstTouchFrame: TouchFrame) {
+        function handleStart(firstTouchFrame: TouchFrame) {
             if (onlyTouch) {
                 onlyTouch.end();
             }
@@ -75,7 +75,7 @@ export function createMouseListener(
             );
 
             const mouseUpListenerOnDocument = () => {
-                //console.log('mouseup');
+                // console.log('mouseup');
 
                 if (currentTouch) {
                     currentTouch.end();
@@ -107,20 +107,19 @@ export function createMouseListener(
             event.preventDefault();
             event.stopPropagation();
             if (currentTouch) {
-                currentTouch.move(_createTouchFrameFromEvent(event), false);
+                currentTouch.move(createTouchFrameFromEvent(event), false);
             }
         }
 
-        function _handleMouseMoveOnElement(event: MouseEvent) {
-            if (event.buttons > 0) {
-            } else {
+        function handleMouseMoveOnElement(event: MouseEvent) {
+            if (event.buttons <= 0) {
                 if (!currentTouch) {
-                    newHoverFrame(_createTouchFrameFromEvent(event));
+                    newHoverFrame(createTouchFrameFromEvent(event));
                 }
             }
         }
 
-        function _createTouchFrameFromEvent(event: IEvent) {
+        function createTouchFrameFromEvent(event: IEvent) {
             const boundingRect = element.getBoundingClientRect();
             return new TouchFrame(
                 element,
@@ -135,7 +134,7 @@ export function createMouseListener(
         }
 
         return () => {
-            //todo return disposer
+            // TODO: return disposer
         };
     };
 

@@ -21,7 +21,7 @@ export {
     Vector2,
     Touch,
     BoundingBox,
-    createMouseListener, //todo maybe wrap to object listeners
+    createMouseListener, // TODO: maybe wrap to object listeners
     createTouchListener,
     svgTransformationDecode,
     svgTransformationEncode,

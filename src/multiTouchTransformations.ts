@@ -19,35 +19,35 @@ export function multiTouchTransformations<TElement>(
                 for (const subscription of subscriptions) {
                     subscription.unsubscribe();
                 }
-                //todo maybe subscription = [];
+                // TODO: maybe subscription = [];
 
                 let countTouchesTransformation: (
                     ...touches: Touch[]
                 ) => Transformation;
                 if (touches.length === 1) {
                     if (!touches[0].lastFrame.rotating) {
-                        countTouchesTransformation = (touch1) =>
+                        countTouchesTransformation = () =>
                             new Transformation(
-                                touch1.lastFrame.position,
+                                touches[0].lastFrame.position,
                                 0,
                                 undefined,
                                 1,
                             );
                     } else {
-                        //todo this should be like second picked point is center of bounding box
-                        countTouchesTransformation = (touch1) =>
+                        // TODO: this should be like second picked point is center of bounding box
+                        countTouchesTransformation = () =>
                             new Transformation(
                                 undefined,
                                 boundingBox.center.rotation(
-                                    touch1.lastFrame.position,
+                                    touches[0].lastFrame.position,
                                 ),
                                 undefined,
                                 1,
                             );
                     }
                 } else {
-                    //todo how to figure out with 3, 4, 5,... finger on one object?
-                    countTouchesTransformation = (...touches) =>
+                    // TODO: how to figure out with 3, 4, 5,... finger on one object?
+                    countTouchesTransformation = () =>
                         new Transformation(
                             Vector2.Zero()
                                 .add(
@@ -66,14 +66,11 @@ export function multiTouchTransformations<TElement>(
                         );
                 }
 
-                let lastTouchesTransformation = countTouchesTransformation(
-                    ...touches,
-                );
+                let lastTouchesTransformation = countTouchesTransformation();
 
                 const touchMoveCallback = () => {
-                    const currentTouchesTransformation = countTouchesTransformation(
-                        ...touches,
-                    );
+                    const currentTouchesTransformation = countTouchesTransformation();
+
                     const deltaTransformation = currentTouchesTransformation.subtract(
                         lastTouchesTransformation,
                     );
@@ -88,7 +85,7 @@ export function multiTouchTransformations<TElement>(
                     touch.frames.subscribe(touchMoveCallback),
                 );
             },
-            () => {},
+            () => undefined,
             () => {
                 observer.complete();
             },

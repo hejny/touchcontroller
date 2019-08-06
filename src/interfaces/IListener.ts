@@ -11,5 +11,6 @@ export interface IListener {
         immediateDrag: null | Event,
     ): // acceptsEvent: (event:any)=>boolean
     () => void;
-    acceptsEvent: (event: Event) => boolean;
+    initialEventType: string;
+    //acceptsEvent: (event: Event) => boolean;
 }

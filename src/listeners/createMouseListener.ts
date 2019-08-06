@@ -139,8 +139,22 @@ export function createMouseListener(
     };
 
     listener.title = `MOUSE(${buttons.join(',')})`;
-    listener.acceptsEvent = (event: Event) =>
-        event instanceof MouseEvent && buttons.indexOf(event.button) !== -1;
+    listener.initialEventType = `mousedown`;
+
+    /*
+    listener.acceptsEvent = (event: Event) => {
+     
+        if(event instanceof PointerEvent){
+            if(event.pointerType==='mouse'){return true
+            }
+        }
+
+        if(event instanceof MouseEvent){
+            if(buttons.indexOf(event.button) !== -1) return true;
+        }
+
+        return false;
+    }*/
 
     return listener;
 }

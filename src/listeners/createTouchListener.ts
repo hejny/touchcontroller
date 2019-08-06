@@ -177,7 +177,24 @@ export function createTouchListener(buttons: number[] = [0]): IListener {
     };
 
     listener.title = `TOUCH`;
-    listener.acceptsEvent = (event: Event) => event instanceof TouchEvent;
+
+    listener.initialEventType = `touchstart`;
+    /*
+    listener.acceptsEvent = (event: Event) => {
+     
+        if(event instanceof PointerEvent){
+            if(event.pointerType==='touch'){
+                //return true
+            }
+        }
+
+        if(event instanceof TouchEvent){
+            return true;
+        }
+
+        return false;
+    }
+    */
 
     return listener;
 }

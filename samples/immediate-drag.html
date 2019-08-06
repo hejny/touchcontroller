@@ -53,18 +53,24 @@
     });
 
 
+
+    for(const initialEventType of touchController.listenersInitialEventType){
+
+
+        window.addEventListener(initialEventType,(event)=>{
+
+            const newDrawElement = dragElements[0].cloneNode(true);
+            dragElements[0].parentNode.appendChild(newDrawElement);
+
+            newDrawElement.style.visibility = 'visible';
+
+            touchController.addElement(newDrawElement,event);
+
+
+        });
+    }
     
-    window.addEventListener('pointerdown',(event)=>{
-
-        const newDrawElement = dragElements[0].cloneNode(true);
-        dragElements[0].parentNode.appendChild(newDrawElement);
-
-        newDrawElement.style.visibility = 'visible';
-
-        touchController.addElement(newDrawElement,event);
-
-
-    });
+   
     
 
 

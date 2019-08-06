@@ -7,6 +7,7 @@ import { createMouseListener } from './listeners/createMouseListener';
 import { createTouchListener } from './listeners/createTouchListener';
 import { Touch } from './Touch';
 import { TouchFrame } from './TouchFrame';
+import { listeners } from 'cluster';
 
 // TODO: multitouch should be extended from this
 export class TouchController {
@@ -44,6 +45,11 @@ export class TouchController {
         }
     }
 
+    public get listenersInitialEventType():string[]{
+        return this.listeners.map((listener)=>listener.initialEventType);
+    
+    }
+
     public addListener(listener: IListener) {
         this.listeners.push(listener);
         for (const element of this.elements) {
@@ -56,14 +62,30 @@ export class TouchController {
         immediateDrag: null | Event = null,
     ) {
         this.elements.push(element);
+
+        
+        //let someListenerAcceptedImmediateDrag = false;
+
         for (const listener of this.listeners) {
-            if (immediateDrag && listener.acceptsEvent(immediateDrag)) {
+            
+            // TODO: Check if the event is correct
+            if (immediateDrag/* && listener.acceptsEvent(immediateDrag)*/) {
+
+                //console.log(immediateDrag);
+                //console.log(listener.title);
                 this.callListenerOnElement(listener, element, immediateDrag);
+                //someListenerAcceptedImmediateDrag = true;
                 // immediateDrag = null;// TODO: maybe create helper var dragging.
             } else {
                 this.callListenerOnElement(listener, element, null);
             }
         }
+
+        /*console.log(someListenerAcceptedImmediateDrag);
+
+        if(immediateDrag && !someListenerAcceptedImmediateDrag){
+            console.warn(`Any of listeners ${this.listeners.map(listener=>listener.title).join(', ')} not accepted event on immediate drag, probbably thare is some browser incompatibility.`,immediateDrag);
+        }*/
     }
 
     public async emulateTouch(touch: Touch) {

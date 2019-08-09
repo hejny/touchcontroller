@@ -1,3 +1,4 @@
+import { Awaitable } from './interfaces/IAwaitable';
 import 'rxjs/add/operator/share';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
@@ -7,6 +8,7 @@ import { createMouseListener } from './listeners/createMouseListener';
 import { createTouchListener } from './listeners/createTouchListener';
 import { Touch } from './Touch';
 import { TouchFrame } from './TouchFrame';
+import { IEvent } from '../dist/interfaces/IEvent';
 
 // TODO: multitouch should be extended from this
 export class TouchController {
@@ -44,7 +46,7 @@ export class TouchController {
         }
     }
 
-    public get listenersInitialEventType(): string[] {
+    private get listenersInitialEventType(): string[] {
         return this.listeners.map((listener) => listener.initialEventType);
     }
 
@@ -57,7 +59,7 @@ export class TouchController {
 
     public addElement(
         element: HTMLElement | SVGElement,
-        immediateDrag: null | Event = null,
+        //immediateDrag: null | Event = null,
     ) {
         this.elements.push(element);
 
@@ -81,6 +83,21 @@ export class TouchController {
         if(immediateDrag && !someListenerAcceptedImmediateDrag){
             console.warn(`Any of listeners ${this.listeners.map(listener=>listener.title).join(', ')} not accepted event on immediate drag, probbably thare is some browser incompatibility.`,immediateDrag);
         }*/
+    }
+
+    public addInitialElement(element: HTMLElement|SVGElement, newElementCreator: (event: Event)=>Awaitable<HTMLElement|SVGElement>){
+
+        for(const initialEventType of this.listenersInitialEventType){
+            element.addEventListener(initialEventType,async (event)=>{
+    
+    
+                const newElement = await newElementCreator(event);
+                this.addElement(newElement);
+                
+                // TODO: !!! Call immediate listener here
+    
+            });
+        }
     }
 
     public async emulateTouch(touch: Touch) {

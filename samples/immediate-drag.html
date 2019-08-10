@@ -77,31 +77,7 @@
                 document.getElementById('log'),
             );
 
-            /*
-    //TODO: Maybe better API
-    for(const initialEventType of touchController.listenersInitialEventType){
-
-
-        window.addEventListener(initialEventType,(event)=>{
-
-            console.log(event,event.clientX);
-
-            const newDrawElement = dragElements[0].cloneNode(true);
-            dragElements[0].parentNode.appendChild(newDrawElement);
-
-            newDrawElement.attributes.transform= `translate(500,500)`;
-            newDrawElement.style.visibility = 'visible';
-
-            touchController.addElement(newDrawElement,event);
-
-
-        });
-    }
-    */
-
             touchController.addInitialElement(window, async (event) => {
-                console.log(event, event.clientX);
-
                 const newDrawElement = dragElements[0].cloneNode(true);
                 dragElements[0].parentNode.appendChild(newDrawElement);
 
@@ -109,7 +85,6 @@
                 newDrawElement.style.visibility = 'visible';
 
                 return newDrawElement;
-                //touchController.addElement(newDrawElement,event);
             });
         </script>
     </body>

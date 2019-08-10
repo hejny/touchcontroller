@@ -62,8 +62,8 @@ export class TouchListener implements IListener {
         const currentTouches: { [identifier: number]: Touch } = {};
 
         const handleTouchesStart = (event: TouchEvent) => {
-            console.log('handleTouchesStart', event);
             event.preventDefault();
+            event.stopPropagation();
             const touches = event.changedTouches;
             for (let i = 0, l = touches.length; i < l; i++) {
                 const currentTouch = new Touch(
@@ -138,8 +138,9 @@ export class TouchListener implements IListener {
         }
         const { anchorElement, createTouchFrameFromEvent, newTouch } = item;
 
-        event.preventDefault();
-        event.stopPropagation();
+        // TODO: Is this needed
+        //event.preventDefault();
+        //event.stopPropagation();
 
         const identifier = (event as TouchEvent).touches[0].identifier;
 

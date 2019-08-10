@@ -3,7 +3,7 @@
   "version": "1.3.0",
   "description": "Touch and mouse controller for web apps and games",
   "main": "./dist/main.js",
-  "types": "./dist/typings/src/index.d.ts",
+  "types": "./dist/typings/src/main.d.ts",
   "files": [
     "dist/**"
   ],

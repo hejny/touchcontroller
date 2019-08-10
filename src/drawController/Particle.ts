@@ -1,5 +1,5 @@
-import { createColoredCanvasFromSrc } from '../tools/imageTools';
-import { sign } from '../tools/mathTools';
+import { createColoredCanvasFromSrc } from '../utils/imageTools';
+import { sign } from '../utils/mathTools';
 import { Vector2 } from './../Vector2';
 
 export interface IParticleOptions {

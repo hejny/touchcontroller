@@ -1,17 +1,22 @@
 import { BoundingBox } from './BoundingBox';
 import { DrawController } from './drawController/CanvasParticlesRenderer';
-import { createMouseListener } from './listeners/createMouseListener';
-import { createTouchListener } from './listeners/createTouchListener';
+import { MouseListener } from './listeners/MouseListener';
+//import { createTouchListener } from './listeners/createTouchListener';
 import { MultiTouchController } from './MultiTouchController';
 import { multiTouchTransformations } from './multiTouchTransformations';
 import {
     svgTransformationDecode,
     svgTransformationEncode,
-} from './tools/svgTools';
+} from './utils/svgTools';
 import { Touch } from './Touch';
 import { TouchController } from './TouchController';
 import { Transformation } from './Transformation';
 import { Vector2 } from './Vector2';
+
+const listeners = {
+    MouseListener,
+    // TODO: createTouchListener,
+};
 
 export {
     TouchController,
@@ -21,8 +26,7 @@ export {
     Vector2,
     Touch,
     BoundingBox,
-    createMouseListener, // TODO: maybe wrap to object listeners
-    createTouchListener,
+    listeners,
     svgTransformationDecode,
     svgTransformationEncode,
     DrawController,

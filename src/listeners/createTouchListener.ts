@@ -1,3 +1,4 @@
+/*
 import { IListener } from '../interfaces/IListener';
 import { Touch } from '../Touch';
 import { TouchFrame } from '../TouchFrame';
@@ -15,7 +16,7 @@ export function createTouchListener(buttons: number[] = [0]): IListener {
         anchorElement: HTMLElement,
         newTouch: (touch: Touch) => void,
         newHoverFrame: (frame: TouchFrame) => void,
-        immediateDrag: null | IEvent,
+        //immediateDrag: null | IEvent,
     ) => {
         element.addEventListener(
             'touchstart',
@@ -194,7 +195,8 @@ export function createTouchListener(buttons: number[] = [0]): IListener {
 
         return false;
     }
-    */
+    * /
 
     return listener;
 }
+*/

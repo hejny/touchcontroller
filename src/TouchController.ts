@@ -4,11 +4,9 @@ import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { forImmediate } from 'waitasecond';
 import { IListener } from './interfaces/IListener';
-import { createMouseListener } from './listeners/createMouseListener';
-import { createTouchListener } from './listeners/createTouchListener';
+import { MouseListener } from './listeners/MouseListener';
 import { Touch } from './Touch';
 import { TouchFrame } from './TouchFrame';
-import { IEvent } from '../dist/interfaces/IEvent';
 
 // TODO: multitouch should be extended from this
 export class TouchController {
@@ -40,9 +38,9 @@ export class TouchController {
         ).share();
 
         if (setListeners) {
-            this.addListener(createMouseListener());
-            this.addListener(createMouseListener([1, 2], true));
-            this.addListener(createTouchListener());
+            this.addListener(new MouseListener());
+            this.addListener(new MouseListener([1, 2], true));
+            // TODO: this.addListener(createTouchListener());
         }
     }
 
@@ -53,49 +51,30 @@ export class TouchController {
     public addListener(listener: IListener) {
         this.listeners.push(listener);
         for (const element of this.elements) {
-            this.callListenerOnElement(listener, element, null);
+            this.callListenerOnElement(listener, element);
         }
     }
 
-    public addElement(
-        element: HTMLElement | SVGElement,
-        //immediateDrag: null | Event = null,
-    ) {
+    public addElement(element: HTMLElement | SVGElement) {
         this.elements.push(element);
 
-        // let someListenerAcceptedImmediateDrag = false;
-
         for (const listener of this.listeners) {
-            // TODO: Check if the event is correct
-            if (immediateDrag /* && listener.acceptsEvent(immediateDrag)*/) {
-                // console.log(immediateDrag);
-                // console.log(listener.title);
-                this.callListenerOnElement(listener, element, immediateDrag);
-                // someListenerAcceptedImmediateDrag = true;
-                // immediateDrag = null;// TODO: maybe create helper var dragging.
-            } else {
-                this.callListenerOnElement(listener, element, null);
-            }
+            this.callListenerOnElement(listener, element);
         }
-
-        /*console.log(someListenerAcceptedImmediateDrag);
-
-        if(immediateDrag && !someListenerAcceptedImmediateDrag){
-            console.warn(`Any of listeners ${this.listeners.map(listener=>listener.title).join(', ')} not accepted event on immediate drag, probbably thare is some browser incompatibility.`,immediateDrag);
-        }*/
     }
 
-    public addInitialElement(element: HTMLElement|SVGElement, newElementCreator: (event: Event)=>Awaitable<HTMLElement|SVGElement>){
-
-        for(const initialEventType of this.listenersInitialEventType){
-            element.addEventListener(initialEventType,async (event)=>{
-    
-    
+    public addInitialElement(
+        element: HTMLElement | SVGElement,
+        newElementCreator: (
+            event: Event,
+        ) => Awaitable<HTMLElement | SVGElement>,
+    ) {
+        for (const initialEventType of this.listenersInitialEventType) {
+            element.addEventListener(initialEventType, async (event) => {
                 const newElement = await newElementCreator(event);
                 this.addElement(newElement);
-                
+
                 // TODO: !!! Call immediate listener here
-    
             });
         }
     }
@@ -108,9 +87,9 @@ export class TouchController {
     private callListenerOnElement(
         listener: IListener,
         element: HTMLElement | SVGElement,
-        immediateDrag: null | Event,
+        //immediateDrag: null | Event,
     ) {
-        listener(
+        listener.init(
             element,
             this.anchorElement,
             (touch: Touch) => this.touchesObserver.next(touch),
@@ -119,7 +98,7 @@ export class TouchController {
                     this.hoveredFramesObserver.next(frame);
                 }
             },
-            immediateDrag,
+            //immediateDrag,
         );
         // TODO: array of listeners disposers
     }

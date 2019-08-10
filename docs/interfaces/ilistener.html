@@ -913,7 +913,13 @@ img { max-width: 100%; }
 			<a href="ilistener.html" class="tsd-kind-icon">IListener</a>
 			<ul>
 				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="ilistener.html#initialeventtype" class="tsd-kind-icon">initial<wbr>Event<wbr>Type</a>
+					<a href="ilistener.html#init" class="tsd-kind-icon">init</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface">
+					<a href="ilistener.html#starteventtype" class="tsd-kind-icon">start<wbr>Event<wbr>Type</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface">
+					<a href="ilistener.html#startfromexternalevent" class="tsd-kind-icon">start<wbr>From<wbr>External<wbr>Event</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface">
 					<a href="ilistener.html#title" class="tsd-kind-icon">title</a>
@@ -933,85 +939,10 @@ img { max-width: 100%; }
 			</ul>
 		</section>
 		<section class="tsd-panel">
-			<h3 class="tsd-before-signature">Callable</h3>
-			<ul class="tsd-signatures tsd-kind-interface">
-				<li class="tsd-signature tsd-kind-icon">__call<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SVGElement</span>, anchorElement<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span>, newTouch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span>, newHoverFrame<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span>, immediateDrag<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></li>
-			</ul>
-			<ul class="tsd-descriptions">
-				<li class="tsd-description">
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/9f17ea5/src/interfaces/IListener.ts#L5">interfaces/IListener.ts:5</a></li>
-						</ul>
-					</aside>
-					<h4 class="tsd-parameters-title">Parameters</h4>
-					<ul class="tsd-parameters">
-						<li>
-							<h5>element: <span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SVGElement</span></h5>
-						</li>
-						<li>
-							<h5>anchorElement: <span class="tsd-signature-type">HTMLElement</span></h5>
-						</li>
-						<li>
-							<h5>newTouch: <span class="tsd-signature-type">function</span></h5>
-							<ul class="tsd-parameters">
-								<li class="tsd-parameter-siganture">
-									<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>touch<span class="tsd-signature-symbol">: </span><a href="../classes/touch.html" class="tsd-signature-type">Touch</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-									</ul>
-									<ul class="tsd-descriptions">
-										<li class="tsd-description">
-											<h4 class="tsd-parameters-title">Parameters</h4>
-											<ul class="tsd-parameters">
-												<li>
-													<h5>touch: <a href="../classes/touch.html" class="tsd-signature-type">Touch</a></h5>
-												</li>
-											</ul>
-											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-						<li>
-							<h5>newHoverFrame: <span class="tsd-signature-type">function</span></h5>
-							<ul class="tsd-parameters">
-								<li class="tsd-parameter-siganture">
-									<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>frame<span class="tsd-signature-symbol">: </span><a href="../classes/touchframe.html" class="tsd-signature-type">TouchFrame</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-									</ul>
-									<ul class="tsd-descriptions">
-										<li class="tsd-description">
-											<h4 class="tsd-parameters-title">Parameters</h4>
-											<ul class="tsd-parameters">
-												<li>
-													<h5>frame: <a href="../classes/touchframe.html" class="tsd-signature-type">TouchFrame</a></h5>
-												</li>
-											</ul>
-											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-						<li>
-							<h5>immediateDrag: <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Event</span></h5>
-						</li>
-					</ul>
-					<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">function</span></h4>
-					<ul class="tsd-parameters">
-						<li class="tsd-parameter-siganture">
-							<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-								<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-							</ul>
-							<ul class="tsd-descriptions">
-								<li class="tsd-description">
-									<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-								</li>
-							</ul>
-						</li>
-					</ul>
-				</li>
+			<h3>Implemented by</h3>
+			<ul class="tsd-hierarchy">
+				<li><a href="../classes/mouselistener.html" class="tsd-signature-type">MouseListener</a></li>
+				<li><a href="../classes/touchlistener.html" class="tsd-signature-type">TouchListener</a></li>
 			</ul>
 		</section>
 		<section class="tsd-panel-group tsd-index-group">
@@ -1021,7 +952,9 @@ img { max-width: 100%; }
 					<section class="tsd-index-section ">
 						<h3>Properties</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ilistener.html#initialeventtype" class="tsd-kind-icon">initial<wbr>Event<wbr>Type</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ilistener.html#init" class="tsd-kind-icon">init</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ilistener.html#starteventtype" class="tsd-kind-icon">start<wbr>Event<wbr>Type</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ilistener.html#startfromexternalevent" class="tsd-kind-icon">start<wbr>From<wbr>External<wbr>Event</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ilistener.html#title" class="tsd-kind-icon">title</a></li>
 						</ul>
 					</section>
@@ -1031,22 +964,12 @@ img { max-width: 100%; }
 		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Properties</h2>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-				<a name="initialeventtype" class="tsd-anchor"></a>
-				<h3>initial<wbr>Event<wbr>Type</h3>
-				<div class="tsd-signature tsd-kind-icon">initial<wbr>Event<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<a name="init" class="tsd-anchor"></a>
+				<h3>init</h3>
+				<div class="tsd-signature tsd-kind-icon">init<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/9f17ea5/src/interfaces/IListener.ts#L14">interfaces/IListener.ts:14</a></li>
-					</ul>
-				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-				<a name="title" class="tsd-anchor"></a>
-				<h3>title</h3>
-				<div class="tsd-signature tsd-kind-icon">title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/9f17ea5/src/interfaces/IListener.ts#L5">interfaces/IListener.ts:5</a></li>
+						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/950e56f/src/interfaces/IListener.ts#L9">interfaces/IListener.ts:9</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-type-declaration">
@@ -1054,22 +977,121 @@ img { max-width: 100%; }
 					<ul class="tsd-parameters">
 						<li class="tsd-parameter-siganture">
 							<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
-								<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+								<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><a href="../globals.html#ielement" class="tsd-signature-type">IElement</a>, anchorElement<span class="tsd-signature-symbol">: </span><a href="../globals.html#ielement" class="tsd-signature-type">IElement</a>, newTouch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span>, newHoverFrame<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 							</ul>
 							<ul class="tsd-descriptions">
 								<li class="tsd-description">
 									<h4 class="tsd-parameters-title">Parameters</h4>
 									<ul class="tsd-parameters">
 										<li>
-											<h5>event: <span class="tsd-signature-type">Event</span></h5>
+											<h5>element: <a href="../globals.html#ielement" class="tsd-signature-type">IElement</a></h5>
+										</li>
+										<li>
+											<h5>anchorElement: <a href="../globals.html#ielement" class="tsd-signature-type">IElement</a></h5>
+										</li>
+										<li>
+											<h5>newTouch: <span class="tsd-signature-type">function</span></h5>
+											<ul class="tsd-parameters">
+												<li class="tsd-parameter-siganture">
+													<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+														<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>touch<span class="tsd-signature-symbol">: </span><a href="../classes/touch.html" class="tsd-signature-type">Touch</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+													</ul>
+													<ul class="tsd-descriptions">
+														<li class="tsd-description">
+															<h4 class="tsd-parameters-title">Parameters</h4>
+															<ul class="tsd-parameters">
+																<li>
+																	<h5>touch: <a href="../classes/touch.html" class="tsd-signature-type">Touch</a></h5>
+																</li>
+															</ul>
+															<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li>
+											<h5>newHoverFrame: <span class="tsd-signature-type">function</span></h5>
+											<ul class="tsd-parameters">
+												<li class="tsd-parameter-siganture">
+													<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+														<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>frame<span class="tsd-signature-symbol">: </span><a href="../classes/touchframe.html" class="tsd-signature-type">TouchFrame</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+													</ul>
+													<ul class="tsd-descriptions">
+														<li class="tsd-description">
+															<h4 class="tsd-parameters-title">Parameters</h4>
+															<ul class="tsd-parameters">
+																<li>
+																	<h5>frame: <a href="../classes/touchframe.html" class="tsd-signature-type">TouchFrame</a></h5>
+																</li>
+															</ul>
+															<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+														</li>
+													</ul>
+												</li>
+											</ul>
 										</li>
 									</ul>
-									<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+									<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 								</li>
 							</ul>
 						</li>
 					</ul>
 				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<a name="starteventtype" class="tsd-anchor"></a>
+				<h3>start<wbr>Event<wbr>Type</h3>
+				<div class="tsd-signature tsd-kind-icon">start<wbr>Event<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/950e56f/src/interfaces/IListener.ts#L21">interfaces/IListener.ts:21</a></li>
+					</ul>
+				</aside>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<a name="startfromexternalevent" class="tsd-anchor"></a>
+				<h3>start<wbr>From<wbr>External<wbr>Event</h3>
+				<div class="tsd-signature tsd-kind-icon">start<wbr>From<wbr>External<wbr>Event<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/950e56f/src/interfaces/IListener.ts#L17">interfaces/IListener.ts:17</a></li>
+					</ul>
+				</aside>
+				<div class="tsd-type-declaration">
+					<h4>Type declaration</h4>
+					<ul class="tsd-parameters">
+						<li class="tsd-parameter-siganture">
+							<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+								<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><a href="../globals.html#ielement" class="tsd-signature-type">IElement</a>, event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../globals.html#awaitable" class="tsd-signature-type">Awaitable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+							</ul>
+							<ul class="tsd-descriptions">
+								<li class="tsd-description">
+									<h4 class="tsd-parameters-title">Parameters</h4>
+									<ul class="tsd-parameters">
+										<li>
+											<h5>element: <a href="../globals.html#ielement" class="tsd-signature-type">IElement</a></h5>
+										</li>
+										<li>
+											<h5>event: <span class="tsd-signature-type">Event</span></h5>
+										</li>
+									</ul>
+									<h4 class="tsd-returns-title">Returns <a href="../globals.html#awaitable" class="tsd-signature-type">Awaitable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<a name="title" class="tsd-anchor"></a>
+				<h3>title</h3>
+				<div class="tsd-signature tsd-kind-icon">title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/950e56f/src/interfaces/IListener.ts#L8">interfaces/IListener.ts:8</a></li>
+					</ul>
+				</aside>
 			</section>
 		</section>
 		<footer>

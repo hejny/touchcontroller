@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IParticleOptions | TouchController</title>
+	<title>EventManager | TouchController</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style type="text/css">/*! normalize.css v1.1.3 | MIT License | git.io/normalize */
@@ -909,26 +909,20 @@ img { max-width: 100%; }
 </header>
 <nav class="tsd-navigation secondary">
 	<ul>
-		<li class="current tsd-kind-interface">
-			<a href="iparticleoptions.html" class="tsd-kind-icon">IParticle<wbr>Options</a>
+		<li class="current tsd-kind-class">
+			<a href="eventmanager.html" class="tsd-kind-icon">Event<wbr>Manager</a>
 			<ul>
-				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="iparticleoptions.html#color" class="tsd-kind-icon">color</a>
+				<li class=" tsd-kind-method tsd-parent-kind-class">
+					<a href="eventmanager.html#addeventlistener" class="tsd-kind-icon">add<wbr>Event<wbr>Listener</a>
 				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="iparticleoptions.html#current" class="tsd-kind-icon">current</a>
+				<li class=" tsd-kind-method tsd-parent-kind-class">
+					<a href="eventmanager.html#removeeventlistener" class="tsd-kind-icon">remove<wbr>Event<wbr>Listener</a>
 				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="iparticleoptions.html#friction" class="tsd-kind-icon">friction</a>
+				<li class=" tsd-kind-method tsd-parent-kind-class">
+					<a href="eventmanager.html#removeeventlisteners" class="tsd-kind-icon">remove<wbr>Event<wbr>Listeners</a>
 				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="iparticleoptions.html#movement" class="tsd-kind-icon">movement</a>
-				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="iparticleoptions.html#shapecenter" class="tsd-kind-icon">shape<wbr>Center</a>
-				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="iparticleoptions.html#shapesrc" class="tsd-kind-icon">shape<wbr>Src</a>
+				<li class=" tsd-kind-method tsd-parent-kind-class">
+					<a href="eventmanager.html#updateeventlistener" class="tsd-kind-icon">update<wbr>Event<wbr>Listener</a>
 				</li>
 			</ul>
 		</li>
@@ -940,7 +934,7 @@ img { max-width: 100%; }
 			<h3>Hierarchy</h3>
 			<ul class="tsd-hierarchy">
 				<li>
-					<span class="target">IParticleOptions</span>
+					<span class="target">EventManager</span>
 				</li>
 			</ul>
 		</section>
@@ -949,80 +943,145 @@ img { max-width: 100%; }
 			<section class="tsd-panel tsd-index-panel">
 				<div class="tsd-index-content">
 					<section class="tsd-index-section ">
-						<h3>Properties</h3>
+						<h3>Methods</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iparticleoptions.html#color" class="tsd-kind-icon">color</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iparticleoptions.html#current" class="tsd-kind-icon">current</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iparticleoptions.html#friction" class="tsd-kind-icon">friction</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iparticleoptions.html#movement" class="tsd-kind-icon">movement</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iparticleoptions.html#shapecenter" class="tsd-kind-icon">shape<wbr>Center</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iparticleoptions.html#shapesrc" class="tsd-kind-icon">shape<wbr>Src</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="eventmanager.html#addeventlistener" class="tsd-kind-icon">add<wbr>Event<wbr>Listener</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="eventmanager.html#removeeventlistener" class="tsd-kind-icon">remove<wbr>Event<wbr>Listener</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="eventmanager.html#removeeventlisteners" class="tsd-kind-icon">remove<wbr>Event<wbr>Listeners</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="eventmanager.html#updateeventlistener" class="tsd-kind-icon">update<wbr>Event<wbr>Listener</a></li>
 						</ul>
 					</section>
 				</div>
 			</section>
 		</section>
 		<section class="tsd-panel-group tsd-member-group ">
-			<h2>Properties</h2>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-				<a name="color" class="tsd-anchor"></a>
-				<h3>color</h3>
-				<div class="tsd-signature tsd-kind-icon">color<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/4a69f91/src/drawController/Particle.ts#L8">drawController/Particle.ts:8</a></li>
-					</ul>
-				</aside>
+			<h2>Methods</h2>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<a name="addeventlistener" class="tsd-anchor"></a>
+				<h3>add<wbr>Event<wbr>Listener</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">add<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><a href="../globals.html#ielement" class="tsd-signature-type">IElement</a>, eventType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><a href="../globals.html#ilistenercallback" class="tsd-signature-type">IListenerCallback</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">AddEventListenerOptions</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/4a69f91/src/utils/EventManager.ts#L10">utils/EventManager.ts:10</a></li>
+							</ul>
+						</aside>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>element: <a href="../globals.html#ielement" class="tsd-signature-type">IElement</a></h5>
+							</li>
+							<li>
+								<h5>eventType: <span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li>
+								<h5>callback: <a href="../globals.html#ilistenercallback" class="tsd-signature-type">IListenerCallback</a></h5>
+							</li>
+							<li>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">AddEventListenerOptions</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span></h5>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+					</li>
+				</ul>
 			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-				<a name="current" class="tsd-anchor"></a>
-				<h3>current</h3>
-				<div class="tsd-signature tsd-kind-icon">current<span class="tsd-signature-symbol">:</span> <a href="iparticleoptionsexternals.html" class="tsd-signature-type">IParticleOptionsExternals</a></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/4a69f91/src/drawController/Particle.ts#L9">drawController/Particle.ts:9</a></li>
-					</ul>
-				</aside>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<a name="removeeventlistener" class="tsd-anchor"></a>
+				<h3>remove<wbr>Event<wbr>Listener</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">remove<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><a href="../globals.html#ielement" class="tsd-signature-type">IElement</a>, eventType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><a href="../globals.html#ilistenercallback" class="tsd-signature-type">IListenerCallback</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/4a69f91/src/utils/EventManager.ts#L20">utils/EventManager.ts:20</a></li>
+							</ul>
+						</aside>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>element: <a href="../globals.html#ielement" class="tsd-signature-type">IElement</a></h5>
+							</li>
+							<li>
+								<h5>eventType: <span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li>
+								<h5>callback: <a href="../globals.html#ilistenercallback" class="tsd-signature-type">IListenerCallback</a></h5>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+					</li>
+				</ul>
 			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-				<a name="friction" class="tsd-anchor"></a>
-				<h3>friction</h3>
-				<div class="tsd-signature tsd-kind-icon">friction<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/4a69f91/src/drawController/Particle.ts#L11">drawController/Particle.ts:11</a></li>
-					</ul>
-				</aside>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<a name="removeeventlisteners" class="tsd-anchor"></a>
+				<h3>remove<wbr>Event<wbr>Listeners</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">remove<wbr>Event<wbr>Listeners<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">?: </span><a href="../globals.html#ielement" class="tsd-signature-type">IElement</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"*"</span>, eventType<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/4a69f91/src/utils/EventManager.ts#L33">utils/EventManager.ts:33</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5><span class="tsd-flag ts-flagDefault value">Default value</span> element: <a href="../globals.html#ielement" class="tsd-signature-type">IElement</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"*"</span><span class="tsd-signature-symbol"> =&nbsp;&quot;*&quot;</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>Element or * as wildcard</p>
+								</div>
+							</li>
+							<li>
+								<h5><span class="tsd-flag ts-flagDefault value">Default value</span> eventType: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;*&quot;</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>String of event type - for example pointerdown or * as wildcard</p>
+								</div>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+					</li>
+				</ul>
 			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-				<a name="movement" class="tsd-anchor"></a>
-				<h3>movement</h3>
-				<div class="tsd-signature tsd-kind-icon">movement<span class="tsd-signature-symbol">:</span> <a href="iparticleoptionsexternals.html" class="tsd-signature-type">IParticleOptionsExternals</a></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/4a69f91/src/drawController/Particle.ts#L10">drawController/Particle.ts:10</a></li>
-					</ul>
-				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-				<a name="shapecenter" class="tsd-anchor"></a>
-				<h3>shape<wbr>Center</h3>
-				<div class="tsd-signature tsd-kind-icon">shape<wbr>Center<span class="tsd-signature-symbol">:</span> <a href="../classes/vector2.html" class="tsd-signature-type">Vector2</a></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/4a69f91/src/drawController/Particle.ts#L7">drawController/Particle.ts:7</a></li>
-					</ul>
-				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-				<a name="shapesrc" class="tsd-anchor"></a>
-				<h3>shape<wbr>Src</h3>
-				<div class="tsd-signature tsd-kind-icon">shape<wbr>Src<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/4a69f91/src/drawController/Particle.ts#L6">drawController/Particle.ts:6</a></li>
-					</ul>
-				</aside>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<a name="updateeventlistener" class="tsd-anchor"></a>
+				<h3>update<wbr>Event<wbr>Listener</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">update<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><a href="../globals.html#ielement" class="tsd-signature-type">IElement</a>, eventType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><a href="../globals.html#ilistenercallback" class="tsd-signature-type">IListenerCallback</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">AddEventListenerOptions</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/4a69f91/src/utils/EventManager.ts#L59">utils/EventManager.ts:59</a></li>
+							</ul>
+						</aside>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>element: <a href="../globals.html#ielement" class="tsd-signature-type">IElement</a></h5>
+							</li>
+							<li>
+								<h5>eventType: <span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li>
+								<h5>callback: <a href="../globals.html#ilistenercallback" class="tsd-signature-type">IListenerCallback</a></h5>
+							</li>
+							<li>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">AddEventListenerOptions</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span></h5>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+					</li>
+				</ul>
 			</section>
 		</section>
 		<footer>

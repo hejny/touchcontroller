@@ -1,4 +1,4 @@
-import { EventManager, eventManager } from './utils/EventManager';
+import { EventManager } from './utils/EventManager';
 import { BoundingBox } from './BoundingBox';
 import { DrawController } from './drawController/CanvasParticlesRenderer';
 import { MouseListener } from './listeners/MouseListener';
@@ -34,5 +34,4 @@ export {
     svgTransformationEncode,
     DrawController,
     EventManager,
-    eventManager
 };

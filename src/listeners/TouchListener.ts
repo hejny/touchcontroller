@@ -1,4 +1,4 @@
-import { eventManager } from './../utils/EventManager';
+import { EventManager } from './../utils/EventManager';
 import { IEvent } from '../interfaces/IEvent';
 import { IListener } from '../interfaces/IListener';
 import { Touch } from '../Touch';
@@ -6,6 +6,7 @@ import { TouchFrame } from '../TouchFrame';
 import { Vector2 } from '../Vector2';
 import { IElement } from './../interfaces/IElement';
 import { SourceCache } from './../utils/Cache';
+import { getBoundingClientRectEnhanced } from '../utils/getBoundingClientRectEnhanced';
 
 const TOUCH_LISTENER_OPTIONS = {
     capture: true,
@@ -13,6 +14,8 @@ const TOUCH_LISTENER_OPTIONS = {
 };
 
 export class TouchListener implements IListener {
+    constructor(private eventManager: EventManager) {}
+
     public get title() {
         return `TOUCH`;
     }
@@ -39,25 +42,25 @@ export class TouchListener implements IListener {
             );
         }
 
-        eventManager.addEventListener(
+        this.eventManager.addEventListener(
             element,
             'touchstart',
             (event) => handleTouchesStart(event as any),
             TOUCH_LISTENER_OPTIONS,
         );
-        eventManager.addEventListener(
+        this.eventManager.addEventListener(
             element,
             'touchmove',
             (event) => handleTouchesMove(event as any),
             TOUCH_LISTENER_OPTIONS,
         );
-        eventManager.addEventListener(
+        this.eventManager.addEventListener(
             element,
             'touchend',
             (event) => handleTouchesEnd(event as any),
             TOUCH_LISTENER_OPTIONS,
         );
-        eventManager.addEventListener(
+        this.eventManager.addEventListener(
             element,
             'touchcancel',
             (event) => handleTouchesEnd(event as any),
@@ -115,7 +118,7 @@ export class TouchListener implements IListener {
         const createTouchFrameFromEvent: ICreateTouchFrameFromEvent = (
             event: IEvent,
         ) => {
-            const boundingRect = element.getBoundingClientRect();
+            const boundingRect = getBoundingClientRectEnhanced(element);
             return new TouchFrame(
                 element,
                 anchorElement,
@@ -172,7 +175,7 @@ export class TouchListener implements IListener {
                 currentTouch.move(createTouchFrameFromEvent(touch), false);
             }
         };
-        eventManager.addEventListener(
+        this.eventManager.addEventListener(
             document,
             'touchmove',
             handleTouchMoveOnDocument,
@@ -182,7 +185,7 @@ export class TouchListener implements IListener {
         const handleTouchUpOnDocument = (event: TouchEvent) => {
             currentTouch.end();
 
-            eventManager.removeEventListener(
+            this.eventManager.removeEventListener(
                 document,
                 'touchmove',
                 handleTouchMoveOnDocument,
@@ -192,7 +195,7 @@ export class TouchListener implements IListener {
             // }
         };
 
-        eventManager.addEventListener(
+        this.eventManager.addEventListener(
             document,
             'touchend',
             handleTouchUpOnDocument,

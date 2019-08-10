@@ -1,5 +1,6 @@
 import { IElement } from './interfaces/IElement';
 import { Vector2 } from './Vector2';
+import { getBoundingClientRectEnhanced } from './utils/getBoundingClientRectEnhanced';
 
 export class TouchFrame {
     public position: Vector2;
@@ -14,9 +15,9 @@ export class TouchFrame {
         public radius: Vector2 = Vector2.Zero(),
     ) {
         const offset = Vector2.fromTopLeft(
-            element.getBoundingClientRect(),
+            getBoundingClientRectEnhanced(element),
         ).subtractInPlace(
-            Vector2.fromTopLeft(anchorElement.getBoundingClientRect()),
+            Vector2.fromTopLeft(getBoundingClientRectEnhanced(anchorElement)),
         );
         this.position = this.positionRelative.add(offset);
     }

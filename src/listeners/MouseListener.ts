@@ -1,4 +1,3 @@
-import { eventManager } from './../utils/EventManager';
 import { IEvent } from '../interfaces/IEvent';
 import { IListener } from '../interfaces/IListener';
 import { Touch } from '../Touch';
@@ -6,7 +5,8 @@ import { TouchFrame } from '../TouchFrame';
 import { Vector2 } from '../Vector2';
 import { IElement } from './../interfaces/IElement';
 import { SourceCache } from './../utils/Cache';
-import { getBoundingClientRectEnhanced } from '../utils/getBoundingClientRect';
+import { getBoundingClientRectEnhanced } from '../utils/getBoundingClientRectEnhanced';
+import { EventManager } from '../main';
 
 const MOUSE_LISTENER_OPTIONS = {
     capture: true,
@@ -29,7 +29,11 @@ export class MouseListener implements IListener {
         }
     >();
 
-    constructor(private buttons: number[] = [0], private rotating = false) {}
+    constructor(
+        private eventManager: EventManager,
+        private buttons: number[] = [0],
+        private rotating = false,
+    ) {}
 
     public init(
         element: IElement,
@@ -43,14 +47,14 @@ export class MouseListener implements IListener {
             );
         }
 
-        eventManager.addEventListener(
+        this.eventManager.addEventListener(
             element,
             'mousedown',
             (event) => handleMouseDownOnElement(event as any),
             MOUSE_LISTENER_OPTIONS,
         );
 
-        eventManager.addEventListener(
+        this.eventManager.addEventListener(
             element,
             'mousemove',
             (event) => handleMouseMoveOnElement(event as any),
@@ -58,7 +62,7 @@ export class MouseListener implements IListener {
         );
 
         // TODO: configurable mouse buttons
-        eventManager.addEventListener(
+        this.eventManager.addEventListener(
             element,
             'contextmenu',
             (event) => {
@@ -87,7 +91,7 @@ export class MouseListener implements IListener {
 
             currentTouch = new Touch('MOUSE', anchorElement, firstTouchFrame);
 
-            eventManager.addEventListener(
+            this.eventManager.addEventListener(
                 document,
                 'mousemove',
                 handleMouseMoveOnDocument,
@@ -111,7 +115,7 @@ export class MouseListener implements IListener {
                 );
             };
 
-            eventManager.addEventListener(
+            this.eventManager.addEventListener(
                 document,
                 'mouseup',
                 mouseUpListenerOnDocument,

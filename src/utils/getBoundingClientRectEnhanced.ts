@@ -1,7 +1,12 @@
-import { IElement } from "../interfaces/IElement";
+import { IElement } from '../interfaces/IElement';
 
-export function getBoundingClientRectEnhanced(element: IElement): ClientRect | DOMRect{
-    if(element instanceof Document){
+// TODO: Maybe better function name
+
+export function getBoundingClientRectEnhanced(
+    element: IElement,
+): ClientRect | DOMRect {
+    if (element instanceof Document) {
+        // TODO: Is this solution good?
         return getBoundingClientRectEnhanced(element.body);
         /*return {
             bottom: 0,
@@ -12,7 +17,7 @@ export function getBoundingClientRectEnhanced(element: IElement): ClientRect | D
             height: element.body.
             readonly width: number;
         }*/
-    }else{
+    } else {
         return element.getBoundingClientRect();
     }
 }

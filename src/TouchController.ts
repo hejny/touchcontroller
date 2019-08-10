@@ -1,4 +1,4 @@
-import { eventManager } from './utils/EventManager';
+import { EventManager } from './utils/EventManager';
 import 'rxjs/add/operator/share';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
@@ -19,6 +19,7 @@ export class TouchController {
 
     public touches: Observable<Touch>;
     public hoveredFrames: Observable<TouchFrame>;
+    public eventManager = new EventManager();
 
     private touchesObserver: Observer<Touch>;
     private hoveredFramesObserver: Observer<TouchFrame>;
@@ -41,9 +42,11 @@ export class TouchController {
         ).share();
 
         if (setListeners) {
-            this.addListener(new MouseListener());
-            this.addListener(new MouseListener([1, 2], true));
-            this.addListener(new TouchListener());
+            this.addListener(new MouseListener(this.eventManager));
+            this.addListener(
+                new MouseListener(this.eventManager, [1, 2], true),
+            );
+            this.addListener(new TouchListener(this.eventManager));
         }
     }
 
@@ -67,13 +70,16 @@ export class TouchController {
         newElementCreator: (event: Event) => Awaitable<IElement>,
     ) {
         for (const listener of this.listeners) {
-
             // TODO: Should be here updateEventListener or addEventListener
-            eventManager.updateEventListener(element,listener.startEventType, async (event) => {
-                const newElement = await newElementCreator(event);
-                this.addElement(newElement);
-                listener.startFromExternalEvent(newElement, event as any);
-            });
+            this.eventManager.addEventListener(
+                element,
+                listener.startEventType,
+                async (event) => {
+                    const newElement = await newElementCreator(event);
+                    this.addElement(newElement);
+                    listener.startFromExternalEvent(newElement, event as any);
+                },
+            );
         }
     }
 

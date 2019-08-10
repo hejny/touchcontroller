@@ -11,7 +11,7 @@ export class EventManager {
         element: IElement,
         eventType: string,
         callback: IListenerCallback,
-        options?: AddEventListenerOptions | boolean
+        options?: AddEventListenerOptions | boolean,
     ) {
         element.addEventListener(eventType, callback, options);
         this.listeners.push({ element, eventType, callback });
@@ -25,14 +25,30 @@ export class EventManager {
         element.removeEventListener(eventType, callback);
     }
 
-    removeAllEventListeners(element: IElement, eventType: string) {
-        //todo eventType wildcard
+    /**
+     *
+     * @param element  Element or * as wildcard
+     * @param eventType String of event type - for example pointerdown or * as wildcard
+     */
+    removeEventListeners(
+        element: IElement | '*' = '*',
+        eventType: string = '*',
+    ) {
+        // TODO: eventType wildcard
         for (const listener of this.listeners.filter(
             (listener) =>
-                listener.element === element &&
-                listener.eventType === eventType,
+                (listener.element === element || element === '*') &&
+                (listener.eventType === eventType || eventType === '*'),
         )) {
-            element.removeEventListener(listener.eventType, listener.callback);
+            console.log(
+                `Removing event listener on "${eventType}" from element.`,
+                element,
+                listener,
+            );
+            listener.element.removeEventListener(
+                listener.eventType,
+                listener.callback,
+            );
         }
     }
 
@@ -40,12 +56,13 @@ export class EventManager {
         element: IElement,
         eventType: string,
         callback: IListenerCallback,
-        options?: AddEventListenerOptions | boolean
+        options?: AddEventListenerOptions | boolean,
     ) {
-        this.removeAllEventListeners(element, eventType);
+        this.removeEventListeners(element, eventType);
         this.addEventListener(element, eventType, callback, options);
     }
 }
 
-export const eventManager = new EventManager();
-type IListenerCallback = (event: any /*Event | TouchEvent | MouseEvent | PointerEvent /* TODO: Better */) => void;
+type IListenerCallback = (
+    event: any /*Event | TouchEvent | MouseEvent | PointerEvent /* TODO: Better */,
+) => void;

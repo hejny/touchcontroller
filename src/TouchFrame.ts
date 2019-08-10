@@ -1,10 +1,11 @@
+import { IElement } from './interfaces/IElement';
 import { Vector2 } from './Vector2';
 
 export class TouchFrame {
     public position: Vector2;
 
     constructor(
-        public element: HTMLElement | SVGElement,
+        public element: IElement,
         public anchorElement: HTMLElement,
         public positionRelative: Vector2 = Vector2.Zero(),
         public time: number = performance.now(),

@@ -1,3 +1,5 @@
+import { IElement } from './../interfaces/IElement';
+import { SourceCache } from './../utils/Cache';
 import { IListener } from '../interfaces/IListener';
 import { Touch } from '../Touch';
 import { Vector2 } from '../Vector2';
@@ -18,19 +20,40 @@ export class MouseListener implements IListener {
     public get title() {
         return `MOUSE(${this.buttons.join(',')})`;
     }
-    public initialEventType = `mousedown`;
+    public startEventType = `mousedown`;
 
-    public async startDrag(event: Event) {
-        // TODO: handleStart(createTouchFrameFromEvent(event));
+    public async startFromExternalEvent(element: IElement, event: IEvent) {
+        const item = this.elements.getItem(element);
+        if (!item) {
+            throw new Error(
+                `Element should be initialized when using startFromExternalEvent.`,
+            );
+        }
+        const { handleStart, createTouchFrameFromEvent } = item;
+
+        handleStart(createTouchFrameFromEvent(event));
     }
 
+    private elements = new SourceCache<
+        IElement,
+        {
+            createTouchFrameFromEvent: ICreateTouchFrameFromEvent;
+            handleStart: IHandleStart;
+        }
+    >();
+
     public init(
-        element: HTMLElement | SVGElement,
+        element: IElement,
         anchorElement: HTMLElement,
         newTouch: (touch: Touch) => void,
         newHoverFrame: (frame: TouchFrame) => void,
-        //immediateDrag: null | IEvent,
     ) {
+        if (this.elements.hasItem(element)) {
+            throw new Error(
+                `Element should not be initialized when using init.`,
+            );
+        }
+
         element.addEventListener(
             'mousedown',
             (event) => handleMouseDownOnElement(event as any),
@@ -63,7 +86,7 @@ export class MouseListener implements IListener {
             }
         };
 
-        const handleStart = (firstTouchFrame: TouchFrame) => {
+        const handleStart: IHandleStart = (firstTouchFrame: TouchFrame) => {
             if (onlyTouch) {
                 onlyTouch.end();
             }
@@ -121,7 +144,9 @@ export class MouseListener implements IListener {
             }
         };
 
-        const createTouchFrameFromEvent = (event: IEvent) => {
+        const createTouchFrameFromEvent: ICreateTouchFrameFromEvent = (
+            event: IEvent,
+        ) => {
             const boundingRect = element.getBoundingClientRect();
             return new TouchFrame(
                 element,
@@ -134,5 +159,13 @@ export class MouseListener implements IListener {
                 this.rotating,
             );
         };
+
+        this.elements.setItem(element, {
+            handleStart,
+            createTouchFrameFromEvent,
+        });
     }
 }
+
+type ICreateTouchFrameFromEvent = (event: IEvent) => TouchFrame;
+type IHandleStart = (firstTouchFrame: TouchFrame) => void;

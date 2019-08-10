@@ -12,7 +12,7 @@ const TOUCH_LISTENER_OPTIONS = {
 
 export function createTouchListener(buttons: number[] = [0]): IListener {
     const listener: any = (
-        element: HTMLElement | SVGElement,
+        element: IElement,
         anchorElement: HTMLElement,
         newTouch: (touch: Touch) => void,
         newHoverFrame: (frame: TouchFrame) => void,

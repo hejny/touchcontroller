@@ -1,3 +1,4 @@
+import { IElement } from './interfaces/IElement';
 import { Awaitable } from './interfaces/IAwaitable';
 import 'rxjs/add/operator/share';
 import { Observable } from 'rxjs/Observable';
@@ -22,7 +23,7 @@ export class TouchController {
     private listeners: IListener[] = [];
 
     constructor(
-        public elements: Array<HTMLElement | SVGElement>, // TODO: syntax sugar if set only one element
+        public elements: Array<IElement>, // TODO: syntax sugar if set only one element
         public anchorElement: HTMLElement,
         setListeners = true,
     ) {
@@ -44,10 +45,6 @@ export class TouchController {
         }
     }
 
-    private get listenersInitialEventType(): string[] {
-        return this.listeners.map((listener) => listener.initialEventType);
-    }
-
     public addListener(listener: IListener) {
         this.listeners.push(listener);
         for (const element of this.elements) {
@@ -55,7 +52,7 @@ export class TouchController {
         }
     }
 
-    public addElement(element: HTMLElement | SVGElement) {
+    public addElement(element: IElement) {
         this.elements.push(element);
 
         for (const listener of this.listeners) {
@@ -64,15 +61,14 @@ export class TouchController {
     }
 
     public addInitialElement(
-        element: HTMLElement | SVGElement,
-        newElementCreator: (
-            event: Event,
-        ) => Awaitable<HTMLElement | SVGElement>,
+        element: IElement,
+        newElementCreator: (event: Event) => Awaitable<IElement>,
     ) {
-        for (const initialEventType of this.listenersInitialEventType) {
-            element.addEventListener(initialEventType, async (event) => {
+        for (const listener of this.listeners) {
+            element.addEventListener(listener.startEventType, async (event) => {
                 const newElement = await newElementCreator(event);
                 this.addElement(newElement);
+                listener.startFromExternalEvent(newElement, event as any);
 
                 // TODO: !!! Call immediate listener here
             });
@@ -86,7 +82,7 @@ export class TouchController {
 
     private callListenerOnElement(
         listener: IListener,
-        element: HTMLElement | SVGElement,
+        element: IElement,
         //immediateDrag: null | Event,
     ) {
         listener.init(

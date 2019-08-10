@@ -1,121 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Sample of TC (ES6)</title>
-    <link rel="stylesheet" type="text/css" href="./common.css">
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Sample of TC (ES6)</title>
+        <link rel="stylesheet" type="text/css" href="./common.css" />
+    </head>
+    <body>
+        <canvas id="scene" width="500" height="500"></canvas>
 
+        <script
+            type="text/javascript"
+            src="../dist/main.dev.browser.js"
+        ></script>
+        <script type="text/javascript">
+            const TC = TouchController;
+            const scene = document.getElementById('scene');
+            const ctx = scene.getContext('2d');
 
-<canvas id="scene" width="500" height="500"></canvas>
-
-
-<script type="text/javascript" src="../dist/main.dev.browser.js"></script>
-<script type="text/javascript">
-
-    const TC = TouchController;
-    const scene = document.getElementById('scene');
-    const ctx = scene.getContext('2d');
-
-    class Rect extends TC.BoundingBox {
-        constructor(color, center, size, rotation) {
-            super(center,size,rotation);
-            this.hovered = false;
-            this.color = color;
-        }
-
-        render(ctx) {
-            ctx.save();
-            ctx.beginPath();
-
-            ctx.rotate(this.rotation);
-            ctx.translate(
-                ...new TC.Vector2(
-                        this.center.x,
-                        this.center.y
-                    )
-                    .rotate(-this.rotation)
-                .subtract(
-                    new TC.Vector2(
-                        this.size.x/2,
-                        this.size.y/2
-                    )
-                )
-                .toArray()
-            );
-            ctx.rect( 0,0, this.size.x,this.size.y);
-            ctx.fillStyle = this.color;
-            ctx.fill();
-            if(this.hovered){
-                ctx.strokeStyle = '#000000';
-                ctx.lineWidth = 3;
-                ctx.stroke();
-            }
-            ctx.restore();
-        }
-    }
-
-    const rects = [
-        new Rect(
-            'blue',
-            new TC.Vector2(100, 100),
-            new TC.Vector2(100, 150),
-            Math.PI / 10
-        ),
-        new Rect(
-            'green',
-            new TC.Vector2(300, 300),
-            new TC.Vector2(200, 200),
-            0
-        )
-    ];
-
-
-    function render() {
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        for (const rect of rects.slice().reverse()) {
-            rect.render(ctx);
-        }
-        requestAnimationFrame(render);
-    }
-    render();
-
-    const touchController = new TC.TouchController.fromCanvas(scene);
-    const multiTouchController = new TC.MultiTouchController(
-        touchController,
-        (frame)=>rects.find((rect) => rect.intersects(frame.position))
-    );
-
-    multiTouchController.hoveredElementsChanges.subscribe(([elementNew,elementOld])=>{
-        if(elementNew||false){
-            elementNew.hovered = true;
-        }
-        if(elementOld||false){
-            elementOld.hovered = false;
-        }
-    });
-
-
-    multiTouchController.multiTouches.subscribe(function (multitouch) {
-
-        if(typeof multitouch.element === 'undefined')return;
-        const rect = multitouch.element;
-        const sizeRatio = rect.size.y / rect.size.x;
-        multitouch.transformations(
-            multitouch.element
-        ).subscribe(function (transformation) {
-            },
-            function () {
-            },
-            function () {
-                if(multitouch.empty){
-                    rect.rotation += (Math.PI*2)/36;
+            class Rect extends TC.BoundingBox {
+                constructor(color, center, size, rotation) {
+                    super(center, size, rotation);
+                    this.hovered = false;
+                    this.color = color;
                 }
+
+                render(ctx) {
+                    ctx.save();
+                    ctx.beginPath();
+
+                    ctx.rotate(this.rotation);
+                    ctx.translate(
+                        ...new TC.Vector2(this.center.x, this.center.y)
+                            .rotate(-this.rotation)
+                            .subtract(
+                                new TC.Vector2(
+                                    this.size.x / 2,
+                                    this.size.y / 2,
+                                ),
+                            )
+                            .toArray(),
+                    );
+                    ctx.rect(0, 0, this.size.x, this.size.y);
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                    if (this.hovered) {
+                        ctx.strokeStyle = '#000000';
+                        ctx.lineWidth = 3;
+                        ctx.stroke();
+                    }
+                    ctx.restore();
+                }
+            }
+
+            const rects = [
+                new Rect(
+                    'blue',
+                    new TC.Vector2(100, 100),
+                    new TC.Vector2(100, 150),
+                    Math.PI / 10,
+                ),
+                new Rect(
+                    'green',
+                    new TC.Vector2(300, 300),
+                    new TC.Vector2(200, 200),
+                    0,
+                ),
+            ];
+
+            function render() {
+                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                for (const rect of rects.slice().reverse()) {
+                    rect.render(ctx);
+                }
+                requestAnimationFrame(render);
+            }
+            render();
+
+            const touchController = new TC.TouchController.fromCanvas(scene);
+            const multiTouchController = new TC.MultiTouchController(
+                touchController,
+                (frame) =>
+                    rects.find((rect) => rect.intersects(frame.position)),
+            );
+
+            multiTouchController.hoveredElementsChanges.subscribe(
+                ([elementNew, elementOld]) => {
+                    if (elementNew || false) {
+                        elementNew.hovered = true;
+                    }
+                    if (elementOld || false) {
+                        elementOld.hovered = false;
+                    }
+                },
+            );
+
+            multiTouchController.multiTouches.subscribe(function(multitouch) {
+                if (typeof multitouch.element === 'undefined') return;
+                const rect = multitouch.element;
+                const sizeRatio = rect.size.y / rect.size.x;
+                multitouch.transformations(multitouch.element).subscribe(
+                    function(transformation) {},
+                    function() {},
+                    function() {
+                        if (multitouch.empty) {
+                            rect.rotation += (Math.PI * 2) / 36;
+                        }
+                    },
+                );
             });
-    });
-</script>
-
-
-</body>
+        </script>
+    </body>
 </html>

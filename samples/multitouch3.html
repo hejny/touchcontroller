@@ -1,145 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Sample of TC (ES6)</title>
-    <link rel="stylesheet" type="text/css" href="./common.css">
-</head>
-<body>
-
-
+    <head>
+        <meta charset="UTF-8" />
+        <title>Sample of TC (ES6)</title>
+        <link rel="stylesheet" type="text/css" href="./common.css" />
+    </head>
+    <body>
         <canvas id="scene-background"></canvas>
 
         <div class="foreground">
-            <canvas class="scene item" style="position: absolute;top:0;left:0;" width="40" height="40"></canvas>
-            <canvas class="scene item" style="position: absolute;top:0;left:0;" width="40" height="40"></canvas>
-       
+            <canvas
+                class="scene item"
+                style="position: absolute;top:0;left:0;"
+                width="40"
+                height="40"
+            ></canvas>
+            <canvas
+                class="scene item"
+                style="position: absolute;top:0;left:0;"
+                width="40"
+                height="40"
+            ></canvas>
 
+            <svg
+                data-playground='{"debug":true}'
+                style="overflow:visible"
+                width="500"
+                height="500"
+            >
+                <g
+                    transform="translate(4,4)"
+                    data-playground='{"amount": 1, "interactions": [{"type": "drag"}], "anchors":{"donors": [{"type": "trains", "position": {"x":-15,"y":0}}], "acceptors": [{"type": "trains", "position": {"x":20,"y":0}, "accepts": 1, "parent": true}]}}'
+                >
+                    <rect
+                        width="30"
+                        height="30"
+                        x="0"
+                        y="0"
+                        style="fill: white; stroke: #1A6AA3; stroke-width: 2;"
+                    ></rect>
+                </g>
+                <g
+                    transform="translate(4,44)"
+                    data-playground='{"amount": 1, "interactions": [{"type": "drag"}], "anchors":{"donors": [{"type": "trains", "position": {"x":-30,"y":0}}], "acceptors": [{"type": "trains", "position": {"x":35,"y":0}, "accepts": 1, "parent": true}]}}'
+                >
+                    <rect
+                        width="60"
+                        height="30"
+                        x="0"
+                        y="0"
+                        style="fill: #E42C1A; stroke: #1A6AA3; stroke-width: 2;"
+                    ></rect>
+                </g>
+                <g
+                    transform="translate(4,84)"
+                    data-playground='{"amount": 1, "interactions": [{"type": "drag"}], "anchors":{"donors": [{"type": "trains", "position": {"x":-45,"y":0}}], "acceptors": [{"type": "trains", "position": {"x":50,"y":0}, "accepts": 1, "parent": true}]}}'
+                >
+                    <rect
+                        width="90"
+                        height="30"
+                        x="0"
+                        y="0"
+                        style="fill: #43B94A; stroke: #1A6AA3; stroke-width: 2;"
+                    ></rect>
+                </g>
+            </svg>
 
+            <svg
+                data-playground='{"interactions":[{"type": "draw"}]}'
+                style="overflow:visible"
+                width="500"
+                height="500"
+            >
+                <g transform="translate(4,4)">
+                    <rect
+                        width="30"
+                        height="30"
+                        x="0"
+                        y="15"
+                        style="fill: #FF3820; stroke: #1A6AA3; stroke-width: 2;"
+                    ></rect>
+                    <polygon
+                        points="0,15 0,15 15,0 45,0 45,0 30,15"
+                        style="fill: #FF3820; stroke: #1A6AA3; stroke-width: 2;"
+                    ></polygon>
+                    <polygon
+                        points="45,0 45,0 30,15 30,45 30,45 45,30"
+                        style="fill: #FF3820; stroke: #1A6AA3; stroke-width: 2;"
+                    ></polygon>
+                </g>
+                <g transform="translate(4,59)">
+                    <rect
+                        width="30"
+                        height="30"
+                        x="0"
+                        y="15"
+                        style="fill: #40CEF6; stroke: #1A6AA3; stroke-width: 2;"
+                    ></rect>
+                    <polygon
+                        points="0,15 0,15 15,0 45,0 45,0 30,15"
+                        style="fill: #40CEF6; stroke: #1A6AA3; stroke-width: 2;"
+                    ></polygon>
+                    <polygon
+                        points="45,0 45,0 30,15 30,45 30,45 45,30"
+                        style="fill: #28A4D1; stroke: #1A6AA3; stroke-width: 2;"
+                    ></polygon>
+                </g>
+                <g transform="translate(4,114)">
+                    <rect
+                        width="30"
+                        height="30"
+                        x="0"
+                        y="15"
+                        style="fill: #43B94A; stroke: #1A6AA3; stroke-width: 2;"
+                    ></rect>
+                    <polygon
+                        points="0,15 0,15 15,0 45,0 45,0 30,15"
+                        style="fill: #58C05F; stroke: #1A6AA3; stroke-width: 2;"
+                    ></polygon>
+                    <polygon
+                        points="45,0 45,0 30,15 30,45 30,45 45,30"
+                        style="fill: #39943B; stroke: #1A6AA3; stroke-width: 2;"
+                    ></polygon>
+                </g>
+                <g transform="translate(59,4)">
+                    <rect
+                        width="30"
+                        height="30"
+                        x="0"
+                        y="15"
+                        style="fill: #9BA2A6; stroke: #1A6AA3; stroke-width: 2;"
+                    ></rect>
+                    <polygon
+                        points="0,15 0,15 15,0 45,0 45,0 30,15"
+                        style="fill: #AEB5B9; stroke: #1A6AA3; stroke-width: 2;"
+                    ></polygon>
+                    <polygon
+                        points="45,0 45,0 30,15 30,45 30,45 45,30"
+                        style="fill: #888E93; stroke: #1A6AA3; stroke-width: 2;"
+                    ></polygon>
+                </g>
+                <g transform="translate(59,59)">
+                    <rect
+                        width="30"
+                        height="30"
+                        x="0"
+                        y="15"
+                        style="fill: #FFEA3D; stroke: #1A6AA3; stroke-width: 2;"
+                    ></rect>
+                    <polygon
+                        points="0,15 0,15 15,0 45,0 45,0 30,15"
+                        style="fill: #FFEA3D; stroke: #1A6AA3; stroke-width: 2;"
+                    ></polygon>
+                    <polygon
+                        points="45,0 45,0 30,15 30,45 30,45 45,30"
+                        style="fill: #FFEA3D; stroke: #1A6AA3; stroke-width: 2;"
+                    ></polygon>
+                </g>
+            </svg>
+        </div>
 
-    <svg data-playground='{"debug":true}' style="overflow:visible"  width="500" height="500">
-        <g transform="translate(4,4)" data-playground='{"amount": 1, "interactions": [{"type": "drag"}], "anchors":{"donors": [{"type": "trains", "position": {"x":-15,"y":0}}], "acceptors": [{"type": "trains", "position": {"x":20,"y":0}, "accepts": 1, "parent": true}]}}'>
-            <rect width="30" height="30" x="0" y="0" style="fill: white; stroke: #1A6AA3; stroke-width: 2;"></rect>
-        </g>
-        <g transform="translate(4,44)" data-playground='{"amount": 1, "interactions": [{"type": "drag"}], "anchors":{"donors": [{"type": "trains", "position": {"x":-30,"y":0}}], "acceptors": [{"type": "trains", "position": {"x":35,"y":0}, "accepts": 1, "parent": true}]}}'>
-            <rect width="60" height="30" x="0" y="0" style="fill: #E42C1A; stroke: #1A6AA3; stroke-width: 2;"></rect>
-        </g>
-        <g transform="translate(4,84)" data-playground='{"amount": 1, "interactions": [{"type": "drag"}], "anchors":{"donors": [{"type": "trains", "position": {"x":-45,"y":0}}], "acceptors": [{"type": "trains", "position": {"x":50,"y":0}, "accepts": 1, "parent": true}]}}'>
-            <rect width="90" height="30" x="0" y="0" style="fill: #43B94A; stroke: #1A6AA3; stroke-width: 2;"></rect>
-        </g>
-    </svg>
+        <script src="../dist/main.dev.browser.js"></script>
+        <script>
+            const TC = TouchController;
 
+            const dragElements = [
+                ...Array.from(document.querySelectorAll('.item')),
+                ...Array.from(document.querySelectorAll('svg > g')),
+            ];
 
+            var scene = document.getElementById('scene-background');
+            scene.width = scene.getBoundingClientRect().width;
+            scene.height = scene.getBoundingClientRect().height;
+            var ctx = scene.getContext('2d');
+            ctx.lineWidth = 10;
+            ctx.lineCap = 'round';
 
+            var touchController = new TC.TouchController(dragElements, scene);
+            touchController.touches.subscribe(function(touch) {
+                //console.log('touch',touch);
 
-    <svg data-playground='{"interactions":[{"type": "draw"}]}' style="overflow:visible" width="500" height="500">
-            <g transform="translate(4,4)">
-                <rect width="30" height="30" x="0" y="15" style="fill: #FF3820; stroke: #1A6AA3; stroke-width: 2;"></rect>
-                <polygon points="0,15 0,15 15,0 45,0 45,0 30,15" style="fill: #FF3820; stroke: #1A6AA3; stroke-width: 2;"></polygon>
-                <polygon points="45,0 45,0 30,15 30,45 30,45 45,30" style="fill: #FF3820; stroke: #1A6AA3; stroke-width: 2;"></polygon>
-            </g>
-            <g transform="translate(4,59)" >
-                <rect width="30" height="30" x="0" y="15" style="fill: #40CEF6; stroke: #1A6AA3; stroke-width: 2;"></rect>
-                <polygon points="0,15 0,15 15,0 45,0 45,0 30,15" style="fill: #40CEF6; stroke: #1A6AA3; stroke-width: 2;"></polygon>
-                <polygon points="45,0 45,0 30,15 30,45 30,45 45,30" style="fill: #28A4D1; stroke: #1A6AA3; stroke-width: 2;"></polygon>
-            </g>
-            <g transform="translate(4,114)" >
-                <rect width="30" height="30" x="0" y="15" style="fill: #43B94A; stroke: #1A6AA3; stroke-width: 2;"></rect>
-                <polygon points="0,15 0,15 15,0 45,0 45,0 30,15" style="fill: #58C05F; stroke: #1A6AA3; stroke-width: 2;"></polygon>
-                <polygon points="45,0 45,0 30,15 30,45 30,45 45,30" style="fill: #39943B; stroke: #1A6AA3; stroke-width: 2;"></polygon>
-            </g>
-            <g transform="translate(59,4)" >
-                <rect width="30" height="30" x="0" y="15" style="fill: #9BA2A6; stroke: #1A6AA3; stroke-width: 2;"></rect>
-                <polygon points="0,15 0,15 15,0 45,0 45,0 30,15" style="fill: #AEB5B9; stroke: #1A6AA3; stroke-width: 2;"></polygon>
-                <polygon points="45,0 45,0 30,15 30,45 30,45 45,30" style="fill: #888E93; stroke: #1A6AA3; stroke-width: 2;"></polygon>
-            </g>
-            <g transform="translate(59,59)" >
-                <rect width="30" height="30" x="0" y="15" style="fill: #FFEA3D; stroke: #1A6AA3; stroke-width: 2;"></rect>
-                <polygon points="0,15 0,15 15,0 45,0 45,0 30,15" style="fill: #FFEA3D; stroke: #1A6AA3; stroke-width: 2;"></polygon>
-                <polygon points="45,0 45,0 30,15 30,45 30,45 45,30" style="fill: #FFEA3D; stroke: #1A6AA3; stroke-width: 2;"></polygon>
-            </g>
-        </svg>
+                var color =
+                    '#' + Math.floor(Math.random() * 16777215).toString(16);
+                var lastFrame = touch.firstFrame;
 
-    </div>
+                touch.frames.subscribe(function(frame) {
+                    //console.log('frame',frame);
+                    //console.log('frame.position',frame.position);
+                    //console.log('frame.positionRelative',frame.positionRelative);
 
-<script src="../dist/main.dev.browser.js"></script>
-<script>
+                    ctx.strokeStyle = color;
+                    ctx.beginPath();
+                    ctx.moveTo(lastFrame.position.x, lastFrame.position.y);
+                    ctx.lineTo(frame.position.x, frame.position.y);
+                    ctx.stroke();
+                    lastFrame = frame;
+                });
+            });
 
-    const TC = TouchController;
-    
-    const dragElements = [...Array.from(document.querySelectorAll('.item')),...Array.from(document.querySelectorAll('svg > g'))];
+            const multiTouchController = new TC.MultiTouchController(
+                touchController,
+                (frame) => frame.element,
+            );
 
-    var scene = document.getElementById('scene-background');
-    scene.width = scene.getBoundingClientRect().width;
-    scene.height = scene.getBoundingClientRect().height;
-    var ctx = scene.getContext('2d');
-    ctx.lineWidth = 10;
-    ctx.lineCap = "round";
+            multiTouchController.hoveredElementsChanges.subscribe(
+                ([elementNew, elementOld]) => {
+                    if (elementNew || false) {
+                        elementNew.style.border = '2px solid yellow';
+                    }
+                    if (elementOld || false) {
+                        elementOld.style.border = '2px solid black';
+                    }
+                },
+            );
 
-    
+            multiTouchController.multiTouches.subscribe(function(multitouch) {
+                if (typeof multitouch.element === 'undefined') return;
 
-
-    var touchController = new TC.TouchController(dragElements,scene);
-    touchController.touches.subscribe(function(touch){
-
-        //console.log('touch',touch);
-
-        var color = '#'+Math.floor(Math.random()*16777215).toString(16);
-        var lastFrame = touch.firstFrame;
-
-        touch.frames.subscribe(function(frame){
-            
-            //console.log('frame',frame);
-            //console.log('frame.position',frame.position);
-            //console.log('frame.positionRelative',frame.positionRelative);
-
-            ctx.strokeStyle = color;
-            ctx.beginPath();
-            ctx.moveTo(lastFrame.position.x,lastFrame.position.y);
-            ctx.lineTo(frame.position.x,frame.position.y);
-            ctx.stroke();
-            lastFrame = frame;
-        });
-
-    });
-
-
-    const multiTouchController = new TC.MultiTouchController(
-        touchController,
-        (frame)=>frame.element
-    );
-
-
-    multiTouchController.hoveredElementsChanges.subscribe(([elementNew,elementOld])=>{
-        if(elementNew||false){
-            elementNew.style.border = '2px solid yellow';
-        }
-        if(elementOld||false){
-            elementOld.style.border = '2px solid black';
-        }
-    });
-
-
-
-  multiTouchController.multiTouches.subscribe(function (multitouch) {
-
-    if(typeof multitouch.element === 'undefined')return;
-
-    multitouch.transformations(
-        TC.BoundingBox.One()
-    ).subscribe(function (transformation) {
-            transformation.applyOnElement(multitouch.element);
-        },
-        function () {
-        },
-        function () {
-            if(multitouch.empty){
-                console.log(`You have selected element.`);
-            }
-        });
-});
-
-
-</script>
-</body>
+                multitouch.transformations(TC.BoundingBox.One()).subscribe(
+                    function(transformation) {
+                        transformation.applyOnElement(multitouch.element);
+                    },
+                    function() {},
+                    function() {
+                        if (multitouch.empty) {
+                            console.log(`You have selected element.`);
+                        }
+                    },
+                );
+            });
+        </script>
+    </body>
 </html>

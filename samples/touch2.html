@@ -1,50 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Sample of TouchController</title>
-    <link rel="stylesheet" type="text/css" href="./common.css">
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Sample of TouchController</title>
+        <link rel="stylesheet" type="text/css" href="./common.css" />
+    </head>
+    <body>
+        <canvas id="scene1" class="scene" width="300" height="300"></canvas>
+        <canvas id="scene2" class="scene" width="300" height="300"></canvas>
 
+        <script
+            type="text/javascript"
+            src="../dist/main.dev.browser.js"
+        ></script>
+        <script type="text/javascript">
+            const TC = TouchController;
 
-<canvas id="scene1" class="scene" width="300" height="300"></canvas>
-<canvas id="scene2" class="scene" width="300" height="300"></canvas>
+            var scene1 = document.getElementById('scene1');
+            var scene2 = document.getElementById('scene2');
+            var ctx = scene1.getContext('2d');
+            ctx.lineWidth = 10;
+            ctx.lineCap = 'round';
 
+            var touchController = new TC.TouchController(
+                [scene1, scene2],
+                scene1,
+            );
+            touchController.touches.subscribe(function(touch) {
+                console.log(touch);
 
+                var color =
+                    '#' + Math.floor(Math.random() * 16777215).toString(16);
+                var lastFrame = touch.firstFrame;
 
-<script type="text/javascript" src="../dist/main.dev.browser.js"></script>
-<script type="text/javascript">
-
-    const TC = TouchController;
-
-    var scene1 = document.getElementById('scene1');
-    var scene2 = document.getElementById('scene2');
-    var ctx = scene1.getContext('2d');
-    ctx.lineWidth = 10;
-    ctx.lineCap = "round";
-
-
-    var touchController = new TC.TouchController([scene1,scene2],scene1);
-    touchController.touches.subscribe(function(touch){
-
-        console.log(touch);
-
-        var color = '#'+Math.floor(Math.random()*16777215).toString(16);
-        var lastFrame = touch.firstFrame;
-
-        touch.frames.subscribe(function(frame){
-            ctx.strokeStyle = color;
-            ctx.beginPath();
-            ctx.moveTo(lastFrame.position.x,lastFrame.position.y);
-            ctx.lineTo(frame.position.x,frame.position.y);
-            ctx.stroke();
-            lastFrame = frame;
-        });
-
-    });
-</script>
-
-
-</body>
+                touch.frames.subscribe(function(frame) {
+                    ctx.strokeStyle = color;
+                    ctx.beginPath();
+                    ctx.moveTo(lastFrame.position.x, lastFrame.position.y);
+                    ctx.lineTo(frame.position.x, frame.position.y);
+                    ctx.stroke();
+                    lastFrame = frame;
+                });
+            });
+        </script>
+    </body>
 </html>

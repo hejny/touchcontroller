@@ -1,96 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Sample of TouchController</title>
-    <link rel="stylesheet" type="text/css" href="./common.css">
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Sample of TouchController</title>
+        <link rel="stylesheet" type="text/css" href="./common.css" />
+    </head>
+    <body>
+        <canvas id="scene" width="800" height="500"></canvas>
 
+        <div><b>Live:</b> <span id="liveParticlesCount"></span></div>
+        <div><b>Dead:</b> <span id="deadParticlesCount"></span></div>
 
-<canvas id="scene" width="800" height="500"></canvas>
+        <script src="../dist/main.dev.browser.js"></script>
+        <script>
+            const TC = TouchController;
 
-<div>
-    <b>Live:</b> <span id="liveParticlesCount"></span>
-</div>
-<div>
-    <b>Dead:</b> <span id="deadParticlesCount"></span>
-</div>
+            const sceneElement = document.getElementById('scene');
+            const sceneContext = sceneElement.getContext('2d');
 
-<script src="../dist/main.dev.browser.js"></script>
-<script>
-        const TC = TouchController;
-    
-        const sceneElement = document.getElementById('scene');
-        const sceneContext = sceneElement.getContext('2d');
+            const drawController = new TC.DrawController(
+                new TC.Vector2(800, 500),
+            );
+            drawController.addContext(sceneContext);
 
-        const drawController = new TC.DrawController(new TC.Vector2(800,500));
-        drawController.addContext(sceneContext);
-    
-        const touchController = new TC.TouchController.fromCanvas(sceneElement);
-        touchController.touches.subscribe((touch)=>{
+            const touchController = new TC.TouchController.fromCanvas(
+                sceneElement,
+            );
+            touchController.touches.subscribe((touch) => {
+                const color =
+                    '#' + Math.floor(Math.random() * 16777215).toString(16);
 
-            const color = '#'+Math.floor(Math.random()*16777215).toString(16);
+                let lastPosition = null;
+                touch.frames.subscribe((frame) => {
+                    if (lastPosition)
+                        drawController.drawLine(
+                            {
+                                shapeSrc: './assets/particle2.png',
+                                shapeCenter: new TC.Vector2(0.5, 0.5),
+                                color,
+                                current: {
+                                    position: lastPosition,
+                                    rotation: 0,
+                                    widthSize: 5,
+                                },
+                                movement: {
+                                    position: new TC.Vector2(
+                                        (Math.random() - 0.5) * 10, // TODO: depend this value
+                                        (Math.random() - 0.5) * 10,
+                                    ),
+                                    rotation:
+                                        (Math.random() - 0.5) * Math.PI * 2,
+                                    widthSize: 20,
+                                },
+                                friction: 0.2,
+                            },
+                            {
+                                shapeSrc: './assets/particle2.png',
+                                shapeCenter: new TC.Vector2(0.5, 0.5),
+                                color,
+                                current: {
+                                    position: frame.position,
+                                    rotation: 0,
+                                    widthSize: 5,
+                                },
+                                movement: {
+                                    position: new TC.Vector2(
+                                        (Math.random() - 0.5) * 10, // TODO: depend this value
+                                        (Math.random() - 0.5) * 10,
+                                    ),
+                                    rotation:
+                                        (Math.random() - 0.5) * Math.PI * 2,
+                                    widthSize: 20,
+                                },
+                                friction: 0.2,
+                            },
+                            5,
+                        );
 
-            let lastPosition = null;
-            touch.frames.subscribe((frame)=>{
-                
-                if(lastPosition)
-                drawController.drawLine(
-                    {
-                        shapeSrc: './assets/particle2.png',
-                        shapeCenter: new TC.Vector2(0.5, 0.5),
-                        color,
-                        current: {
-                            position: lastPosition,
-                            rotation: 0,
-                            widthSize: 5
-                        }, 
-                        movement: {
-                            position: new TC.Vector2(
-                                (Math.random() - 0.5) * 10, // TODO: depend this value
-                                (Math.random() - 0.5) * 10,
-                            ),
-                            rotation: ((Math.random() - 0.5) * Math.PI * 2),
-                            widthSize: 20,
-                        },
-                        friction:  0.2
-                    },
-                    {
-                        shapeSrc: './assets/particle2.png',
-                        shapeCenter: new TC.Vector2(0.5, 0.5),
-                        color,
-                        current: {
-                            position: frame.position,
-                            rotation: 0,
-                            widthSize: 5,
-                        }, 
-                        movement: {
-                            position: new TC.Vector2(
-                                (Math.random() - 0.5) * 10, // TODO: depend this value
-                                (Math.random() - 0.5) * 10,
-                            ),
-                            rotation: ((Math.random() - 0.5) * Math.PI * 2),
-                            widthSize: 20,
-                        },
-                        friction:  0.2
-                    },
-                    5
-                ); 
-                    
-                lastPosition = frame.position;
+                    lastPosition = frame.position;
+                });
             });
-            
-        
-        });
 
-
-        setInterval(()=>{
-            document.getElementById('liveParticlesCount').innerText = drawController.liveParticlesCount;
-            document.getElementById('deadParticlesCount').innerText = drawController.deadParticlesCount;
-        },100);
-    </script>
-<script type="module">/*
+            setInterval(() => {
+                document.getElementById('liveParticlesCount').innerText =
+                    drawController.liveParticlesCount;
+                document.getElementById('deadParticlesCount').innerText =
+                    drawController.deadParticlesCount;
+            }, 100);
+        </script>
+        <script type="module">
+            /*
     import { Scene } from './touch3/Scene.js';
     import { Particle } from './touch3/Particle.js';
     import { Vector2 } from './touch3/Vector2.js';
@@ -139,8 +138,6 @@
         });
 
     });*/
-</script>
-
-
-</body>
+        </script>
+    </body>
 </html>

@@ -65,6 +65,7 @@ export class TouchController {
         newElementCreator: (event: Event) => Awaitable<IElement>,
     ) {
         for (const listener of this.listeners) {
+            console.log(listener);
             element.addEventListener(listener.startEventType, async (event) => {
                 const newElement = await newElementCreator(event);
                 this.addElement(newElement);

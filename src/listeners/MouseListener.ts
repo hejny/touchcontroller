@@ -29,16 +29,17 @@ export class MouseListener implements IListener {
                 `Element should be initialized when using startFromExternalEvent.`,
             );
         }
-        const { handleStart, createTouchFrameFromEvent } = item;
+        const { handleMouseDownOnElement } = item;
 
-        handleStart(createTouchFrameFromEvent(event));
+        handleMouseDownOnElement(event);
     }
 
     private elements = new SourceCache<
         IElement,
         {
-            createTouchFrameFromEvent: ICreateTouchFrameFromEvent;
-            handleStart: IHandleStart;
+            handleMouseDownOnElement;
+            //createTouchFrameFromEvent: ICreateTouchFrameFromEvent;
+            //handleStart: IHandleStart;
         }
     >();
 
@@ -78,7 +79,9 @@ export class MouseListener implements IListener {
 
         let currentTouch: Touch | null = null;
 
-        const handleMouseDownOnElement = (event: MouseEvent) => {
+        const handleMouseDownOnElement: IHandleMouseDownOnElement = (
+            event: MouseEvent,
+        ) => {
             if (this.buttons.indexOf(event.button) !== -1) {
                 event.preventDefault();
                 event.stopPropagation();
@@ -86,7 +89,9 @@ export class MouseListener implements IListener {
             }
         };
 
-        const handleStart: IHandleStart = (firstTouchFrame: TouchFrame) => {
+        const handleStart /*: IHandleStart*/ = (
+            firstTouchFrame: TouchFrame,
+        ) => {
             if (onlyTouch) {
                 onlyTouch.end();
             }
@@ -144,7 +149,7 @@ export class MouseListener implements IListener {
             }
         };
 
-        const createTouchFrameFromEvent: ICreateTouchFrameFromEvent = (
+        const createTouchFrameFromEvent /*: ICreateTouchFrameFromEvent*/ = (
             event: IEvent,
         ) => {
             const boundingRect = element.getBoundingClientRect();
@@ -161,11 +166,14 @@ export class MouseListener implements IListener {
         };
 
         this.elements.setItem(element, {
-            handleStart,
-            createTouchFrameFromEvent,
+            handleMouseDownOnElement,
+            //handleStart,
+            //createTouchFrameFromEvent,
         });
     }
 }
 
-type ICreateTouchFrameFromEvent = (event: IEvent) => TouchFrame;
-type IHandleStart = (firstTouchFrame: TouchFrame) => void;
+type IHandleMouseDownOnElement = (event: MouseEvent) => void;
+
+//type ICreateTouchFrameFromEvent = (event: IEvent) => TouchFrame;
+//type IHandleStart = (firstTouchFrame: TouchFrame) => void;

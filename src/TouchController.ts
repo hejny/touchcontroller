@@ -8,6 +8,7 @@ import { IListener } from './interfaces/IListener';
 import { MouseListener } from './listeners/MouseListener';
 import { Touch } from './Touch';
 import { TouchFrame } from './TouchFrame';
+import { TouchListener } from './listeners/TouchListener';
 
 // TODO: multitouch should be extended from this
 export class TouchController {
@@ -41,7 +42,7 @@ export class TouchController {
         if (setListeners) {
             this.addListener(new MouseListener());
             this.addListener(new MouseListener([1, 2], true));
-            // TODO: this.addListener(createTouchListener());
+            this.addListener(new TouchListener());
         }
     }
 

@@ -22,6 +22,15 @@ svg {
     box-shadow: black 0 0 10px;
 }
 
+#log {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 300px;
+    z-index: 99999;
+}
+
 .log-title {
     background-color: bisque;
 }

@@ -1,14 +1,14 @@
-import { IListener } from './interfaces/IListener';
-import { IElement } from './interfaces/IElement';
-import { Awaitable } from './interfaces/IAwaitable';
 import 'rxjs/add/operator/share';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { forImmediate } from 'waitasecond';
+import { Awaitable } from './interfaces/IAwaitable';
+import { IElement } from './interfaces/IElement';
+import { IListener } from './interfaces/IListener';
 import { MouseListener } from './listeners/MouseListener';
+import { TouchListener } from './listeners/TouchListener';
 import { Touch } from './Touch';
 import { TouchFrame } from './TouchFrame';
-import { TouchListener } from './listeners/TouchListener';
 
 // TODO: multitouch should be extended from this
 export class TouchController {
@@ -24,7 +24,7 @@ export class TouchController {
     private listeners: IListener[] = [];
 
     constructor(
-        public elements: Array<IElement>, // TODO: syntax sugar if set only one element
+        public elements: IElement[], // TODO: syntax sugar if set only one element
         public anchorElement: HTMLElement,
         setListeners = true,
     ) {
@@ -79,11 +79,7 @@ export class TouchController {
         this.touchesObserver.next(touch);
     }
 
-    private callListenerOnElement(
-        listener: IListener,
-        element: IElement,
-        //immediateDrag: null | Event,
-    ) {
+    private callListenerOnElement(listener: IListener, element: IElement) {
         listener.init(
             element,
             this.anchorElement,
@@ -93,7 +89,6 @@ export class TouchController {
                     this.hoveredFramesObserver.next(frame);
                 }
             },
-            //immediateDrag,
         );
         // TODO: array of listeners disposers
     }

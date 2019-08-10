@@ -1,8 +1,8 @@
-import { IElement } from './interfaces/IElement';
 import 'rxjs/add/observable/range';
 import 'rxjs/add/operator/share';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
+import { IElement } from './interfaces/IElement';
 import { TouchFrame } from './TouchFrame';
 import { Vector2 } from './Vector2';
 

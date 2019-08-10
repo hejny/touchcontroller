@@ -1,7 +1,7 @@
-import { IElement } from './IElement';
-import { Awaitable } from './IAwaitable';
 import { Touch } from '../Touch';
 import { TouchFrame } from '../TouchFrame';
+import { Awaitable } from './IAwaitable';
+import { IElement } from './IElement';
 
 // TODO: This should be maybe regular Class not a Function
 export interface IListener {
@@ -11,8 +11,7 @@ export interface IListener {
         anchorElement: IElement,
         newTouch: (touch: Touch) => void, // TODO: type Touch is not a good name because of it exist in default typings
         newHoverFrame: (frame: TouchFrame) => void, // acceptsEvent: (event:any)=>boolean
-    ) => //immediateDrag: null | Event,
-    void;
+    ) => void;
     // TODO: dispose: () => void;
 
     startFromExternalEvent: (

@@ -129,7 +129,10 @@ export class TouchListener implements IListener {
         });
     }
 
-    public async startFromExternalEvent(element: IElement, event: Event) {
+    public async startFromExternalEvent(
+        element: IElement,
+        originalEvent: Event,
+    ) {
         const item = this.elements.getItem(element);
         if (!item) {
             throw new Error(
@@ -138,11 +141,7 @@ export class TouchListener implements IListener {
         }
         const { anchorElement, createTouchFrameFromEvent, newTouch } = item;
 
-        // TODO: Is this needed
-        //event.preventDefault();
-        //event.stopPropagation();
-
-        const identifier = (event as TouchEvent).touches[0].identifier;
+        const identifier = (originalEvent as TouchEvent).touches[0].identifier;
 
         // TODO: maybe DRY this block with block in createMouseListener
         // TODO: better naming in this block
@@ -150,7 +149,7 @@ export class TouchListener implements IListener {
         const currentTouch = new Touch(
             'TOUCH',
             anchorElement,
-            createTouchFrameFromEvent((event as TouchEvent).touches[0]),
+            createTouchFrameFromEvent((originalEvent as TouchEvent).touches[0]),
         );
 
         const getTouchFromEvent = (event: TouchEvent) =>

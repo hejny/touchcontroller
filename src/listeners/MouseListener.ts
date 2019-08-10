@@ -15,8 +15,6 @@ const MOUSE_LISTENER_OPTIONS = {
 let onlyTouch: Touch | null = null;
 
 export class MouseListener implements IListener {
-    constructor(private buttons: number[] = [0], private rotating = false) {}
-
     public get title() {
         return `MOUSE(${this.buttons.join(',')})`;
     }
@@ -28,6 +26,8 @@ export class MouseListener implements IListener {
             handleMouseDownOnElement: IHandleMouseDownOnElement;
         }
     >();
+
+    constructor(private buttons: number[] = [0], private rotating = false) {}
 
     public init(
         element: IElement,

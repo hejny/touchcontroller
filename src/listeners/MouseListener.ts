@@ -22,18 +22,6 @@ export class MouseListener implements IListener {
     }
     public startEventType = `mousedown`;
 
-    public async startFromExternalEvent(element: IElement, event: Event) {
-        const item = this.elements.getItem(element);
-        if (!item) {
-            throw new Error(
-                `Element should be initialized when using startFromExternalEvent.`,
-            );
-        }
-        const { handleMouseDownOnElement } = item;
-
-        handleMouseDownOnElement(event as MouseEvent);
-    }
-
     private elements = new SourceCache<
         IElement,
         {
@@ -170,6 +158,20 @@ export class MouseListener implements IListener {
             //handleStart,
             //createTouchFrameFromEvent,
         });
+    }
+
+    public async startFromExternalEvent(element: IElement, event: Event) {
+        const item = this.elements.getItem(element);
+        if (!item) {
+            throw new Error(
+                `Element should be initialized when using startFromExternalEvent.`,
+            );
+        }
+        const { handleMouseDownOnElement } = item;
+
+        // TODO: Maybe await forImmediate();
+
+        handleMouseDownOnElement(event as MouseEvent);
     }
 }
 

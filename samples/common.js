@@ -1,16 +1,15 @@
-
-
-function logMultitouches(multiTouchController, logElement){
-
-
-    multiTouchController.multiTouches.subscribe(function (multitouch) {
-
+function logMultitouches(multiTouchController, logElement) {
+    multiTouchController.multiTouches.subscribe(function(multitouch) {
         //var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
 
-        var logMultitouch = $('<div class="log-multitouch"><div class="log-title">' + multitouch + '</div><div class="log-multitouch-last-transformation"></div></div>');
-        $(logElement).append(logMultitouch)
+        var logMultitouch = $(
+            '<div class="log-multitouch"><div class="log-title">' +
+                multitouch +
+                '</div><div class="log-multitouch-last-transformation"></div></div>',
+        );
+        $(logElement).append(logMultitouch);
 
-        multitouch.transformations().subscribe(function (transformation) {
+        multitouch.transformations().subscribe(function(transformation) {
             $(logMultitouch).find('.log-multitouch-last-transformation').html(`
                         <table>
                             <tr>
@@ -27,20 +26,24 @@ function logMultitouches(multiTouchController, logElement){
                             </tr>
                         </table>
                     `);
-
         });
 
-        multitouch.touches.subscribe(function (touch) {
-
-                var logTouch = $('<div class="log-touch"><div class="log-title">' + touch + '</div><div class="log-touch-frames"></div><div class="log-touch-last-frame"></div></div></div>');
+        multitouch.touches.subscribe(
+            function(touch) {
+                var logTouch = $(
+                    '<div class="log-touch"><div class="log-title">' +
+                        touch +
+                        '</div><div class="log-touch-frames"></div><div class="log-touch-last-frame"></div></div></div>',
+                );
                 $(logMultitouch).append(logTouch);
                 var framesCounter = 0;
 
-
-                touch.frames.subscribe(function (frame) {
-
-                    $(logTouch).find('.log-touch-frames').text(framesCounter++);
-                    $(logTouch).find('.log-touch-last-frame').html(`
+                touch.frames.subscribe(
+                    function(frame) {
+                        $(logTouch)
+                            .find('.log-touch-frames')
+                            .text(framesCounter++);
+                        $(logTouch).find('.log-touch-last-frame').html(`
                         <table>
                             <tr>
                                 <th>Position:</th>
@@ -68,20 +71,17 @@ function logMultitouches(multiTouchController, logElement){
                             </tr>
                         </table>
                     `);
-
                     },
-                    function () {
-                    },
-                    function () {
+                    function() {},
+                    function() {
                         logTouch.remove();
-                    }
+                    },
                 );
-
             },
-            function () {
-            },
-            function () {
+            function() {},
+            function() {
                 logMultitouch.remove();
-            });
+            },
+        );
     });
 }

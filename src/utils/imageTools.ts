@@ -1,9 +1,10 @@
 import { SourceCache } from './Cache';
+import { eventManager } from '../main';
 
 export function createImageFromSrc(src: string): Promise<HTMLImageElement> {
     return new Promise((resolve, reject) => {
         const image = window.document.createElement('IMG') as HTMLImageElement;
-        image.addEventListener('load', () => resolve(image));
+        eventManager.addEventListener(image,'load', () => resolve(image));
         image.src = src;
     });
 }

@@ -1,3 +1,4 @@
+import { eventManager } from './../utils/EventManager';
 import { IEvent } from '../interfaces/IEvent';
 import { IListener } from '../interfaces/IListener';
 import { Touch } from '../Touch';
@@ -38,22 +39,26 @@ export class TouchListener implements IListener {
             );
         }
 
-        element.addEventListener(
+        eventManager.addEventListener(
+            element,
             'touchstart',
             (event) => handleTouchesStart(event as any),
             TOUCH_LISTENER_OPTIONS,
         );
-        element.addEventListener(
+        eventManager.addEventListener(
+            element,
             'touchmove',
             (event) => handleTouchesMove(event as any),
             TOUCH_LISTENER_OPTIONS,
         );
-        element.addEventListener(
+        eventManager.addEventListener(
+            element,
             'touchend',
             (event) => handleTouchesEnd(event as any),
             TOUCH_LISTENER_OPTIONS,
         );
-        element.addEventListener(
+        eventManager.addEventListener(
+            element,
             'touchcancel',
             (event) => handleTouchesEnd(event as any),
             TOUCH_LISTENER_OPTIONS,
@@ -167,7 +172,8 @@ export class TouchListener implements IListener {
                 currentTouch.move(createTouchFrameFromEvent(touch), false);
             }
         };
-        document.addEventListener(
+        eventManager.addEventListener(
+            document,
             'touchmove',
             handleTouchMoveOnDocument,
             TOUCH_LISTENER_OPTIONS,
@@ -176,7 +182,8 @@ export class TouchListener implements IListener {
         const handleTouchUpOnDocument = (event: TouchEvent) => {
             currentTouch.end();
 
-            document.removeEventListener(
+            eventManager.removeEventListener(
+                document,
                 'touchmove',
                 handleTouchMoveOnDocument,
             );
@@ -185,7 +192,8 @@ export class TouchListener implements IListener {
             // }
         };
 
-        document.addEventListener(
+        eventManager.addEventListener(
+            document,
             'touchend',
             handleTouchUpOnDocument,
             TOUCH_LISTENER_OPTIONS,

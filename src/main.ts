@@ -1,3 +1,4 @@
+import { EventManager, eventManager } from './utils/EventManager';
 import { BoundingBox } from './BoundingBox';
 import { DrawController } from './drawController/CanvasParticlesRenderer';
 import { MouseListener } from './listeners/MouseListener';
@@ -18,6 +19,8 @@ const listeners = {
     TouchListener,
 };
 
+// TODO: Export some usefull utils
+
 export {
     TouchController,
     MultiTouchController,
@@ -30,4 +33,6 @@ export {
     svgTransformationDecode,
     svgTransformationEncode,
     DrawController,
+    EventManager,
+    eventManager
 };

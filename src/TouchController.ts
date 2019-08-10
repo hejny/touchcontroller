@@ -1,3 +1,4 @@
+import { eventManager } from './utils/EventManager';
 import 'rxjs/add/operator/share';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
@@ -66,7 +67,9 @@ export class TouchController {
         newElementCreator: (event: Event) => Awaitable<IElement>,
     ) {
         for (const listener of this.listeners) {
-            element.addEventListener(listener.startEventType, async (event) => {
+
+            // TODO: Should be here updateEventListener or addEventListener
+            eventManager.updateEventListener(element,listener.startEventType, async (event) => {
                 const newElement = await newElementCreator(event);
                 this.addElement(newElement);
                 listener.startFromExternalEvent(newElement, event as any);

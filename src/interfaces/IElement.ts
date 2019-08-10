@@ -1,1 +1,1 @@
-export type IElement = HTMLElement | SVGElement;
+export type IElement = HTMLElement | SVGElement | Document;

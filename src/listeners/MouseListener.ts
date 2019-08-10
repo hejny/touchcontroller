@@ -1,3 +1,4 @@
+import { eventManager } from './../utils/EventManager';
 import { IEvent } from '../interfaces/IEvent';
 import { IListener } from '../interfaces/IListener';
 import { Touch } from '../Touch';
@@ -5,6 +6,7 @@ import { TouchFrame } from '../TouchFrame';
 import { Vector2 } from '../Vector2';
 import { IElement } from './../interfaces/IElement';
 import { SourceCache } from './../utils/Cache';
+import { getBoundingClientRectEnhanced } from '../utils/getBoundingClientRect';
 
 const MOUSE_LISTENER_OPTIONS = {
     capture: true,
@@ -41,20 +43,23 @@ export class MouseListener implements IListener {
             );
         }
 
-        element.addEventListener(
+        eventManager.addEventListener(
+            element,
             'mousedown',
             (event) => handleMouseDownOnElement(event as any),
             MOUSE_LISTENER_OPTIONS,
         );
 
-        element.addEventListener(
+        eventManager.addEventListener(
+            element,
             'mousemove',
             (event) => handleMouseMoveOnElement(event as any),
             MOUSE_LISTENER_OPTIONS,
         );
 
         // TODO: configurable mouse buttons
-        element.addEventListener(
+        eventManager.addEventListener(
+            element,
             'contextmenu',
             (event) => {
                 event.preventDefault();
@@ -82,7 +87,8 @@ export class MouseListener implements IListener {
 
             currentTouch = new Touch('MOUSE', anchorElement, firstTouchFrame);
 
-            document.addEventListener(
+            eventManager.addEventListener(
+                document,
                 'mousemove',
                 handleMouseMoveOnDocument,
                 MOUSE_LISTENER_OPTIONS,
@@ -105,7 +111,8 @@ export class MouseListener implements IListener {
                 );
             };
 
-            document.addEventListener(
+            eventManager.addEventListener(
+                document,
                 'mouseup',
                 mouseUpListenerOnDocument,
                 MOUSE_LISTENER_OPTIONS,
@@ -132,7 +139,7 @@ export class MouseListener implements IListener {
         };
 
         const createTouchFrameFromEvent = (event: IEvent) => {
-            const boundingRect = element.getBoundingClientRect();
+            const boundingRect = getBoundingClientRectEnhanced(element);
             return new TouchFrame(
                 element,
                 anchorElement,

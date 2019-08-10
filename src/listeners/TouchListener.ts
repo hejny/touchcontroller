@@ -11,13 +11,13 @@ const TOUCH_LISTENER_OPTIONS = {
     passive: false,
 };
 
-export class TouchListener implements IListener<TouchEvent> {
+export class TouchListener implements IListener {
     public get title() {
         return `TOUCH`;
     }
     public startEventType = `touchstart`;
 
-    public async startFromExternalEvent(element: IElement, event: TouchEvent) {}
+    public async startFromExternalEvent(element: IElement, event: Event) {}
 
     private elements = new SourceCache<
         IElement,

@@ -1,16 +1,14 @@
+import { IListener } from './interfaces/IListener';
 import { IElement } from './interfaces/IElement';
 import { Awaitable } from './interfaces/IAwaitable';
 import 'rxjs/add/operator/share';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { forImmediate } from 'waitasecond';
-import { IListener } from './interfaces/IListener';
 import { MouseListener } from './listeners/MouseListener';
 import { Touch } from './Touch';
 import { TouchFrame } from './TouchFrame';
 import { TouchListener } from './listeners/TouchListener';
-
-type IListenerWithType = MouseListener | TouchListener | IListener<any>;
 
 // TODO: multitouch should be extended from this
 export class TouchController {
@@ -23,7 +21,7 @@ export class TouchController {
 
     private touchesObserver: Observer<Touch>;
     private hoveredFramesObserver: Observer<TouchFrame>;
-    private listeners: IListenerWithType[] = [];
+    private listeners: IListener[] = [];
 
     constructor(
         public elements: Array<IElement>, // TODO: syntax sugar if set only one element
@@ -48,7 +46,7 @@ export class TouchController {
         }
     }
 
-    public addListener(listener: IListenerWithType) {
+    public addListener(listener: IListener) {
         this.listeners.push(listener);
         for (const element of this.elements) {
             this.callListenerOnElement(listener, element);
@@ -72,7 +70,8 @@ export class TouchController {
             element.addEventListener(listener.startEventType, async (event) => {
                 const newElement = await newElementCreator(event);
                 this.addElement(newElement);
-                listener.startFromExternalEvent(newElement, event);
+
+                listener.startFromExternalEvent(newElement, event as any);
 
                 // TODO: !!! Call immediate listener here
             });
@@ -85,7 +84,7 @@ export class TouchController {
     }
 
     private callListenerOnElement(
-        listener: IListenerWithType,
+        listener: IListener,
         element: IElement,
         //immediateDrag: null | Event,
     ) {

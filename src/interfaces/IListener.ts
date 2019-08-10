@@ -4,7 +4,7 @@ import { Touch } from '../Touch';
 import { TouchFrame } from '../TouchFrame';
 
 // TODO: This should be maybe regular Class not a Function
-export interface IListener<TEventType> {
+export interface IListener {
     title: string;
     init: (
         element: IElement,
@@ -17,7 +17,7 @@ export interface IListener<TEventType> {
 
     startFromExternalEvent: (
         element: IElement,
-        event: TEventType,
+        event: Event,
     ) => Awaitable<void>;
     startEventType: string;
 }

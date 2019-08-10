@@ -14,7 +14,7 @@ const MOUSE_LISTENER_OPTIONS = {
 // TODO: remove singleton
 let onlyTouch: Touch | null = null;
 
-export class MouseListener implements IListener {
+export class MouseListener implements IListener<MouseEvent> {
     constructor(private buttons: number[] = [0], private rotating = false) {}
 
     public get title() {
@@ -22,7 +22,7 @@ export class MouseListener implements IListener {
     }
     public startEventType = `mousedown`;
 
-    public async startFromExternalEvent(element: IElement, event: IEvent) {
+    public async startFromExternalEvent(element: IElement, event: MouseEvent) {
         const item = this.elements.getItem(element);
         if (!item) {
             throw new Error(
@@ -37,7 +37,7 @@ export class MouseListener implements IListener {
     private elements = new SourceCache<
         IElement,
         {
-            handleMouseDownOnElement;
+            handleMouseDownOnElement: IHandleMouseDownOnElement;
             //createTouchFrameFromEvent: ICreateTouchFrameFromEvent;
             //handleStart: IHandleStart;
         }

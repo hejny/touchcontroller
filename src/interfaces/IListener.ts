@@ -1,11 +1,10 @@
-import { IEvent } from './../../dist/typings/src/interfaces/IEvent.d';
 import { IElement } from './IElement';
 import { Awaitable } from './IAwaitable';
 import { Touch } from '../Touch';
 import { TouchFrame } from '../TouchFrame';
 
 // TODO: This should be maybe regular Class not a Function
-export interface IListener {
+export interface IListener<TEventType> {
     title: string;
     init: (
         element: IElement,
@@ -18,7 +17,7 @@ export interface IListener {
 
     startFromExternalEvent: (
         element: IElement,
-        event: IEvent,
+        event: TEventType,
     ) => Awaitable<void>;
     startEventType: string;
 }

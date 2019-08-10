@@ -10,6 +10,8 @@ import { Touch } from './Touch';
 import { TouchFrame } from './TouchFrame';
 import { TouchListener } from './listeners/TouchListener';
 
+type IListenerWithType = MouseListener | TouchListener | IListener<any>;
+
 // TODO: multitouch should be extended from this
 export class TouchController {
     public static fromCanvas(canvas: HTMLCanvasElement) {
@@ -21,7 +23,7 @@ export class TouchController {
 
     private touchesObserver: Observer<Touch>;
     private hoveredFramesObserver: Observer<TouchFrame>;
-    private listeners: IListener[] = [];
+    private listeners: IListenerWithType[] = [];
 
     constructor(
         public elements: Array<IElement>, // TODO: syntax sugar if set only one element
@@ -46,7 +48,7 @@ export class TouchController {
         }
     }
 
-    public addListener(listener: IListener) {
+    public addListener(listener: IListenerWithType) {
         this.listeners.push(listener);
         for (const element of this.elements) {
             this.callListenerOnElement(listener, element);
@@ -70,7 +72,7 @@ export class TouchController {
             element.addEventListener(listener.startEventType, async (event) => {
                 const newElement = await newElementCreator(event);
                 this.addElement(newElement);
-                listener.startFromExternalEvent(newElement, event as any);
+                listener.startFromExternalEvent(newElement, event);
 
                 // TODO: !!! Call immediate listener here
             });
@@ -83,7 +85,7 @@ export class TouchController {
     }
 
     private callListenerOnElement(
-        listener: IListener,
+        listener: IListenerWithType,
         element: IElement,
         //immediateDrag: null | Event,
     ) {

@@ -1,3 +1,4 @@
+import { IElement } from './interfaces/IElement';
 import 'rxjs/add/observable/range';
 import 'rxjs/add/operator/share';
 import { Observable } from 'rxjs/Observable';
@@ -29,7 +30,7 @@ export class Touch {
 
     constructor(
         public type: 'TOUCH' | 'MOUSE', // TODO: second optional param
-        public anchorElement: HTMLElement,
+        public anchorElement: IElement,
         public firstFrame: TouchFrame,
     ) {
         this.lastFrame = firstFrame;

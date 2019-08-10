@@ -6,7 +6,7 @@ export class TouchFrame {
 
     constructor(
         public element: IElement,
-        public anchorElement: HTMLElement,
+        public anchorElement: IElement,
         public positionRelative: Vector2 = Vector2.Zero(),
         public time: number = performance.now(),
         public rotating: boolean = false,

@@ -1,11 +1,10 @@
-import { IElement } from './../interfaces/IElement';
-import { SourceCache } from './../utils/Cache';
+import { IEvent } from '../interfaces/IEvent';
 import { IListener } from '../interfaces/IListener';
 import { Touch } from '../Touch';
-import { Vector2 } from '../Vector2';
-import { IEvent } from '../interfaces/IEvent';
 import { TouchFrame } from '../TouchFrame';
-import { forImmediate } from 'waitasecond';
+import { Vector2 } from '../Vector2';
+import { IElement } from './../interfaces/IElement';
+import { SourceCache } from './../utils/Cache';
 
 const TOUCH_LISTENER_OPTIONS = {
     capture: true,
@@ -21,13 +20,15 @@ export class TouchListener implements IListener {
     private elements = new SourceCache<
         IElement,
         {
-            handleTouchesStart: IHandleTouchesStart;
+            anchorElement: IElement;
+            createTouchFrameFromEvent: ICreateTouchFrameFromEvent;
+            newTouch: (touch: Touch) => void;
         }
     >();
 
     public init(
         element: IElement,
-        anchorElement: HTMLElement,
+        anchorElement: IElement,
         newTouch: (touch: Touch) => void,
         newHoverFrame: (frame: TouchFrame) => void,
     ) {
@@ -60,7 +61,7 @@ export class TouchListener implements IListener {
 
         const currentTouches: { [identifier: number]: Touch } = {};
 
-        const handleTouchesStart: IHandleTouchesStart = (event: TouchEvent) => {
+        const handleTouchesStart = (event: TouchEvent) => {
             console.log('handleTouchesStart', event);
             event.preventDefault();
             const touches = event.changedTouches;
@@ -106,7 +107,9 @@ export class TouchListener implements IListener {
             }
         };
 
-        const createTouchFrameFromEvent = (event: IEvent) => {
+        const createTouchFrameFromEvent: ICreateTouchFrameFromEvent = (
+            event: IEvent,
+        ) => {
             const boundingRect = element.getBoundingClientRect();
             return new TouchFrame(
                 element,
@@ -120,7 +123,9 @@ export class TouchListener implements IListener {
         };
 
         this.elements.setItem(element, {
-            handleTouchesStart,
+            anchorElement,
+            createTouchFrameFromEvent,
+            newTouch,
         });
     }
 
@@ -131,14 +136,12 @@ export class TouchListener implements IListener {
                 `Element should be initialized when using startFromExternalEvent.`,
             );
         }
-        const { handleTouchesStart } = item;
+        const { anchorElement, createTouchFrameFromEvent, newTouch } = item;
 
-        await forImmediate();
+        event.preventDefault();
+        event.stopPropagation();
 
-        handleTouchesStart(event as TouchEvent);
-        /*
-        const identifier = (immediateDrag as any).touches[0].identifier;
-        // console.log((immediateDrag as any).touches[0].identifier);
+        const identifier = (event as TouchEvent).touches[0].identifier;
 
         // TODO: maybe DRY this block with block in createMouseListener
         // TODO: better naming in this block
@@ -146,7 +149,7 @@ export class TouchListener implements IListener {
         const currentTouch = new Touch(
             'TOUCH',
             anchorElement,
-            createTouchFrameFromEvent((immediateDrag as any).touches[0]),
+            createTouchFrameFromEvent((event as TouchEvent).touches[0]),
         );
 
         const getTouchFromEvent = (event: TouchEvent) =>
@@ -171,11 +174,6 @@ export class TouchListener implements IListener {
         );
 
         const handleTouchUpOnDocument = (event: TouchEvent) => {
-            // const touch = getTouchFromEvent(event);
-            // console.log(event.touches);
-            // console.log(touch);
-
-            // if (touch) {
             currentTouch.end();
 
             document.removeEventListener(
@@ -194,9 +192,7 @@ export class TouchListener implements IListener {
         );
 
         newTouch(currentTouch);
-        // onlyTouch = currentTouch;
-        */
     }
 }
 
-type IHandleTouchesStart = (event: TouchEvent) => void;
+type ICreateTouchFrameFromEvent = (event: IEvent) => TouchFrame;

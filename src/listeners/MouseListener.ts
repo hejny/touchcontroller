@@ -1,12 +1,12 @@
 import { IEvent } from '../interfaces/IEvent';
 import { IListener } from '../interfaces/IListener';
+import { EventManager } from '../main';
 import { Touch } from '../Touch';
 import { TouchFrame } from '../TouchFrame';
+import { getBoundingClientRectEnhanced } from '../utils/getBoundingClientRectEnhanced';
 import { Vector2 } from '../Vector2';
 import { IElement } from './../interfaces/IElement';
 import { SourceCache } from './../utils/Cache';
-import { getBoundingClientRectEnhanced } from '../utils/getBoundingClientRectEnhanced';
-import { EventManager } from '../main';
 
 const MOUSE_LISTENER_OPTIONS = {
     capture: true,

@@ -1,4 +1,3 @@
-import { EventManager } from './utils/EventManager';
 import 'rxjs/add/operator/share';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
@@ -10,6 +9,7 @@ import { MouseListener } from './listeners/MouseListener';
 import { TouchListener } from './listeners/TouchListener';
 import { Touch } from './Touch';
 import { TouchFrame } from './TouchFrame';
+import { EventManager } from './utils/EventManager';
 
 // TODO: multitouch should be extended from this
 export class TouchController {

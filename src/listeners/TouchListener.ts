@@ -1,12 +1,12 @@
-import { EventManager } from './../utils/EventManager';
 import { IEvent } from '../interfaces/IEvent';
 import { IListener } from '../interfaces/IListener';
 import { Touch } from '../Touch';
 import { TouchFrame } from '../TouchFrame';
+import { getBoundingClientRectEnhanced } from '../utils/getBoundingClientRectEnhanced';
 import { Vector2 } from '../Vector2';
 import { IElement } from './../interfaces/IElement';
 import { SourceCache } from './../utils/Cache';
-import { getBoundingClientRectEnhanced } from '../utils/getBoundingClientRectEnhanced';
+import { EventManager } from './../utils/EventManager';
 
 const TOUCH_LISTENER_OPTIONS = {
     capture: true,
@@ -14,8 +14,6 @@ const TOUCH_LISTENER_OPTIONS = {
 };
 
 export class TouchListener implements IListener {
-    constructor(private eventManager: EventManager) {}
-
     public get title() {
         return `TOUCH`;
     }
@@ -29,6 +27,8 @@ export class TouchListener implements IListener {
             newTouch: (touch: Touch) => void;
         }
     >();
+
+    constructor(private eventManager: EventManager) {}
 
     public init(
         element: IElement,

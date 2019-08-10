@@ -1,13 +1,13 @@
 import { IElement } from './../interfaces/IElement';
 
 export class EventManager {
-    private listeners: {
+    private listeners: Array<{
         element: IElement;
         eventType: string;
         callback: IListenerCallback;
-    }[] = [];
+    }> = [];
 
-    addEventListener(
+    public addEventListener(
         element: IElement,
         eventType: string,
         callback: IListenerCallback,
@@ -17,7 +17,7 @@ export class EventManager {
         this.listeners.push({ element, eventType, callback });
     }
 
-    removeEventListener(
+    public removeEventListener(
         element: IElement,
         eventType: string,
         callback: IListenerCallback,
@@ -30,29 +30,33 @@ export class EventManager {
      * @param element  Element or * as wildcard
      * @param eventType String of event type - for example pointerdown or * as wildcard
      */
-    removeEventListeners(
+    public removeEventListeners(
         element: IElement | '*' = '*',
         eventType: string = '*',
     ) {
         // TODO: eventType wildcard
-        for (const listener of this.listeners.filter(
-            (listener) =>
-                (listener.element === element || element === '*') &&
-                (listener.eventType === eventType || eventType === '*'),
-        )) {
-            console.log(
-                `Removing event listener on "${eventType}" from element.`,
-                element,
-                listener,
-            );
-            listener.element.removeEventListener(
-                listener.eventType,
-                listener.callback,
-            );
-        }
+        this.listeners
+            .filter(
+                (listener) =>
+                    (listener.element === element || element === '*') &&
+                    (listener.eventType === eventType || eventType === '*'),
+            )
+            .forEach((listener) => {
+                /*
+                console.log(
+                    `Removing event listener on "${eventType}" from element.`,
+                    element,
+                    listener,
+                );
+                */
+                listener.element.removeEventListener(
+                    listener.eventType,
+                    listener.callback,
+                );
+            });
     }
 
-    updateEventListener(
+    public updateEventListener(
         element: IElement,
         eventType: string,
         callback: IListenerCallback,

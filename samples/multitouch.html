@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Sample of TouchController</title>
-    <script
-            src="https://code.jquery.com/jquery-3.2.1.min.js"
-            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-            crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="./common.css">
 </head>
 <body>
 
 
 <canvas id="scene" width="500" height="500"></canvas>
-<div id="log" width="500" height="500"></div>
+<div id="log"></div>
 
 
+<script
+src="https://code.jquery.com/jquery-3.2.1.min.js"
+integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+crossorigin="anonymous"></script>
 <script type="text/javascript" src="../dist/main.dev.browser.js"></script>
+<script src="./common.js"></script>
 <script type="text/javascript">
 
     var scene = document.getElementById('scene');
@@ -33,87 +34,9 @@
         }
     );
 
-    multiTouchController.multiTouches.subscribe(function (multitouch) {
+    logMultitouches(multiTouchController,document.getElementById('log'));
 
-        var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
-
-        var logMultitouch = $('<div class="log-multitouch"><div class="log-title">' + multitouch + '</div><div class="log-multitouch-last-transformation"></div></div>');
-        $('#log').append(logMultitouch)
-
-        multitouch.transformations().subscribe(function (transformation) {
-            $(logMultitouch).find('.log-multitouch-last-transformation').html(`
-                        <table>
-                            <tr>
-                                <th>Translate:</th>
-                                <td>${transformation.translate}</td>
-                            </tr>
-                            <tr>
-                                <th>Rotate:</th>
-                                <td>${transformation.rotate}</td>
-                            </tr>
-                            <tr>
-                                <th>Scale:</th>
-                                <td>${transformation.scale}</td>
-                            </tr>
-                        </table>
-                    `);
-
-        });
-
-        multitouch.touches.subscribe(function (touch) {
-
-                var logTouch = $('<div class="log-touch"><div class="log-title">' + touch + '</div><div class="log-touch-frames"></div><div class="log-touch-last-frame"></div></div></div>');
-                $(logMultitouch).append(logTouch);
-                var framesCounter = 0;
-
-
-                touch.frames.subscribe(function (frame) {
-
-                    $(logTouch).find('.log-touch-frames').text(framesCounter++);
-                    $(logTouch).find('.log-touch-last-frame').html(`
-                        <table>
-                            <tr>
-                                <th>Position:</th>
-                                <td>${frame.position}</td>
-                            </tr>
-                            <tr>
-                                <th>Time:</th>
-                                <td>${frame.time}</td>
-                            </tr>
-                            <tr>
-                                <th>Rotation:</th>
-                                <td>${frame.rotation}</td>
-                            </tr>
-                            <tr>
-                                <th>Scale:</th>
-                                <td>${frame.scale}</td>
-                            </tr>
-                            <tr>
-                                <th>Force:</th>
-                                <td>${frame.force}</td>
-                            </tr>
-                            <tr>
-                                <th>Radius:</th>
-                                <td>${frame.radius}</td>
-                            </tr>
-                        </table>
-                    `);
-
-                    },
-                    function () {
-                    },
-                    function () {
-                        logTouch.remove();
-                    }
-                );
-
-            },
-            function () {
-            },
-            function () {
-                logMultitouch.remove();
-            });
-    });
+    
 </script>
 
 

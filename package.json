@@ -13,7 +13,7 @@
     "develop-server": "node server.js",
     "develop-build": "onchange \"src/**/*.{ts,tsx}\" --initial --kill --delay 500  -- webpack --config webpack.development.config.js",
     "prettier": "prettier --config .prettierrc --write \"{src,test}/**/*.{ts,json}\"",
-    "prettier-watch": "onchange \"{src,test}/**/*.{ts,json}\" -- prettier --config .prettierrc --write {{changed}}",
+    "prettier-watch": "onchange \"{src,test,samples}/**/*.{ts,json,js,html,css}\" -- prettier --config .prettierrc --write {{changed}}",
     "prettier-commit": "git diff --exit-code && npm run prettier && git add src && git commit --allow-empty -m \"Prettier\"",
     "documentation": "typedoc --excludePrivate --hideGenerator --mode file --theme minimal --out docs --name \"TouchController\" ./src",
     "documentation-commit": "git diff --exit-code && npm run documentation && git add docs && git commit --allow-empty -m \"TouchController\"",

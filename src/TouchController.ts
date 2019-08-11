@@ -76,7 +76,16 @@ export class TouchController {
                 listener.startEventType,
                 async (event) => {
                     const newElement = await newElementCreator(event);
-                    this.addElement(newElement);
+                    // this.addElement(newElement);
+
+                    if (
+                        !this.elements.some((element) => element === newElement)
+                    ) {
+                        throw new Error(
+                            `When using touchController.addInitialElement you must use touchController.addElement inside the newElementCreator callback.`,
+                        );
+                    }
+
                     listener.startFromExternalEvent(newElement, event as any);
                 },
             );

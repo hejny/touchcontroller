@@ -79,7 +79,9 @@ export class TouchController {
                     // this.addElement(newElement);
 
                     if (
-                        !this.elements.some((element) => element === newElement)
+                        !this.elements.some(
+                            (element_) => element_ === newElement,
+                        )
                     ) {
                         throw new Error(
                             `When using touchController.addInitialElement you must use touchController.addElement inside the newElementCreator callback.`,

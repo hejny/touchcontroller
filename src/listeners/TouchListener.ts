@@ -30,6 +30,10 @@ export class TouchListener implements IListener {
 
     constructor(private eventManager: EventManager) {}
 
+    public acceptsEvent(event: Event) {
+        return true;
+    }
+
     public init(
         element: IElement,
         anchorElement: IElement,

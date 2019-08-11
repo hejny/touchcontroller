@@ -14,6 +14,7 @@ export interface IListener {
     ) => void;
     // TODO: dispose: () => void;
 
+    acceptsEvent: (event: Event) => boolean;
     startFromExternalEvent: (
         element: IElement,
         event: Event,

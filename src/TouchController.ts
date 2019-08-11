@@ -43,9 +43,11 @@ export class TouchController {
 
         if (setListeners) {
             this.addListener(new MouseListener(this.eventManager));
+
             this.addListener(
                 new MouseListener(this.eventManager, [1, 2], true),
             );
+
             this.addListener(new TouchListener(this.eventManager));
         }
     }
@@ -75,6 +77,10 @@ export class TouchController {
                 element,
                 listener.startEventType,
                 async (event) => {
+                    if (!listener.acceptsEvent(event)) {
+                        return;
+                    }
+
                     const newElement = await newElementCreator(event);
                     // this.addElement(newElement);
 

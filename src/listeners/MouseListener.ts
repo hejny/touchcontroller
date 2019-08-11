@@ -35,6 +35,10 @@ export class MouseListener implements IListener {
         private rotating = false,
     ) {}
 
+    public acceptsEvent(event: Event) {
+        return this.buttons.indexOf((event as MouseEvent).button) !== -1;
+    }
+
     public init(
         element: IElement,
         anchorElement: IElement,
@@ -77,11 +81,13 @@ export class MouseListener implements IListener {
         const handleMouseDownOnElement: IHandleMouseDownOnElement = (
             event: MouseEvent,
         ) => {
-            if (this.buttons.indexOf(event.button) !== -1) {
-                event.preventDefault();
-                event.stopPropagation();
-                handleStart(createTouchFrameFromEvent(event));
+            if (!this.acceptsEvent(event)) {
+                return;
             }
+
+            event.preventDefault();
+            event.stopPropagation();
+            handleStart(createTouchFrameFromEvent(event));
         };
 
         const handleStart = (firstTouchFrame: TouchFrame) => {
@@ -169,6 +175,10 @@ export class MouseListener implements IListener {
             );
         }
         const { handleMouseDownOnElement } = item;
+
+        // TODO: Maybe
+        // event.preventDefault();
+        // event.stopPropagation();
 
         handleMouseDownOnElement(event as MouseEvent);
     }

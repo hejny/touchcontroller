@@ -1,6 +1,6 @@
 {
   "name": "touchcontroller",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Touch and mouse controller for web apps and games",
   "main": "./dist/main.js",
   "types": "./dist/typings/src/main.d.ts",

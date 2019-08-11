@@ -80,7 +80,7 @@ export class TouchController {
 
                     if (
                         !this.elements.some(
-                            (element_) => element_ === newElement,
+                            (elementx) => elementx === newElement,
                         )
                     ) {
                         throw new Error(

@@ -27,13 +27,7 @@
                 </g>
             </svg>
         </div>
-        <div id="log"></div>
 
-        <script
-            src="https://code.jquery.com/jquery-3.2.1.min.js"
-            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-            crossorigin="anonymous"
-        ></script>
         <script src="../dist/main.dev.browser.js"></script>
         <script src="./common.js"></script>
         <script>
@@ -72,10 +66,7 @@
                 );
             });
 
-            logMultitouches(
-                multiTouchController,
-                document.getElementById('log'),
-            );
+            new TC.DebugLayer(multiTouchController);
 
             touchController.addInitialElement(window, async (event) => {
                 const newDrawElement = dragElements[0].cloneNode(true);

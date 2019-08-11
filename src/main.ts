@@ -1,3 +1,4 @@
+import { DebugLayer } from './utils/DebugLayer';
 import { BoundingBox } from './BoundingBox';
 import { DrawController } from './drawController/CanvasParticlesRenderer';
 import { MouseListener } from './listeners/MouseListener';
@@ -24,6 +25,7 @@ const listeners = {
 export {
     TouchController,
     MultiTouchController,
+    DebugLayer,
     multiTouchTransformations,
     Transformation,
     Vector2,

@@ -21,24 +21,3 @@ svg {
     background-color: rgba(200, 200, 200, 0.5);
     box-shadow: black 0 0 10px;
 }
-
-#log {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 300px;
-    z-index: 99999;
-}
-
-.log-title {
-    background-color: bisque;
-}
-
-.log-multitouch {
-    border: 2px solid black;
-}
-
-.log-touch {
-    border: 2px solid black;
-}

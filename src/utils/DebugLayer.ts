@@ -10,7 +10,7 @@ export class DebugLayer {
         document.body.appendChild(logElement);
 
         multiTouchController.multiTouches.subscribe((multitouch) => {
-            //const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+            // const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
 
             const logMultitouchElement = document.createElement('div');
 
@@ -98,13 +98,13 @@ export class DebugLayer {
                             </tr>
                     */
                         },
-                        () => {},
+                        undefined,
                         () => {
                             logTouchElement.remove();
                         },
                     );
                 },
-                () => {},
+                undefined,
                 () => {
                     logMultitouchElement.remove();
                 },
@@ -117,7 +117,7 @@ function createDebugLayerCss() {
     const debugLayerCssElement = document.createElement('style');
 
     debugLayerCssElement.innerHTML =
-        //todo context
+        // TODO: context id
         `
     .${CSS_PREFIX}main {
         position: fixed;

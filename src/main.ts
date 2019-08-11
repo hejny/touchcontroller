@@ -1,4 +1,3 @@
-import { DebugLayer } from './utils/DebugLayer';
 import { BoundingBox } from './BoundingBox';
 import { DrawController } from './drawController/CanvasParticlesRenderer';
 import { MouseListener } from './listeners/MouseListener';
@@ -8,6 +7,7 @@ import { multiTouchTransformations } from './multiTouchTransformations';
 import { Touch } from './Touch';
 import { TouchController } from './TouchController';
 import { Transformation } from './Transformation';
+import { DebugLayer } from './utils/DebugLayer';
 import { EventManager } from './utils/EventManager';
 import {
     svgTransformationDecode,

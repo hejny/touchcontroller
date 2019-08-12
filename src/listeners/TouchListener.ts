@@ -89,6 +89,7 @@ export class TouchListener implements IListener {
         };
 
         const handleTouchesMove = (event: TouchEvent) => {
+            console.log('handleTouchesMove');
             event.preventDefault();
             const touches = event.changedTouches;
             for (let i = 0, l = touches.length; i < l; i++) {

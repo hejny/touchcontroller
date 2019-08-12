@@ -5,7 +5,9 @@ import { Observer } from 'rxjs/Observer';
 import { IElement } from './interfaces/IElement';
 import { TouchFrame } from './TouchFrame';
 import { Vector2 } from './Vector2';
+import * as uuid from 'uuid';
 
+let id = 0;
 export class Touch {
     public static Click(
         element: HTMLElement,
@@ -23,6 +25,8 @@ export class Touch {
         return touch;
     }
 
+    readonly id = id++;
+    readonly uuid = uuid.v4();
     public frames: Observable<TouchFrame>;
     public lastFrame: TouchFrame;
     public lastFrame2: TouchFrame; // TODO: maybe function with offest
@@ -39,6 +43,10 @@ export class Touch {
             observer.next(firstFrame); // TODO: maybe window.setImmediate(()=>
             this.framesObserver = observer;
         }).share(); // TODO: share vs publish
+    }
+
+    public toString() {
+        return `Touch ${this.id}`;
     }
 
     public move(newFrame: TouchFrame, end = false) {
@@ -61,10 +69,6 @@ export class Touch {
 
     public get start() {
         return this.firstFrame.time;
-    }
-
-    public toString() {
-        return `Touch`;
     }
 
     /*

@@ -1,6 +1,7 @@
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/share';
 import { Observable } from 'rxjs/Observable';
+import * as uuid from 'uuid';
 import { Observer } from 'rxjs/Observer';
 import { Subscription } from 'rxjs/Subscription';
 import { forImmediate } from 'waitasecond';
@@ -9,11 +10,14 @@ import { multiTouchTransformations } from './multiTouchTransformations';
 import { Touch } from './Touch';
 import { Transformation } from './Transformation';
 
-// TODO: multitouch should be extended from this
+let id = 0;
 export class MultiTouch<TElement> {
+    readonly id = id++;
+    readonly uuid = uuid.v4();
     public empty: boolean = true;
     public ongoingTouches: Touch[] = [];
     public touches: Observable<Touch>;
+
     private touchesObserver: Observer<Touch>;
 
     constructor(
@@ -25,6 +29,10 @@ export class MultiTouch<TElement> {
             await forImmediate();
             this.addTouch(firstTouch);
         }).share();
+    }
+
+    public toString() {
+        return `MultiTouch ${this.id}`;
     }
 
     public addTouch(touch: Touch) {
@@ -103,9 +111,5 @@ export class MultiTouch<TElement> {
         boundingBox: BoundingBox = BoundingBox.One(),
     ): Observable<Transformation> {
         return multiTouchTransformations(this, boundingBox);
-    }
-
-    public toString() {
-        return `MultiTouch`;
     }
 }

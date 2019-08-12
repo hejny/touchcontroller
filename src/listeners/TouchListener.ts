@@ -7,6 +7,7 @@ import { Vector2 } from '../Vector2';
 import { IElement } from './../interfaces/IElement';
 import { SourceCache } from './../utils/Cache';
 import { EventManager } from './../utils/EventManager';
+import { forAnimationFrame } from 'waitasecond';
 
 const TOUCH_LISTENER_OPTIONS = {
     capture: true,
@@ -82,6 +83,7 @@ export class TouchListener implements IListener {
                     'TOUCH',
                     anchorElement,
                     createTouchFrameFromEvent(touches[i]),
+                    touches[i].identifier,
                 );
                 currentTouches[touches[i].identifier] = currentTouch;
                 newTouch(currentTouch);
@@ -156,6 +158,9 @@ export class TouchListener implements IListener {
 
         const identifier = (originalEvent as TouchEvent).touches[0].identifier;
 
+        await forAnimationFrame();
+        console.log('startFromExternalEvent');
+
         // TODO: maybe DRY this block with block in createMouseListener
         // TODO: better naming in this block
 
@@ -163,6 +168,7 @@ export class TouchListener implements IListener {
             'TOUCH',
             anchorElement,
             createTouchFrameFromEvent((originalEvent as TouchEvent).touches[0]),
+            identifier,
         );
 
         const getTouchFromEvent = (event: TouchEvent) =>

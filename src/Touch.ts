@@ -33,9 +33,11 @@ export class Touch {
     private framesObserver: Observer<TouchFrame>;
 
     constructor(
-        public type: 'TOUCH' | 'MOUSE', // TODO: second optional param
-        public anchorElement: IElement,
-        public firstFrame: TouchFrame,
+        // TODO: Use readonly in more places
+        readonly type: 'TOUCH' | 'MOUSE', // TODO: second optional param
+        readonly anchorElement: IElement,
+        readonly firstFrame: TouchFrame,
+        readonly externalIdentifier?: string | number,
     ) {
         this.lastFrame = firstFrame;
         this.lastFrame2 = firstFrame;
@@ -46,7 +48,11 @@ export class Touch {
     }
 
     public toString() {
-        return `Touch ${this.id}`;
+        return `Touch ${this.id} ${
+            this.externalIdentifier
+                ? `(external id is ${this.externalIdentifier})`
+                : ''
+        }`;
     }
 
     public move(newFrame: TouchFrame, end = false) {

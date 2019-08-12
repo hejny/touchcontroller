@@ -60,7 +60,7 @@
                     function() {},
                     function() {
                         if (multitouch.empty) {
-                            console.log(`You have selected element.`);
+                            //console.log(`You have selected element.`);
                         }
                     },
                 );
@@ -69,7 +69,7 @@
             new TC.DebugLayer(multiTouchController);
 
             touchController.addInitialElement(window, async (event) => {
-                console.log('addInitialElement callback');
+                //console.log('addInitialElement callback');
 
                 const newDrawElement = dragElements[0].cloneNode(true);
                 dragElements[0].parentNode.appendChild(newDrawElement);

@@ -14,10 +14,7 @@ export class DebugLayer {
 
             const logMultitouchElement = document.createElement('div');
 
-            logMultitouchElement.innerHTML =
-                `<div class="${CSS_PREFIX}multitouch"><div class="${CSS_PREFIX}title">` +
-                multitouch +
-                `</div><div class="${CSS_PREFIX}multitouch-last-transformation"></div></div>`;
+            logMultitouchElement.innerHTML = `<div class="${CSS_PREFIX}multitouch"><div class="${CSS_PREFIX}title">${multitouch.toString()}</div><div class="${CSS_PREFIX}multitouch-last-transformation"></div></div>`;
 
             const logMultitouchLastTransformationElement = logMultitouchElement.querySelector(
                 `.${CSS_PREFIX}multitouch-last-transformation`,
@@ -48,12 +45,15 @@ export class DebugLayer {
                 (touch) => {
                     const logTouchElement = document.createElement('div');
 
-                    logTouchElement.innerHTML =
-                        `<div class="${CSS_PREFIX}touch"><div class="${CSS_PREFIX}title">` +
-                        touch +
-                        `</div><div class="${CSS_PREFIX}touch-frames"></div><div class="${CSS_PREFIX}touch-last-frame"></div></div></div>`;
-                    const logTouchFramesElement = logTouchElement.querySelector(
-                        `.${CSS_PREFIX}touch-frames`,
+                    logTouchElement.innerHTML = `<div class="${CSS_PREFIX}touch">
+                            <div class="${CSS_PREFIX}title">${touch.toString()}</div>
+                            <div class="${CSS_PREFIX}touch-frames-count"></div>
+                            <div class="${CSS_PREFIX}touch-last-frame"></div>
+                            </div>
+                        </div>
+                        `;
+                    const logTouchFramesCountElement = logTouchElement.querySelector(
+                        `.${CSS_PREFIX}touch-frames-count`,
                     ) as HTMLDivElement;
                     const logTouchLastFrameElement = logTouchElement.querySelector(
                         `.${CSS_PREFIX}touch-last-frame`,
@@ -65,7 +65,7 @@ export class DebugLayer {
 
                     touch.frames.subscribe(
                         (frame) => {
-                            logTouchFramesElement.innerText = (framesCounter++).toString();
+                            logTouchFramesCountElement.innerText = (framesCounter++).toString();
 
                             logTouchLastFrameElement.innerHTML = `
                         <table>

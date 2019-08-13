@@ -1,6 +1,7 @@
 {
   "name": "touchcontroller",
   "version": "1.5.1",
+  "author": "Pavol Hejný <me@pavolhejny.com> (https://pavolhejny.com)",
   "description": "Touch and mouse controller for web apps and games",
   "main": "./dist/main.js",
   "types": "./dist/typings/src/main.d.ts",
@@ -27,10 +28,7 @@
     "type": "git",
     "url": "git+https://github.com/hejny/touchcontroller.git"
   },
-  "keywords": [
-    "ascii"
-  ],
-  "author": "Pavol Hejný",
+  "keywords": [],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/hejny/touchcontroller/issues"

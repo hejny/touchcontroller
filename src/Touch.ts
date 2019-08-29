@@ -2,10 +2,10 @@ import 'rxjs/add/observable/range';
 import 'rxjs/add/operator/share';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
+import * as uuid from 'uuid';
 import { IElement } from './interfaces/IElement';
 import { TouchFrame } from './TouchFrame';
 import { Vector2 } from './Vector2';
-import * as uuid from 'uuid';
 
 let id = 0;
 export class Touch {
@@ -25,8 +25,8 @@ export class Touch {
         return touch;
     }
 
-    readonly id = id++;
-    readonly uuid = uuid.v4();
+    public readonly id = id++;
+    public readonly uuid = uuid.v4();
     public frames: Observable<TouchFrame>;
     public lastFrame: TouchFrame;
     public lastFrame2: TouchFrame; // TODO: maybe function with offest

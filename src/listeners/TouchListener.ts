@@ -1,3 +1,4 @@
+import { forAnimationFrame } from 'waitasecond';
 import { IEvent } from '../interfaces/IEvent';
 import { IListener } from '../interfaces/IListener';
 import { Touch } from '../Touch';
@@ -7,7 +8,6 @@ import { Vector2 } from '../Vector2';
 import { IElement } from './../interfaces/IElement';
 import { SourceCache } from './../utils/Cache';
 import { EventManager } from './../utils/EventManager';
-import { forAnimationFrame } from 'waitasecond';
 
 const TOUCH_LISTENER_OPTIONS = {
     capture: true,
@@ -91,7 +91,6 @@ export class TouchListener implements IListener {
         };
 
         const handleTouchesMove = (event: TouchEvent) => {
-            console.log('handleTouchesMove');
             event.preventDefault();
             const touches = event.changedTouches;
             for (let i = 0, l = touches.length; i < l; i++) {
@@ -159,7 +158,6 @@ export class TouchListener implements IListener {
         const identifier = (originalEvent as TouchEvent).touches[0].identifier;
 
         await forAnimationFrame();
-        console.log('startFromExternalEvent');
 
         // TODO: maybe DRY this block with block in createMouseListener
         // TODO: better naming in this block

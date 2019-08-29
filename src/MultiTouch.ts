@@ -1,9 +1,9 @@
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/share';
 import { Observable } from 'rxjs/Observable';
-import * as uuid from 'uuid';
 import { Observer } from 'rxjs/Observer';
 import { Subscription } from 'rxjs/Subscription';
+import * as uuid from 'uuid';
 import { forImmediate } from 'waitasecond';
 import { BoundingBox } from './BoundingBox';
 import { multiTouchTransformations } from './multiTouchTransformations';
@@ -12,8 +12,8 @@ import { Transformation } from './Transformation';
 
 let id = 0;
 export class MultiTouch<TElement> {
-    readonly id = id++;
-    readonly uuid = uuid.v4();
+    public readonly id = id++;
+    public readonly uuid = uuid.v4();
     public empty: boolean = true;
     public ongoingTouches: Touch[] = [];
     public touches: Observable<Touch>;

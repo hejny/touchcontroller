@@ -925,10 +925,16 @@ img { max-width: 100%; }
 					<a href="multitouch.html#firsttouch" class="tsd-kind-icon">first<wbr>Touch</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-class">
+					<a href="multitouch.html#id" class="tsd-kind-icon">id</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-class">
 					<a href="multitouch.html#ongoingtouches" class="tsd-kind-icon">ongoing<wbr>Touches</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-class">
 					<a href="multitouch.html#touches" class="tsd-kind-icon">touches</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-class">
+					<a href="multitouch.html#uuid" class="tsd-kind-icon">uuid</a>
 				</li>
 				<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 					<a href="multitouch.html#ongoingpositionschanges" class="tsd-kind-icon">ongoing<wbr>Positions<wbr>Changes</a>
@@ -983,8 +989,10 @@ img { max-width: 100%; }
 							<li class="tsd-kind-property tsd-parent-kind-class"><a href="multitouch.html#element" class="tsd-kind-icon">element</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class"><a href="multitouch.html#empty" class="tsd-kind-icon">empty</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class"><a href="multitouch.html#firsttouch" class="tsd-kind-icon">first<wbr>Touch</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-class"><a href="multitouch.html#id" class="tsd-kind-icon">id</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class"><a href="multitouch.html#ongoingtouches" class="tsd-kind-icon">ongoing<wbr>Touches</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class"><a href="multitouch.html#touches" class="tsd-kind-icon">touches</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-class"><a href="multitouch.html#uuid" class="tsd-kind-icon">uuid</a></li>
 						</ul>
 					</section>
 					<section class="tsd-index-section ">
@@ -1017,7 +1025,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/e59825f/src/MultiTouch.ts#L17">MultiTouch.ts:17</a></li>
+								<li>Defined in MultiTouch.ts:21</li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1042,7 +1050,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TElement</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/e59825f/src/MultiTouch.ts#L20">MultiTouch.ts:20</a></li>
+						<li>Defined in MultiTouch.ts:24</li>
 					</ul>
 				</aside>
 			</section>
@@ -1052,7 +1060,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">empty<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/e59825f/src/MultiTouch.ts#L14">MultiTouch.ts:14</a></li>
+						<li>Defined in MultiTouch.ts:17</li>
 					</ul>
 				</aside>
 			</section>
@@ -1062,7 +1070,17 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">first<wbr>Touch<span class="tsd-signature-symbol">:</span> <a href="touch.html" class="tsd-signature-type">Touch</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/e59825f/src/MultiTouch.ts#L21">MultiTouch.ts:21</a></li>
+						<li>Defined in MultiTouch.ts:25</li>
+					</ul>
+				</aside>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+				<a name="id" class="tsd-anchor"></a>
+				<h3>id</h3>
+				<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;id++</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in MultiTouch.ts:15</li>
 					</ul>
 				</aside>
 			</section>
@@ -1072,7 +1090,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">ongoing<wbr>Touches<span class="tsd-signature-symbol">:</span> <a href="touch.html" class="tsd-signature-type">Touch</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/e59825f/src/MultiTouch.ts#L15">MultiTouch.ts:15</a></li>
+						<li>Defined in MultiTouch.ts:18</li>
 					</ul>
 				</aside>
 			</section>
@@ -1082,7 +1100,17 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">touches<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="touch.html" class="tsd-signature-type">Touch</a><span class="tsd-signature-symbol">&gt;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/e59825f/src/MultiTouch.ts#L16">MultiTouch.ts:16</a></li>
+						<li>Defined in MultiTouch.ts:19</li>
+					</ul>
+				</aside>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+				<a name="uuid" class="tsd-anchor"></a>
+				<h3>uuid</h3>
+				<div class="tsd-signature tsd-kind-icon">uuid<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;uuid.v4()</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in MultiTouch.ts:16</li>
 					</ul>
 				</aside>
 			</section>
@@ -1095,7 +1123,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">ongoing<wbr>Positions<wbr>Changes<span class="tsd-signature-symbol">:</span> </div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/e59825f/src/MultiTouch.ts#L79">MultiTouch.ts:79</a></li>
+						<li>Defined in MultiTouch.ts:87</li>
 					</ul>
 				</aside>
 			</section>
@@ -1105,7 +1133,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">ongoing<wbr>Touches<wbr>Changes<span class="tsd-signature-symbol">:</span> </div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/e59825f/src/MultiTouch.ts#L57">MultiTouch.ts:57</a></li>
+						<li>Defined in MultiTouch.ts:65</li>
 					</ul>
 				</aside>
 			</section>
@@ -1122,7 +1150,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/e59825f/src/MultiTouch.ts#L30">MultiTouch.ts:30</a></li>
+								<li>Defined in MultiTouch.ts:38</li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1145,7 +1173,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/e59825f/src/MultiTouch.ts#L108">MultiTouch.ts:108</a></li>
+								<li>Defined in MultiTouch.ts:34</li>
 							</ul>
 						</aside>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -1162,7 +1190,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/e59825f/src/MultiTouch.ts#L102">MultiTouch.ts:102</a></li>
+								<li>Defined in MultiTouch.ts:110</li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>

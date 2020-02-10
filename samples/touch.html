@@ -15,18 +15,18 @@
         <script type="text/javascript">
             const TC = TouchController;
 
-            var scene = document.getElementById('scene');
-            var ctx = scene.getContext('2d');
+            const scene = document.getElementById('scene');
+            const ctx = scene.getContext('2d');
             ctx.lineWidth = 10;
             ctx.lineCap = 'round';
 
-            var touchController = new TC.TouchController.fromCanvas(scene);
+            const touchController = new TC.TouchController.fromCanvas(scene);
             touchController.touches.subscribe(function(touch) {
                 console.log(touch);
 
-                var color =
+                const color =
                     '#' + Math.floor(Math.random() * 16777215).toString(16);
-                var lastFrame = touch.firstFrame;
+                let lastFrame = touch.firstFrame;
 
                 touch.frames.subscribe(function(frame) {
                     ctx.strokeStyle = color;

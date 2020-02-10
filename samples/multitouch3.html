@@ -169,20 +169,20 @@
                 ...Array.from(document.querySelectorAll('svg > g')),
             ];
 
-            var scene = document.getElementById('scene-background');
+            const scene = document.getElementById('scene-background');
             scene.width = scene.getBoundingClientRect().width;
             scene.height = scene.getBoundingClientRect().height;
-            var ctx = scene.getContext('2d');
+            const ctx = scene.getContext('2d');
             ctx.lineWidth = 10;
             ctx.lineCap = 'round';
 
-            var touchController = new TC.TouchController(dragElements, scene);
+            const touchController = new TC.TouchController(dragElements, scene);
             touchController.touches.subscribe(function(touch) {
                 //console.log('touch',touch);
 
-                var color =
+                const color =
                     '#' + Math.floor(Math.random() * 16777215).toString(16);
-                var lastFrame = touch.firstFrame;
+                let lastFrame = touch.firstFrame;
 
                 touch.frames.subscribe(function(frame) {
                     //console.log('frame',frame);

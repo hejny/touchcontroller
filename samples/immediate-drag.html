@@ -38,7 +38,7 @@
                 ...Array.from(document.querySelectorAll('svg > g')),
             ];
 
-            var touchController = new TC.TouchController(
+            const touchController = new TC.TouchController(
                 dragElements,
                 document.body,
             ); // TODO: document.body as default

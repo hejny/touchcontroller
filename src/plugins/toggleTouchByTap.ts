@@ -25,11 +25,11 @@ export function toggleTouchByTap(touchController: TouchController) {
                             touch.firstFrame,
                         );
                         touchController.emulateTouch(virtualTouch);
-                        //console.info('Starting virtual touch', virtualTouch);
+                        // console.info('Starting virtual touch', virtualTouch);
                     } else {
                         virtualTouch.end();
                         virtualTouch = null;
-                        //console.info('Stopping virtual touch');
+                        // console.info('Stopping virtual touch');
                     }
                 }
             },
@@ -37,10 +37,10 @@ export function toggleTouchByTap(touchController: TouchController) {
     });
 
     touchController.hoveredFrames.subscribe((frame) => {
-        //console.log(frame);
+        // console.log(frame);
         if (virtualTouch) {
             virtualTouch.move(frame);
-            //console.info('Moving virtual touch', frame);
+            // console.info('Moving virtual touch', frame);
         }
     });
 }

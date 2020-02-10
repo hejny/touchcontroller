@@ -39,7 +39,7 @@ export class TouchController {
         public elements: IElement[], // TODO: syntax sugar if set only one element
         public anchorElement: HTMLElement,
         setListeners = true,
-        //public readonly options: ITouchControllerOptions = TouchControllerOptionsDefault,
+        // public readonly options: ITouchControllerOptions = TouchControllerOptionsDefault,
     ) {
         // TODO: HTMLElement vs Element
         this.touches = Observable.create((observer: Observer<Touch>) => {

@@ -1,10 +1,10 @@
-import { Plugins } from './plugins/index';
 import { BoundingBox } from './BoundingBox';
 import { DrawController } from './drawController/CanvasParticlesRenderer';
 import { MouseListener } from './listeners/MouseListener';
 import { TouchListener } from './listeners/TouchListener';
 import { MultiTouchController } from './MultiTouchController';
 import { multiTouchTransformations } from './multiTouchTransformations';
+import { Plugins } from './plugins/index';
 import { Touch } from './Touch';
 import { TouchController } from './TouchController';
 import { Transformation } from './Transformation';

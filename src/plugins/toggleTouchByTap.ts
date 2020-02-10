@@ -1,5 +1,5 @@
-import { TouchController } from '../TouchController';
 import { Touch } from '../main';
+import { TouchController } from '../TouchController';
 
 // TODO: Maybe as plugin in touchController.installPlugin
 // TODO: Tresholds to params

@@ -11,6 +11,16 @@ import { Touch } from './Touch';
 import { TouchFrame } from './TouchFrame';
 import { EventManager } from './utils/EventManager';
 
+/*
+interface ITouchControllerOptions {
+    toggleTouchByTap: boolean;
+}
+
+const TouchControllerOptionsDefault: ITouchControllerOptions = {
+    toggleTouchByTap: false,
+};
+*/
+
 // TODO: multitouch should be extended from this
 export class TouchController {
     public static fromCanvas(canvas: HTMLCanvasElement) {
@@ -29,6 +39,7 @@ export class TouchController {
         public elements: IElement[], // TODO: syntax sugar if set only one element
         public anchorElement: HTMLElement,
         setListeners = true,
+        //public readonly options: ITouchControllerOptions = TouchControllerOptionsDefault,
     ) {
         // TODO: HTMLElement vs Element
         this.touches = Observable.create((observer: Observer<Touch>) => {

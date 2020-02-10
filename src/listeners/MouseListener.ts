@@ -132,15 +132,26 @@ export class MouseListener implements IListener {
             onlyTouch = currentTouch;
         };
 
+        // TODO: Why is there is after first mouse click triggered handleMouseMoveOnElement and after mouse up handleMouseMoveOnDocument?
+
         const handleMouseMoveOnDocument = (event: MouseEvent) => {
+            //console.log('handleMouseMoveOnDocument');
             event.preventDefault();
             event.stopPropagation();
             if (currentTouch) {
                 currentTouch.move(createTouchFrameFromEvent(event), false);
             }
+
+            // TODO: DRY
+            if (event.buttons <= 0) {
+                if (!currentTouch) {
+                    newHoverFrame(createTouchFrameFromEvent(event));
+                }
+            }
         };
 
         const handleMouseMoveOnElement = (event: MouseEvent) => {
+            //console.log('handleMouseMoveOnElement');
             if (event.buttons <= 0) {
                 if (!currentTouch) {
                     newHoverFrame(createTouchFrameFromEvent(event));

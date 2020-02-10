@@ -1,0 +1,3 @@
+import { toggleTouchByTap } from './toggleTouchByTap';
+
+export const Plugins = { toggleTouchByTap };

@@ -21,8 +21,14 @@
             ctx.lineCap = 'round';
 
             const touchController = new TC.TouchController.fromCanvas(scene);
+            TC.Plugins.toggleTouchByTap(touchController);
+
+            touchController.hoveredFrames.subscribe((frame) => {
+                // console.info('Hover frame');
+            });
+
             touchController.touches.subscribe(function(touch) {
-                console.log(touch);
+                //console.log(touch);
 
                 const color =
                     '#' + Math.floor(Math.random() * 16777215).toString(16);

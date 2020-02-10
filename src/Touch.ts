@@ -29,7 +29,7 @@ export class Touch {
     public readonly uuid = uuid.v4();
     public frames: Observable<TouchFrame>;
     public lastFrame: TouchFrame;
-    public lastFrame2: TouchFrame; // TODO: maybe function with offest
+    public lastFrame2: TouchFrame; // TODO: maybe function with offest and better naming
     private framesObserver: Observer<TouchFrame>;
 
     constructor(
@@ -67,12 +67,14 @@ export class Touch {
         }
     }
 
+    // TODO: end method and start getter is a bit confusing
     public end() {
         if (this.framesObserver) {
             this.framesObserver.complete();
         }
     }
 
+    // TODO: end method and start getter is a bit confusing
     public get start() {
         return this.firstFrame.time;
     }

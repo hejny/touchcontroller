@@ -1,3 +1,4 @@
+import { Plugins } from './plugins/index';
 import { BoundingBox } from './BoundingBox';
 import { DrawController } from './drawController/CanvasParticlesRenderer';
 import { MouseListener } from './listeners/MouseListener';
@@ -21,6 +22,7 @@ const listeners = {
 };
 
 // TODO: Export some usefull utils
+// TODO: Maybe rename to index
 
 export {
     TouchController,
@@ -36,4 +38,5 @@ export {
     svgTransformationEncode,
     DrawController,
     EventManager,
+    Plugins,
 };

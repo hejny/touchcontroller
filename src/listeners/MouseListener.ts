@@ -1,10 +1,11 @@
+import { Vector } from 'xyzt';
+
 import { IEvent } from '../interfaces/IEvent';
 import { IListener } from '../interfaces/IListener';
 import { EventManager } from '../main';
 import { Touch } from '../Touch';
 import { TouchFrame } from '../TouchFrame';
 import { getBoundingClientRectEnhanced } from '../utils/getBoundingClientRectEnhanced';
-import { Vector } from 'xyzt';
 import { IElement } from './../interfaces/IElement';
 import { SourceCache } from './../utils/Cache';
 

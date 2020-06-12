@@ -1,5 +1,6 @@
-import { Transformation } from '../Transformation';
 import { Vector } from 'xyzt';
+
+import { Transformation } from '../Transformation';
 
 const TRANSFORM = /\w*\([^)]*\)/g;
 const TRANSLATE = /^translate\(\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*,?\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*\)$/g;

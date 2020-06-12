@@ -1,11 +1,13 @@
 import 'rxjs/add/observable/range';
 import 'rxjs/add/operator/share';
+
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import * as uuid from 'uuid';
+import { Vector } from 'xyzt';
+
 import { IElement } from './interfaces/IElement';
 import { TouchFrame } from './TouchFrame';
-import { Vector } from 'xyzt';
 
 let id = 0;
 export class Touch {

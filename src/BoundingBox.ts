@@ -1,5 +1,7 @@
-import { Transformation } from './Transformation';
 import { Vector } from 'xyzt';
+
+import { Transformation } from './Transformation';
+
 // TODO: to other my library - combine TC, Vire
 
 export class BoundingBox {

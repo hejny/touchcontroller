@@ -1,8 +1,9 @@
+import { Vector } from 'xyzt';
+
 import {
     svgTransformationDecode,
     svgTransformationEncode,
 } from './utils/svgTools';
-import { Vector } from 'xyzt';
 
 export class Transformation {
     public static Neutral(): Transformation {

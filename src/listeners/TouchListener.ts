@@ -1,10 +1,11 @@
 import { forAnimationFrame } from 'waitasecond';
+import { Vector } from 'xyzt';
+
 import { IEvent } from '../interfaces/IEvent';
 import { IListener } from '../interfaces/IListener';
 import { Touch } from '../Touch';
 import { TouchFrame } from '../TouchFrame';
 import { getBoundingClientRectEnhanced } from '../utils/getBoundingClientRectEnhanced';
-import { Vector } from 'xyzt';
 import { IElement } from './../interfaces/IElement';
 import { SourceCache } from './../utils/Cache';
 import { EventManager } from './../utils/EventManager';

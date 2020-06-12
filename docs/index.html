@@ -954,9 +954,6 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-class">
 			<a href="classes/transformation.html" class="tsd-kind-icon">Transformation</a>
 		</li>
-		<li class=" tsd-kind-class">
-			<a href="classes/vector2.html" class="tsd-kind-icon">Vector2</a>
-		</li>
 		<li class=" tsd-kind-interface">
 			<a href="interfaces/ievent.html" class="tsd-kind-icon">IEvent</a>
 		</li>
@@ -1014,6 +1011,9 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-variable tsd-is-not-exported">
 			<a href="globals.html#onlytouch" class="tsd-kind-icon">only<wbr>Touch</a>
 		</li>
+		<li class=" tsd-kind-function">
+			<a href="globals.html#vectoraverage" class="tsd-kind-icon">Vector<wbr>Average</a>
+		</li>
 		<li class=" tsd-kind-function tsd-has-type-parameter">
 			<a href="globals.html#average" class="tsd-kind-icon">average</a>
 		</li>
@@ -1059,9 +1059,6 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-function">
 			<a href="globals.html#toggletouchbytap" class="tsd-kind-icon">toggle<wbr>Touch<wbr>ByTap</a>
 		</li>
-		<li class=" tsd-kind-function">
-			<a href="globals.html#vector2average" class="tsd-kind-icon">vector2<wbr>Average</a>
-		</li>
 		<li class=" tsd-kind-object-literal tsd-is-not-exported">
 			<a href="globals.html#mouse_listener_options" class="tsd-kind-icon">MOUSE_<wbr>LISTENER_<wbr>OPTIONS</a>
 		</li>
@@ -1078,6 +1075,11 @@ img { max-width: 100%; }
 </nav>
 <div class="container container-main">
 	<div class="content-wrap">
+		<div class="tsd-panel tsd-typography">
+			<h1 id="touchcontroller">TouchController</h1>
+			<p>Touch and mouse controller for web apps and games</p>
+			<p>TODO: README, documentation and web</p>
+		</div>
 		<div style="position:relative;"><a name="typedoc-main-index" class="tsd-anchor"></a></div>
 		<section class="tsd-panel-group tsd-index-group">
 			<h2>Index</h2>
@@ -1101,7 +1103,6 @@ img { max-width: 100%; }
 							<li class="tsd-kind-class"><a href="classes/touchframe.html" class="tsd-kind-icon">Touch<wbr>Frame</a></li>
 							<li class="tsd-kind-class"><a href="classes/touchlistener.html" class="tsd-kind-icon">Touch<wbr>Listener</a></li>
 							<li class="tsd-kind-class"><a href="classes/transformation.html" class="tsd-kind-icon">Transformation</a></li>
-							<li class="tsd-kind-class"><a href="classes/vector2.html" class="tsd-kind-icon">Vector2</a></li>
 						</ul>
 					</section>
 					<section class="tsd-index-section ">
@@ -1141,6 +1142,7 @@ img { max-width: 100%; }
 					<section class="tsd-index-section ">
 						<h3>Functions</h3>
 						<ul class="tsd-index-list">
+							<li class="tsd-kind-function"><a href="globals.html#vectoraverage" class="tsd-kind-icon">Vector<wbr>Average</a></li>
 							<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#average" class="tsd-kind-icon">average</a></li>
 							<li class="tsd-kind-function"><a href="globals.html#createcanvasfromsrc" class="tsd-kind-icon">create<wbr>Canvas<wbr>From<wbr>Src</a></li>
 							<li class="tsd-kind-function"><a href="globals.html#createcoloredcanvasfromsrc" class="tsd-kind-icon">create<wbr>Colored<wbr>Canvas<wbr>From<wbr>Src</a></li>
@@ -1156,7 +1158,6 @@ img { max-width: 100%; }
 							<li class="tsd-kind-function"><a href="globals.html#svgtransformationdecode" class="tsd-kind-icon">svg<wbr>Transformation<wbr>Decode</a></li>
 							<li class="tsd-kind-function"><a href="globals.html#svgtransformationencode" class="tsd-kind-icon">svg<wbr>Transformation<wbr>Encode</a></li>
 							<li class="tsd-kind-function"><a href="globals.html#toggletouchbytap" class="tsd-kind-icon">toggle<wbr>Touch<wbr>ByTap</a></li>
-							<li class="tsd-kind-function"><a href="globals.html#vector2average" class="tsd-kind-icon">vector2<wbr>Average</a></li>
 						</ul>
 					</section>
 					<section class="tsd-index-section ">
@@ -1179,7 +1180,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Awaitable<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/interfaces/IAwaitable.ts#L1">interfaces/IAwaitable.ts:1</a></li>
+						<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/interfaces/IAwaitable.ts#L1">interfaces/IAwaitable.ts:1</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1189,7 +1190,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">ICreate<wbr>Touch<wbr>Frame<wbr>From<wbr>Event<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/listeners/TouchListener.ts#L218">listeners/TouchListener.ts:218</a></li>
+						<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/listeners/TouchListener.ts#L219">listeners/TouchListener.ts:219</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-type-declaration">
@@ -1220,7 +1221,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">IElement<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SVGElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Document</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/interfaces/IElement.ts#L1">interfaces/IElement.ts:1</a></li>
+						<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/interfaces/IElement.ts#L1">interfaces/IElement.ts:1</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1230,7 +1231,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">IHandle<wbr>Mouse<wbr>Down<wbr>OnElement<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/listeners/MouseListener.ts#L198">listeners/MouseListener.ts:198</a></li>
+						<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/listeners/MouseListener.ts#L199">listeners/MouseListener.ts:199</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-type-declaration">
@@ -1261,7 +1262,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">IListener<wbr>Callback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/utils/EventManager.ts#L70">utils/EventManager.ts:70</a></li>
+						<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/utils/EventManager.ts#L70">utils/EventManager.ts:70</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-type-declaration">
@@ -1292,7 +1293,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">TAverage<wbr>Items<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/utils/average.ts#L7">utils/average.ts:7</a></li>
+						<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/utils/average.ts#L8">utils/average.ts:8</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1305,7 +1306,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">CSS_<wbr>PREFIX<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"touchcontroller-debug-layer-"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;touchcontroller-debug-layer-&#x60;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/utils/DebugLayer.ts#L2">utils/DebugLayer.ts:2</a></li>
+						<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/utils/DebugLayer.ts#L2">utils/DebugLayer.ts:2</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1315,7 +1316,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">ROTATE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol"> =&nbsp;/^rotate\(\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*,?\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*,?\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*\)$/g</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/utils/svgTools.ts#L6">utils/svgTools.ts:6</a></li>
+						<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/utils/svgTools.ts#L7">utils/svgTools.ts:7</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1325,7 +1326,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">SCALE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol"> =&nbsp;/^scale\(\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*,?\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*\)$/g</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/utils/svgTools.ts#L7">utils/svgTools.ts:7</a></li>
+						<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/utils/svgTools.ts#L8">utils/svgTools.ts:8</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1335,7 +1336,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">TRANSFORM<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol"> =&nbsp;/\w*\([^)]*\)/g</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/utils/svgTools.ts#L4">utils/svgTools.ts:4</a></li>
+						<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/utils/svgTools.ts#L5">utils/svgTools.ts:5</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1345,7 +1346,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">TRANSLATE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol"> =&nbsp;/^translate\(\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*,?\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*\)$/g</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/utils/svgTools.ts#L5">utils/svgTools.ts:5</a></li>
+						<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/utils/svgTools.ts#L6">utils/svgTools.ts:6</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1355,7 +1356,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">canvas<wbr>Colored<wbr>From<wbr>Src<wbr>Cache<span class="tsd-signature-symbol">:</span> <a href="classes/sourcecache.html" class="tsd-signature-type">SourceCache</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">HTMLCanvasElement</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new SourceCache&lt;string, HTMLCanvasElement&gt;()</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/utils/imageTools.ts#L29">utils/imageTools.ts:29</a></li>
+						<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/utils/imageTools.ts#L29">utils/imageTools.ts:29</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1365,7 +1366,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">canvas<wbr>From<wbr>Src<wbr>Cache<span class="tsd-signature-symbol">:</span> <a href="classes/sourcecache.html" class="tsd-signature-type">SourceCache</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">HTMLCanvasElement</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new SourceCache&lt;string, HTMLCanvasElement&gt;()</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/utils/imageTools.ts#L11">utils/imageTools.ts:11</a></li>
+						<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/utils/imageTools.ts#L11">utils/imageTools.ts:11</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1375,8 +1376,8 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/Touch.ts#L10">Touch.ts:10</a></li>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/MultiTouch.ts#L13">MultiTouch.ts:13</a></li>
+						<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/Touch.ts#L12">Touch.ts:12</a></li>
+						<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/MultiTouch.ts#L13">MultiTouch.ts:13</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1386,13 +1387,36 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">only<wbr>Touch<span class="tsd-signature-symbol">:</span> <a href="classes/touch.html" class="tsd-signature-type">Touch</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/listeners/MouseListener.ts#L17">listeners/MouseListener.ts:17</a></li>
+						<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/listeners/MouseListener.ts#L18">listeners/MouseListener.ts:18</a></li>
 					</ul>
 				</aside>
 			</section>
 		</section>
 		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Functions</h2>
+			<section class="tsd-panel tsd-member tsd-kind-function">
+				<a name="vectoraverage" class="tsd-anchor"></a>
+				<h3>Vector<wbr>Average</h3>
+				<ul class="tsd-signatures tsd-kind-function">
+					<li class="tsd-signature tsd-kind-icon">Vector<wbr>Average<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>items<span class="tsd-signature-symbol">: </span><a href="globals.html#taverageitems" class="tsd-signature-type">TAverageItems</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Vector</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vector</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/utils/average.ts#L34">utils/average.ts:34</a></li>
+							</ul>
+						</aside>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>items: <a href="globals.html#taverageitems" class="tsd-signature-type">TAverageItems</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Vector</span><span class="tsd-signature-symbol">&gt;</span></h5>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Vector</span></h4>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel tsd-member tsd-kind-function tsd-has-type-parameter">
 				<a name="average" class="tsd-anchor"></a>
 				<h3>average</h3>
@@ -1403,7 +1427,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/utils/average.ts#L9">utils/average.ts:9</a></li>
+								<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/utils/average.ts#L10">utils/average.ts:10</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -1480,7 +1504,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/utils/imageTools.ts#L13">utils/imageTools.ts:13</a></li>
+								<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/utils/imageTools.ts#L13">utils/imageTools.ts:13</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1503,7 +1527,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/utils/imageTools.ts#L33">utils/imageTools.ts:33</a></li>
+								<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/utils/imageTools.ts#L33">utils/imageTools.ts:33</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1529,7 +1553,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/utils/DebugLayer.ts#L116">utils/DebugLayer.ts:116</a></li>
+								<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/utils/DebugLayer.ts#L116">utils/DebugLayer.ts:116</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1546,7 +1570,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/utils/imageTools.ts#L3">utils/imageTools.ts:3</a></li>
+								<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/utils/imageTools.ts#L3">utils/imageTools.ts:3</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1569,7 +1593,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/utils/getBoundingClientRectEnhanced.ts#L5">utils/getBoundingClientRectEnhanced.ts:5</a></li>
+								<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/utils/getBoundingClientRectEnhanced.ts#L5">utils/getBoundingClientRectEnhanced.ts:5</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1595,7 +1619,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/utils/imageTools.ts#L72">utils/imageTools.ts:72</a></li>
+								<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/utils/imageTools.ts#L72">utils/imageTools.ts:72</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1629,7 +1653,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/multiTouchTransformations.ts#L10">multiTouchTransformations.ts:10</a></li>
+								<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/multiTouchTransformations.ts#L11">multiTouchTransformations.ts:11</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -1661,7 +1685,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/utils/average.ts#L63">utils/average.ts:63</a></li>
+								<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/utils/average.ts#L64">utils/average.ts:64</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1684,7 +1708,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/utils/average.ts#L41">utils/average.ts:41</a></li>
+								<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/utils/average.ts#L42">utils/average.ts:42</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1699,7 +1723,7 @@ img { max-width: 100%; }
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
-								<h5>position<span class="tsd-signature-symbol">: </span><a href="classes/vector2.html" class="tsd-signature-type">Vector2</a></h5>
+								<h5>position<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vector</span></h5>
 							</li>
 							<li class="tsd-parameter">
 								<h5>rotation<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
@@ -1721,7 +1745,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/utils/average.ts#L52">utils/average.ts:52</a></li>
+								<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/utils/average.ts#L53">utils/average.ts:53</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1736,7 +1760,7 @@ img { max-width: 100%; }
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
-								<h5>position<span class="tsd-signature-symbol">: </span><a href="classes/vector2.html" class="tsd-signature-type">Vector2</a></h5>
+								<h5>position<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vector</span></h5>
 							</li>
 							<li class="tsd-parameter">
 								<h5>rotation<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
@@ -1758,7 +1782,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/utils/mathTools.ts#L2">utils/mathTools.ts:2</a></li>
+								<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/utils/mathTools.ts#L2">utils/mathTools.ts:2</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1781,7 +1805,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/utils/svgTools.ts#L12">utils/svgTools.ts:12</a></li>
+								<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/utils/svgTools.ts#L13">utils/svgTools.ts:13</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1804,7 +1828,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/utils/svgTools.ts#L97">utils/svgTools.ts:97</a></li>
+								<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/utils/svgTools.ts#L98">utils/svgTools.ts:98</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1827,7 +1851,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/plugins/toggleTouchByTap.ts#L7">plugins/toggleTouchByTap.ts:7</a></li>
+								<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/plugins/toggleTouchByTap.ts#L7">plugins/toggleTouchByTap.ts:7</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1840,29 +1864,6 @@ img { max-width: 100%; }
 					</li>
 				</ul>
 			</section>
-			<section class="tsd-panel tsd-member tsd-kind-function">
-				<a name="vector2average" class="tsd-anchor"></a>
-				<h3>vector2<wbr>Average</h3>
-				<ul class="tsd-signatures tsd-kind-function">
-					<li class="tsd-signature tsd-kind-icon">vector2<wbr>Average<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>items<span class="tsd-signature-symbol">: </span><a href="globals.html#taverageitems" class="tsd-signature-type">TAverageItems</a><span class="tsd-signature-symbol">&lt;</span><a href="classes/vector2.html" class="tsd-signature-type">Vector2</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="classes/vector2.html" class="tsd-signature-type">Vector2</a></li>
-				</ul>
-				<ul class="tsd-descriptions">
-					<li class="tsd-description">
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/utils/average.ts#L33">utils/average.ts:33</a></li>
-							</ul>
-						</aside>
-						<h4 class="tsd-parameters-title">Parameters</h4>
-						<ul class="tsd-parameters">
-							<li>
-								<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>items: <a href="globals.html#taverageitems" class="tsd-signature-type">TAverageItems</a><span class="tsd-signature-symbol">&lt;</span><a href="classes/vector2.html" class="tsd-signature-type">Vector2</a><span class="tsd-signature-symbol">&gt;</span></h5>
-							</li>
-						</ul>
-						<h4 class="tsd-returns-title">Returns <a href="classes/vector2.html" class="tsd-signature-type">Vector2</a></h4>
-					</li>
-				</ul>
-			</section>
 		</section>
 		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Object literals</h2>
@@ -1872,7 +1873,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">MOUSE_<wbr>LISTENER_<wbr>OPTIONS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/listeners/MouseListener.ts#L11">listeners/MouseListener.ts:11</a></li>
+						<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/listeners/MouseListener.ts#L12">listeners/MouseListener.ts:12</a></li>
 					</ul>
 				</aside>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
@@ -1881,7 +1882,7 @@ img { max-width: 100%; }
 					<div class="tsd-signature tsd-kind-icon">capture<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/listeners/MouseListener.ts#L12">listeners/MouseListener.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/listeners/MouseListener.ts#L13">listeners/MouseListener.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1891,7 +1892,7 @@ img { max-width: 100%; }
 					<div class="tsd-signature tsd-kind-icon">passive<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/listeners/MouseListener.ts#L13">listeners/MouseListener.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/listeners/MouseListener.ts#L14">listeners/MouseListener.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1902,7 +1903,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Plugins<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/plugins/index.ts#L3">plugins/index.ts:3</a></li>
+						<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/plugins/index.ts#L3">plugins/index.ts:3</a></li>
 					</ul>
 				</aside>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -1911,7 +1912,7 @@ img { max-width: 100%; }
 					<div class="tsd-signature tsd-kind-icon">toggle<wbr>Touch<wbr>ByTap<span class="tsd-signature-symbol">:</span> <a href="globals.html#toggletouchbytap" class="tsd-signature-type">toggleTouchByTap</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/plugins/index.ts#L3">plugins/index.ts:3</a></li>
+							<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/plugins/index.ts#L3">plugins/index.ts:3</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1922,7 +1923,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">TOUCH_<wbr>LISTENER_<wbr>OPTIONS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/listeners/TouchListener.ts#L12">listeners/TouchListener.ts:12</a></li>
+						<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/listeners/TouchListener.ts#L13">listeners/TouchListener.ts:13</a></li>
 					</ul>
 				</aside>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
@@ -1931,7 +1932,7 @@ img { max-width: 100%; }
 					<div class="tsd-signature tsd-kind-icon">capture<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/listeners/TouchListener.ts#L13">listeners/TouchListener.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/listeners/TouchListener.ts#L14">listeners/TouchListener.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1941,7 +1942,7 @@ img { max-width: 100%; }
 					<div class="tsd-signature tsd-kind-icon">passive<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/listeners/TouchListener.ts#L14">listeners/TouchListener.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/listeners/TouchListener.ts#L15">listeners/TouchListener.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1952,7 +1953,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">listeners<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/main.ts#L19">main.ts:19</a></li>
+						<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/main.ts#L18">main.ts:18</a></li>
 					</ul>
 				</aside>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
@@ -1961,7 +1962,7 @@ img { max-width: 100%; }
 					<div class="tsd-signature tsd-kind-icon">Mouse<wbr>Listener<span class="tsd-signature-symbol">:</span> <a href="classes/mouselistener.html" class="tsd-signature-type">MouseListener</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/main.ts#L20">main.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/main.ts#L19">main.ts:19</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1971,7 +1972,7 @@ img { max-width: 100%; }
 					<div class="tsd-signature tsd-kind-icon">Touch<wbr>Listener<span class="tsd-signature-symbol">:</span> <a href="classes/touchlistener.html" class="tsd-signature-type">TouchListener</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/hejny/touchcontroller/blob/ba4e514/src/main.ts#L21">main.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/touchcontroller/touchcontroller/blob/02a53f8/src/main.ts#L20">main.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>

@@ -1,23 +1,24 @@
 import { IElement } from './interfaces/IElement';
 import { getBoundingClientRectEnhanced } from './utils/getBoundingClientRectEnhanced';
-import { Vector2 } from './Vector2';
+import { Vector } from 'xyzt';
+
 
 export class TouchFrame {
-    public position: Vector2;
+    public position: Vector;
 
     constructor(
         public element: IElement,
         public anchorElement: IElement,
-        public positionRelative: Vector2 = Vector2.Zero(),
+        public positionRelative: Vector = Vector.Zero(),
         public time: number = performance.now(),
         public rotating: boolean = false,
         public force: number = 0,
-        public radius: Vector2 = Vector2.Zero(),
+        public radius: Vector = Vector.Zero(),
     ) {
-        const offset = Vector2.fromTopLeft(
+        const offset = Vector.fromTopLeft(
             getBoundingClientRectEnhanced(element),
         ).subtractInPlace(
-            Vector2.fromTopLeft(getBoundingClientRectEnhanced(anchorElement)),
+            Vector.fromTopLeft(getBoundingClientRectEnhanced(anchorElement)),
         );
         this.position = this.positionRelative.add(offset);
     }

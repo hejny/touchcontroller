@@ -1,6 +1,7 @@
 import { forAnimationFrame } from 'waitasecond';
+import { Vector } from 'xyzt';
+
 import { particleOptionsAverage } from '../utils/average';
-import { Vector2 } from './../Vector2';
 import { IParticleOptions, Particle } from './Particle';
 import { Scene } from './Scene';
 
@@ -14,7 +15,7 @@ export class DrawController {
     private subscribers: Array<() => void> = [];
 
     // TODO: initial do better
-    constructor(quality: Vector2, initialColor: string = '#ffffff') {
+    constructor(quality: Vector, initialColor: string = '#ffffff') {
         {
             const canvas = document.createElement('canvas');
             canvas.width = quality.x;

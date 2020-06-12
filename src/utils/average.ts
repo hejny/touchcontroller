@@ -1,8 +1,6 @@
-import {
-    IParticleOptions,
-    IParticleOptionsExternals,
-} from '../drawController/Particle';
-import { Vector2 } from './../Vector2';
+import { Vector } from 'xyzt';
+
+import { IParticleOptions, IParticleOptionsExternals } from '../drawController/Particle';
 
 export type TAverageItems<T> = Array<{ value: T; weight: number }>;
 
@@ -30,9 +28,9 @@ export function average<T>(
 }
 
 // TODO: not used
-export function vector2Average(...items: TAverageItems<Vector2>) {
-    return average<Vector2>(
-        (a, b) => Vector2.add(a, b),
+export function VectorAverage(...items: TAverageItems<Vector>) {
+    return average<Vector>(
+        (a, b) => Vector.add(a, b),
         (a, b) => a.scale(b),
         items,
     );
@@ -43,7 +41,7 @@ function particleOptionsExternalsAdd(
     b: IParticleOptionsExternals,
 ) {
     return {
-        position: Vector2.add(a.position, b.position),
+        position: Vector.add(a.position, b.position),
         rotation: a.rotation + b.rotation,
         widthSize: a.widthSize + b.widthSize,
     };
@@ -66,7 +64,7 @@ export function particleOptionsAverage(
     return average<IParticleOptions>(
         (a, b) => ({
             shapeSrc: a.shapeSrc,
-            shapeCenter: Vector2.add(a.shapeCenter, b.shapeCenter),
+            shapeCenter: Vector.add(a.shapeCenter, b.shapeCenter),
             color: a.color, // TODO: with color
             current: particleOptionsExternalsAdd(a.current, b.current),
             movement: particleOptionsExternalsAdd(a.movement, b.movement),

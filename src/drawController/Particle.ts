@@ -1,10 +1,11 @@
+import { Vector } from 'xyzt';
+
 import { createColoredCanvasFromSrc } from '../utils/imageTools';
 import { sign } from '../utils/mathTools';
-import { Vector2 } from './../Vector2';
 
 export interface IParticleOptions {
     shapeSrc: string;
-    shapeCenter: Vector2;
+    shapeCenter: Vector;
     color: string;
     current: IParticleOptionsExternals;
     movement: IParticleOptionsExternals;
@@ -12,7 +13,7 @@ export interface IParticleOptions {
 }
 
 export interface IParticleOptionsExternals {
-    position: Vector2;
+    position: Vector;
     rotation: number;
     widthSize: number;
 }
@@ -41,7 +42,7 @@ export class Particle {
             throw new Error(`Particle image is not yet loaded.`);
         }
 
-        return new Vector2(
+        return new Vector(
             this.options.current.widthSize,
             (this.options.current.widthSize / this.shapeData.width) *
                 this.shapeData.height,

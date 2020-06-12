@@ -4,7 +4,7 @@ import { EventManager } from '../main';
 import { Touch } from '../Touch';
 import { TouchFrame } from '../TouchFrame';
 import { getBoundingClientRectEnhanced } from '../utils/getBoundingClientRectEnhanced';
-import { Vector2 } from '../Vector2';
+import { Vector } from 'xyzt';
 import { IElement } from './../interfaces/IElement';
 import { SourceCache } from './../utils/Cache';
 
@@ -47,7 +47,7 @@ export class MouseListener implements IListener {
     ) {
         if (this.elements.hasItem(element)) {
             throw new Error(
-                `Element should not be initialized when using init.`,
+                `Element should not be already initialized when using init.`,
             );
         }
 
@@ -164,7 +164,7 @@ export class MouseListener implements IListener {
             return new TouchFrame(
                 element,
                 anchorElement,
-                new Vector2(
+                new Vector(
                     event.clientX - boundingRect.left,
                     event.clientY - boundingRect.top,
                 ),

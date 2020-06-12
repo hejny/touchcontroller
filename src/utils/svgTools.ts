@@ -1,5 +1,5 @@
 import { Transformation } from '../Transformation';
-import { Vector2 } from '../Vector2';
+import { Vector } from 'xyzt';
 
 const TRANSFORM = /\w*\([^)]*\)/g;
 const TRANSLATE = /^translate\(\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*,?\s*(\-?\d*\.?\d+(e\-?\d*\.?\d+)?)\s*\)$/g;
@@ -45,7 +45,7 @@ export function svgTransformationDecode(
                 (n) => parseFloat(n),
             );
 
-            transformation.translate = new Vector2(x, y);
+            transformation.translate = new Vector(x, y);
         } else if (ROTATE.test(part)) {
             // console.log(ROTATE.exec(part));
 
@@ -62,7 +62,7 @@ export function svgTransformationDecode(
             // console.log(full, angleDegrees, ade, x, xe, y, ye);
 
             transformation.rotate = (angleDegrees / 180) * Math.PI;
-            transformation.rotateCenter = new Vector2(x, y);
+            transformation.rotateCenter = new Vector(x, y);
         } else if (SCALE.test(part)) {
             /* todo
             SCALE.lastIndex = 0;

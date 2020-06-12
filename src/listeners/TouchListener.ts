@@ -4,7 +4,7 @@ import { IListener } from '../interfaces/IListener';
 import { Touch } from '../Touch';
 import { TouchFrame } from '../TouchFrame';
 import { getBoundingClientRectEnhanced } from '../utils/getBoundingClientRectEnhanced';
-import { Vector2 } from '../Vector2';
+import { Vector } from 'xyzt';
 import { IElement } from './../interfaces/IElement';
 import { SourceCache } from './../utils/Cache';
 import { EventManager } from './../utils/EventManager';
@@ -128,7 +128,7 @@ export class TouchListener implements IListener {
             return new TouchFrame(
                 element,
                 anchorElement,
-                new Vector2(
+                new Vector(
                     event.clientX - boundingRect.left,
                     event.clientY - boundingRect.top,
                 ),

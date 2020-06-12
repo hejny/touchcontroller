@@ -1,5 +1,5 @@
 import { Transformation } from './Transformation';
-import { Vector2 } from './Vector2';
+import { Vector } from 'xyzt';
 // TODO: to other my library - combine TC, Vire
 
 export class BoundingBox {
@@ -15,15 +15,15 @@ export class BoundingBox {
         rotation: number,
     ) {
         return new BoundingBox(
-            new Vector2((maxx + minx) / 2, (maxy + miny) / 2),
-            new Vector2(maxx - minx, maxy - miny),
+            new Vector((maxx + minx) / 2, (maxy + miny) / 2),
+            new Vector(maxx - minx, maxy - miny),
             rotation,
         );
     }
 
     constructor(
-        public center: Vector2 = Vector2.Zero(),
-        public size: Vector2 = Vector2.One(),
+        public center: Vector = Vector.Zero(),
+        public size: Vector = Vector.One(),
         public rotation: number = 0,
     ) {}
 
@@ -45,7 +45,7 @@ export class BoundingBox {
         this.rotation += transformation.rotate;
     }
 
-    public intersects(position: Vector2): boolean {
+    public intersects(position: Vector): boolean {
         const position1r = this.center;
         const position2r = position.rotate(-this.rotation, this.center);
 
@@ -60,7 +60,7 @@ export class BoundingBox {
     public grow(amount: number) {
         return new BoundingBox(
             this.center,
-            new Vector2(this.size.x + amount * 2, this.size.y + amount * 2),
+            new Vector(this.size.x + amount * 2, this.size.y + amount * 2),
             this.rotation,
         );
     }
@@ -81,29 +81,29 @@ export class BoundingBox {
 
     public get topLeft() {
         return this.center
-            .add(new Vector2(this.size.x * -0.5, this.size.y * -0.5))
+            .add(new Vector(this.size.x * -0.5, this.size.y * -0.5))
             .rotate(this.rotation, this.center);
     }
 
-    public set topLeft(value: Vector2) {
+    public set topLeft(value: Vector) {
         this.center = this.center.add(value.subtract(this.topLeft));
     }
 
     public get topRight() {
         return this.center
-            .add(new Vector2(this.size.x * 0.5, this.size.y * -0.5))
+            .add(new Vector(this.size.x * 0.5, this.size.y * -0.5))
             .rotate(this.rotation, this.center);
     }
 
     public get bottomLeft() {
         return this.center
-            .add(new Vector2(this.size.x * -0.5, this.size.y * 0.5))
+            .add(new Vector(this.size.x * -0.5, this.size.y * 0.5))
             .rotate(this.rotation, this.center);
     }
 
     public get bottomRight() {
         return this.center
-            .add(new Vector2(this.size.x * 0.5, this.size.y * 0.5))
+            .add(new Vector(this.size.x * 0.5, this.size.y * 0.5))
             .rotate(this.rotation, this.center);
     }
 

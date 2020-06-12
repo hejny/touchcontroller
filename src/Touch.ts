@@ -5,14 +5,14 @@ import { Observer } from 'rxjs/Observer';
 import * as uuid from 'uuid';
 import { IElement } from './interfaces/IElement';
 import { TouchFrame } from './TouchFrame';
-import { Vector2 } from './Vector2';
+import { Vector } from 'xyzt';
 
 let id = 0;
 export class Touch {
     public static Click(
         element: HTMLElement,
         anchorElement: HTMLElement,
-        position: Vector2,
+        position: Vector,
     ): Touch {
         const touch = new Touch(
             'MOUSE',
@@ -81,7 +81,7 @@ export class Touch {
 
     /*
     todo maybe
-    static Rotate(position: Vector2, rotation:number): Touch {
+    static Rotate(position: Vector, rotation:number): Touch {
         const touch = new Touch('MOUSE', new TouchFrame(position));
         setTimeout(() => {
             touch.move(new TouchFrame(position,undefined,rotation),true);
@@ -90,7 +90,7 @@ export class Touch {
     }
 
     /*todo
-    static Drag(position1: Vector2, position2: Vector2, duration: number): Touch {
+    static Drag(position1: Vector, position2: Vector, duration: number): Touch {
         const touch = new Touch('MOUSE', new TouchFrame(position1));
 
         const startTime = performance.now();
@@ -99,7 +99,7 @@ export class Touch {
 
             const progress = Math.max((now - startTime) / duration, 1);
 
-            const position = Vector2.add(position1.scale(1 - progress), position2.scale(progress));
+            const position = Vector.add(position1.scale(1 - progress), position2.scale(progress));
             touch.move(new TouchFrame(position));
 
             console.log(progress,position);

@@ -1,4 +1,5 @@
-import { Vector2 } from './../Vector2';
+import { Vector } from 'xyzt';
+
 import { Particle } from './Particle';
 
 export class Scene {
@@ -46,6 +47,6 @@ export class Scene {
     }
 
     public get size() {
-        return new Vector2(this.ctx.canvas.width, this.ctx.canvas.height);
+        return new Vector(this.ctx.canvas.width, this.ctx.canvas.height);
     }
 }

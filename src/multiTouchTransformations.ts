@@ -5,7 +5,7 @@ import { BoundingBox } from './BoundingBox';
 import { MultiTouch } from './MultiTouch';
 import { Touch } from './Touch';
 import { Transformation } from './Transformation';
-import { Vector2 } from './Vector2';
+import { Vector } from 'xyzt';
 
 export function multiTouchTransformations<TElement>(
     multiTouch: MultiTouch<TElement>,
@@ -49,7 +49,7 @@ export function multiTouchTransformations<TElement>(
                     // TODO: how to figure out with 3, 4, 5,... finger on one object?
                     countTouchesTransformation = () =>
                         new Transformation(
-                            Vector2.Zero()
+                            Vector.Zero()
                                 .add(
                                     ...touches.map(
                                         (touch) => touch.lastFrame.position,

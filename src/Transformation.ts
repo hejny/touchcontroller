@@ -2,14 +2,14 @@ import {
     svgTransformationDecode,
     svgTransformationEncode,
 } from './utils/svgTools';
-import { Vector2 } from './Vector2';
+import { Vector } from 'xyzt';
 
 export class Transformation {
     public static Neutral(): Transformation {
         return new Transformation();
     }
 
-    public static translate(translate: Vector2): Transformation {
+    public static translate(translate: Vector): Transformation {
         return new Transformation(translate);
     }
 
@@ -22,9 +22,9 @@ export class Transformation {
     }
 
     constructor(
-        public translate: Vector2 = Vector2.Zero(),
+        public translate: Vector = Vector.Zero(),
         public rotate: number = 0,
-        public rotateCenter: Vector2 = Vector2.Zero(),
+        public rotateCenter: Vector = Vector.Zero(),
         public scale: number = 1,
     ) {}
 

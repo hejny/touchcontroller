@@ -14,7 +14,7 @@ import {
     svgTransformationDecode,
     svgTransformationEncode,
 } from './utils/svgTools';
-import { Vector2 } from './Vector2';
+
 
 const listeners = {
     MouseListener,
@@ -30,7 +30,6 @@ export {
     DebugLayer,
     multiTouchTransformations,
     Transformation,
-    Vector2,
     Touch,
     BoundingBox,
     listeners,

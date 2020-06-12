@@ -1,6 +1,9 @@
 import { Vector } from 'xyzt';
 
-import { IParticleOptions, IParticleOptionsExternals } from '../drawController/Particle';
+import {
+    IParticleOptions,
+    IParticleOptionsExternals,
+} from '../drawController/Particle';
 
 export type TAverageItems<T> = Array<{ value: T; weight: number }>;
 

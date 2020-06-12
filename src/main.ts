@@ -15,7 +15,6 @@ import {
     svgTransformationEncode,
 } from './utils/svgTools';
 
-
 const listeners = {
     MouseListener,
     TouchListener,

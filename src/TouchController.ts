@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { forImmediate } from 'waitasecond';
 
+import { Grid } from './Grid';
 import { Awaitable } from './interfaces/IAwaitable';
 import { IElement } from './interfaces/IElement';
 import { IListener } from './interfaces/IListener';
@@ -13,7 +14,6 @@ import { TouchListener } from './listeners/TouchListener';
 import { Touch } from './Touch';
 import { TouchFrame } from './TouchFrame';
 import { EventManager } from './utils/EventManager';
-import { Grid } from './Grid';
 
 /*
 interface ITouchControllerOptions {

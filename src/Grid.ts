@@ -42,7 +42,9 @@ export class Grid {
                 lastGridFrame = gridFrame;
                 gridTouch.move(gridFrame);
             },
-            () => {},
+            () => {
+                /**/
+            },
             () => {
                 gridTouch.end();
             },

@@ -39,7 +39,7 @@ export class Touch {
         readonly type: 'TOUCH' | 'MOUSE', // TODO: second optional param
         readonly anchorElement: IElement,
         readonly firstFrame: TouchFrame,
-        readonly externalIdentifier?: string | number,
+        readonly buttonIdentifier?: string | number,
     ) {
         this.lastFrame = firstFrame;
         this.lastFrame2 = firstFrame;
@@ -51,8 +51,8 @@ export class Touch {
 
     public toString() {
         return `Touch ${this.id} ${
-            this.externalIdentifier
-                ? `(external id is ${this.externalIdentifier})`
+            this.buttonIdentifier
+                ? `(external id is ${this.buttonIdentifier})`
                 : ''
         }`;
     }

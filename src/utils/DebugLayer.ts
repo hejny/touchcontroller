@@ -70,6 +70,37 @@ export class DebugLayer {
                             logTouchLastFrameElement.innerHTML = `
                         <table>
                             <tr>
+                                <th colspan="2">Touch</th>
+                            </tr>
+
+
+                            <tr>
+                                <th>ID:</th>
+                                <td>${touch.id}</td>
+                            </tr>
+
+
+                            <tr>
+                                <th>Type:</th>
+                                <td>${touch.type}</td>
+                            </tr>
+
+                            
+                            <tr>
+                                <th>UUID:</th>
+                                <td>${touch.uuid}</td>
+                            </tr>
+
+                            <tr>
+                                <th>ButtonIdentifier:</th>
+                                <td>${touch.buttonIdentifier}</td>
+                            </tr>
+
+                            <tr>
+                                <th colspan="2">Current frame</th>
+                            </tr>
+
+                            <tr>
                                 <th>Position:</th>
                                 <td>${frame.position}</td>
                             </tr>
@@ -85,6 +116,8 @@ export class DebugLayer {
                                 <th>Radius:</th>
                                 <td>${frame.radius}</td>
                             </tr>
+
+                            
                         </table>
                     `;
                             /*

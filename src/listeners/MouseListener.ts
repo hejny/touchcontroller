@@ -88,15 +88,23 @@ export class MouseListener implements IListener {
 
             event.preventDefault();
             event.stopPropagation();
-            handleStart(createTouchFrameFromEvent(event));
+            handleStart(createTouchFrameFromEvent(event), event.buttons);
         };
 
-        const handleStart = (firstTouchFrame: TouchFrame) => {
+        const handleStart = (
+            firstTouchFrame: TouchFrame,
+            identifier: number,
+        ) => {
             if (onlyTouch) {
                 onlyTouch.end();
             }
 
-            currentTouch = new Touch('MOUSE', anchorElement, firstTouchFrame);
+            currentTouch = new Touch(
+                'MOUSE',
+                anchorElement,
+                firstTouchFrame,
+                identifier /* TODO: Is a good option to cast button to identifier? */,
+            );
 
             this.eventManager.addEventListener(
                 document,

@@ -40,11 +40,10 @@ export {
     Grid,
     ITouchController,
     GridTouchController,
-
-     Awaitable ,
-IElement ,
- IEvent,
- IListener,
+    Awaitable,
+    IElement,
+    IEvent,
+    IListener,
     Transformation, // Note: exporting also Transformation from external library due to Vector is esential
     BoundingBox, // Note: exporting also BoundingBox from external library due to Vector is esential
     Vector, // Note: exporting also Vector from external library due to Vector is esential

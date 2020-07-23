@@ -3,10 +3,10 @@ import { Observer } from 'rxjs/Observer';
 import { Subscription } from 'rxjs/Subscription';
 import { Vector } from 'xyzt';
 
-import { BoundingBox } from './BoundingBox';
+import { BoundingBox } from 'xyzt';
 import { MultiTouch } from './MultiTouch';
 import { Touch } from './Touch';
-import { Transformation } from './Transformation';
+import { Transformation } from 'xyzt';
 
 export function multiTouchTransformations<TElement>(
     multiTouch: MultiTouch<TElement>,

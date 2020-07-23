@@ -1,14 +1,15 @@
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/share';
+
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { Subscription } from 'rxjs/Subscription';
 import * as uuid from 'uuid';
 import { forImmediate } from 'waitasecond';
-import { BoundingBox } from './BoundingBox';
+import { BoundingBox, Transformation } from 'xyzt';
+
 import { multiTouchTransformations } from './multiTouchTransformations';
 import { Touch } from './Touch';
-import { Transformation } from './Transformation';
 
 let id = 0;
 export class MultiTouch<TElement> {

@@ -14,24 +14,33 @@ export class TouchFrame {
         public rotating: boolean = false,
         public force: number = 0,
         public radius: Vector = Vector.Zero(),
-    ) {
-        const offset = Vector.fromTopLeft(
-            getBoundingClientRectEnhanced(element),
-        ).subtractInPlace(
-            Vector.fromTopLeft(getBoundingClientRectEnhanced(anchorElement)),
-        );
-        this.position = this.positionRelative.add(offset);
+        countPosition = true
+    ){
+        if(countPosition){
+            const offset = Vector.fromTopLeft(
+                getBoundingClientRectEnhanced(element),
+            ).subtractInPlace(
+                Vector.fromTopLeft(getBoundingClientRectEnhanced(anchorElement)),
+            );
+            this.position = this.positionRelative.add(offset);
+        }
     }
 
     public clone(): TouchFrame {
-        return new TouchFrame(
+        const touchFrame = new TouchFrame(
             this.element,
             this.anchorElement,
             this.positionRelative,
             this.time,
             this.rotating,
             this.force,
-            this.radius,
+            this.radius,false
         );
+        touchFrame.position = this.position;
+        return touchFrame;
     }
 }
+
+/**
+ * TODO: Maybe? TC first frame and frames access in every touch frame
+ */

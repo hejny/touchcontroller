@@ -44,7 +44,7 @@
     "update": "^0.7.4",
     "uuid": "^3.3.2",
     "waitasecond": "^0.2.1",
-    "xyzt": "^1.1.1"
+    "xyzt": "^2.0.0"
   },
   "devDependencies": {
     "@types/jest": "^24.0.13",

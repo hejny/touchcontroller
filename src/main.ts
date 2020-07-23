@@ -1,6 +1,5 @@
-import { Vector } from 'xyzt';
+import { BoundingBox, Transformation, Vector } from 'xyzt';
 
-import { BoundingBox } from './BoundingBox';
 import { DrawController } from './drawController/CanvasParticlesRenderer';
 import { Grid } from './Grid';
 import { MouseListener } from './listeners/MouseListener';
@@ -10,13 +9,8 @@ import { multiTouchTransformations } from './multiTouchTransformations';
 import { Plugins } from './plugins';
 import { Touch } from './Touch';
 import { TouchController } from './TouchController';
-import { Transformation } from './Transformation';
 import { DebugLayer } from './utils/DebugLayer';
 import { EventManager } from './utils/EventManager';
-import {
-    svgTransformationDecode,
-    svgTransformationEncode,
-} from './utils/svgTools';
 
 const listeners = {
     MouseListener,
@@ -31,15 +25,13 @@ export {
     MultiTouchController,
     DebugLayer,
     multiTouchTransformations,
-    Transformation,
     Touch,
-    BoundingBox,
     listeners,
-    svgTransformationDecode,
-    svgTransformationEncode,
     DrawController,
     EventManager,
     Plugins,
     Grid,
-    Vector, // Note: exporting also vector from external library due to Vector is esential
+    Transformation, // Note: exporting also Transformation from external library due to Vector is esential
+    BoundingBox, // Note: exporting also BoundingBox from external library due to Vector is esential
+    Vector, // Note: exporting also Vector from external library due to Vector is esential
 };

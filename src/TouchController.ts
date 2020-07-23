@@ -5,7 +5,8 @@ import { Observer } from 'rxjs/Observer';
 import { forImmediate } from 'waitasecond';
 
 import { Grid } from './Grid';
-import { Awaitable } from './interfaces/IAwaitable';
+import { GridTouchController } from './GridTouchController';
+import { Awaitable } from './interfaces/Awaitable';
 import { IElement } from './interfaces/IElement';
 import { IListener } from './interfaces/IListener';
 import { ITouchController } from './interfaces/ITouchController';
@@ -122,7 +123,7 @@ export class TouchController implements ITouchController {
         this.touchesObserver.next(touch);
     }
 
-    public applyGrid(grid: Grid) {
+    public applyGrid(grid: Grid): GridTouchController {
         return grid.applyToTouchController(this);
     }
 

@@ -1,15 +1,19 @@
 import 'rxjs/add/operator/share';
+
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { forImmediate } from 'waitasecond';
+
 import { Awaitable } from './interfaces/IAwaitable';
 import { IElement } from './interfaces/IElement';
 import { IListener } from './interfaces/IListener';
+import { ITouchController } from './interfaces/ITouchController';
 import { MouseListener } from './listeners/MouseListener';
 import { TouchListener } from './listeners/TouchListener';
 import { Touch } from './Touch';
 import { TouchFrame } from './TouchFrame';
 import { EventManager } from './utils/EventManager';
+import { Grid } from './Grid';
 
 /*
 interface ITouchControllerOptions {
@@ -22,7 +26,7 @@ const TouchControllerOptionsDefault: ITouchControllerOptions = {
 */
 
 // TODO: multitouch should be extended from this
-export class TouchController {
+export class TouchController implements ITouchController {
     public static fromCanvas(canvas: HTMLCanvasElement) {
         return new TouchController([canvas], canvas, true);
     }
@@ -45,6 +49,8 @@ export class TouchController {
         this.touches = Observable.create((observer: Observer<Touch>) => {
             this.touchesObserver = observer;
         }).share();
+
+        // TODO: Now there are hoveredFrames working always - make a switcher if they should work
 
         this.hoveredFrames = Observable.create(
             (observer: Observer<TouchFrame>) => {
@@ -114,6 +120,10 @@ export class TouchController {
     public async emulateTouch(touch: Touch) {
         await forImmediate();
         this.touchesObserver.next(touch);
+    }
+
+    public applyGrid(grid: Grid) {
+        return grid.applyToTouchController(this);
     }
 
     private callListenerOnElement(listener: IListener, element: IElement) {

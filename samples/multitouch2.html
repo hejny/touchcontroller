@@ -30,13 +30,10 @@
 
                     ctx.rotate(this.rotation);
                     ctx.translate(
-                        ...new TC.Vector2(this.center.x, this.center.y)
+                        ...new TC.Vector(this.center.x, this.center.y)
                             .rotate(-this.rotation)
                             .subtract(
-                                new TC.Vector2(
-                                    this.size.x / 2,
-                                    this.size.y / 2,
-                                ),
+                                new TC.Vector(this.size.x / 2, this.size.y / 2),
                             )
                             .toArray(),
                     );
@@ -55,14 +52,14 @@
             const rects = [
                 new Rect(
                     'blue',
-                    new TC.Vector2(100, 100),
-                    new TC.Vector2(100, 150),
+                    new TC.Vector(100, 100),
+                    new TC.Vector(100, 150),
                     Math.PI / 10,
                 ),
                 new Rect(
                     'green',
-                    new TC.Vector2(300, 300),
-                    new TC.Vector2(200, 200),
+                    new TC.Vector(300, 300),
+                    new TC.Vector(200, 200),
                     0,
                 ),
             ];

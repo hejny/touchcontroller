@@ -1,8 +1,10 @@
 import 'rxjs/add/operator/share';
+
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
+
+import { ITouchController } from './interfaces/ITouchController';
 import { MultiTouch } from './MultiTouch';
-import { TouchController } from './TouchController';
 import { TouchFrame } from './TouchFrame';
 
 export class MultiTouchController<TElement> {
@@ -11,7 +13,7 @@ export class MultiTouchController<TElement> {
     private multiTouchesObserver: Observer<MultiTouch<TElement | undefined>>;
 
     constructor(
-        public touchController: TouchController,
+        public touchController: ITouchController,
         private elementBinder: (frame: TouchFrame) => TElement | undefined, // TODO: maybe rename private properties - remove _
     ) {
         this.multiTouches = Observable.create(

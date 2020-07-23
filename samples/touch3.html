@@ -19,7 +19,7 @@
             const sceneContext = sceneElement.getContext('2d');
 
             const drawController = new TC.DrawController(
-                new TC.Vector2(800, 500),
+                new TC.Vector(800, 500),
             );
             drawController.addContext(sceneContext);
 
@@ -36,7 +36,7 @@
                         drawController.drawLine(
                             {
                                 shapeSrc: './assets/particle2.png',
-                                shapeCenter: new TC.Vector2(0.5, 0.5),
+                                shapeCenter: new TC.Vector(0.5, 0.5),
                                 color,
                                 current: {
                                     position: lastPosition,
@@ -44,7 +44,7 @@
                                     widthSize: 5,
                                 },
                                 movement: {
-                                    position: new TC.Vector2(
+                                    position: new TC.Vector(
                                         (Math.random() - 0.5) * 10, // TODO: depend this value
                                         (Math.random() - 0.5) * 10,
                                     ),
@@ -56,7 +56,7 @@
                             },
                             {
                                 shapeSrc: './assets/particle2.png',
-                                shapeCenter: new TC.Vector2(0.5, 0.5),
+                                shapeCenter: new TC.Vector(0.5, 0.5),
                                 color,
                                 current: {
                                     position: frame.position,
@@ -64,7 +64,7 @@
                                     widthSize: 5,
                                 },
                                 movement: {
-                                    position: new TC.Vector2(
+                                    position: new TC.Vector(
                                         (Math.random() - 0.5) * 10, // TODO: depend this value
                                         (Math.random() - 0.5) * 10,
                                     ),
@@ -118,13 +118,13 @@
            
             const particle = new Mesh(
                 './touch3/particle.png',
-                new Vector2(0.5, 0.5),
+                new Vector(0.5, 0.5),
                 1,
                 frame.position,//spaceship.position.clone(),
                 -Math.PI / 2,
                 1,
             );
-            particle.movement = new Vector2(
+            particle.movement = new Vector(
                         (Math.random() - 0.5) * 10,
                         (Math.random() - 0.5) * 10,
                     );

@@ -14,13 +14,15 @@ export class TouchFrame {
         public rotating: boolean = false,
         public force: number = 0,
         public radius: Vector = Vector.Zero(),
-        countPosition = true
-    ){
-        if(countPosition){
+        countPosition = true,
+    ) {
+        if (countPosition) {
             const offset = Vector.fromTopLeft(
                 getBoundingClientRectEnhanced(element),
             ).subtractInPlace(
-                Vector.fromTopLeft(getBoundingClientRectEnhanced(anchorElement)),
+                Vector.fromTopLeft(
+                    getBoundingClientRectEnhanced(anchorElement),
+                ),
             );
             this.position = this.positionRelative.add(offset);
         }
@@ -34,7 +36,8 @@ export class TouchFrame {
             this.time,
             this.rotating,
             this.force,
-            this.radius,false
+            this.radius,
+            false,
         );
         touchFrame.position = this.position;
         return touchFrame;

@@ -33,4 +33,8 @@ export class GridTouchController implements ITouchController {
             } /* Note: Touches cound not end */,
         );
     }
+
+    public applyGrid(grid: Grid): GridTouchController {
+        return grid.applyToTouchController(this);
+    }
 }

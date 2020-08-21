@@ -6,8 +6,8 @@
             "command": "npm run prettier-watch"
         },
         {
-            "name": "develop-server",
-            "command": "npm run develop-server"
+            "name": "develop-samples-server",
+            "command": "npm run develop-samples-server"
         },
         {
             "name": "develop-build",

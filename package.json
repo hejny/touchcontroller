@@ -10,6 +10,8 @@
   ],
   "scripts": {
     "start": "npm run develop",
+    "preversion": "npm test && npm run lint && npm run build && npm run prettier-commit && npm run documentation-commit",
+    "postversion": "git push && git push --tags && npm publish && npm run update-in-other-repos",
     "build": "webpack --config webpack.production.config.js",
     "develop-samples-server": "node server.js",
     "develop-build": "onchange \"src/**/*.{ts,tsx}\" --initial --kill --delay 500  -- webpack --config webpack.development.config.js",
@@ -21,8 +23,8 @@
     "test": "jest --config jestconfig.json",
     "test-watch": "jest --config jestconfig.json --watchAll",
     "lint": "tslint -p tsconfig.json",
-    "preversion": "npm test && npm run lint && npm run build && npm run prettier-commit && npm run documentation-commit",
-    "postversion": "git push && git push --tags && npm publish"
+    "update-in-other-repos": "cd ../../HeduApp/collboard && git stash && npm i touchcontroller@latest && git add package.json package-lock.json && git commit --allow-empty -m \"Update of touchcontroller\" && git push && git stash pop"
+
   },
   "repository": {
     "type": "git",

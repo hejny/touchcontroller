@@ -1,6 +1,6 @@
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
-
+import { Observable } from 'rxjs/internal/Observable';
+import { Observer } from 'rxjs/internal/types';
+import { share } from 'rxjs/operators';
 import { Grid } from './Grid';
 import { ITouchController } from './interfaces/ITouchController';
 import { Touch } from './Touch';
@@ -14,15 +14,15 @@ export class GridTouchController implements ITouchController {
     // TODO: private hoveredFramesObserver: Observer<TouchFrame>;
 
     constructor(touchController: ITouchController, grid: Grid) {
-        this.touches = Observable.create((observer: Observer<Touch>) => {
+        this.touches = new Observable((observer: Observer<Touch>) => {
             this.touchesObserver = observer;
-        }).share();
+        }).pipe(share());
 
-        this.hoveredFrames = Observable.create(
+        this.hoveredFrames = new Observable(
             (observer: Observer<TouchFrame>) => {
                 // TODO: this.hoveredFramesObserver = observer;
             },
-        ).share();
+        ).pipe(share());
 
         // TODO: Now there are hoveredFrames not working - make a switcher if they should work
 

@@ -42,7 +42,7 @@ export class Particle {
             throw new Error(`Particle image is not yet loaded.`);
         }
 
-        return new Vector(
+        return Vector.fromArray(
             this.options.current.widthSize,
             (this.options.current.widthSize / this.shapeData.width) *
                 this.shapeData.height,

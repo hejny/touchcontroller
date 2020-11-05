@@ -56,7 +56,7 @@ export class Grid {
     public applyToTouchFrame(touchFrame: TouchFrame): TouchFrame {
         // TODO: Do not recount position, offset, positionRelative in construnctor of TouchFrame
         const gridTouchFrame = touchFrame.clone();
-        gridTouchFrame.position = Vector.fromVector(
+        gridTouchFrame.position = Vector.fromObject(
             this.positionToGridPosition(touchFrame.position),
         );
         return gridTouchFrame;

@@ -1,8 +1,9 @@
 import 'rxjs/add/observable/range';
 import 'rxjs/add/operator/share';
+import { Observable } from 'rxjs/internal/Observable';
+import { Observer } from 'rxjs/internal/types';
+import { share } from 'rxjs/operators';
 
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
 import * as uuid from 'uuid';
 import { Vector } from 'xyzt';
 
@@ -43,10 +44,10 @@ export class Touch {
     ) {
         this.lastFrame = firstFrame;
         this.lastFrame2 = firstFrame;
-        this.frames = Observable.create((observer: Observer<TouchFrame>) => {
+        this.frames = new Observable((observer: Observer<TouchFrame>) => {
             observer.next(firstFrame); // TODO: maybe window.setImmediate(()=>
             this.framesObserver = observer;
-        }).share(); // TODO: share vs publish
+        }).pipe(share()); // TODO: share vs publish
     }
 
     public toString() {

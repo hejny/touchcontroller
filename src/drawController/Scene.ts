@@ -47,6 +47,6 @@ export class Scene {
     }
 
     public get size() {
-        return new Vector(this.ctx.canvas.width, this.ctx.canvas.height);
+        return Vector.fromArray(this.ctx.canvas.width, this.ctx.canvas.height);
     }
 }

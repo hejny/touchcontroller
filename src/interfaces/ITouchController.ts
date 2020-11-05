@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/internal/Observable';
 import { Grid } from '../Grid';
 import { Touch } from '../Touch';
 import { TouchFrame } from '../TouchFrame';

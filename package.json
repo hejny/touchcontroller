@@ -24,7 +24,6 @@
     "test-watch": "jest --config jestconfig.json --watchAll",
     "lint": "tslint -p tsconfig.json",
     "update-in-other-repos": "cd ../../HeduApp/collboard && git stash && npm i touchcontroller@latest && git add package.json package-lock.json && git commit --allow-empty -m \"Update of touchcontroller\" && git push && git stash pop"
-
   },
   "repository": {
     "type": "git",
@@ -36,32 +35,31 @@
     "url": "https://github.com/hejny/touchcontroller/issues"
   },
   "homepage": "https://github.com/hejny/touchcontroller",
-  "dependencies": {
-    "express": "^4.16.3",
-    "rxjs": "^5.5.5",
-    "serve-index": "^1.9.1",
-    "serve-static": "^1.13.2",
-    "ts-node": "^4.0.1",
-    "typescript": "^2.9.2",
-    "update": "^0.7.4",
-    "uuid": "^3.3.2",
-    "waitasecond": "^0.2.1",
-    "xyzt": "^2.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@types/jest": "^24.0.13",
-    "@types/uuid": "^3.4.5",
-    "codecov": "^3.5.0",
-    "jest": "^24.8.0",
-    "onchange": "^5.0.2",
-    "open": "^6.4.0",
-    "prettier": "^1.18.2",
-    "ts-jest": "^24.0.2",
-    "ts-loader": "^4.5.0",
-    "tslint": "^5.17.0",
+    "express": "^4.17.1",
+    "rxjs": "^6.6.3",
+    "serve-index": "^1.9.1",
+    "serve-static": "^1.14.1",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.5",
+    "update": "^0.7.4",
+    "uuid": "^8.3.1",
+    "waitasecond": "^1.2.0",
+    "xyzt": "^3.0.0",
+    "@types/jest": "^26.0.15",
+    "@types/uuid": "^8.3.0",
+    "codecov": "^3.8.1",
+    "jest": "^26.6.3",
+    "onchange": "^7.1.0",
+    "open": "^7.3.0",
+    "prettier": "^2.1.2",
+    "ts-jest": "^26.4.3",
+    "ts-loader": "^8.0.9",
+    "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
-    "typedoc": "^0.14.2",
-    "webpack": "^4.39.1",
-    "webpack-cli": "^3.3.6"
+    "typedoc": "^0.19.2",
+    "webpack": "^5.4.0",
+    "webpack-cli": "^4.2.0"
   }
 }

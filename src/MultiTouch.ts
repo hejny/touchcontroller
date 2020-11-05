@@ -1,14 +1,12 @@
-import 'rxjs/add/operator/finally';
-import 'rxjs/add/operator/share';
-
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/internal/Observable';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { Observer } from 'rxjs/internal/types';
+import { share } from 'rxjs/operators';
 import * as uuid from 'uuid';
 import { forImmediate } from 'waitasecond';
-import { BoundingBox, Transformation } from 'xyzt';
+import { BoundingBox, Transform } from 'xyzt';
 
-import { multiTouchTransformations } from './multiTouchTransformations';
+import { multiTouchTransforms } from './multiTouchTransforms';
 import { Touch } from './Touch';
 
 let id = 0;
@@ -25,11 +23,13 @@ export class MultiTouch<TElement> {
         public element: TElement, // TODO: this should be external
         public firstTouch: Touch,
     ) {
-        this.touches = Observable.create(async (observer: Observer<Touch>) => {
-            this.touchesObserver = observer;
-            await forImmediate();
-            this.addTouch(firstTouch);
-        }).share();
+        this.touches = new Observable((observer: Observer<Touch>) => {
+            (async () => {
+                this.touchesObserver = observer;
+                await forImmediate();
+                this.addTouch(firstTouch);
+            })();
+        }).pipe(share());
     }
 
     public toString() {
@@ -64,7 +64,7 @@ export class MultiTouch<TElement> {
     }
 
     public get ongoingTouchesChanges(): Observable<Touch[]> {
-        return Observable.create((observer: Observer<Touch[]>) => {
+        return new Observable((observer: Observer<Touch[]>) => {
             this.touches.subscribe(
                 (touch) => {
                     observer.next(this.ongoingTouches);
@@ -86,7 +86,7 @@ export class MultiTouch<TElement> {
     }
 
     public get ongoingPositionsChanges(): Observable<Touch[]> {
-        return Observable.create((observer: Observer<Touch[]>) => {
+        return new Observable((observer: Observer<Touch[]>) => {
             let subscriptions: Subscription[] = [];
             this.ongoingTouchesChanges.subscribe(
                 (touches: Touch[]) => {
@@ -110,7 +110,7 @@ export class MultiTouch<TElement> {
 
     public transformations(
         boundingBox: BoundingBox = BoundingBox.One(),
-    ): Observable<Transformation> {
-        return multiTouchTransformations(this, boundingBox);
+    ): Observable<Transform> {
+        return multiTouchTransforms(this, boundingBox);
     }
 }

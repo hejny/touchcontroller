@@ -9,11 +9,11 @@ export class TouchFrame {
     constructor(
         public element: IElement,
         public anchorElement: IElement,
-        public positionRelative: Vector = Vector.Zero(),
+        public positionRelative: Vector = Vector.zero(),
         public time: number = performance.now(),
         public rotating: boolean = false,
         public force: number = 0,
-        public radius: Vector = Vector.Zero(),
+        public radius: Vector = Vector.zero(),
         countPosition = true,
     ) {
         if (countPosition) {

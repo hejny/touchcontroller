@@ -1,4 +1,3 @@
-import 'rxjs/add/operator/share';
 import { Observable } from 'rxjs/internal/Observable';
 import { Observer } from 'rxjs/internal/types';
 import { share } from 'rxjs/operators';
@@ -54,11 +53,11 @@ export class TouchController implements ITouchController {
 
         // TODO: Now there are hoveredFrames working always - make a switcher if they should work
 
-        this.hoveredFrames = Observable.create(
+        this.hoveredFrames = new Observable(
             (observer: Observer<TouchFrame>) => {
                 this.hoveredFramesObserver = observer;
             },
-        ).share();
+        ).pipe(share());
 
         if (setListeners) {
             this.addListener(new MouseListener(this.eventManager));

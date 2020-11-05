@@ -16,14 +16,14 @@ export class DebugLayer {
 
             logMultitouchElement.innerHTML = `<div class="${CSS_PREFIX}multitouch"><div class="${CSS_PREFIX}title">${multitouch.toString()}</div><div class="${CSS_PREFIX}multitouch-last-transformation"></div></div>`;
 
-            const logMultitouchLastTransformationElement = logMultitouchElement.querySelector(
+            const logMultitouchLastTransformElement = logMultitouchElement.querySelector(
                 `.${CSS_PREFIX}multitouch-last-transformation`,
             ) as HTMLDivElement;
 
             logElement.appendChild(logMultitouchElement);
 
             multitouch.transformations().subscribe((transformation) => {
-                logMultitouchLastTransformationElement.innerHTML = `
+                logMultitouchLastTransformElement.innerHTML = `
                         <table>
                             <tr>
                                 <th>Translate:</th>

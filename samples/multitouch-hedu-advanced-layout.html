@@ -8,7 +8,15 @@
     <body>
         <div
             id="playground"
-            style="position:fixed; top: 10px; left: 10px; background-color: yellow; width: 400px;height:400px; overflow: scroll;"
+            style="
+                position: fixed;
+                top: 10px;
+                left: 10px;
+                background-color: yellow;
+                width: 400px;
+                height: 400px;
+                overflow: scroll;
+            "
         >
             <svg class="environment-trains" width="500" height="500">
                 <g
@@ -20,7 +28,7 @@
                         height="30"
                         x="0"
                         y="0"
-                        style="fill: white; stroke: #1A6AA3; stroke-width: 2;"
+                        style="fill: white; stroke: #1a6aa3; stroke-width: 2"
                     ></rect>
                 </g>
                 <g
@@ -32,7 +40,7 @@
                         height="30"
                         x="0"
                         y="0"
-                        style="fill: #E42C1A; stroke: #1A6AA3; stroke-width: 2;"
+                        style="fill: #e42c1a; stroke: #1a6aa3; stroke-width: 2"
                     ></rect>
                 </g>
                 <g
@@ -44,7 +52,7 @@
                         height="30"
                         x="0"
                         y="0"
-                        style="fill: #43B94A; stroke: #1A6AA3; stroke-width: 2;"
+                        style="fill: #43b94a; stroke: #1a6aa3; stroke-width: 2"
                     ></rect>
                 </g>
             </svg>
@@ -58,7 +66,7 @@
                         height="30"
                         x="0"
                         y="0"
-                        style="fill: white; stroke: #1A6AA3; stroke-width: 2;"
+                        style="fill: white; stroke: #1a6aa3; stroke-width: 2"
                     ></rect>
                 </g>
                 <g
@@ -70,7 +78,7 @@
                         height="30"
                         x="0"
                         y="0"
-                        style="fill: #E42C1A; stroke: #1A6AA3; stroke-width: 2;"
+                        style="fill: #e42c1a; stroke: #1a6aa3; stroke-width: 2"
                     ></rect>
                 </g>
                 <g
@@ -82,7 +90,7 @@
                         height="30"
                         x="0"
                         y="0"
-                        style="fill: #43B94A; stroke: #1A6AA3; stroke-width: 2;"
+                        style="fill: #43b94a; stroke: #1a6aa3; stroke-width: 2"
                     ></rect>
                 </g>
             </svg>
@@ -112,18 +120,18 @@
                 (frame) => frame.element,
             );
 
-            multiTouchController.multiTouches.subscribe(function(multitouch) {
+            multiTouchController.multiTouches.subscribe(function (multitouch) {
                 if (typeof multitouch.element === 'undefined') return;
                 let draggingElement = multitouch.element;
 
                 multitouch.transformations(TC.BoundingBox.One()).subscribe(
-                    function(transformation) {
+                    function (transformation) {
                         transformation.applyOnElement(draggingElement);
                     },
-                    function() {},
-                    function() {
+                    function () {},
+                    function () {
                         if (multitouch.empty) {
-                            TC.Transformation.rotate(
+                            TC.Transform.rotate(
                                 (Math.PI * 2) / 36,
                             ).applyOnElement(draggingElement);
                             console.log(`You have selected element.`);

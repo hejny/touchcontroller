@@ -17,7 +17,7 @@ import { MouseListener } from './listeners/MouseListener';
 import { TouchListener } from './listeners/TouchListener';
 import { MultiTouch } from './MultiTouch';
 import { MultiTouchController } from './MultiTouchController';
-import { multiTouchTransformations } from './multiTouchTransformations';
+import { multiTouchTransforms } from './multiTouchTransforms';
 import { Plugins } from './plugins/index';
 import { toggleTouchByTap } from './plugins/toggleTouchByTap';
 import { Touch } from './Touch';
@@ -67,7 +67,7 @@ export {
     GridTouchController,
     MultiTouchController,
     particleOptionsAverage,
-    multiTouchTransformations,
+    multiTouchTransforms,
     IParticleOptionsExternals,
     createColoredCanvasFromSrc,
     getBoundingClientRectEnhanced,

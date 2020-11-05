@@ -129,7 +129,7 @@ export class TouchListener implements IListener {
             return new TouchFrame(
                 element,
                 anchorElement,
-                new Vector(
+                Vector.fromArray(
                     event.clientX - boundingRect.left,
                     event.clientY - boundingRect.top,
                 ).applyInPlace(

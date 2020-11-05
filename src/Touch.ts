@@ -1,5 +1,3 @@
-import 'rxjs/add/observable/range';
-import 'rxjs/add/operator/share';
 import { Observable } from 'rxjs/internal/Observable';
 import { Observer } from 'rxjs/internal/types';
 import { share } from 'rxjs/operators';

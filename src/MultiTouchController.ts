@@ -50,7 +50,7 @@ export class MultiTouchController<TElement> {
     }
 
     public get hoveredElements(): Observable<TElement | undefined> {
-        return Observable.create((observer: Observer<TElement | undefined>) => {
+        return new Observable((observer: Observer<TElement | undefined>) => {
             this.touchController.hoveredFrames.subscribe((frame) => {
                 observer.next(this.elementBinder(frame));
             });
@@ -60,7 +60,7 @@ export class MultiTouchController<TElement> {
     public get hoveredElementsChanges(): Observable<
         [TElement | undefined, TElement | undefined]
     > {
-        return Observable.create(
+        return new Observable(
             (
                 observer: Observer<
                     [TElement | undefined, TElement | undefined]

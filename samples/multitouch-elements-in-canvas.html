@@ -17,51 +17,22 @@
             const scene = document.getElementById('scene');
             const ctx = scene.getContext('2d');
 
-            class Rect extends TC.BoundingBox {
-                constructor(color, center, size, rotation) {
-                    super(center, size, rotation);
-                    this.hovered = false;
-                    this.color = color;
-                }
-
-                render(ctx) {
-                    ctx.save();
-                    ctx.beginPath();
-
-                    ctx.rotate(this.rotation);
-                    ctx.translate(
-                        ...new TC.Vector(this.center.x, this.center.y)
-                            .rotate(-this.rotation)
-                            .subtract(
-                                new TC.Vector(this.size.x / 2, this.size.y / 2),
-                            )
-                            .toArray(),
-                    );
-                    ctx.rect(0, 0, this.size.x, this.size.y);
-                    ctx.fillStyle = this.color;
-                    ctx.fill();
-                    if (this.hovered) {
-                        ctx.strokeStyle = '#000000';
-                        ctx.lineWidth = 3;
-                        ctx.stroke();
-                    }
-                    ctx.restore();
-                }
-            }
-
             const rects = [
-                new Rect(
-                    'blue',
-                    new TC.Vector(100, 100),
-                    new TC.Vector(100, 150),
-                    Math.PI / 10,
-                ),
-                new Rect(
-                    'green',
-                    new TC.Vector(300, 300),
-                    new TC.Vector(200, 200),
-                    0,
-                ),
+                new TC.CanvasRectangle({
+                    color: 'blue',
+                    transform: {
+                        translate: TC.Vector.fromArray(100, 100),
+                        scale: TC.Vector.fromArray(100, 150),
+                        rotate: Math.PI / 10,
+                    },
+                }),
+                new TC.CanvasRectangle({
+                    color: 'green',
+                    transform: {
+                        translate: TC.Vector.fromArray(300, 300),
+                        scale: TC.Vector.fromArray(200, 200),
+                    },
+                }),
             ];
 
             function render() {
@@ -91,14 +62,14 @@
                 },
             );
 
-            multiTouchController.multiTouches.subscribe(function(multitouch) {
+            multiTouchController.multiTouches.subscribe(function (multitouch) {
                 if (typeof multitouch.element === 'undefined') return;
                 const rect = multitouch.element;
                 const sizeRatio = rect.size.y / rect.size.x;
-                multitouch.transformations(multitouch.element).subscribe(
-                    function(transformation) {},
-                    function() {},
-                    function() {
+                multitouch.transforms(multitouch.element).subscribe(
+                    function (transformation) {},
+                    function () {},
+                    function () {
                         if (multitouch.empty) {
                             rect.rotation += (Math.PI * 2) / 36;
                         }

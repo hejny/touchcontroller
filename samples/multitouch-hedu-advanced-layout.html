@@ -124,7 +124,7 @@
                 if (typeof multitouch.element === 'undefined') return;
                 let draggingElement = multitouch.element;
 
-                multitouch.transformations(TC.BoundingBox.One()).subscribe(
+                multitouch.transforms(TC.BoundingBox.One()).subscribe(
                     function (transformation) {
                         transformation.applyOnElement(draggingElement);
                     },

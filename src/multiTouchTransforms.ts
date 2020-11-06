@@ -5,10 +5,11 @@ import { Transform, Vector } from 'xyzt';
 
 import { MultiTouch } from './MultiTouch';
 import { Touch } from './Touch';
+import { BoundingBox } from './utils/BoundingBox/BoundingBox';
 
 export function multiTouchTransforms<TElement>(
     multiTouch: MultiTouch<TElement>,
-    boundingBox: Transform = Transform.neutral(),
+    boundingBox: BoundingBox = BoundingBox.neutral(),
 ): Observable<Transform> {
     return new Observable((observer: Observer<Transform>) => {
         let subscriptions: Subscription[] = [];
@@ -48,7 +49,7 @@ export function multiTouchTransforms<TElement>(
                             rotate: touches[0].lastFrame.position.rotation(
                                 touches[1].lastFrame.position,
                             ),
-                            scale: touches[0].lastFrame.position.length(
+                            scale: touches[0].lastFrame.position.distance(
                                 touches[1].lastFrame.position,
                             ),
                         });

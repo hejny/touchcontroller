@@ -176,7 +176,7 @@ export class MouseListener implements IListener {
                 Vector.fromArray(
                     event.clientX - boundingRect.left,
                     event.clientY - boundingRect.top,
-                ).applyInPlace(
+                ).map(
                     Math.round /* TODO: Some option if you want or not to round the position */,
                 ),
                 performance.now(),

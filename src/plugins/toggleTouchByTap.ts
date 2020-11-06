@@ -15,7 +15,7 @@ export function toggleTouchByTap(touchController: TouchController) {
                 if (
                     touch.firstFrame.position
                         .subtract(touch.lastFrame.position)
-                        .length() < 10 &&
+                        .distance() < 10 &&
                     touch.lastFrame.time - touch.firstFrame.time < 500
                 ) {
                     if (!virtualTouch) {

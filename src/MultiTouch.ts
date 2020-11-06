@@ -3,11 +3,11 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { Observer } from 'rxjs/internal/types';
 import { share } from 'rxjs/operators';
 import * as uuid from 'uuid';
-import { forImmediate } from 'waitasecond';
-import { BoundingBox, Transform } from 'xyzt';
+import { Transform } from 'xyzt';
 
 import { multiTouchTransforms } from './multiTouchTransforms';
 import { Touch } from './Touch';
+import { BoundingBox } from './utils/BoundingBox/BoundingBox';
 
 let id = 0;
 export class MultiTouch<TElement> {
@@ -26,7 +26,7 @@ export class MultiTouch<TElement> {
         this.touches = new Observable((observer: Observer<Touch>) => {
             (async () => {
                 this.touchesObserver = observer;
-                await forImmediate();
+                // await forImmediate();
                 this.addTouch(firstTouch);
             })();
         }).pipe(share());
@@ -43,7 +43,7 @@ export class MultiTouch<TElement> {
         touch.frames.subscribe(
             (frame) => {
                 if (
-                    touch.firstFrame.position.length(frame.position) >=
+                    touch.firstFrame.position.distance(frame.position) >=
                     5 /*todo to config*/
                 ) {
                     this.empty = false;
@@ -71,8 +71,8 @@ export class MultiTouch<TElement> {
                     touch.frames.subscribe(
                         (/*touch*/) => undefined,
                         () => undefined,
-                        async () => {
-                            await forImmediate();
+                        /*async */ () => {
+                            // await forImmediate();
                             observer.next(this.ongoingTouches);
                         },
                     );
@@ -108,8 +108,8 @@ export class MultiTouch<TElement> {
         });
     }
 
-    public transformations(
-        boundingBox: BoundingBox = BoundingBox.One(),
+    public transforms(
+        boundingBox: BoundingBox = BoundingBox.neutral(),
     ): Observable<Transform> {
         return multiTouchTransforms(this, boundingBox);
     }

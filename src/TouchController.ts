@@ -2,8 +2,6 @@ import { Observable } from 'rxjs/internal/Observable';
 import { Observer } from 'rxjs/internal/types';
 import { share } from 'rxjs/operators';
 
-import { forImmediate } from 'waitasecond';
-
 import { Grid } from './Grid';
 import { GridTouchController } from './GridTouchController';
 import { Awaitable } from './interfaces/Awaitable';
@@ -118,8 +116,8 @@ export class TouchController implements ITouchController {
         }
     }
 
-    public async emulateTouch(touch: Touch) {
-        await forImmediate();
+    public /*async */ emulateTouch(touch: Touch) {
+        //await forImmediate();
         this.touchesObserver.next(touch);
     }
 

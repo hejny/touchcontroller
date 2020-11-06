@@ -22,7 +22,7 @@ export class DebugLayer {
 
             logElement.appendChild(logMultitouchElement);
 
-            multitouch.transformations().subscribe((transformation) => {
+            multitouch.transforms().subscribe((transformation) => {
                 logMultitouchLastTransformElement.innerHTML = `
                         <table>
                             <tr>

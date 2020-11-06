@@ -52,14 +52,14 @@ export class Particle {
     public get live(): boolean {
         // TODO: tresshold in config
         return (
-            this.options.movement.position.length() > 0.5 ||
+            this.options.movement.position.distance() > 0.5 ||
             this.options.movement.rotation > 0.5 ||
             this.options.movement.widthSize > 0.5
         );
     }
 
     public update(delta: number) {
-        this.options.current.position.addInPlace(
+        this.options.current.position.add(
             this.options.movement.position.scale(delta),
         );
         this.options.current.rotation += this.options.movement.rotation * delta;
@@ -67,7 +67,7 @@ export class Particle {
             this.options.movement.widthSize * delta;
 
         const frictionPowered = Math.pow(this.options.friction, delta);
-        this.options.movement.position.scaleInPlace(frictionPowered);
+        this.options.movement.position.scale(frictionPowered);
         this.options.movement.rotation *= frictionPowered;
         this.options.movement.widthSize *= frictionPowered; // TODO: maybe as area
     }

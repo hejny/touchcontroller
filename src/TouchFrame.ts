@@ -17,11 +17,13 @@ export class TouchFrame {
         countPosition = true,
     ) {
         if (countPosition) {
-            const offset = Vector.fromTopLeft(
+            const offset = Vector.fromObject(
                 getBoundingClientRectEnhanced(element),
-            ).subtractInPlace(
-                Vector.fromTopLeft(
+                ['left', 'top'],
+            ).subtract(
+                Vector.fromObject(
                     getBoundingClientRectEnhanced(anchorElement),
+                    ['left', 'top'],
                 ),
             );
             this.position = this.positionRelative.add(offset);

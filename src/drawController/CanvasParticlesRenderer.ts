@@ -56,7 +56,7 @@ export class DrawController {
         // console.log('options2',options2);
 
         const segmentsCount = Math.ceil(
-            options1.current.position.length(options2.current.position) /
+            options1.current.position.distance(options2.current.position) /
                 segmentSize,
         );
 

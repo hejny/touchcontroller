@@ -2,9 +2,9 @@ import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
 import { Observer } from 'rxjs/internal/types';
 
-import { ITouchController } from './interfaces/ITouchController';
+import { ITouchController } from '../interfaces/ITouchController';
 import { MultiTouch } from './MultiTouch';
-import { TouchFrame } from './TouchFrame';
+import { TouchFrame } from '../TouchFrame';
 
 export class MultiTouchController<TElement> {
     public ongoingMultiTouches: Array<MultiTouch<TElement | undefined>> = []; // TODO: null vs. undefined

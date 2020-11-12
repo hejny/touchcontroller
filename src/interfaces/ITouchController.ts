@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/internal/Observable';
-import { Grid } from '../Grid';
-import { Touch } from '../Touch';
+import { Grid } from '../touch/Grid';
+import { Touch } from '../touch/Touch';
 import { TouchFrame } from '../TouchFrame';
 
 export interface ITouchController {

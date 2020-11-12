@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { Transform, Vector } from 'xyzt';
 
 import { MultiTouch } from './MultiTouch';
-import { Touch } from './Touch';
+import { Touch } from '../touch/Touch';
 
 export function multiTouchTransforms<TElement>(
     multiTouch: MultiTouch<TElement>,

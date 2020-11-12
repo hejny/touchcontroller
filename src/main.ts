@@ -6,8 +6,6 @@ import { IParticleOptions } from './drawController/Particle';
 import { IParticleOptionsExternals } from './drawController/Particle';
 import { Particle } from './drawController/Particle';
 import { Scene } from './drawController/Scene';
-import { Grid } from './Grid';
-import { GridTouchController } from './GridTouchController';
 import { Awaitable } from './interfaces/Awaitable';
 import { IElement } from './interfaces/IElement';
 import { IEvent } from './interfaces/IEvent';
@@ -15,14 +13,14 @@ import { IListener } from './interfaces/IListener';
 import { ITouchController } from './interfaces/ITouchController';
 import { MouseListener } from './listeners/MouseListener';
 import { TouchListener } from './listeners/TouchListener';
-import { MultiTouch } from './MultiTouch';
-import { MultiTouchController } from './MultiTouchController';
-import { multiTouchTransforms } from './multiTouchTransforms';
-import { Plugins } from './plugins/index';
-import { toggleTouchByTap } from './plugins/toggleTouchByTap';
-import { Touch } from './Touch';
-import { TouchController } from './TouchController';
-import { TouchFrame } from './TouchFrame';
+import { MultiTouch } from './multitouch/MultiTouch';
+import { MultiTouchController } from './multitouch/MultiTouchController';
+import { multiTouchTransforms } from './multitouch/multiTouchTransforms';
+import { Grid } from './touch/Grid';
+import { GridTouchController } from './touch/GridTouchController';
+import { Touch } from './touch/Touch';
+import { TouchController } from './touch/TouchController';
+import { TouchFrame } from './touch/TouchFrame';
 import { TAverageItems } from './utils/average';
 import { average } from './utils/average';
 import { VectorAverage } from './utils/average';
@@ -38,39 +36,37 @@ import { sign } from './utils/mathTools';
 import { MultiTouchControllerDebugLayer } from './utils/MultiTouchControllerDebugLayer';
 
 export {
-    sign,
-    Grid,
-    Touch,
-    Scene,
-    IEvent,
-    average,
-    Plugins,
-    IElement,
-    Particle,
-    IListener,
-    Awaitable,
-    TouchFrame,
-    MultiTouch,
-    SourceCache,
-    EventManager,
-    VectorAverage,
-    TAverageItems,
-    TouchListener,
-    MouseListener,
-    DrawController,
-    CanvasRectangle,
-    TouchController,
-    toggleTouchByTap,
-    ITouchController,
-    IParticleOptions,
-    createImageFromSrc,
-    createCanvasFromSrc,
-    GridTouchController,
-    multiTouchTransforms,
-    MultiTouchController,
-    particleOptionsAverage,
-    IParticleOptionsExternals,
-    createColoredCanvasFromSrc,
-    getBoundingClientRectEnhanced,
-    MultiTouchControllerDebugLayer,
+sign,
+Grid,
+Touch,
+Scene,
+IEvent,
+average,
+IElement,
+Particle,
+IListener,
+Awaitable,
+TouchFrame,
+MultiTouch,
+SourceCache,
+EventManager,
+VectorAverage,
+TAverageItems,
+TouchListener,
+MouseListener,
+DrawController,
+CanvasRectangle,
+TouchController,
+ITouchController,
+IParticleOptions,
+createImageFromSrc,
+createCanvasFromSrc,
+GridTouchController,
+multiTouchTransforms,
+MultiTouchController,
+particleOptionsAverage,
+IParticleOptionsExternals,
+createColoredCanvasFromSrc,
+getBoundingClientRectEnhanced,
+MultiTouchControllerDebugLayer
 };

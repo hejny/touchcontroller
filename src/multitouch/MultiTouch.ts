@@ -6,7 +6,7 @@ import * as uuid from 'uuid';
 import { Transform } from 'xyzt';
 
 import { multiTouchTransforms } from './multiTouchTransforms';
-import { Touch } from './Touch';
+import { Touch } from '../touch/Touch';
 
 let id = 0;
 export class MultiTouch<TElement> {

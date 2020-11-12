@@ -1,4 +1,4 @@
-import { Touch } from '../Touch';
+import { Touch } from '../touch/Touch';
 import { TouchFrame } from '../TouchFrame';
 import { Awaitable } from './Awaitable';
 import { IElement } from './IElement';

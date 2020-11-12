@@ -105,7 +105,12 @@
                     MultiTouchController,
                     MultiTouchControllerDebugLayer,
                 } = window.TouchController;
-                const { BoundingBox, transformToCss } = window.Xyzt;
+                const {
+                    BoundingBox,
+                    Transform,
+                    transformToCss,
+                    transformFromCss,
+                } = window.Xyzt;
 
                 const dragElements = [
                     ...Array.from(document.querySelectorAll('.item')),
@@ -140,8 +145,36 @@
 
                     multitouch.transforms.subscribe(
                         (transform) => {
-                            draggingElement.style.transform = transformToCss(
-                                transform,
+                            console.log(
+                                transformToCss(
+                                    // TODO: !!! to xyzt
+                                    Transform.combine(
+                                        transformFromCss(
+                                            draggingElement.getAttribute(
+                                                'transform',
+                                            ),
+                                        ),
+                                        transform,
+                                    ),
+                                ),
+                            );
+
+                            draggingElement.setAttribute(
+                                'transform',
+                                transformToCss(
+                                    // TODO: !!! to xyzt
+                                    Transform.combine(
+                                        transformFromCss(
+                                            draggingElement.getAttribute(
+                                                'transform',
+                                            ),
+                                        ),
+                                        transform,
+                                    ),
+                                )
+                                    .split(' ')[0]
+                                    .split('px')
+                                    .join(''),
                             );
                         },
                         () => {},

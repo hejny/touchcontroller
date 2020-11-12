@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <title>Sample of TC (ES6)</title>
-        <link rel="stylesheet" type="text/css" href="./common.css" />
+        <link rel="stylesheet" type="text/css" href="./assets/common.css" />
     </head>
     <body>
         <div
@@ -99,46 +99,54 @@
         >
 
         <script src="../dist/main.dev.browser.js"></script>
+        <script src="/node_modules/xyzt/dist/main.browser.js"></script>
         <script>
-            const TC = TouchController;
-            const touchController = new TC.TouchController([], document.body); // TODO: document.body as default
+            (() => {
+                const {
+                    TouchController,
+                    MultiTouchController,
+                    MultiTouchControllerDebugLayer,
+                } = window.TouchController;
+                const { Transform, BoundingBox } = window.Xyzt;
+                const touchController = new TouchController([], document.body); // TODO: document.body as default
 
-            for (const dragElement of Array.from(
-                document.querySelectorAll('svg > g'),
-            )) {
-                const pointerDown = (event) => {
-                    const dragElementNew = dragElement.cloneNode(true);
-                    dragElement.parentElement.appendChild(dragElementNew);
-                    touchController.addElement(dragElementNew, event);
-                };
-                dragElement.addEventListener('mousedown', pointerDown);
-                dragElement.addEventListener('touchstart', pointerDown);
-            }
+                for (const dragElement of Array.from(
+                    document.querySelectorAll('svg > g'),
+                )) {
+                    const pointerDown = (event) => {
+                        const dragElementNew = dragElement.cloneNode(true);
+                        dragElement.parentElement.appendChild(dragElementNew);
+                        touchController.addElement(dragElementNew, event);
+                    };
+                    dragElement.addEventListener('mousedown', pointerDown);
+                    dragElement.addEventListener('touchstart', pointerDown);
+                }
 
-            const multiTouchController = new TC.MultiTouchController(
-                touchController,
-                (frame) => frame.element,
-            );
-
-            multiTouchController.multiTouches.subscribe(function (multitouch) {
-                if (typeof multitouch.element === 'undefined') return;
-                let draggingElement = multitouch.element;
-
-                multitouch.transforms(TC.BoundingBox.One()).subscribe(
-                    function (transformation) {
-                        transformation.applyOnElement(draggingElement);
-                    },
-                    function () {},
-                    function () {
-                        if (multitouch.empty) {
-                            TC.Transform.rotate(
-                                (Math.PI * 2) / 36,
-                            ).applyOnElement(draggingElement);
-                            console.log(`You have selected element.`);
-                        }
-                    },
+                const multiTouchController = new MultiTouchController(
+                    touchController,
+                    (frame) => frame.element,
                 );
-            });
+
+                multiTouchController.multiTouches.subscribe((multitouch) => {
+                    if (typeof multitouch.element === 'undefined') return;
+                    let draggingElement = multitouch.element;
+
+                    multitouch.transforms.subscribe(
+                        (transform) => {
+                            transform.applyOnElement(draggingElement);
+                        },
+                        () => {},
+                        () => {
+                            if (multitouch.empty) {
+                                Transform.rotate(
+                                    (Math.PI * 2) / 36,
+                                ).applyOnElement(draggingElement);
+                                console.log(`You have selected element.`);
+                            }
+                        },
+                    );
+                });
+            })();
         </script>
 
         ahoj ahoj ahoj ahoj ahoj ahoj ahoj ahoj ahoj ahoj ahoj ahoj ahoj ahoj

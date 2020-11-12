@@ -3,32 +3,34 @@
     <head>
         <meta charset="UTF-8" />
         <title>Sample of TouchController</title>
-        <link rel="stylesheet" type="text/css" href="./common.css" />
+        <link rel="stylesheet" type="text/css" href="./assets/common.css" />
     </head>
     <body>
         <canvas id="scene" width="500" height="500"></canvas>
-        <script
-            type="text/javascript"
-            src="../dist/main.dev.browser.js"
-        ></script>
-        <script src="./common.js"></script>
-        <script type="text/javascript">
-            const TC = TouchController;
+        <script src="../dist/main.dev.browser.js"></script>
+        <script>
+            (() => {
+                const {
+                    TouchController,
+                    MultiTouchController,
+                    MultiTouchControllerDebugLayer,
+                } = window.TouchController;
 
-            const scene = document.getElementById('scene');
-            const ctx = scene.getContext('2d');
-            ctx.lineWidth = 10;
-            ctx.lineCap = 'round';
+                const scene = document.getElementById('scene');
+                const ctx = scene.getContext('2d');
+                ctx.lineWidth = 10;
+                ctx.lineCap = 'round';
 
-            const touchController = new TC.TouchController.fromCanvas(scene);
-            const multiTouchController = new TC.MultiTouchController(
-                touchController,
-                function(frame) {
-                    return Math.round(frame.position.x / 100);
-                },
-            );
+                const touchController = new TouchController.fromCanvas(scene);
+                const multiTouchController = new MultiTouchController(
+                    touchController,
+                    (frame) => {
+                        return Math.round(frame.position.x / 100);
+                    },
+                );
 
-            new TC.DebugLayer(multiTouchController);
+                new MultiTouchControllerDebugLayer(multiTouchController);
+            })();
         </script>
     </body>
 </html>

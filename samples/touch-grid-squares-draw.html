@@ -3,52 +3,57 @@
     <head>
         <meta charset="UTF-8" />
         <title>Sample of TouchController</title>
-        <link rel="stylesheet" type="text/css" href="./common.css" />
+        <link rel="stylesheet" type="text/css" href="./assets/common.css" />
     </head>
     <body>
         <canvas id="scene" width="500" height="500"></canvas>
 
-        <script
-            type="text/javascript"
-            src="../dist/main.dev.browser.js"
-        ></script>
-        <script type="text/javascript">
-            const TC = TouchController;
+        <script src="../dist/main.dev.browser.js"></script>
+        <script src="/node_modules/xyzt/dist/main.browser.js"></script>
+        <script>
+            (() => {
+                const {
+                    TouchController,
+                    MultiTouchController,
+                    MultiTouchControllerDebugLayer,
+                } = window.TouchController;
+                const { BoundingBox } = window.Xyzt;
 
-            const scene = document.getElementById('scene');
-            const ctx = scene.getContext('2d');
-            ctx.lineWidth = 10;
-            ctx.lineCap = 'round';
+                const scene = document.getElementById('scene');
+                const ctx = scene.getContext('2d');
+                ctx.lineWidth = 10;
+                ctx.lineCap = 'round';
 
-            const touchController = new TC.TouchController.fromCanvas(
-                scene,
-            ).applyGrid(
-                new TC.Grid((position) =>
-                    position.apply((value) => Math.round(value / 50) * 50),
-                ),
-            );
-            TC.Plugins.toggleTouchByTap(touchController);
+                const touchController = new TouchController.fromCanvas(
+                    scene,
+                ).applyGrid(
+                    new TC.Grid((position) =>
+                        position.apply((value) => Math.round(value / 50) * 50),
+                    ),
+                );
+                TC.Plugins.toggleTouchByTap(touchController);
 
-            touchController.hoveredFrames.subscribe((frame) => {
-                // console.info('Hover frame');
-            });
-
-            touchController.touches.subscribe(function(touch) {
-                //console.log(touch);
-
-                const color =
-                    '#' + Math.floor(Math.random() * 16777215).toString(16);
-                let lastFrame = touch.firstFrame;
-
-                touch.frames.subscribe(function(frame) {
-                    ctx.strokeStyle = color;
-                    ctx.beginPath();
-                    ctx.moveTo(lastFrame.position.x, lastFrame.position.y);
-                    ctx.lineTo(frame.position.x, frame.position.y);
-                    ctx.stroke();
-                    lastFrame = frame;
+                touchController.hoveredFrames.subscribe((frame) => {
+                    // console.info('Hover frame');
                 });
-            });
+
+                touchController.touches.subscribe((touch) => {
+                    //console.log(touch);
+
+                    const color =
+                        '#' + Math.floor(Math.random() * 16777215).toString(16);
+                    let lastFrame = touch.firstFrame;
+
+                    touch.frames.subscribe((frame) => {
+                        ctx.strokeStyle = color;
+                        ctx.beginPath();
+                        ctx.moveTo(lastFrame.position.x, lastFrame.position.y);
+                        ctx.lineTo(frame.position.x, frame.position.y);
+                        ctx.stroke();
+                        lastFrame = frame;
+                    });
+                });
+            })();
         </script>
     </body>
 </html>

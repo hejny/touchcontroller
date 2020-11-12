@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <title>Sample of TC (ES6)</title>
-        <link rel="stylesheet" type="text/css" href="./common.css" />
+        <link rel="stylesheet" type="text/css" href="./assets/common.css" />
     </head>
     <body>
         <div class="foreground">
@@ -97,48 +97,60 @@
         </div>
 
         <script src="../dist/main.dev.browser.js"></script>
+        <script src="/node_modules/xyzt/dist/main.browser.js"></script>
         <script>
-            const TC = TouchController;
+            (() => {
+                const {
+                    TouchController,
+                    MultiTouchController,
+                    MultiTouchControllerDebugLayer,
+                } = window.TouchController;
+                const { BoundingBox } = window.Xyzt;
 
-            const dragElements = [
-                ...Array.from(document.querySelectorAll('.item')),
-                ...Array.from(document.querySelectorAll('svg > g')),
-            ];
+                const dragElements = [
+                    ...Array.from(document.querySelectorAll('.item')),
+                    ...Array.from(document.querySelectorAll('svg > g')),
+                ];
 
-            const touchController = new TC.TouchController(
-                dragElements,
-                document.body,
-            ); // TODO: document.body as default
+                const touchController = new TouchController(
+                    dragElements,
+                    document.body,
+                ); // TODO: document.body as default
 
-            const multiTouchController = new TC.MultiTouchController(
-                touchController,
-                (frame) => frame.element,
-            );
-
-            multiTouchController.multiTouches.subscribe(function (multitouch) {
-                if (typeof multitouch.element === 'undefined') return;
-
-                let draggingElement = multitouch.element;
-
-                if (!multitouch.element.hasAttribute('data-clone')) {
-                    const draggingElement = multitouch.element.cloneNode(true);
-                    multitouch.element.parentNode.appendChild(draggingElement);
-                    touchController.addElement(draggingElement);
-                    multitouch.element.setAttribute('data-clone', 'true');
-                }
-
-                multitouch.transforms(TC.BoundingBox.One()).subscribe(
-                    function (transformation) {
-                        transformation.applyOnElement(draggingElement);
-                    },
-                    function () {},
-                    function () {
-                        if (multitouch.empty) {
-                            console.log(`You have selected element.`);
-                        }
-                    },
+                const multiTouchController = new MultiTouchController(
+                    touchController,
+                    (frame) => frame.element,
                 );
-            });
+
+                multiTouchController.multiTouches.subscribe((multitouch) => {
+                    if (typeof multitouch.element === 'undefined') return;
+
+                    let draggingElement = multitouch.element;
+
+                    if (!multitouch.element.hasAttribute('data-clone')) {
+                        const draggingElement = multitouch.element.cloneNode(
+                            true,
+                        );
+                        multitouch.element.parentNode.appendChild(
+                            draggingElement,
+                        );
+                        touchController.addElement(draggingElement);
+                        multitouch.element.setAttribute('data-clone', 'true');
+                    }
+
+                    multitouch.transforms.subscribe(
+                        (transform) => {
+                            transform.applyOnElement(draggingElement);
+                        },
+                        () => {},
+                        () => {
+                            if (multitouch.empty) {
+                                console.log(`You have selected element.`);
+                            }
+                        },
+                    );
+                });
+            })();
         </script>
     </body>
 </html>

@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <title>Sample of TouchController</title>
-        <link rel="stylesheet" type="text/css" href="./common.css" />
+        <link rel="stylesheet" type="text/css" href="./assets/common.css" />
     </head>
     <body>
         <canvas id="scene" width="800" height="500"></canvas>
@@ -12,81 +12,89 @@
         <div><b>Dead:</b> <span id="deadParticlesCount"></span></div>
 
         <script src="../dist/main.dev.browser.js"></script>
+        <script src="/node_modules/xyzt/dist/main.browser.js"></script>
         <script>
-            const TC = TouchController;
+            (() => {
+                const {
+                    TouchController,
+                    MultiTouchController,
+                    MultiTouchControllerDebugLayer,
+                } = window.TouchController;
+                const { Vector } = window.Xyzt;
 
-            const sceneElement = document.getElementById('scene');
-            const sceneContext = sceneElement.getContext('2d');
+                const sceneElement = document.getElementById('scene');
+                const sceneContext = sceneElement.getContext('2d');
 
-            const drawController = new TC.DrawController(
-                new TC.Vector(800, 500),
-            );
-            drawController.addContext(sceneContext);
+                const drawController = new TC.DrawController(
+                    new Vector(800, 500),
+                );
+                drawController.addContext(sceneContext);
 
-            const touchController = new TC.TouchController.fromCanvas(
-                sceneElement,
-            );
-            touchController.touches.subscribe((touch) => {
-                const color =
-                    '#' + Math.floor(Math.random() * 16777215).toString(16);
+                const touchController = new TouchController.fromCanvas(
+                    sceneElement,
+                );
+                touchController.touches.subscribe((touch) => {
+                    const color =
+                        '#' + Math.floor(Math.random() * 16777215).toString(16);
 
-                let lastPosition = null;
-                touch.frames.subscribe((frame) => {
-                    if (lastPosition)
-                        drawController.drawLine(
-                            {
-                                shapeSrc: './assets/particle2.png',
-                                shapeCenter: new TC.Vector(0.5, 0.5),
-                                color,
-                                current: {
-                                    position: lastPosition,
-                                    rotation: 0,
-                                    widthSize: 5,
+                    let lastPosition = null;
+                    touch.frames.subscribe((frame) => {
+                        if (lastPosition)
+                            drawController.drawLine(
+                                {
+                                    shapeSrc: './assets/particle2.png',
+                                    shapeCenter: new Vector(0.5, 0.5),
+                                    color,
+                                    current: {
+                                        position: lastPosition,
+                                        rotation: 0,
+                                        widthSize: 5,
+                                    },
+                                    movement: {
+                                        position: new Vector(
+                                            (Math.random() - 0.5) * 10, // TODO: depend this value
+                                            (Math.random() - 0.5) * 10,
+                                        ),
+                                        rotation:
+                                            (Math.random() - 0.5) * Math.PI * 2,
+                                        widthSize: 20,
+                                    },
+                                    friction: 0.2,
                                 },
-                                movement: {
-                                    position: new TC.Vector(
-                                        (Math.random() - 0.5) * 10, // TODO: depend this value
-                                        (Math.random() - 0.5) * 10,
-                                    ),
-                                    rotation:
-                                        (Math.random() - 0.5) * Math.PI * 2,
-                                    widthSize: 20,
+                                {
+                                    shapeSrc: './assets/particle2.png',
+                                    shapeCenter: new Vector(0.5, 0.5),
+                                    color,
+                                    current: {
+                                        position: frame.position,
+                                        rotation: 0,
+                                        widthSize: 5,
+                                    },
+                                    movement: {
+                                        position: new Vector(
+                                            (Math.random() - 0.5) * 10, // TODO: depend this value
+                                            (Math.random() - 0.5) * 10,
+                                        ),
+                                        rotation:
+                                            (Math.random() - 0.5) * Math.PI * 2,
+                                        widthSize: 20,
+                                    },
+                                    friction: 0.2,
                                 },
-                                friction: 0.2,
-                            },
-                            {
-                                shapeSrc: './assets/particle2.png',
-                                shapeCenter: new TC.Vector(0.5, 0.5),
-                                color,
-                                current: {
-                                    position: frame.position,
-                                    rotation: 0,
-                                    widthSize: 5,
-                                },
-                                movement: {
-                                    position: new TC.Vector(
-                                        (Math.random() - 0.5) * 10, // TODO: depend this value
-                                        (Math.random() - 0.5) * 10,
-                                    ),
-                                    rotation:
-                                        (Math.random() - 0.5) * Math.PI * 2,
-                                    widthSize: 20,
-                                },
-                                friction: 0.2,
-                            },
-                            5,
-                        );
+                                5,
+                            );
 
-                    lastPosition = frame.position;
+                        lastPosition = frame.position;
+                    });
                 });
-            });
 
-            setInterval(() => {
-                document.getElementById('liveParticlesCount').innerText =
-                    drawController.liveParticlesCount;
-                document.getElementById('deadParticlesCount').innerText =
-                    drawController.deadParticlesCount;
-            }, 100);
+                setInterval(() => {
+                    document.getElementById('liveParticlesCount').innerText =
+                        drawController.liveParticlesCount;
+                    document.getElementById('deadParticlesCount').innerText =
+                        drawController.deadParticlesCount;
+                }, 100);
+            })();
         </script>
         <script type="module">
             /*
@@ -94,7 +102,11 @@
     import { Particle } from './touch3/Particle.js';
     import { Vector2 } from './touch3/Vector2.js';
 
-    const TC = TouchController;
+    const {
+                TouchController,
+                MultiTouchController,
+                MultiTouchControllerDebugLayer,
+            } = window.TouchController;
 
     const sceneElement = document.getElementById('scene');
     const scene = new Scene(sceneElement , 0.05);
@@ -110,7 +122,7 @@
         requestAnimationFrame(loop);
     }
 
-    const touchController = new TC.TouchController.fromCanvas(sceneElement);
+    const touchController = new TouchController.fromCanvas(sceneElement);
     touchController.touches.subscribe((touch)=>{
 
 

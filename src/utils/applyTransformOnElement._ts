@@ -1,0 +1,65 @@
+// TODO: !!! xyzt
+
+import { Transform } from 'xyzt';
+
+export function applyOnElement(transform: Transform, element: Element) {
+    switch (element.tagName) {
+        case 'g':
+            applyTransformOnSvgElement(transform, element as SVGGElement);
+            break;
+        default:
+            applyTransformOnHtmlElement(transform, element as HTMLElement);
+    }
+}
+
+export function applyTransformOnHtmlElement(
+    transform: Transform,
+    element: HTMLElement,
+) {
+    element.style.left =
+        parseFloat(element.style.left || '0px') + transform.translate.x + 'px'; // TODO: bounding box as default
+    element.style.top =
+        parseFloat(element.style.top || '0px') + transform.translate.y + 'px';
+}
+
+export function applyTransformOnSvgElement(
+    transform: Transform,
+    element: SVGGElement,
+) {
+    /*element.setAttribute(
+            'transform',
+            vectorToTranslate(
+                translateToVector(
+                    element.getAttribute('transform') || undefined,
+                ).add(this.translate),
+            ),
+        );
+        console.groupCollapsed('applyOnSvgElement');
+        console.log('this',this);
+        console.log('element',element);*/
+
+    const transformationStringBefore = element.getAttribute('transform') || '';
+    const transformationBefore = svgTransformationDecode(
+        transformationStringBefore,
+    );
+
+    const transformationAfter = transformationBefore.add(this);
+    const transformationStringAfter = svgTransformationEncode(
+        transformationAfter,
+    );
+
+    element.setAttribute('transform', transformationStringAfter);
+
+    /*
+        console.log('transformationBefore',transformationBefore);
+        console.log('transformationAfter',transformationAfter);
+
+        console.log('transformationStringBefore',transformationStringBefore);
+        console.log('transformationStringAfter',transformationStringAfter);
+
+        console.log('check',element.getAttribute('transform'));
+
+
+        console.groupEnd();
+        */
+}

@@ -105,7 +105,7 @@
                     MultiTouchController,
                     MultiTouchControllerDebugLayer,
                 } = window.TouchController;
-                const { BoundingBox } = window.Xyzt;
+                const { BoundingBox, transformToCss } = window.Xyzt;
 
                 const dragElements = [
                     ...Array.from(document.querySelectorAll('.item')),
@@ -140,7 +140,9 @@
 
                     multitouch.transforms.subscribe(
                         (transform) => {
-                            transform.applyOnElement(draggingElement);
+                            draggingElement.style.transform = transformToCss(
+                                transform,
+                            );
                         },
                         () => {},
                         () => {

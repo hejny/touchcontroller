@@ -1,7 +1,7 @@
 import { Vector } from 'xyzt';
 
-import { IElement } from './interfaces/IElement';
-import { getBoundingClientRectEnhanced } from './utils/getBoundingClientRectEnhanced';
+import { IElement } from '../interfaces/IElement';
+import { getBoundingClientRectEnhanced } from '../utils/getBoundingClientRectEnhanced';
 
 export class TouchFrame {
     public position: Vector;

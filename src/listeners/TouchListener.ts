@@ -4,7 +4,7 @@ import { Vector } from 'xyzt';
 import { IEvent } from '../interfaces/IEvent';
 import { IListener } from '../interfaces/IListener';
 import { Touch } from '../touch/Touch';
-import { TouchFrame } from '../TouchFrame';
+import { TouchFrame } from '../touch/TouchFrame';
 import { getBoundingClientRectEnhanced } from '../utils/getBoundingClientRectEnhanced';
 import { IElement } from './../interfaces/IElement';
 import { SourceCache } from './../utils/Cache';

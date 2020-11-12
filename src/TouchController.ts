@@ -1,6 +1,4 @@
-import { Observable } from 'rxjs/internal/Observable';
-import { Observer } from 'rxjs/internal/types';
-import { share } from 'rxjs/operators';
+import { Subject } from 'rxjs/internal/Subject';
 
 import { Grid } from './Grid';
 import { GridTouchController } from './GridTouchController';
@@ -30,12 +28,11 @@ export class TouchController implements ITouchController {
         return new TouchController([canvas], canvas, true);
     }
 
-    public touches: Observable<Touch>;
-    public hoveredFrames: Observable<TouchFrame>;
-    public eventManager = new EventManager();
+    // TODO: !!! Use subjects everywhere
+    public readonly touches = new Subject<Touch>();
+    public readonly hoveredFrames = new Subject<TouchFrame>();
+    public readonly eventManager = new EventManager();
 
-    private touchesObserver: Observer<Touch>;
-    private hoveredFramesObserver: Observer<TouchFrame>;
     private listeners: IListener[] = [];
 
     constructor(
@@ -44,19 +41,6 @@ export class TouchController implements ITouchController {
         setListeners = true,
         // public readonly options: ITouchControllerOptions = TouchControllerOptionsDefault,
     ) {
-        // TODO: HTMLElement vs Element
-        this.touches = new Observable((observer: Observer<Touch>) => {
-            this.touchesObserver = observer;
-        }).pipe(share());
-
-        // TODO: Now there are hoveredFrames working always - make a switcher if they should work
-
-        this.hoveredFrames = new Observable(
-            (observer: Observer<TouchFrame>) => {
-                this.hoveredFramesObserver = observer;
-            },
-        ).pipe(share());
-
         if (setListeners) {
             this.addListener(new MouseListener(this.eventManager));
 
@@ -116,9 +100,9 @@ export class TouchController implements ITouchController {
         }
     }
 
-    public /*async */ emulateTouch(touch: Touch) {
-        //await forImmediate();
-        this.touchesObserver.next(touch);
+    public emulateTouch(touch: Touch) {
+        // await forImmediate();
+        this.touches.next(touch);
     }
 
     public applyGrid(grid: Grid): GridTouchController {
@@ -129,12 +113,8 @@ export class TouchController implements ITouchController {
         listener.init(
             element,
             this.anchorElement,
-            (touch: Touch) => this.touchesObserver.next(touch),
-            (frame: TouchFrame) => {
-                if (typeof this.hoveredFramesObserver !== 'undefined') {
-                    this.hoveredFramesObserver.next(frame);
-                }
-            },
+            (touch: Touch) => this.touches.next(touch),
+            (frame: TouchFrame) => this.hoveredFrames.next(frame),
         );
         // TODO: array of listeners disposers
     }

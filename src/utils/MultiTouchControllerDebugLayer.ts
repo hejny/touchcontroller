@@ -1,7 +1,9 @@
-import { MultiTouchController } from './../MultiTouchController';
+import { MultiTouchController } from '../MultiTouchController';
 const CSS_PREFIX = `touchcontroller-debug-layer-`;
 
-export class DebugLayer {
+// TODO: Debug layers for more things like TouchController
+
+export class MultiTouchControllerDebugLayer {
     constructor(multiTouchController: MultiTouchController<any>) {
         createDebugLayerCss();
 
@@ -22,7 +24,7 @@ export class DebugLayer {
 
             logElement.appendChild(logMultitouchElement);
 
-            multitouch.transforms().subscribe((transformation) => {
+            multitouch.transforms.subscribe((transformation) => {
                 logMultitouchLastTransformElement.innerHTML = `
                         <table>
                             <tr>

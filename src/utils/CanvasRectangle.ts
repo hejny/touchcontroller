@@ -1,5 +1,4 @@
-import { ITransform, Transform } from 'xyzt';
-import { BoundingBox } from './BoundingBox';
+import { ITransform, Transform, BoundingBox } from 'xyzt';
 
 interface ICanvasRectangleOptions {
     transform: ITransform;
@@ -8,7 +7,7 @@ interface ICanvasRectangleOptions {
 }
 
 export class CanvasRectangle extends BoundingBox {
-    constructor(private options: ICanvasRectangleOptions) {
+    constructor(public options: ICanvasRectangleOptions) {
         super(Transform.fromObject(options.transform));
     }
 

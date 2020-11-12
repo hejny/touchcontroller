@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/internal/Observable';
+import { Subject } from 'rxjs/internal/Subject';
 import { Observer } from 'rxjs/internal/types';
-import { share } from 'rxjs/operators';
 
 import { ITouchController } from './interfaces/ITouchController';
 import { MultiTouch } from './MultiTouch';
@@ -8,19 +8,14 @@ import { TouchFrame } from './TouchFrame';
 
 export class MultiTouchController<TElement> {
     public ongoingMultiTouches: Array<MultiTouch<TElement | undefined>> = []; // TODO: null vs. undefined
-    public multiTouches: Observable<MultiTouch<TElement | undefined>>;
-    private multiTouchesObserver: Observer<MultiTouch<TElement | undefined>>;
+    public readonly multiTouches = new Subject<
+        MultiTouch<TElement | undefined>
+    >();
 
     constructor(
         public touchController: ITouchController,
         private elementBinder: (frame: TouchFrame) => TElement | undefined, // TODO: maybe rename private properties - remove _
     ) {
-        this.multiTouches = new Observable(
-            (observer: Observer<MultiTouch<TElement | undefined>>) => {
-                this.multiTouchesObserver = observer;
-            },
-        ).pipe(share());
-
         this.touchController.touches.subscribe((touch) => {
             const element = this.elementBinder(touch.firstFrame);
 
@@ -32,7 +27,7 @@ export class MultiTouchController<TElement> {
             if (typeof multiTouch === 'undefined') {
                 multiTouch = new MultiTouch(element, touch);
                 this.ongoingMultiTouches.push(multiTouch);
-                this.multiTouchesObserver.next(multiTouch);
+                this.multiTouches.next(multiTouch);
 
                 multiTouch.touches.subscribe(
                     () => undefined,

@@ -1,17 +1,14 @@
 import { Observable } from 'rxjs/internal/Observable';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { Observer } from 'rxjs/internal/types';
 import { Transform, Vector } from 'xyzt';
 
 import { MultiTouch } from './MultiTouch';
 import { Touch } from './Touch';
-import { BoundingBox } from './utils/BoundingBox/BoundingBox';
 
 export function multiTouchTransforms<TElement>(
     multiTouch: MultiTouch<TElement>,
-    boundingBox: BoundingBox = BoundingBox.neutral(),
 ): Observable<Transform> {
-    return new Observable((observer: Observer<Transform>) => {
+    return new Observable((observer) => {
         let subscriptions: Subscription[] = [];
 
         multiTouch.ongoingTouchesChanges.subscribe(
@@ -22,6 +19,7 @@ export function multiTouchTransforms<TElement>(
                 // TODO: maybe subscription = [];
 
                 let countTouchesTransform: (...touches: Touch[]) => Transform;
+
                 if (touches.length === 1) {
                     if (!touches[0].lastFrame.rotating) {
                         countTouchesTransform = () =>
@@ -30,12 +28,18 @@ export function multiTouchTransforms<TElement>(
                             });
                     } else {
                         // TODO: this should be like second picked point is center of bounding box
+                        /*
+                        TODO: !!
                         countTouchesTransform = () =>
                             Transform.fromObject({
                                 rotate: boundingBox.center.rotation(
                                     touches[0].lastFrame.position,
                                 ),
                             });
+
+                            */
+
+                        countTouchesTransform = () => Transform.neutral();
                     }
                 } else {
                     // TODO: how to figure out with 3, 4, 5,... finger on one object?
@@ -60,12 +64,11 @@ export function multiTouchTransforms<TElement>(
                 const touchMoveCallback = () => {
                     const currentTouchesTransform = countTouchesTransform();
 
-                    const deltaTransform = currentTouchesTransform.subtract(
+                    const delta = currentTouchesTransform.subtract(
                         lastTouchesTransform,
                     );
 
-                    boundingBox.applyTransform(deltaTransform);
-                    observer.next(deltaTransform);
+                    observer.next(delta);
 
                     lastTouchesTransform = currentTouchesTransform;
                 };
@@ -74,7 +77,9 @@ export function multiTouchTransforms<TElement>(
                     touch.frames.subscribe(touchMoveCallback),
                 );
             },
-            () => undefined,
+            (error) => {
+                observer.error(observer);
+            },
             () => {
                 observer.complete();
             },

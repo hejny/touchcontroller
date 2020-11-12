@@ -27,41 +27,32 @@ import { TAverageItems } from './utils/average';
 import { average } from './utils/average';
 import { VectorAverage } from './utils/average';
 import { particleOptionsAverage } from './utils/average';
-import { BoundingBox } from './utils/BoundingBox/BoundingBox';
-import { CanvasRectangle } from './utils/BoundingBox/CanvasRectangle';
-import { IBoundingBox } from './utils/BoundingBox/IBoundingBox';
-import { Vector } from './utils/BoundingBox/reexports';
-import { Transform } from './utils/BoundingBox/reexports';
 import { SourceCache } from './utils/Cache';
-import { DebugLayer } from './utils/DebugLayer';
+import { CanvasRectangle } from './utils/CanvasRectangle';
 import { EventManager } from './utils/EventManager';
 import { getBoundingClientRectEnhanced } from './utils/getBoundingClientRectEnhanced';
 import { createImageFromSrc } from './utils/imageTools';
 import { createCanvasFromSrc } from './utils/imageTools';
 import { createColoredCanvasFromSrc } from './utils/imageTools';
 import { sign } from './utils/mathTools';
+import { MultiTouchControllerDebugLayer } from './utils/MultiTouchControllerDebugLayer';
 
 export {
     sign,
     Grid,
     Touch,
     Scene,
-    Vector,
     IEvent,
     average,
     Plugins,
     IElement,
     Particle,
-    Transform,
     IListener,
     Awaitable,
-    DebugLayer,
     TouchFrame,
     MultiTouch,
     SourceCache,
-    BoundingBox,
     EventManager,
-    IBoundingBox,
     VectorAverage,
     TAverageItems,
     TouchListener,
@@ -81,4 +72,5 @@ export {
     IParticleOptionsExternals,
     createColoredCanvasFromSrc,
     getBoundingClientRectEnhanced,
+    MultiTouchControllerDebugLayer,
 };

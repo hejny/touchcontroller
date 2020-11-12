@@ -7,7 +7,6 @@ import { Transform } from 'xyzt';
 
 import { multiTouchTransforms } from './multiTouchTransforms';
 import { Touch } from './Touch';
-import { BoundingBox } from './utils/BoundingBox/BoundingBox';
 
 let id = 0;
 export class MultiTouch<TElement> {
@@ -108,9 +107,10 @@ export class MultiTouch<TElement> {
         });
     }
 
-    public transforms(
-        boundingBox: BoundingBox = BoundingBox.neutral(),
-    ): Observable<Transform> {
-        return multiTouchTransforms(this, boundingBox);
+    public get transforms(): Observable<Transform> {
+        return multiTouchTransforms(this);
+        /*
+            Note: Maybe in future here can be transformsTotal and transformsDelta.
+        */
     }
 }

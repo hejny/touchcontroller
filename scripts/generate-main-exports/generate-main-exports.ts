@@ -17,8 +17,8 @@ async function main() {
     const filesPath = await glob(join(__dirname, '../../src/**/*.ts'));
     const files = await Promise.all(
         filesPath.map(async (path) => ({
-            path,
             content: await promisify(readFile)(path, 'utf8'),
+            path,
         })),
     );
 

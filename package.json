@@ -10,14 +10,13 @@
   ],
   "scripts": {
     "start": "npm run develop",
-    "preversion": "npm test && npm run lint && npm run generate-main-exports-commit && npm run build && npm run prettier-commit && npm run documentation-commit",
-    "postversion": "git push && git push --tags && npm publish && npm run update-in-other-repos",
     "build": "webpack --config webpack.production.config.js",
     "develop-samples-server": "node server.js",
     "develop-build": "onchange \"src/**/*.{ts,tsx}\" --initial --kill --delay 500  -- webpack --config webpack.development.config.js",
     "prettier": "prettier --config .prettierrc --write \"{src,test,samples}/**/*.{ts,json,js,html,css}\"",
+    "pretty-imports": "npx organize-imports-cli tsconfig.json",
     "prettier-watch": "onchange \"{src,test,samples}/**/*.{ts,json,js,html,css}\" -- prettier --config .prettierrc --write {{changed}}",
-    "prettier-commit": "git diff --exit-code && npm run prettier && git add src && git commit --allow-empty -m \"Prettier\"",
+    "prettier-commit": "git diff --exit-code && npm run pretty-imports && npm run prettier && git add src && git commit --allow-empty -m \"Prettier\"",
     "documentation": "typedoc --excludePrivate --hideGenerator --mode file --theme minimal --out docs --name \"TouchController\" ./src",
     "documentation-commit": "git diff --exit-code && npm run documentation && git add docs && git commit --allow-empty -m \"TouchController\"",
     "test": "jest --config jestconfig.json",
@@ -25,7 +24,8 @@
     "lint": "tslint -p tsconfig.json",
     "generate-main-exports": "ts-node ./scripts/generate-main-exports/generate-main-exports.ts",
     "generate-main-exports-commit": "git diff --exit-code && npm run generate-main-exports && npm run prettier && git add src && git commit --allow-empty -m \"Updating exports\"",
-    "update-in-other-repos": "cd ../../HeduApp/collboard && git stash && npm i touchcontroller@latest && git add package.json package-lock.json && git commit --allow-empty -m \"Update of touchcontroller\" && git push && git stash pop"
+    "preversion": "npm test && npm run lint && npm run generate-main-exports-commit && npm run build && npm run prettier-commit && npm run documentation-commit",
+    "postversion": "git push && git push --tags && npm publish"
   },
   "repository": {
     "type": "git",
@@ -60,9 +60,9 @@
     "typescript": "^4.0.5",
     "update": "^0.7.4",
     "uuid": "^8.3.1",
-    "waitasecond": "^1.3.0",
+    "waitasecond": "^1.4.0",
     "webpack": "^5.4.0",
     "webpack-cli": "^4.2.0",
-    "xyzt": "^3.6.0"
+    "xyzt": "^3.10.0"
   }
 }

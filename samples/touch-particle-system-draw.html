@@ -19,15 +19,14 @@
                     TouchController,
                     MultiTouchController,
                     MultiTouchControllerDebugLayer,
+                    DrawController,
                 } = window.TouchController;
                 const { Vector } = window.Xyzt;
 
                 const sceneElement = document.getElementById('scene');
                 const sceneContext = sceneElement.getContext('2d');
 
-                const drawController = new TC.DrawController(
-                    new Vector(800, 500),
-                );
+                const drawController = new DrawController(new Vector(800, 500));
                 drawController.addContext(sceneContext);
 
                 const touchController = new TouchController.fromCanvas(

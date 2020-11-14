@@ -16,6 +16,7 @@
                     TouchController,
                     MultiTouchController,
                     MultiTouchControllerDebugLayer,
+                    Grid,
                 } = window.TouchController;
                 const { BoundingBox } = window.Xyzt;
 
@@ -27,11 +28,11 @@
                 const touchController = new TouchController.fromCanvas(
                     scene,
                 ).applyGrid(
-                    new TC.Grid((position) =>
-                        position.apply((value) => Math.round(value / 50) * 50),
+                    new Grid((position) =>
+                        position.map((value) => Math.round(value / 50) * 50),
                     ),
                 );
-                TC.Plugins.toggleTouchByTap(touchController);
+                //TC.Plugins.toggleTouchByTap(touchController);
 
                 touchController.hoveredFrames.subscribe((frame) => {
                     // console.info('Hover frame');

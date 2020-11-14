@@ -11,7 +11,9 @@
         <script src="../dist/main.dev.browser.js"></script>
         <script>
             (() => {
-                const { TouchController, Plugins } = window.TouchController;
+                const {
+                    TouchController /*, Plugins*/,
+                } = window.TouchController;
 
                 const scene = document.getElementById('scene');
                 const ctx = scene.getContext('2d');
@@ -19,7 +21,7 @@
                 ctx.lineCap = 'round';
 
                 const touchController = new TouchController.fromCanvas(scene);
-                Plugins.toggleTouchByTap(touchController);
+                // Plugins.toggleTouchByTap(touchController);
 
                 touchController.hoveredFrames.subscribe((frame) => {
                     // console.info('Hover frame');

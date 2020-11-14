@@ -18,8 +18,8 @@ export class GridTouchController implements ITouchController {
             this.touchesObserver = observer;
         }).pipe(share());
 
-        this.hoveredFrames = new Observable(
-            (observer: Observer<TouchFrame>) => {
+        this.hoveredFrames = new Observable<TouchFrame>(
+            (/*observer: Observer<TouchFrame>*/) => {
                 // TODO: this.hoveredFramesObserver = observer;
             },
         ).pipe(share());

@@ -15,10 +15,10 @@ const TOUCH_LISTENER_OPTIONS = {
 };
 
 export class TouchListener implements IListener {
-    public get title() {
-        return `TOUCH`;
+    public get title(): string {
+        return 'TOUCH';
     }
-    public startEventType = `touchstart`;
+    public startEventType = 'touchstart';
 
     private elements = new SourceCache<
         IElement,
@@ -31,7 +31,7 @@ export class TouchListener implements IListener {
 
     constructor(private eventManager: EventManager) {}
 
-    public acceptsEvent(event: Event) {
+    public acceptsEvent(): boolean {
         return true;
     }
 
@@ -39,11 +39,11 @@ export class TouchListener implements IListener {
         element: IElement,
         anchorElement: IElement,
         newTouch: (touch: Touch) => void,
-        newHoverFrame: (frame: TouchFrame) => void,
-    ) {
+        // newHoverFrame: (frame: TouchFrame) => void,
+    ): void {
         if (this.elements.hasItem(element)) {
             throw new Error(
-                `Element should not be initialized when using init.`,
+                'Element should not be initialized when using init.',
             );
         }
 
@@ -148,11 +148,11 @@ export class TouchListener implements IListener {
     public async startFromExternalEvent(
         element: IElement,
         originalEvent: Event,
-    ) {
+    ): Promise<void> {
         const item = this.elements.getItem(element);
         if (!item) {
             throw new Error(
-                `Element should be initialized when using startFromExternalEvent.`,
+                'Element should be initialized when using startFromExternalEvent.',
             );
         }
         const { anchorElement, createTouchFrameFromEvent, newTouch } = item;
@@ -193,7 +193,7 @@ export class TouchListener implements IListener {
             TOUCH_LISTENER_OPTIONS,
         );
 
-        const handleTouchUpOnDocument = (event: TouchEvent) => {
+        const handleTouchUpOnDocument = (/*event: TouchEvent*/) => {
             currentTouch.end();
 
             this.eventManager.removeEventListener(

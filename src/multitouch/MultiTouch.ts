@@ -11,7 +11,7 @@ let id = 0;
 export class MultiTouch<TElement> {
     public readonly id = id++;
     public readonly uuid = uuid.v4();
-    public empty: boolean = true;
+    public empty = true;
     public ongoingTouches: Touch[] = [];
     public touches: Observable<Touch>;
 
@@ -30,11 +30,11 @@ export class MultiTouch<TElement> {
         }).pipe(share());
     }
 
-    public toString() {
+    public toString():string {
         return `MultiTouch ${this.id}`;
     }
 
-    public addTouch(touch: Touch) {
+    public addTouch(touch: Touch): void {
         this.ongoingTouches.push(touch);
         this.touchesObserver.next(touch);
 

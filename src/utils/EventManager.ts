@@ -12,7 +12,7 @@ export class EventManager {
         eventType: string,
         callback: IListenerCallback,
         options?: AddEventListenerOptions | boolean,
-    ) {
+    ):void {
         element.addEventListener(eventType, callback, options);
         this.listeners.push({ element, eventType, callback });
     }
@@ -21,7 +21,7 @@ export class EventManager {
         element: IElement,
         eventType: string,
         callback: IListenerCallback,
-    ) {
+    ):void {
         element.removeEventListener(eventType, callback);
     }
 
@@ -32,8 +32,8 @@ export class EventManager {
      */
     public removeEventListeners(
         element: IElement | '*' = '*',
-        eventType: string = '*',
-    ) {
+        eventType = '*',
+    ):void {
         // TODO: eventType wildcard
         this.listeners
             .filter(
@@ -61,7 +61,7 @@ export class EventManager {
         eventType: string,
         callback: IListenerCallback,
         options?: AddEventListenerOptions | boolean,
-    ) {
+    ):void {
         this.removeEventListeners(element, eventType);
         this.addEventListener(element, eventType, callback, options);
     }

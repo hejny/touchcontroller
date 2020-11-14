@@ -1,7 +1,7 @@
 import { SourceCache } from './Cache';
 
 export function createImageFromSrc(src: string): Promise<HTMLImageElement> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         const image = window.document.createElement('IMG') as HTMLImageElement;
         image.addEventListener('load', () => resolve(image));
         image.src = src;
@@ -78,13 +78,13 @@ function hexToRgb(color: string) {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
     return result
         ? {
-              r: parseInt(result[1], 16),
-              g: parseInt(result[2], 16),
-              b: parseInt(result[3], 16),
-          }
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16),
+        }
         : {
-              r: 0,
-              g: 0,
-              b: 0,
-          };
+            r: 0,
+            g: 0,
+            b: 0,
+        };
 }

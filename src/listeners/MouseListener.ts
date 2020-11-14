@@ -17,10 +17,10 @@ const MOUSE_LISTENER_OPTIONS = {
 let onlyTouch: Touch | null = null;
 
 export class MouseListener implements IListener {
-    public get title() {
+    public get title(): string {
         return `MOUSE(${this.buttons.join(',')})`;
     }
-    public startEventType = `mousedown`;
+    public startEventType = 'mousedown';
 
     private elements = new SourceCache<
         IElement,
@@ -35,7 +35,7 @@ export class MouseListener implements IListener {
         private rotating = false,
     ) {}
 
-    public acceptsEvent(event: Event) {
+    public acceptsEvent(event: Event):boolean {
         return this.buttons.indexOf((event as MouseEvent).button) !== -1;
     }
 
@@ -44,10 +44,10 @@ export class MouseListener implements IListener {
         anchorElement: IElement,
         newTouch: (touch: Touch) => void,
         newHoverFrame: (frame: TouchFrame) => void,
-    ) {
+    ) :void{
         if (this.elements.hasItem(element)) {
             throw new Error(
-                `Element should not be already initialized when using init.`,
+                'Element should not be already initialized when using init.',
             );
         }
 
@@ -188,11 +188,11 @@ export class MouseListener implements IListener {
         });
     }
 
-    public async startFromExternalEvent(element: IElement, event: Event) {
+    public async startFromExternalEvent(element: IElement, event: Event):Promise<void> {
         const item = this.elements.getItem(element);
         if (!item) {
             throw new Error(
-                `Element should be initialized when using startFromExternalEvent.`,
+                'Element should be initialized when using startFromExternalEvent.',
             );
         }
         const { handleMouseDownOnElement } = item;

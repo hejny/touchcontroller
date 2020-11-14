@@ -23,7 +23,7 @@ const TouchControllerOptionsDefault: ITouchControllerOptions = {
 
 // TODO: multitouch should be extended from this
 export class TouchController implements ITouchController {
-    public static fromCanvas(canvas: HTMLCanvasElement) {
+    public static fromCanvas(canvas: HTMLCanvasElement): TouchController {
         return new TouchController([canvas], canvas, true);
     }
 
@@ -51,14 +51,14 @@ export class TouchController implements ITouchController {
         }
     }
 
-    public addListener(listener: IListener) {
+    public addListener(listener: IListener): void {
         this.listeners.push(listener);
         for (const element of this.elements) {
             this.callListenerOnElement(listener, element);
         }
     }
 
-    public addElement(element: IElement) {
+    public addElement(element: IElement): void {
         this.elements.push(element);
 
         for (const listener of this.listeners) {
@@ -69,7 +69,7 @@ export class TouchController implements ITouchController {
     public addInitialElement(
         element: IElement,
         newElementCreator: (event: Event) => Awaitable<IElement>,
-    ) {
+    ): void {
         for (const listener of this.listeners) {
             // TODO: Should be here updateEventListener or addEventListener
             this.eventManager.addEventListener(
@@ -89,7 +89,7 @@ export class TouchController implements ITouchController {
                         )
                     ) {
                         throw new Error(
-                            `When using touchController.addInitialElement you must use touchController.addElement inside the newElementCreator callback.`,
+                            'When using touchController.addInitialElement you must use touchController.addElement inside the newElementCreator callback.',
                         );
                     }
 
@@ -99,7 +99,7 @@ export class TouchController implements ITouchController {
         }
     }
 
-    public emulateTouch(touch: Touch) {
+    public emulateTouch(touch: Touch): void {
         // await forImmediate();
         this.touches.next(touch);
     }

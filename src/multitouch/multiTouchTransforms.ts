@@ -77,7 +77,7 @@ export function multiTouchTransforms<TElement>(
                 );
             },
             (error) => {
-                observer.error(observer);
+                observer.error(error);
             },
             () => {
                 observer.complete();

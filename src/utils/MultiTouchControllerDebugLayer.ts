@@ -1,5 +1,5 @@
 import { MultiTouchController } from '../multitouch/MultiTouchController';
-const CSS_PREFIX = `touchcontroller-debug-layer-`;
+const CSS_PREFIX = 'touchcontroller-debug-layer-';
 
 // TODO: Debug layers for more things like TouchController
 

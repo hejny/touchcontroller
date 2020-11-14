@@ -3,7 +3,7 @@
 export class SourceCache<TId, TSource> {
     private storage: Array<{ id: TId; source: TSource }> = [];
 
-    public hasItem(id: TId) {
+    public hasItem(id: TId): boolean {
         return this.storage.some((item) => item.id === id);
     }
 
@@ -12,7 +12,7 @@ export class SourceCache<TId, TSource> {
             .source;
     }
 
-    public setItem(id: TId, source: TSource) {
-        return this.storage.push({ id, source });
+    public setItem(id: TId, source: TSource):void {
+        this.storage.push({ id, source });
     }
 }

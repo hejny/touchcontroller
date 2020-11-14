@@ -18,7 +18,7 @@ export interface IParticleOptionsExternals {
 }
 
 export class Particle {
-    public static compare(a: Particle, b: Particle) {
+    public static compare(a: Particle, b: Particle): 0|-1|1  {
         return sign(a.zIndex - b.zIndex);
     }
 
@@ -28,17 +28,17 @@ export class Particle {
         this.initializeSource();
     }
 
-    public async initializeSource() {
+    public async initializeSource():Promise<void> {
         this.shapeData = await createColoredCanvasFromSrc(
             this.options.shapeSrc,
             this.options.color,
         ); // TODO: optimize image loads
     }
 
-    public get size() {
+    public get size():Vector {
         if (!this.shapeData) {
             // TODO: maybe only warn and return width,width
-            throw new Error(`Particle image is not yet loaded.`);
+            throw new Error('Particle image is not yet loaded.');
         }
 
         return Vector.fromArray(
@@ -57,7 +57,7 @@ export class Particle {
         );
     }
 
-    public update(delta: number) {
+    public update(delta: number):void {
         this.options.current.position.add(
             this.options.movement.position.scale(delta),
         );
@@ -71,7 +71,7 @@ export class Particle {
         this.options.movement.widthSize *= frictionPowered; // TODO: maybe as area
     }
 
-    public render(ctx: CanvasRenderingContext2D) {
+    public render(ctx: CanvasRenderingContext2D):void {
         if (!this.shapeData) {
             // TODO: maybe console.warn(`Particle image is not yet loaded.`);
             return;

@@ -14,7 +14,7 @@ export class DrawController {
     private subscribers: Array<() => void> = [];
 
     // TODO: initial do better
-    constructor(quality: Vector, initialColor: string = '#ffffff') {
+    constructor(quality: Vector, initialColor = '#ffffff') {
         {
             const canvas = document.createElement('canvas');
             canvas.width = quality.x;
@@ -41,7 +41,7 @@ export class DrawController {
         this.renderLoop();
     }
 
-    public drawPoint(options: IParticleOptions) {
+    public drawPoint(options: IParticleOptions): void {
         const particle = new Particle(options, 1); // TODO: particle zIndex
         this.scene.addObject(particle);
     }
@@ -50,7 +50,7 @@ export class DrawController {
         options1: IParticleOptions,
         options2: IParticleOptions,
         segmentSize: number,
-    ) {
+    ): void  {
         // console.log('options1',options1);
         // console.log('options2',options2);
 
@@ -74,11 +74,11 @@ export class DrawController {
         return this.scene.particles.length;
     }
 
-    public addContext(context: CanvasRenderingContext2D) {
+    public addContext(context: CanvasRenderingContext2D): void  {
         this.contexts.push(context);
     }
 
-    public subscribe(callback: () => void) {
+    public subscribe(callback: () => void): void  {
         this.subscribers.push(callback);
     }
 

@@ -53,7 +53,7 @@ export class MultiTouchController<TElement> {
 
     public get hoveredElementsChanges(): Observable<
         [TElement | undefined, TElement | undefined]
-    > {
+        > {
         return new Observable(
             (
                 observer: Observer<

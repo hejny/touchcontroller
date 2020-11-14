@@ -46,7 +46,7 @@ export class Touch {
         }).pipe(share()); // TODO: share vs publish
     }
 
-    public toString() {
+    public toString(): string {
         return `Touch ${this.id} ${
             this.buttonIdentifier
                 ? `(external id is ${this.buttonIdentifier})`
@@ -54,7 +54,7 @@ export class Touch {
         }`;
     }
 
-    public move(newFrame: TouchFrame, end = false) {
+    public move(newFrame: TouchFrame, end = false): void {
         if (typeof this.framesObserver === 'undefined') {
             return; // TODO: better;
         }
@@ -67,14 +67,14 @@ export class Touch {
     }
 
     // TODO: end method and start getter is a bit confusing
-    public end() {
+    public end(): void {
         if (this.framesObserver) {
             this.framesObserver.complete();
         }
     }
 
     // TODO: end method and start getter is a bit confusing
-    public get start() {
+    public get start(): number {
         return this.firstFrame.time;
     }
 

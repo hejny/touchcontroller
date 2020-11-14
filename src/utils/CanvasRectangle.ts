@@ -11,7 +11,7 @@ export class CanvasRectangle extends BoundingBox {
         super(Transform.fromObject(options.transform));
     }
 
-    public render(ctx: CanvasRenderingContext2D) {
+    public render(ctx: CanvasRenderingContext2D):void {
         ctx.save();
         ctx.beginPath();
 

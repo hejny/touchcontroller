@@ -5,7 +5,7 @@ import { DrawController } from './drawController/CanvasParticlesRenderer';
 import {
     IParticleOptions,
     IParticleOptionsExternals,
-    Particle,
+    Particle
 } from './drawController/Particle';
 import { Scene } from './drawController/Scene';
 import { Awaitable } from './interfaces/Awaitable';
@@ -27,7 +27,7 @@ import {
     average,
     particleOptionsAverage,
     TAverageItems,
-    VectorAverage,
+    VectorAverage
 } from './utils/average';
 import { SourceCache } from './utils/Cache';
 import { CanvasRectangle } from './utils/CanvasRectangle';
@@ -36,7 +36,7 @@ import { getBoundingClientRectEnhanced } from './utils/getBoundingClientRectEnha
 import {
     createCanvasFromSrc,
     createColoredCanvasFromSrc,
-    createImageFromSrc,
+    createImageFromSrc
 } from './utils/imageTools';
 import { sign } from './utils/mathTools';
 import { MultiTouchControllerDebugLayer } from './utils/MultiTouchControllerDebugLayer';

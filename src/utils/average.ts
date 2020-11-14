@@ -1,5 +1,4 @@
 import { Vector } from 'xyzt';
-
 import {
     IParticleOptions,
     IParticleOptionsExternals,

@@ -1,5 +1,4 @@
 import { Subject } from 'rxjs/internal/Subject';
-
 import { Awaitable } from '../interfaces/Awaitable';
 import { IElement } from '../interfaces/IElement';
 import { IListener } from '../interfaces/IListener';

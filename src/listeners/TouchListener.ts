@@ -1,6 +1,5 @@
 import { forAnimationFrame } from 'waitasecond';
 import { Vector } from 'xyzt';
-
 import { IEvent } from '../interfaces/IEvent';
 import { IListener } from '../interfaces/IListener';
 import { Touch } from '../touch/Touch';

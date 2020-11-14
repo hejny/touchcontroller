@@ -1,5 +1,4 @@
 import { Vector } from 'xyzt';
-
 import { IElement } from '../interfaces/IElement';
 import { getBoundingClientRectEnhanced } from '../utils/getBoundingClientRectEnhanced';
 

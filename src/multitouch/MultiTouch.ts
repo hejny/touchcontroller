@@ -4,7 +4,6 @@ import { Observer } from 'rxjs/internal/types';
 import { share } from 'rxjs/operators';
 import * as uuid from 'uuid';
 import { Transform } from 'xyzt';
-
 import { Touch } from '../touch/Touch';
 import { multiTouchTransforms } from './multiTouchTransforms';
 

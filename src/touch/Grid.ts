@@ -1,5 +1,4 @@
 import { IVector, Vector } from 'xyzt';
-
 import { ITouchController } from '../interfaces/ITouchController';
 import { GridTouchController } from './GridTouchController';
 import { Touch } from './Touch';

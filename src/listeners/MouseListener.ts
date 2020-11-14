@@ -1,5 +1,4 @@
 import { Vector } from 'xyzt';
-
 import { IEvent } from '../interfaces/IEvent';
 import { IListener } from '../interfaces/IListener';
 import { EventManager } from '../main';

@@ -1,7 +1,6 @@
 import { Observable } from 'rxjs/internal/Observable';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { Transform, Vector } from 'xyzt';
-
 import { Touch } from '../touch/Touch';
 import { MultiTouch } from './MultiTouch';
 

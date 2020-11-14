@@ -1,5 +1,4 @@
 import { Vector } from 'xyzt';
-
 import { createColoredCanvasFromSrc } from '../utils/imageTools';
 import { sign } from '../utils/mathTools';
 

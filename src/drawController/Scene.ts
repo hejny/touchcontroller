@@ -1,5 +1,4 @@
 import { Vector } from 'xyzt';
-
 import { Particle } from './Particle';
 
 export class Scene {

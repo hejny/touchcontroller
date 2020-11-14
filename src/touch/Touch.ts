@@ -1,10 +1,8 @@
 import { Observable } from 'rxjs/internal/Observable';
 import { Observer } from 'rxjs/internal/types';
 import { share } from 'rxjs/operators';
-
 import * as uuid from 'uuid';
 import { Vector } from 'xyzt';
-
 import { IElement } from '../interfaces/IElement';
 import { TouchFrame } from './TouchFrame';
 

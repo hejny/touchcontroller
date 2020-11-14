@@ -1,6 +1,5 @@
 import { forAnimationFrame } from 'waitasecond';
 import { Vector } from 'xyzt';
-
 import { particleOptionsAverage } from '../utils/average';
 import { IParticleOptions, Particle } from './Particle';
 import { Scene } from './Scene';

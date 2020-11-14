@@ -1,9 +1,7 @@
 import { Observable } from 'rxjs/internal/Observable';
 import { Observer } from 'rxjs/internal/types';
 import { share } from 'rxjs/operators';
-
 import { ITouchController } from '../interfaces/ITouchController';
-
 import { Grid } from './Grid';
 import { Touch } from './Touch';
 import { TouchFrame } from './TouchFrame';

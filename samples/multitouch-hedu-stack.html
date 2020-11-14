@@ -108,8 +108,7 @@
                 const {
                     BoundingBox,
                     Transform,
-                    transformToCss,
-                    transformFromCss,
+                    applyTransformOnSvgElement
                 } = window.Xyzt;
 
                 const dragElements = [
@@ -145,37 +144,7 @@
 
                     multitouch.transforms.subscribe(
                         (transform) => {
-                            console.log(
-                                transformToCss(
-                                    // TODO: !!! to xyzt
-                                    Transform.combine(
-                                        transformFromCss(
-                                            draggingElement.getAttribute(
-                                                'transform',
-                                            ),
-                                        ),
-                                        transform,
-                                    ),
-                                ),
-                            );
-
-                            draggingElement.setAttribute(
-                                'transform',
-                                transformToCss(
-                                    // TODO: !!! to xyzt
-                                    Transform.combine(
-                                        transformFromCss(
-                                            draggingElement.getAttribute(
-                                                'transform',
-                                            ),
-                                        ),
-                                        transform,
-                                    ),
-                                )
-                                    .split(' ')[0]
-                                    .split('px')
-                                    .join(''),
-                            );
+                            applyTransformOnSvgElement(transform,draggingElement);
                         },
                         () => {},
                         () => {

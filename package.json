@@ -21,7 +21,7 @@
     "documentation-commit": "git diff --exit-code && npm run documentation && git add docs && git commit --allow-empty -m \"TouchController\"",
     "test": "jest --config jestconfig.json",
     "test-watch": "jest --config jestconfig.json --watchAll",
-    "lint": "npx tslint -p tsconfig.json",
+    "lint": "npx eslint \"src/**/*.{ts,tsx}\"",
     "generate-main-exports": "ts-node ./scripts/generate-main-exports/generate-main-exports.ts",
     "generate-main-exports-commit": "git diff --exit-code && npm run generate-main-exports && npm run prettier && git add src && git commit --allow-empty -m \"Updating exports\"",
     "preversion": "npm test && npm run lint && npm run generate-main-exports-commit && npm run build && npm run prettier-commit && npm run documentation-commit",

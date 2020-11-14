@@ -108,7 +108,7 @@
                 const {
                     BoundingBox,
                     Transform,
-                    applyTransformOnSvgElement
+                    applyTransformOnSvgElement,
                 } = window.Xyzt;
 
                 const dragElements = [
@@ -144,7 +144,10 @@
 
                     multitouch.transforms.subscribe(
                         (transform) => {
-                            applyTransformOnSvgElement(transform,draggingElement);
+                            applyTransformOnSvgElement(
+                                transform,
+                                draggingElement,
+                            );
                         },
                         () => {},
                         () => {

@@ -2,11 +2,7 @@
 // Warning: Do not edit by hand, all changes will be lost on next execution!
 
 import { DrawController } from './drawController/CanvasParticlesRenderer';
-import {
-    IParticleOptions,
-    IParticleOptionsExternals,
-    Particle
-} from './drawController/Particle';
+import { IParticleOptions, IParticleOptionsExternals, Particle } from './drawController/Particle';
 import { Scene } from './drawController/Scene';
 import { Awaitable } from './interfaces/Awaitable';
 import { IElement } from './interfaces/IElement';
@@ -23,21 +19,12 @@ import { GridTouchController } from './touch/GridTouchController';
 import { Touch } from './touch/Touch';
 import { TouchController } from './touch/TouchController';
 import { TouchFrame } from './touch/TouchFrame';
-import {
-    average,
-    particleOptionsAverage,
-    TAverageItems,
-    VectorAverage
-} from './utils/average';
+import { average, particleOptionsAverage, TAverageItems, VectorAverage } from './utils/average';
 import { SourceCache } from './utils/Cache';
 import { CanvasRectangle } from './utils/CanvasRectangle';
 import { EventManager } from './utils/EventManager';
 import { getBoundingClientRectEnhanced } from './utils/getBoundingClientRectEnhanced';
-import {
-    createCanvasFromSrc,
-    createColoredCanvasFromSrc,
-    createImageFromSrc
-} from './utils/imageTools';
+import { createCanvasFromSrc, createColoredCanvasFromSrc, createImageFromSrc } from './utils/imageTools';
 import { sign } from './utils/mathTools';
 import { MultiTouchControllerDebugLayer } from './utils/MultiTouchControllerDebugLayer';
 
@@ -74,5 +61,5 @@ export {
     IParticleOptionsExternals,
     createColoredCanvasFromSrc,
     getBoundingClientRectEnhanced,
-    MultiTouchControllerDebugLayer,
+    MultiTouchControllerDebugLayer
 };

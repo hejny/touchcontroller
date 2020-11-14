@@ -25,7 +25,7 @@
     "documentation-commit": "git diff --exit-code && npm run documentation && git add docs && git commit --allow-empty -m \"TouchController\"",
     "generate-main-exports": "ts-node ./scripts/generate-main-exports/generate-main-exports.ts",
     "generate-main-exports-commit": "git diff --exit-code && npm run generate-main-exports && npm run autofix && git add src && git commit --allow-empty -m \"Updating exports\"",
-    "preversion": "npm test && npm run lint && npm run generate-main-exports-commit && npm run build && npm run autofix-commit && npm run documentation-commit",
+    "preversion": "npm test  && npm run autofix-commit && npm run generate-main-exports-commit && npm run build && npm run documentation-commit",
     "postversion": "git push && git push --tags && npm publish",
     "update": "rm -rf ./node_modules && rm ./package-lock.json && npx ncu -u && npm install"
   },

@@ -5,8 +5,8 @@ import { share } from 'rxjs/operators';
 import * as uuid from 'uuid';
 import { Transform } from 'xyzt';
 
-import { multiTouchTransforms } from './multiTouchTransforms';
 import { Touch } from '../touch/Touch';
+import { multiTouchTransforms } from './multiTouchTransforms';
 
 let id = 0;
 export class MultiTouch<TElement> {

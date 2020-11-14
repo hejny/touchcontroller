@@ -1,4 +1,4 @@
-import { ITransform, Transform, BoundingBox } from 'xyzt';
+import { BoundingBox, ITransform, Transform } from 'xyzt';
 
 interface ICanvasRectangleOptions {
     transform: ITransform;

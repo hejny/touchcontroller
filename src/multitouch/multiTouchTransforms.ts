@@ -2,8 +2,8 @@ import { Observable } from 'rxjs/internal/Observable';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { Transform, Vector } from 'xyzt';
 
-import { MultiTouch } from './MultiTouch';
 import { Touch } from '../touch/Touch';
+import { MultiTouch } from './MultiTouch';
 
 export function multiTouchTransforms<TElement>(
     multiTouch: MultiTouch<TElement>,

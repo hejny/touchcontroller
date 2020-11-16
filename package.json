@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "start": "npm run develop",
-    "build": "webpack --config webpack.production.config.js",
+    "build": "rm -rf ./dist && webpack --config webpack.production.config.js",
     "develop-samples-server": "node server.js",
     "develop-build": "npx onchange \"src/**/*.{ts,tsx}\" --initial --kill --delay 500  -- webpack --config webpack.development.config.js",
     "test": "jest --config jestconfig.json",

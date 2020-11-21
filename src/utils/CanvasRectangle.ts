@@ -18,7 +18,7 @@ export class CanvasRectangle extends BoundingBox {
         ctx.rotate(this.transform.rotate.z);
         ctx.translate(
             ...this.center
-                .rotate(-this.rotation.z)
+                .rotate(this.rotation.negate())
                 .subtract(this.size.half())
                 .toArray2D(),
         );

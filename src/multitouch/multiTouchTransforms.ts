@@ -63,8 +63,8 @@ export function multiTouchTransforms<TElement>(
                 const touchMoveCallback = () => {
                     const currentTouchesTransform = countTouchesTransform();
 
-                    const delta = currentTouchesTransform.subtract(
-                        lastTouchesTransform,
+                    const delta = currentTouchesTransform.apply(
+                        lastTouchesTransform.negate(),
                     );
 
                     observer.next(delta);

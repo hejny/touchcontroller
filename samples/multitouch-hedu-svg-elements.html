@@ -215,10 +215,10 @@
 
                 multiTouchController.hoveredElementsChanges.subscribe(
                     ([elementNew, elementOld]) => {
-                        if (elementNew || false) {
+                        if (elementNew) {
                             elementNew.style.border = '2px solid yellow';
                         }
-                        if (elementOld || false) {
+                        if (elementOld) {
                             elementOld.style.border = '2px solid black';
                         }
                     },

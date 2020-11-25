@@ -12,12 +12,12 @@
     "start": "npm run develop",
     "build": "rm -rf ./dist && webpack --config webpack.production.config.js",
     "develop-samples-server": "node server.js",
-    "develop-build": "npx onchange \"src/**/*.{ts,tsx}\" --initial --kill --delay 500  -- webpack --config webpack.development.config.js",
+    "develop-build": "npx onchange \"src/**/*.ts\" --initial --kill --delay 100  -- webpack --config webpack.development.config.js",
     "test": "jest --config jestconfig.json",
     "test-watch": "jest --config jestconfig.json --watchAll",
     "lint": "npx eslint \"src/**/*.{ts,tsx}\"",
     "lint-fix": "npx eslint \"src/**/*.{ts,tsx}\" --fix",
-    "lint-watch": "npx onchange \"{src,test,samples}/**/*.{ts,json,js,html,css}\" -- npx eslint {{changed}} --fix",
+    "lint-watch": "npx eslint-watch \"src/**/*.{ts,tsx}\" --fix",
     "pretty-imports": "npx organize-imports-cli tsconfig.json",
     "autofix": "npm run pretty-imports && npm run lint-fix",
     "autofix-commit": "git diff --exit-code && npm run autofix && git add src && git commit --allow-empty -m \"Autofixing\"",
@@ -28,7 +28,8 @@
     "generate-main-exports-commit": "git diff --exit-code && npm run generate-main-exports && npm run autofix && git add src && git commit --allow-empty -m \"Updating exports\"",
     "preversion": "npm test  && npm run autofix-commit && npm run generate-main-exports-commit && npm run build && npm run documentation-commit",
     "postversion": "git push && git push --tags && npm publish",
-    "update": "rm -rf ./node_modules && rm ./package-lock.json && npx ncu -u && npm install"
+    "update-packages": "npm-check-updates -u && git add ./package.json && git commit -m \"Update packages\" && npm run force-reinstall",
+    "force-reinstall": "rm ./package-lock.json && rm -rf ./node_modules && npm install && git add ./package-lock.json && git commit -m \"Force reinstall\""
   },
   "repository": {
     "type": "git",
@@ -41,13 +42,14 @@
   },
   "homepage": "https://github.com/hejny/touchcontroller",
   "dependencies": {
+    "eslint-watch": "^7.0.0",
     "onchange": "^7.1.0"
   },
   "devDependencies": {
     "@types/jest": "^26.0.15",
     "@types/uuid": "^8.3.0",
-    "@typescript-eslint/eslint-plugin": "^4.7.0",
-    "@typescript-eslint/parser": "^4.7.0",
+    "@typescript-eslint/eslint-plugin": "^4.8.2",
+    "@typescript-eslint/parser": "^4.8.2",
     "codecov": "^3.8.1",
     "eslint": "^7.14.0",
     "express": "^4.17.1",
@@ -60,11 +62,11 @@
     "ts-jest": "^26.4.4",
     "ts-loader": "^8.0.11",
     "ts-node": "^9.0.0",
-    "typescript": "^4.0.5",
+    "typescript": "^4.1.2",
     "update": "^0.7.4",
     "uuid": "^8.3.1",
     "waitasecond": "^1.5.0",
-    "webpack": "^5.4.0",
+    "webpack": "^5.6.0",
     "webpack-cli": "^4.2.0",
     "xyzt": "^4.4.1"
   }

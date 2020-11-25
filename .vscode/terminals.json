@@ -6,16 +6,16 @@
             "command": "npm run lint-watch"
         },
         {
-            "name": "develop-samples-server",
-            "command": "npm run develop-samples-server"
-        },
-        {
             "name": "develop-build",
             "command": "npm run develop-build"
         },
         {
             "name": "test-watch",
             "command": "npm run test-watch"
+        },
+        {
+            "name": "develop-samples-server",
+            "command": "npm run develop-samples-server"
         },
         {
             "name": "generate-main-exports",

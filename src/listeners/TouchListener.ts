@@ -82,7 +82,6 @@ export class TouchListener implements IListener {
                 const currentTouch = new Touch(
                     'TOUCH',
                     anchorElement,
-                    createTouchFrameFromEvent(touches[i]),
                     touches[i].identifier,
                 );
                 currentTouches[touches[i].identifier] = currentTouch;
@@ -97,9 +96,12 @@ export class TouchListener implements IListener {
                 const currentTouch =
                     currentTouches[touches[i].identifier] || null;
                 if (currentTouch) {
-                    currentTouch.move(
+                    currentTouch.frames.next(
                         createTouchFrameFromEvent(touches[i]),
-                        false,
+
+
+                        
+
                     );
                 }
             }
@@ -112,10 +114,10 @@ export class TouchListener implements IListener {
                 const currentTouch =
                     currentTouches[touches[i].identifier] || null;
                 if (currentTouch) {
-                    currentTouch.move(
+                    currentTouch.frames.next(
                         createTouchFrameFromEvent(touches[i]),
-                        true,
                     );
+                    currentTouch.frames.complete();
                     delete currentTouches[touches[i].identifier];
                 }
             }
@@ -167,7 +169,6 @@ export class TouchListener implements IListener {
         const currentTouch = new Touch(
             'TOUCH',
             anchorElement,
-            createTouchFrameFromEvent((originalEvent as TouchEvent).touches[0]),
             identifier,
         );
 
@@ -183,7 +184,7 @@ export class TouchListener implements IListener {
             if (touch) {
                 event.preventDefault();
                 event.stopPropagation();
-                currentTouch.move(createTouchFrameFromEvent(touch), false);
+                currentTouch.frames.next(createTouchFrameFromEvent(touch));
             }
         };
         this.eventManager.addEventListener(
@@ -194,7 +195,7 @@ export class TouchListener implements IListener {
         );
 
         const handleTouchUpOnDocument = (/*event: TouchEvent*/) => {
-            currentTouch.end();
+            currentTouch.frames.complete();
 
             this.eventManager.removeEventListener(
                 document,

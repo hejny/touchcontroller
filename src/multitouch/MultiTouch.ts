@@ -39,10 +39,10 @@ export class MultiTouch<TElement> {
         this.touchesObserver.next(touch);
 
         touch.frames.subscribe(
-            (frame) => {
+            async (frame) => {
                 if (
-                    touch.firstFrame.position.distance(frame.position) >=
-                    5 /*todo to config*/
+                    (await touch.firstFrame).position.distance(frame.position) >=
+                    5 /* TODO: to config*/
                 ) {
                     this.empty = false;
                 }

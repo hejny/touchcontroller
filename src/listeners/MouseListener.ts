@@ -87,21 +87,19 @@ export class MouseListener implements IListener {
 
             event.preventDefault();
             event.stopPropagation();
-            handleStart(createTouchFrameFromEvent(event), event.buttons);
+            handleStart(event.buttons);
         };
 
         const handleStart = (
-            firstTouchFrame: TouchFrame,
             identifier: number,
         ) => {
             if (onlyTouch) {
-                onlyTouch.end();
+                onlyTouch.frames.complete();
             }
 
             currentTouch = new Touch(
                 'MOUSE',
                 anchorElement,
-                firstTouchFrame,
                 identifier /* TODO: Is a good option to cast button to identifier? */,
             );
 
@@ -114,7 +112,7 @@ export class MouseListener implements IListener {
 
             const mouseUpListenerOnDocument = () => {
                 if (currentTouch) {
-                    currentTouch.end();
+                    currentTouch.frames.complete();
                     currentTouch = null;
                 }
 
@@ -143,11 +141,10 @@ export class MouseListener implements IListener {
         // TODO: Why is there is after first mouse click triggered handleMouseMoveOnElement and after mouse up handleMouseMoveOnDocument?
 
         const handleMouseMoveOnDocument = (event: MouseEvent) => {
-            // console.log('handleMouseMoveOnDocument');
             event.preventDefault();
             event.stopPropagation();
             if (currentTouch) {
-                currentTouch.move(createTouchFrameFromEvent(event), false);
+                currentTouch.frames.next(createTouchFrameFromEvent(event));
             }
 
             // TODO: DRY

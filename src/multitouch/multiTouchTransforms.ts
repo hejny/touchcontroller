@@ -20,10 +20,10 @@ export function multiTouchTransforms<TElement>(
                 let countTouchesTransform: (...touches: Touch[]) => Transform;
 
                 if (touches.length === 1) {
-                    if (!touches[0].lastFrame.rotating) {
+                    if (!touches[0].lastFrame!.rotating) {
                         countTouchesTransform = () =>
                             Transform.fromObject({
-                                translate: touches[0].lastFrame.position,
+                                translate: touches[0].lastFrame!.position,
                             });
                     } else {
                         // TODO: this should be like second picked point is center of bounding box
@@ -46,14 +46,14 @@ export function multiTouchTransforms<TElement>(
                         Transform.fromObject({
                             translate: Vector.add(
                                 ...touches.map(
-                                    (touch) => touch.lastFrame.position,
+                                    (touch) => touch.lastFrame!.position,
                                 ),
                             ).scale(1 / touches.length),
-                            rotate: touches[0].lastFrame.position.rotation(
-                                touches[1].lastFrame.position,
+                            rotate: touches[0].lastFrame!.position.rotation(
+                                touches[1].lastFrame!.position,
                             ),
-                            scale: touches[0].lastFrame.position.distance(
-                                touches[1].lastFrame.position,
+                            scale: touches[0].lastFrame!.position.distance(
+                                touches[1].lastFrame!.position,
                             ),
                         });
                 }

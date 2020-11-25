@@ -15,8 +15,8 @@ export class MultiTouchController<TElement> {
         public touchController: ITouchController,
         private elementBinder: (frame: TouchFrame) => TElement | undefined, // TODO: maybe rename private properties - remove _
     ) {
-        this.touchController.touches.subscribe((touch) => {
-            const element = this.elementBinder(touch.firstFrame);
+        this.touchController.touches.subscribe(async (touch) => {
+            const element = this.elementBinder(await touch.firstFrame);
 
             // TODO: why can not be used find
             let multiTouch = this.ongoingMultiTouches.filter(

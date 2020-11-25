@@ -19,11 +19,10 @@ export class Grid {
     public applyToTouch(touch: Touch): Touch {
         // TODO: Maybe there should be some Touch.clone()
 
-        let lastGridFrame = this.applyToTouchFrame(touch.firstFrame);
+       
         const gridTouch = new Touch(
             touch.type,
             touch.anchorElement,
-            lastGridFrame,
             touch.buttonIdentifier,
         );
 
@@ -31,21 +30,13 @@ export class Grid {
         touch.frames.subscribe(
             (frame) => {
                 const gridFrame = this.applyToTouchFrame(frame);
-
-                if (
-                    Vector.isEqual(gridFrame.position, lastGridFrame.position)
-                ) {
-                    return;
-                }
-
-                lastGridFrame = gridFrame;
-                gridTouch.move(gridFrame);
+                gridTouch.frames.next(gridFrame);
             },
             () => {
                 /**/
             },
             () => {
-                gridTouch.end();
+                gridTouch.frames.complete();
             },
         );
 

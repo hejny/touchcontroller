@@ -29,7 +29,7 @@ export function toggleTouchByTap(touchController: TouchController) {
                         touchController.emulateTouch(virtualTouch);
                         // console.info('Starting virtual touch', virtualTouch);
                     } else {
-                        virtualTouch.end();
+                        virtualTouch.frames.complete();
                         virtualTouch = null;
                         // console.info('Stopping virtual touch');
                     }

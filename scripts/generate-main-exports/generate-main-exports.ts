@@ -28,7 +28,9 @@ async function main() {
         const regExp = /^export\s+(?!abstract)\s*(async)?\s*[a-z]+\s+(?<name>[a-zA-Z0-9_]+)/gm;
         while ((execArray = regExp.exec(file.content))) {
             const { name } = execArray.groups!;
-            exports.push({ path: file.path, name });
+            if(!/^_.*/.test(name)){
+                exports.push({ path: file.path, name });
+            }
         }
     }
 

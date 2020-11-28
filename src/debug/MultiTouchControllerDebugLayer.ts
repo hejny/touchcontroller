@@ -1,14 +1,13 @@
 import { MultiTouchController } from '../multitouch/MultiTouchController';
-const CSS_PREFIX = 'touchcontroller-debug-layer-';
+import { _createDebugLayerCss, _CSS_PREFIX } from './createDebugLayerCss';
 
-// TODO: Debug layers for more things like TouchController
 
 export class MultiTouchControllerDebugLayer {
     constructor(multiTouchController: MultiTouchController<any>) {
-        createDebugLayerCss();
+        _createDebugLayerCss();
 
         const logElement = document.createElement('div');
-        logElement.classList.add(`${CSS_PREFIX}main`);
+        logElement.classList.add(`${_CSS_PREFIX}main`);
         document.body.appendChild(logElement);
 
         multiTouchController.multiTouches.subscribe((multitouch) => {
@@ -16,10 +15,10 @@ export class MultiTouchControllerDebugLayer {
 
             const logMultitouchElement = document.createElement('div');
 
-            logMultitouchElement.innerHTML = `<div class="${CSS_PREFIX}multitouch"><div class="${CSS_PREFIX}title">${multitouch.toString()}</div><div class="${CSS_PREFIX}multitouch-last-transformation"></div></div>`;
+            logMultitouchElement.innerHTML = `<div class="${_CSS_PREFIX}multitouch"><div class="${_CSS_PREFIX}title">${multitouch.toString()}</div><div class="${_CSS_PREFIX}multitouch-last-transformation"></div></div>`;
 
             const logMultitouchLastTransformElement = logMultitouchElement.querySelector(
-                `.${CSS_PREFIX}multitouch-last-transformation`,
+                `.${_CSS_PREFIX}multitouch-last-transformation`,
             ) as HTMLDivElement;
 
             logElement.appendChild(logMultitouchElement);
@@ -47,18 +46,18 @@ export class MultiTouchControllerDebugLayer {
                 (touch) => {
                     const logTouchElement = document.createElement('div');
 
-                    logTouchElement.innerHTML = `<div class="${CSS_PREFIX}touch">
-                            <div class="${CSS_PREFIX}title">${touch.toString()}</div>
-                            <div class="${CSS_PREFIX}touch-frames-count"></div>
-                            <div class="${CSS_PREFIX}touch-last-frame"></div>
+                    logTouchElement.innerHTML = `<div class="${_CSS_PREFIX}touch">
+                            <div class="${_CSS_PREFIX}title">${touch.toString()}</div>
+                            <div class="${_CSS_PREFIX}touch-frames-count"></div>
+                            <div class="${_CSS_PREFIX}touch-last-frame"></div>
                             </div>
                         </div>
                         `;
                     const logTouchFramesCountElement = logTouchElement.querySelector(
-                        `.${CSS_PREFIX}touch-frames-count`,
+                        `.${_CSS_PREFIX}touch-frames-count`,
                     ) as HTMLDivElement;
                     const logTouchLastFrameElement = logTouchElement.querySelector(
-                        `.${CSS_PREFIX}touch-last-frame`,
+                        `.${_CSS_PREFIX}touch-last-frame`,
                     ) as HTMLDivElement;
 
                     logMultitouchElement.appendChild(logTouchElement);
@@ -148,33 +147,4 @@ export class MultiTouchControllerDebugLayer {
     }
 }
 
-function createDebugLayerCss() {
-    const debugLayerCssElement = document.createElement('style');
 
-    debugLayerCssElement.innerHTML =
-        // TODO: context id
-        `
-    .${CSS_PREFIX}main {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        
-        z-index: 99999999;
-    }
-    
-    .${CSS_PREFIX}title {
-        background-color: bisque;
-    }
-    
-    .${CSS_PREFIX}multitouch {
-        border: 2px solid black;
-    }
-    
-    .${CSS_PREFIX}touch {
-        border: 2px solid black;
-    }
-    `;
-
-    document.body.appendChild(debugLayerCssElement);
-}

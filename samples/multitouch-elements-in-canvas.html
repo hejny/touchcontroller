@@ -16,7 +16,9 @@
                     TouchController,
                     MultiTouchController,
                     CanvasRectangle,
+                    TouchControllerDebugLayer,
                     MultiTouchControllerDebugLayer,
+                    emulateTouch
                 } = window.TouchController;
                 const { Vector } = window.Xyzt;
 
@@ -24,14 +26,14 @@
                 const ctx = scene.getContext('2d');
 
                 const rects = [
-                    new CanvasRectangle({
+                    /*new CanvasRectangle({
                         color: 'blue',
                         transform: {
                             translate: new Vector(100, 100),
                             scale: new Vector(100, 150),
                             rotate: Math.PI / 10,
                         },
-                    }),
+                    }),*/
                     new CanvasRectangle({
                         color: 'green',
                         transform: {
@@ -60,6 +62,7 @@
                 multiTouchController.hoveredElementsChanges.subscribe(
                     ([elementNew, elementOld]) => {
                         if (elementNew) {
+                            //elementNew.transform.rotate.z += (Math.PI * 2) / 36 /2;
                             elementNew.options.hovered = true;
                         }
                         if (elementOld) {
@@ -74,18 +77,31 @@
                     const sizeRatio = rect.size.y / rect.size.x;
                     multitouch.transforms.subscribe(
                         (transform) => {
-                            multitouch.element.applyTransform(/*transform.pick('scale','rotate')*/);
+                            console.log({transform})
+                            multitouch.element.applyTransform(transform/*.pick('scale','rotate')*/);
+                            console.log({...rect.transform.translate})
                         },
                         () => {},
                         () => {
                             if (multitouch.empty) {
-                                rect.rotation += (Math.PI * 2) / 36;
+                                rect.transform.rotation += (Math.PI * 2) / 36;
+                                
                             }
                         },
                     );
                 });
+                
 
+                new TouchControllerDebugLayer(touchController);
                 new MultiTouchControllerDebugLayer(multiTouchController);
+
+                
+                emulateTouch({
+                    position: {x: 350,y:350},
+                    touchController
+                });
+               
+
             })();
         </script>
     </body>

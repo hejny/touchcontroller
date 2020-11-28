@@ -13,6 +13,7 @@
             (() => {
                 const {
                     TouchController /*, Plugins*/,
+                    TouchControllerDebugLayer
                 } = window.TouchController;
 
                 const scene = document.getElementById('scene');
@@ -40,6 +41,10 @@
                     
                     });
                 });
+
+                new TouchControllerDebugLayer(touchController);
+
+                
             })();
         </script>
     </body>

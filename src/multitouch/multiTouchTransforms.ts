@@ -68,13 +68,18 @@ function twoFingerring(element:BoundingBox,touch1: Touch,touch2: Touch): Observa
                 const b = frame2.position.subtract(center);
 
                 const rotate =   b.rotation()-a.rotation();
-                const scale = 1;//b.distance()/a.distance();
+                const scale = b.distance()/a.distance();
                 //Vector.fromPolar(-rotate,scale)
 
                 observer.next(Transform.fromObject({
                     rotate,
                     scale,
-                    translate: element.center.subtract(center).rotate({z:rotate}).add(center).subtract(element.center)
+                    translate: element.center
+                        .subtract(center)
+                        .rotate({z:rotate})
+                        .scale(scale)
+                        .add(center)
+                        .subtract(element.center)
                 }));
                
 

@@ -6,6 +6,7 @@ export class TouchFrame {
     public position: Vector;
 
     constructor(
+        // TODO: options
         public element: IElement,
         public anchorElement: IElement,
         public positionRelative: Vector = Vector.zero(),

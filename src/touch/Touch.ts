@@ -32,7 +32,8 @@ export class Touch {
 
 
     constructor(
-        readonly type: 'TOUCH' | 'MOUSE', // TODO: maybe as second optional param and extendable
+        // TODO: options
+        readonly type: 'TOUCH' | 'MOUSE' /* TODO: | 'EMULATED' */ , // TODO: maybe as second optional param and extendable
         readonly anchorElement: IElement,
         readonly buttonIdentifier?: string | number,
     ) {

@@ -1,14 +1,15 @@
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
 import { Observer } from 'rxjs/internal/types';
+import { BoundingBox } from 'xyzt';
 import { ITouchController } from '../interfaces/ITouchController';
 import { TouchFrame } from '../touch/TouchFrame';
 import { MultiTouch } from './MultiTouch';
 
-export class MultiTouchController<TElement> {
-    public ongoingMultiTouches: Array<MultiTouch<TElement | undefined>> = []; // TODO: null vs. undefined
+export class MultiTouchController<TElement extends BoundingBox> {
+    public ongoingMultiTouches: Array<MultiTouch<TElement>> = []; // TODO: null vs. undefined
     public readonly multiTouches = new Subject<
-        MultiTouch<TElement | undefined>
+        MultiTouch<TElement>
     >();
 
     constructor(

@@ -3,12 +3,12 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { Observer } from 'rxjs/internal/types';
 import { share } from 'rxjs/operators';
 import * as uuid from 'uuid';
-import { Transform } from 'xyzt';
+import { BoundingBox, Transform } from 'xyzt';
 import { Touch } from '../touch/Touch';
 import { multiTouchTransforms } from './multiTouchTransforms';
 
 let id = 0;
-export class MultiTouch<TElement> {
+export class MultiTouch<TElement extends BoundingBox> {
     public readonly id = id++;
     public readonly uuid = uuid.v4();
     public empty = true;
@@ -18,7 +18,7 @@ export class MultiTouch<TElement> {
     private touchesObserver: Observer<Touch>;
 
     constructor(
-        public element: TElement, // TODO: this should be external
+        public element: TElement | undefined, // TODO: this should be external
         public firstTouch: Touch,
     ) {
         this.touches = new Observable((observer: Observer<Touch>) => {

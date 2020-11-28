@@ -1,4 +1,4 @@
-import { BoundingBox, ITransform, Transform } from 'xyzt';
+import { BoundingBox, ITransform, Transform, Vector } from 'xyzt';
 
 interface ICanvasRectangleOptions {
     transform: ITransform;
@@ -15,14 +15,17 @@ export class CanvasRectangle extends BoundingBox {
         ctx.save();
         ctx.beginPath();
 
-        ctx.rotate(this.transform.rotate.z);
+        
         ctx.translate(
             ...this.center
-                .rotate(this.rotation.negate())
-                .subtract(this.size.half())
+                //.subtract(this.transform.scale.half())
                 .toArray2D(),
         );
-        ctx.rect(0, 0, this.size.x, this.size.y);
+
+        ctx.rotate(this.transform.rotate.z);
+       
+
+        ctx.rect(this.size.x/-2, this.size.y/-2, this.size.x, this.size.y);
         ctx.fillStyle = this.options.color || '#ff0000';
         ctx.fill();
         if (this.options.hovered) {
@@ -31,5 +34,27 @@ export class CanvasRectangle extends BoundingBox {
             ctx.stroke();
         }
         ctx.restore();
+    }
+
+    public applyTransform(transform: ITransform):void {
+
+        //this.transform =  this.transform.apply(Transform.fromObject(transform));
+
+        /**/
+        // TODO: !!! TO xyzt
+        const t1 = Transform.fromObject(transform);
+        const t2 = this.transform;
+
+        // TODO: !!! Transform.combine
+        this.transform = Transform.fromObject({
+            rotate: Vector.add(t1.rotate, t2.rotate),
+            scale: Vector.multiply(t1.scale, t2.scale),
+            translate: Vector.add(
+                t1.translate,
+                t2.translate
+            ),
+        });
+        /* */
+
     }
 }

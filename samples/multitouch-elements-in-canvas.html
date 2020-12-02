@@ -77,8 +77,7 @@
                     const sizeRatio = rect.size.y / rect.size.x;
                     multitouch.transforms.subscribe(
                         (transform) => {
-                            console.log({...transform})
-                            multitouch.element.applyTransform(transform/*.pick('scale','rotate')*/);
+                            multitouch.element.applyTransform(transform);
                         },
                         () => {},
                         () => {

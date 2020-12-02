@@ -1,8 +1,8 @@
 import { Subject } from 'rxjs/internal/Subject';
 import * as uuid from 'uuid';
-
 import { IElement } from '../interfaces/IElement';
 import { TouchFrame } from './TouchFrame';
+
 
 let id = 0;
 export class Touch {

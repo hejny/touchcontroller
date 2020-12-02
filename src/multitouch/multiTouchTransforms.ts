@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs/internal/Observable';
 import { BoundingBox, Transform, Vector } from 'xyzt';
-
 import { Touch } from '../main';
 import { MultiTouch } from './MultiTouch';
+
 
 export function multiTouchTransforms<TElement extends BoundingBox>(
     multiTouch: MultiTouch<TElement>,

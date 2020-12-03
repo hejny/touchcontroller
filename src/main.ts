@@ -29,6 +29,7 @@ import { EventManager } from './utils/EventManager';
 import { getBoundingClientRectEnhanced } from './utils/getBoundingClientRectEnhanced';
 import { createCanvasFromSrc, createColoredCanvasFromSrc, createImageFromSrc } from './utils/imageTools';
 import { sign } from './utils/mathTools';
+import { padArray } from './utils/padArray';
 
 export {
     sign,
@@ -37,6 +38,7 @@ export {
     Scene,
     IEvent,
     average,
+    padArray,
     IElement,
     Particle,
     IListener,

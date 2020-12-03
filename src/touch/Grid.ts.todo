@@ -1,6 +1,9 @@
+// TODO: Better
+
+
 import { IVector, Vector } from 'xyzt';
 import { ITouchController } from '../interfaces/ITouchController';
-import { GridTouchController } from './GridTouchController';
+import { GridTouchController } from './GridTouchController.ts.todo';
 import { Touch } from './Touch';
 import { TouchFrame } from './TouchFrame';
 
@@ -8,7 +11,7 @@ import { TouchFrame } from './TouchFrame';
  * TODO:Maybe different name like coordination system
  */
 export class Grid {
-    constructor(private positionToGridPosition: (vector: IVector) => IVector) {}
+    constructor(private readonly positionToGridPosition: (vector: IVector) => IVector) {}
 
     public applyToTouchController(
         touchController: ITouchController,

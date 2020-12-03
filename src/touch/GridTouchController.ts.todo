@@ -1,16 +1,18 @@
+// TODO: Better
+
 import { Observable } from 'rxjs/internal/Observable';
 import { Observer } from 'rxjs/internal/types';
 import { share } from 'rxjs/operators';
 import { ITouchController } from '../interfaces/ITouchController';
-import { Grid } from './Grid';
+import { Grid } from './Grid.ts.todo';
 import { Touch } from './Touch';
 import { TouchFrame } from './TouchFrame';
 
 export class GridTouchController implements ITouchController {
-    public touches: Observable<Touch>;
-    public hoveredFrames: Observable<TouchFrame>;
+    public readonly touches: Observable<Touch>;
+    public readonly hoveredFrames: Observable<TouchFrame>;
 
-    private touchesObserver: Observer<Touch>;
+    private readonly touchesObserver: Observer<Touch>;
     // TODO: private hoveredFramesObserver: Observer<TouchFrame>;
 
     constructor(touchController: ITouchController, grid: Grid) {

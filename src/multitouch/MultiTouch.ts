@@ -6,7 +6,7 @@ import * as uuid from 'uuid';
 import { BoundingBox, Transform } from 'xyzt';
 
 import { Touch } from '../touch/Touch';
-import { multiTouchTransforms } from './multiTouchTransforms';
+import { multiTouchTransforms } from './multiTouchTransforms/multiTouchTransforms';
 
 let id = 0;
 export class MultiTouch<TElement extends BoundingBox> {

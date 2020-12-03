@@ -18,7 +18,7 @@ import { MouseListener } from './listeners/MouseListener';
 import { TouchListener } from './listeners/TouchListener';
 import { MultiTouch } from './multitouch/MultiTouch';
 import { MultiTouchController } from './multitouch/MultiTouchController';
-import { multiTouchTransforms } from './multitouch/multiTouchTransforms';
+import { multiTouchTransforms } from './multitouch/multiTouchTransforms/multiTouchTransforms';
 import { Touch } from './touch/Touch';
 import { TouchController } from './touch/TouchController';
 import { TouchFrame } from './touch/TouchFrame';

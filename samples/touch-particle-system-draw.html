@@ -35,55 +35,50 @@
                 touchController.touches.subscribe((touch) => {
                     const color =
                         '#' + Math.floor(Math.random() * 16777215).toString(16);
-
-                    let lastPosition = null;
-                    touch.frames.subscribe((frame) => {
-                        if (lastPosition)
-                            drawController.drawLine(
-                                {
-                                    shapeSrc: './assets/particle2.png',
-                                    shapeCenter: new Vector(0.5, 0.5),
-                                    color,
-                                    current: {
-                                        position: lastPosition,
-                                        rotation: 0,
-                                        widthSize: 5,
-                                    },
-                                    movement: {
-                                        position: new Vector(
-                                            (Math.random() - 0.5) * 10, // TODO: depend this value
-                                            (Math.random() - 0.5) * 10,
-                                        ),
-                                        rotation:
-                                            (Math.random() - 0.5) * Math.PI * 2,
-                                        widthSize: 20,
-                                    },
-                                    friction: 0.2,
+                    touch.frameTuples({itemsPerTuple:2, startImmediately: true}).subscribe(([frame1,frame2]) => {
+                        drawController.drawLine(
+                            {
+                                shapeSrc: './assets/particle1.png',
+                                shapeCenter: new Vector(0.5, 0.5),
+                                color,
+                                current: {
+                                    position: frame1.position,
+                                    rotation: 0,
+                                    widthSize: 5,
                                 },
-                                {
-                                    shapeSrc: './assets/particle2.png',
-                                    shapeCenter: new Vector(0.5, 0.5),
-                                    color,
-                                    current: {
-                                        position: frame.position,
-                                        rotation: 0,
-                                        widthSize: 5,
-                                    },
-                                    movement: {
-                                        position: new Vector(
-                                            (Math.random() - 0.5) * 10, // TODO: depend this value
-                                            (Math.random() - 0.5) * 10,
-                                        ),
-                                        rotation:
-                                            (Math.random() - 0.5) * Math.PI * 2,
-                                        widthSize: 20,
-                                    },
-                                    friction: 0.2,
+                                movement: {
+                                    position: new Vector(
+                                        (Math.random() - 0.5) * 10, // TODO: depend this value
+                                        (Math.random() - 0.5) * 10,
+                                    ),
+                                    rotation:
+                                        (Math.random() - 0.5) * Math.PI * 2,
+                                    widthSize: 20,
                                 },
-                                5,
-                            );
-
-                        lastPosition = frame.position;
+                                friction: 0.2,
+                            },
+                            {
+                                shapeSrc: './assets/particle2.png',
+                                shapeCenter: new Vector(0.5, 0.5),
+                                color,
+                                current: {
+                                    position: frame2.position,
+                                    rotation: 0,
+                                    widthSize: 5,
+                                },
+                                movement: {
+                                    position: new Vector(
+                                        (Math.random() - 0.5) * 10, // TODO: depend this value
+                                        (Math.random() - 0.5) * 10,
+                                    ),
+                                    rotation:
+                                        (Math.random() - 0.5) * Math.PI * 2,
+                                    widthSize: 20,
+                                },
+                                friction: 0.2,
+                            },
+                            5,
+                        );
                     });
                 });
 

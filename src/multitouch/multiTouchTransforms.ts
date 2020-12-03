@@ -50,7 +50,7 @@ export function multiTouchTransforms<TElement extends BoundingBox>(
 
 function dragging(touch: Touch): Observable<Transform> {
     return new Observable((observer) => {
-        touch.frameTuples(2).subscribe(([frame1, frame2]) => {
+        touch.frameTuples({itemsPerTuple: 2, startImmediately: false}).subscribe(([frame1, frame2]) => {
             observer.next(Transform.translate(Vector.subtract(frame2.position, frame1.position)));
         });
     });
@@ -62,7 +62,7 @@ function twoFingerring(element:BoundingBox,touch1: Touch,touch2: Touch): Observa
     return new Observable((observer) => {
         [[touch1,touch2],[touch2,touch1]].forEach(async ([centerTouch,actionTouch])=>{
             const center =  (await centerTouch.firstFrame).position;
-            actionTouch.frameTuples(2).subscribe(([frame1, frame2]) => {
+            actionTouch.frameTuples({itemsPerTuple: 2, startImmediately: false}).subscribe(([frame1, frame2]) => {
             
                 const a = frame1.position.subtract(center);
                 const b = frame2.position.subtract(center);

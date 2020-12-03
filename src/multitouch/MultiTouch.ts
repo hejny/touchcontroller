@@ -1,9 +1,11 @@
 import { Observable } from 'rxjs/internal/Observable';
+import { Subject } from 'rxjs/internal/Subject';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { Observer } from 'rxjs/internal/types';
 import { share } from 'rxjs/operators';
 import * as uuid from 'uuid';
 import { BoundingBox, Transform } from 'xyzt';
+
 import { Touch } from '../touch/Touch';
 import { multiTouchTransforms } from './multiTouchTransforms';
 
@@ -13,21 +15,11 @@ export class MultiTouch<TElement extends BoundingBox> {
     public readonly uuid = uuid.v4();
     public empty = true;
     public ongoingTouches: Touch[] = [];
-    public touches: Observable<Touch>;
-
-    private touchesObserver: Observer<Touch>;
+    public readonly touches = new Subject<Touch>();
 
     constructor(
         public element: TElement | undefined, // TODO: this should be external
-        public firstTouch: Touch,
     ) {
-        this.touches = new Observable((observer: Observer<Touch>) => {
-            (async () => {
-                this.touchesObserver = observer;
-                // await forImmediate();
-                this.addTouch(firstTouch);
-            })();
-        }).pipe(share());
     }
 
     public toString():string {
@@ -36,7 +28,7 @@ export class MultiTouch<TElement extends BoundingBox> {
 
     public addTouch(touch: Touch): void {
         this.ongoingTouches.push(touch);
-        this.touchesObserver.next(touch);
+        this.touches.next(touch);
 
         touch.frames.subscribe(
             async (frame) => {
@@ -55,7 +47,7 @@ export class MultiTouch<TElement extends BoundingBox> {
                     (touch2) => touch2 !== touch,
                 );
                 if (this.ongoingTouches.length === 0) {
-                    this.touchesObserver.complete();
+                    this.touches.complete();
                 }
             },
         );
@@ -69,7 +61,7 @@ export class MultiTouch<TElement extends BoundingBox> {
                     touch.frames.subscribe(
                         (/*touch*/) => undefined,
                         () => undefined,
-                        /*async */ () => {
+                        async () => {
                             // await forImmediate();
                             observer.next(this.ongoingTouches);
                         },

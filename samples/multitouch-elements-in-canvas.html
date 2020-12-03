@@ -60,13 +60,13 @@
                 );
 
                 multiTouchController.hoveredElementsChanges.subscribe(
-                    ([elementNew, elementOld]) => {
-                        if (elementNew) {
+                    ({current, previous}) => {
+                        if (current) {
                             //elementNew.transform.rotate.z += (Math.PI * 2) / 36 /2;
-                            elementNew.options.hovered = true;
+                            current.options.hovered = true;
                         }
-                        if (elementOld) {
-                            elementOld.options.hovered = false;
+                        if (previous) {
+                            previous.options.hovered = false;
                         }
                     },
                 );

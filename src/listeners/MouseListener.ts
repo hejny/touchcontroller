@@ -1,4 +1,5 @@
 import { Vector } from 'xyzt';
+
 import { IEvent } from '../interfaces/IEvent';
 import { IListener } from '../interfaces/IListener';
 import { EventManager } from '../main';
@@ -87,11 +88,11 @@ export class MouseListener implements IListener {
 
             event.preventDefault();
             event.stopPropagation();
-            handleStart(event.buttons);
+            handleStart(event);
         };
 
-        const handleStart = (
-            identifier: number,
+        const handleStart = async (
+            event: MouseEvent,
         ) => {
             if (onlyTouch) {
                 onlyTouch.frames.complete();
@@ -100,7 +101,7 @@ export class MouseListener implements IListener {
             currentTouch = new Touch(
                 'MOUSE',
                 anchorElement,
-                identifier /* TODO: Is a good option to cast button to identifier? */,
+                event.buttons /* TODO: Is a good option to cast button to identifier? */,
             );
 
             this.eventManager.addEventListener(
@@ -136,6 +137,8 @@ export class MouseListener implements IListener {
 
             newTouch(currentTouch);
             onlyTouch = currentTouch;
+
+            currentTouch.frames.next(createTouchFrameFromEvent(event));
         };
 
         // TODO: Why is there is after first mouse click triggered handleMouseMoveOnElement and after mouse up handleMouseMoveOnDocument?

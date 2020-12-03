@@ -2,7 +2,6 @@ import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { Observer } from 'rxjs/internal/types';
-import { share } from 'rxjs/operators';
 import * as uuid from 'uuid';
 import { BoundingBox, Transform } from 'xyzt';
 
@@ -30,8 +29,8 @@ export class MultiTouch<TElement extends BoundingBox> {
         this.ongoingTouches.push(touch);
         this.touches.next(touch);
 
-        touch.frames.subscribe(
-            async (frame) => {
+        touch.frames.subscribe({
+            next: async (frame) => {
                 if (
                     (await touch.firstFrame).position.distance(frame.position) >=
                     5 /* TODO: to config*/
@@ -39,10 +38,7 @@ export class MultiTouch<TElement extends BoundingBox> {
                     this.empty = false;
                 }
             },
-            () => {
-                // TODO: is empty functions needed - if yes create empty function in tools
-            },
-            () => {
+            complete: () => {
                 this.ongoingTouches = this.ongoingTouches.filter(
                     (touch2) => touch2 !== touch,
                 );
@@ -50,15 +46,16 @@ export class MultiTouch<TElement extends BoundingBox> {
                     this.touches.complete();
                 }
             },
-        );
+        });
     }
 
     public get ongoingTouchesChanges(): Observable<Touch[]> {
         return new Observable((observer: Observer<Touch[]>) => {
-            this.touches.subscribe(
-                (touch) => {
+            this.touches.subscribe({
+                next: (touch) => {
                     observer.next(this.ongoingTouches);
                     touch.frames.subscribe(
+                        // !!!
                         (/*touch*/) => undefined,
                         () => undefined,
                         async () => {
@@ -67,19 +64,18 @@ export class MultiTouch<TElement extends BoundingBox> {
                         },
                     );
                 },
-                () => undefined,
-                () => {
+                complete: () => {
                     observer.complete();
                 },
-            );
+            });
         });
     }
 
     public get ongoingPositionsChanges(): Observable<Touch[]> {
         return new Observable((observer: Observer<Touch[]>) => {
             let subscriptions: Subscription[] = [];
-            this.ongoingTouchesChanges.subscribe(
-                (touches: Touch[]) => {
+            this.ongoingTouchesChanges.subscribe({
+                next: (touches: Touch[]) => {
                     for (const subscription of subscriptions) {
                         subscription.unsubscribe();
                     }
@@ -90,11 +86,10 @@ export class MultiTouch<TElement extends BoundingBox> {
                         }),
                     );
                 },
-                () => undefined,
-                () => {
+                complete: () => {
                     observer.complete();
                 },
-            );
+            });
         });
     }
 

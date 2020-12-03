@@ -32,8 +32,8 @@ export class Touch {
 
         const frameTuples = new Subject<TouchFrame[]/* TODO: Can I infer tuple type from number? */>();
         const tray: TouchFrame[] = [];
-        this.frames.subscribe(
-            (frame)=>{
+        this.frames.subscribe({
+            next: (frame)=>{
                 tray.push(frame);
 
                 if(tray.length>itemsPerTuple){
@@ -46,9 +46,9 @@ export class Touch {
                     frameTuples.next(padArray(tray,{padWith:tray, length: itemsPerTuple}));
                 }
             },
-            (error)=>frameTuples.error(error),
-            ()=>frameTuples.complete()
-        );
+            error: (error)=>frameTuples.error(error),
+            complete: ()=>frameTuples.complete()
+        });
         return frameTuples;
     }
 

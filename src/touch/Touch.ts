@@ -9,15 +9,15 @@ let id = 0;
 export class Touch {
     public readonly id = id++;
     public readonly uuid = uuid.v4();
-    public frames = new Subject<TouchFrame>();
-    public firstFrame: Promise<TouchFrame>;
+    public readonly frames = new Subject<TouchFrame>();
+    public readonly firstFrame: Promise<TouchFrame>;
 
 
     constructor(
         // TODO: options
-        readonly type: 'TOUCH' | 'MOUSE' /* TODO: | 'EMULATED' */ , // TODO: maybe as second optional param and extendable
-        readonly anchorElement: IElement,
-        readonly buttonIdentifier?: string | number,
+        public readonly type: 'TOUCH' | 'MOUSE' /* TODO: | 'EMULATED' */ , // TODO: maybe as second optional param and extendable
+        public readonly anchorElement: IElement,
+        public readonly buttonIdentifier?: string | number,
     ) {
         this.firstFrame = new Promise((resolve)=>{
             this.frames.subscribe((frame)=>{

@@ -24,7 +24,7 @@ export class Particle {
 
     private shapeData: null | HTMLImageElement | HTMLCanvasElement = null;
 
-    constructor(private options: IParticleOptions, public zIndex: number) {
+    constructor(private readonly options: IParticleOptions, public zIndex: number) {
         this.initializeSource();
     }
 

@@ -5,7 +5,7 @@ export class Scene {
     // private ctx: CanvasRenderingContext2D;
     public particles: Particle[];
 
-    constructor(private ctx: CanvasRenderingContext2D) {
+    constructor(private readonly ctx: CanvasRenderingContext2D) {
         // const { width, height } = sceneElement.getBoundingClientRect();
         // sceneElement.width = width;
         // sceneElement.height = height;

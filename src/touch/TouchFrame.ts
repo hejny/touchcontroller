@@ -6,14 +6,14 @@ export class TouchFrame {
     public position: Vector;
 
     constructor(
-        // TODO: options
-        public element: IElement,
-        public anchorElement: IElement,
-        public positionRelative: Vector = Vector.zero(),
-        public time: number = performance.now(),
-        public rotating: boolean = false,
-        public force: number = 0,
-        public radius: Vector = Vector.zero(),
+        // TODO: make it as options
+        public readonly element: IElement,
+        public readonly anchorElement: IElement,
+        public readonly positionRelative: Vector = Vector.zero(),
+        public readonly time: number = performance.now(),
+        public readonly rotating: boolean = false,
+        public readonly force: number = 0,
+        public readonly radius: Vector = Vector.zero(),
         countPosition = true,
     ) {
         if (countPosition) {

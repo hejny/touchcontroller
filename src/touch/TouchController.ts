@@ -6,8 +6,6 @@ import { ITouchController } from '../interfaces/ITouchController';
 import { MouseListener } from '../listeners/MouseListener';
 import { TouchListener } from '../listeners/TouchListener';
 import { EventManager } from '../utils/EventManager';
-import { Grid } from './Grid';
-import { GridTouchController } from './GridTouchController';
 import { Touch } from './Touch';
 import { TouchFrame } from './TouchFrame';
 
@@ -35,8 +33,8 @@ export class TouchController implements ITouchController {
     private listeners: IListener[] = [];
 
     constructor(
-        public elements: IElement[], // TODO: syntax sugar if set only one element
-        public anchorElement: HTMLElement,
+        public readonly elements: IElement[], // TODO: syntax sugar if set only one element
+        public readonly anchorElement: HTMLElement,
         setListeners = true,
         // public readonly options: ITouchControllerOptions = TouchControllerOptionsDefault,
     ) {
@@ -100,13 +98,15 @@ export class TouchController implements ITouchController {
     }
 
     public emulateTouch(touch: Touch): void {
-        // await forImmediate();
         this.touches.next(touch);
     }
 
+    /*
+    TODO:
     public applyGrid(grid: Grid): GridTouchController {
         return grid.applyToTouchController(this);
     }
+    */
 
     private callListenerOnElement(listener: IListener, element: IElement) {
         listener.init(

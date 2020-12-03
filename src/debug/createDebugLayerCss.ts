@@ -28,6 +28,11 @@ export function _createDebugLayerCss():void {
     
     .${_CSS_PREFIX}multitouch {
         border: 2px solid black;
+        background-color: white;
+    }
+
+    .${_CSS_PREFIX}multitouch .touches {
+        padding: 20px;
     }
     
     .${_CSS_PREFIX}touch {

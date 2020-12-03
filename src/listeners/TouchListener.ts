@@ -29,7 +29,7 @@ export class TouchListener implements IListener {
         }
     >();
 
-    constructor(private eventManager: EventManager) {}
+    constructor(private readonly eventManager: EventManager) {}
 
     public acceptsEvent(): boolean {
         return true;

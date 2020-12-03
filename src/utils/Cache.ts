@@ -1,7 +1,7 @@
 // TODO: To library
 
 export class SourceCache<TId, TSource> {
-    private storage: Array<{ id: TId; source: TSource }> = [];
+    private readonly storage: Array<{ id: TId; source: TSource }> = [];
 
     public hasItem(id: TId): boolean {
         return this.storage.some((item) => item.id === id);

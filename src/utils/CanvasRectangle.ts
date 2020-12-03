@@ -7,7 +7,7 @@ interface ICanvasRectangleOptions {
 }
 
 export class CanvasRectangle extends BoundingBox {
-    constructor(public options: ICanvasRectangleOptions) {
+    constructor(public readonly options: ICanvasRectangleOptions) {
         super(Transform.fromObject(options.transform));
     }
 

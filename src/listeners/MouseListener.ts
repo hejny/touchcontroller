@@ -31,9 +31,9 @@ export class MouseListener implements IListener {
     >();
 
     constructor(
-        private eventManager: EventManager,
-        private buttons: number[] = [0],
-        private rotating = false,
+        private readonly eventManager: EventManager,
+        private readonly buttons: number[] = [0],
+        private readonly rotating = false,
     ) {}
 
     public acceptsEvent(event: Event):boolean {

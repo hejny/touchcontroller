@@ -15,7 +15,13 @@ export class MultiTouchControllerDebugLayer {
 
             const logMultitouchElement = document.createElement('div');
 
-            logMultitouchElement.innerHTML = `<div class="${_CSS_PREFIX}multitouch"><div class="${_CSS_PREFIX}title">${multitouch.toString()}</div><div class="${_CSS_PREFIX}multitouch-last-transformation"></div></div>`;
+            logMultitouchElement.innerHTML = `
+            <div class="${_CSS_PREFIX}multitouch">
+                <div class="${_CSS_PREFIX}title">${multitouch.toString()}</div>
+                <div class="${_CSS_PREFIX}multitouch-last-transformation"></div>
+                <div class="touches"></div>
+            </div>
+            `;
 
             const logMultitouchLastTransformElement = logMultitouchElement.querySelector(
                 `.${_CSS_PREFIX}multitouch-last-transformation`,
@@ -42,15 +48,17 @@ export class MultiTouchControllerDebugLayer {
                     `;
             });
 
-            multitouch.touches.subscribe(
-                (touch) => {
+            multitouch.touches.subscribe({
+                next: (touch) => {
+
+                    console.log({touch});
                     const logTouchElement = document.createElement('div');
 
-                    logTouchElement.innerHTML = `<div class="${_CSS_PREFIX}touch">
+                    logTouchElement.innerHTML = `
+                        <div class="${_CSS_PREFIX}touch">
                             <div class="${_CSS_PREFIX}title">${touch.toString()}</div>
                             <div class="${_CSS_PREFIX}touch-frames-count"></div>
                             <div class="${_CSS_PREFIX}touch-last-frame"></div>
-                            </div>
                         </div>
                         `;
                     const logTouchFramesCountElement = logTouchElement.querySelector(
@@ -60,66 +68,59 @@ export class MultiTouchControllerDebugLayer {
                         `.${_CSS_PREFIX}touch-last-frame`,
                     ) as HTMLDivElement;
 
-                    logMultitouchElement.appendChild(logTouchElement);
+                    logMultitouchElement.querySelector('.touches')!.appendChild(logTouchElement);
 
                     let framesCounter = 0;
 
-                    touch.frames.subscribe(
-                        (frame) => {
+                    touch.frames.subscribe({
+                        next: (frame) => {
+
+                            console.log({frame});
+
+
                             logTouchFramesCountElement.innerText = (framesCounter++).toString();
 
                             logTouchLastFrameElement.innerHTML = `
-                        <table>
-                            <tr>
-                                <th colspan="2">Touch</th>
-                            </tr>
-
-
-                            <tr>
-                                <th>ID:</th>
-                                <td>${touch.id}</td>
-                            </tr>
-
-
-                            <tr>
-                                <th>Type:</th>
-                                <td>${touch.type}</td>
-                            </tr>
-
-                            
-                            <tr>
-                                <th>UUID:</th>
-                                <td>${touch.uuid}</td>
-                            </tr>
-
-                            <tr>
-                                <th>ButtonIdentifier:</th>
-                                <td>${touch.buttonIdentifier}</td>
-                            </tr>
-
-                            <tr>
-                                <th colspan="2">Current frame</th>
-                            </tr>
-
-                            <tr>
-                                <th>Position:</th>
-                                <td>${frame.position}</td>
-                            </tr>
-                            <tr>
-                                <th>Time:</th>
-                                <td>${frame.time}</td>
-                            </tr>
-                            <tr>
-                                <th>Force:</th>
-                                <td>${frame.force}</td>
-                            </tr>
-                            <tr>
-                                <th>Radius:</th>
-                                <td>${frame.radius}</td>
-                            </tr>
-
-                            
-                        </table>
+                            <table>
+                                <tr>
+                                    <th colspan="2">Touch</th>
+                                </tr>
+                                <tr>
+                                    <th>ID:</th>
+                                    <td>${touch.id}</td>
+                                </tr>
+                                <tr>
+                                    <th>Type:</th>
+                                    <td>${touch.type}</td>
+                                </tr>
+                                <tr>
+                                    <th>UUID:</th>
+                                    <td>${touch.uuid}</td>
+                                </tr>
+                                <tr>
+                                    <th>ButtonIdentifier:</th>
+                                    <td>${touch.buttonIdentifier}</td>
+                                </tr>
+                                <tr>
+                                    <th colspan="2">Current frame</th>
+                                </tr>
+                                <tr>
+                                    <th>Position:</th>
+                                    <td>${frame.position}</td>
+                                </tr>
+                                <tr>
+                                    <th>Time:</th>
+                                    <td>${frame.time}</td>
+                                </tr>
+                                <tr>
+                                    <th>Force:</th>
+                                    <td>${frame.force}</td>
+                                </tr>
+                                <tr>
+                                    <th>Radius:</th>
+                                    <td>${frame.radius}</td>
+                                </tr>
+                            </table>
                     `;
                             /*
                             <tr>
@@ -132,16 +133,14 @@ export class MultiTouchControllerDebugLayer {
                             </tr>
                     */
                         },
-                        undefined,
-                        () => {
+                        complete: () => {
                             logTouchElement.remove();
                         },
-                    );
+                    });
                 },
-                undefined,
-                () => {
+                complete: () => {
                     logMultitouchElement.remove();
-                },
+                }}
             );
         });
     }

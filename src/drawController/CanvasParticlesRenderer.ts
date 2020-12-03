@@ -6,12 +6,12 @@ import { Scene } from './Scene';
 
 export class DrawController {
     public deadParticlesCount = 0;
-    private liveCtx: CanvasRenderingContext2D;
-    private deadCtx: CanvasRenderingContext2D;
-    private scene: Scene;
+    private readonly liveCtx: CanvasRenderingContext2D;
+    private readonly deadCtx: CanvasRenderingContext2D;
+    private readonly scene: Scene;
     private lastRenderNow: null | number = null;
-    private contexts: CanvasRenderingContext2D[] = [];
-    private subscribers: Array<() => void> = [];
+    private readonly contexts: CanvasRenderingContext2D[] = [];
+    private readonly subscribers: Array<() => void> = [];
 
     // TODO: initial do better
     constructor(quality: Vector, initialColor = '#ffffff') {

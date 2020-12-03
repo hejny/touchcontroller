@@ -8,13 +8,12 @@
     "declarationDir": "./dist/typings",
     "noImplicitAny": true,
     "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noUnusedLocals": true,    
+    "noImplicitThis": true,   
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "suppressImplicitAnyIndexErrors": true,
     "esModuleInterop": true,
     "downlevelIteration": true
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts", "src/utils/padArray.test.ts"]
 }

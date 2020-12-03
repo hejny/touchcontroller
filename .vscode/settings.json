@@ -1,0 +1,5 @@
+{
+  "jest.pathToConfig": "jestconfig.json",
+  "jestrunner.jestCommand": "npm run test --",
+  "eslint.options": { "configFile": ".eslintrc.js" }
+}

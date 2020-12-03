@@ -1,5 +1,4 @@
 import { Vector } from 'xyzt';
-
 import { IEvent } from '../interfaces/IEvent';
 import { IListener } from '../interfaces/IListener';
 import { EventManager } from '../main';
@@ -8,6 +7,7 @@ import { TouchFrame } from '../touch/TouchFrame';
 import { getBoundingClientRectEnhanced } from '../utils/getBoundingClientRectEnhanced';
 import { IElement } from './../interfaces/IElement';
 import { SourceCache } from './../utils/Cache';
+
 
 const MOUSE_LISTENER_OPTIONS = {
     capture: true,

@@ -1,30 +1,12 @@
 import { Subject } from 'rxjs/internal/Subject';
 import * as uuid from 'uuid';
 import { IElement } from '../interfaces/IElement';
+import { padArray } from '../utils/padArray';
 import { TouchFrame } from './TouchFrame';
 
 
 let id = 0;
 export class Touch {
-    /*
-    TODO: Delete and make separate helpers for emulating Touch 
-    public static Click(
-        element: HTMLElement,
-        anchorElement: HTMLElement,
-        position: Vector,
-    ): Touch {
-        const touch = new Touch(
-            'MOUSE',
-            anchorElement,
-            new TouchFrame(element, anchorElement, position),
-        );
-        window.setTimeout(() => {
-            touch.frames.complete();
-        }, 100);
-        return touch;
-    }
-    */
-
     public readonly id = id++;
     public readonly uuid = uuid.v4();
     public frames = new Subject<TouchFrame>();
@@ -44,8 +26,8 @@ export class Touch {
         });
     }
 
-    public frameTuples(framesPerTuple: number): Subject<TouchFrame[]>{
-        // TODO: grouping options [1,2,3],[2,3,4] vs [1,2,3],[3,4,5] vs [1,2,3],[4,5,6]
+    public frameTuples({itemsPerTuple,startImmediately}: ITouchFrameTuplingOptions): Subject<TouchFrame[]>{
+        
         // Note: There is maybe a RxJS operator for this but I can not find it.
 
         const frameTuples = new Subject<TouchFrame[]/* TODO: Can I infer tuple type from number? */>();
@@ -54,11 +36,14 @@ export class Touch {
             (frame)=>{
                 tray.push(frame);
 
-                if(tray.length>framesPerTuple){
+                if(tray.length>itemsPerTuple){
                     tray.shift();
                 }
-                if(tray.length===framesPerTuple){
+                if(tray.length===itemsPerTuple){
                     frameTuples.next(tray);
+                }else
+                if(startImmediately){
+                    frameTuples.next(padArray(tray,{padWith:tray, length: itemsPerTuple}));
                 }
             },
             (error)=>frameTuples.error(error),
@@ -82,4 +67,11 @@ export class Touch {
     }
     */
 
+}
+
+
+interface ITouchFrameTuplingOptions{
+    itemsPerTuple: number;
+    startImmediately?: boolean;
+    // TODO: grouping options [1,2,3],[2,3,4] vs [1,2,3],[3,4,5] vs [1,2,3],[4,5,6]
 }

@@ -104,8 +104,9 @@
             (() => {
                 const {
                     TouchController,
-                    MultiTouchController,
-                    MultiTouchControllerDebugLayer,
+                    MultitouchController,
+                    MultitouchControllerDebugLayer,
+                    multitouchTransforms
                 } = window.TouchController;
                 const {
                     Transform,
@@ -126,16 +127,16 @@
                     dragElement.addEventListener('touchstart', pointerDown);
                 }
 
-                const multiTouchController = new MultiTouchController(
+                const multitouchController = new MultitouchController(
                     touchController,
                     (frame) => frame.element,
                 );
 
-                multiTouchController.multiTouches.subscribe((multitouch) => {
+                multitouchController.multitouches.subscribe((multitouch) => {
                     if (typeof multitouch.element === 'undefined') return;
                     let draggingElement = multitouch.element;
 
-                    multitouch.transforms.subscribe(
+                    multitouchTransforms(multitouch).subscribe(
                         (transform) => {
                             applyTransformOnSvgElement(
                                 transform,

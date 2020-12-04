@@ -1,8 +1,8 @@
 // GENERATED WITH generate-main-exports
 // Warning: Do not edit by hand, all changes will be lost on next execution!
 
-import { emulateTouch } from './debug/emulateTouch';
-import { MultiTouchControllerDebugLayer } from './debug/MultiTouchControllerDebugLayer';
+import { emulateTouch } from './emulate/emulateTouch';
+import { MultitouchControllerDebugLayer } from './debug/MultitouchControllerDebugLayer';
 import { TouchControllerDebugLayer } from './debug/TouchControllerDebugLayer';
 import { DrawController } from './drawController/CanvasParticlesRenderer';
 import { IParticleOptions } from './drawController/Particle';
@@ -16,9 +16,9 @@ import { IListener } from './interfaces/IListener';
 import { ITouchController } from './interfaces/ITouchController';
 import { MouseListener } from './listeners/MouseListener';
 import { TouchListener } from './listeners/TouchListener';
-import { MultiTouch } from './multitouch/MultiTouch';
-import { MultiTouchController } from './multitouch/MultiTouchController';
-import { multiTouchTransforms } from './multitouch/multiTouchTransforms/multiTouchTransforms';
+import { Multitouch } from './multitouch/Multitouch';
+import { MultitouchController } from './multitouch/MultitouchController';
+import { multitouchTransforms } from './multitouch/multitouchTransforms/multitouchTransforms';
 import { Touch } from './touch/Touch';
 import { TouchController } from './touch/TouchController';
 import { TouchFrame } from './touch/TouchFrame';
@@ -48,7 +48,7 @@ export {
     IListener,
     Awaitable,
     TouchFrame,
-    MultiTouch,
+    Multitouch,
     SourceCache,
     EventManager,
     emulateTouch,
@@ -63,12 +63,12 @@ export {
     IParticleOptions,
     createImageFromSrc,
     createCanvasFromSrc,
-    multiTouchTransforms,
-    MultiTouchController,
+    multitouchTransforms,
+    MultitouchController,
     particleOptionsAverage,
     IParticleOptionsExternals,
     TouchControllerDebugLayer,
     createColoredCanvasFromSrc,
     getBoundingClientRectEnhanced,
-    MultiTouchControllerDebugLayer
+    MultitouchControllerDebugLayer
 };

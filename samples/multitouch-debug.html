@@ -12,8 +12,8 @@
             (() => {
                 const {
                     TouchController,
-                    MultiTouchController,
-                    MultiTouchControllerDebugLayer,
+                    MultitouchController,
+                    MultitouchControllerDebugLayer,
                 } = window.TouchController;
 
                 const scene = document.getElementById('scene');
@@ -22,14 +22,14 @@
                 ctx.lineCap = 'round';
 
                 const touchController = new TouchController.fromCanvas(scene);
-                const multiTouchController = new MultiTouchController(
+                const multitouchController = new MultitouchController(
                     touchController,
                     (frame) => {
                         return Math.round(frame.position.x / 100);
                     },
                 );
 
-                new MultiTouchControllerDebugLayer(multiTouchController);
+                new MultitouchControllerDebugLayer(multitouchController);
             })();
         </script>
     </body>

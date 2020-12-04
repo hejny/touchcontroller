@@ -5,10 +5,10 @@ import * as uuid from 'uuid';
 import { BoundingBox, Transform } from 'xyzt';
 
 import { Touch } from '../touch/Touch';
-import { multiTouchTransforms } from './multiTouchTransforms/multiTouchTransforms';
+import { multitouchTransforms } from './multitouchTransforms/multitouchTransforms';
 
 let id = 0;
-export class MultiTouch<TElement extends BoundingBox> {
+export class Multitouch<TElement extends BoundingBox> {
     public readonly id = id++;
     public readonly uuid = uuid.v4();
     public empty = true;
@@ -21,7 +21,7 @@ export class MultiTouch<TElement extends BoundingBox> {
     }
 
     public toString():string {
-        return `MultiTouch ${this.id}`;
+        return `Multitouch ${this.id}`;
     }
 
     public addTouch(touch: Touch): void {
@@ -68,34 +68,5 @@ export class MultiTouch<TElement extends BoundingBox> {
                 },
             });
         });
-    }
-
-    public get ongoingPositionsChanges(): Observable<Touch[]> {
-        return new Observable((observer) => {
-            let subscriptions: Subscription[] = [];
-            this.ongoingTouchesChanges.subscribe({
-                next: (touches: Touch[]) => {
-                    for (const subscription of subscriptions) {
-                        subscription.unsubscribe();
-                    }
-
-                    subscriptions = touches.map((touch) =>
-                        touch.frames.subscribe(() => {
-                            observer.next(touches);
-                        }),
-                    );
-                },
-                complete: () => {
-                    observer.complete();
-                },
-            });
-        });
-    }
-
-    public get transforms(): Observable<Transform> {
-        return multiTouchTransforms(this);
-        /*
-            Note: Maybe in future here can be transformsTotal and transformsDelta.
-        */
     }
 }

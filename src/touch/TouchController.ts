@@ -97,10 +97,6 @@ export class TouchController implements ITouchController {
         }
     }
 
-    public emulateTouch(touch: Touch): void {
-        this.touches.next(touch);
-    }
-
     /*
     TODO:
     public applyGrid(grid: Grid): GridTouchController {

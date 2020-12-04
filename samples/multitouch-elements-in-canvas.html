@@ -14,11 +14,12 @@
             (() => {
                 const {
                     TouchController,
-                    MultiTouchController,
+                    MultitouchController,
                     CanvasRectangle,
                     TouchControllerDebugLayer,
-                    MultiTouchControllerDebugLayer,
-                    emulateTouch
+                    MultitouchControllerDebugLayer,
+                    emulateTouch,
+                    multitouchTransforms
                 } = window.TouchController;
                 const { Vector } = window.Xyzt;
 
@@ -53,13 +54,13 @@
                 render();
 
                 const touchController = new TouchController.fromCanvas(scene);
-                const multiTouchController = new MultiTouchController(
+                const multitouchController = new MultitouchController(
                     touchController,
                     (frame) =>
                         rects.find((rect) => rect.intersects(frame.position)),
                 );
 
-                multiTouchController.hoveredElementsChanges.subscribe(
+                multitouchController.hoveredElementsChanges.subscribe(
                     ({current, previous}) => {
                         if (current) {
                             //elementNew.transform.rotate.z += (Math.PI * 2) / 36 /2;
@@ -71,11 +72,11 @@
                     },
                 );
 
-                multiTouchController.multiTouches.subscribe((multitouch) => {
+                multitouchController.multitouches.subscribe((multitouch) => {
                     if (typeof multitouch.element === 'undefined') return;
                     const rect = multitouch.element;
                     const sizeRatio = rect.size.y / rect.size.x;
-                    multitouch.transforms.subscribe(
+                    multitouchTransforms(multitouch).subscribe(
                         (transform) => {
                             multitouch.element.applyTransform(transform);
                         },
@@ -91,17 +92,26 @@
                 
 
                 new TouchControllerDebugLayer(touchController);
-                new MultiTouchControllerDebugLayer(multiTouchController);
+                new MultitouchControllerDebugLayer(multitouchController);
 
                 /**/
-                emulateTouch({
-                    position: {x: 250,y:350},
-                    touchController
+                emulateTouch(touchController,{
+                    position: {x: 150,y:50},
+                    
                 });
                 /**/
-                emulateTouch({
-                    position: {x: 150,y:50},
-                    touchController
+                emulateTouch(touchController,{
+                    position: {x: 250,y:350},
+                });
+                /**/
+                emulateTouch(touchController,{
+                    frames:[{
+                        position: {x: 300,y:300},
+                    },{
+                        position: {x: 350,y:275},
+                    },{
+                        position: {x: 350,y:250},
+                    }],
                 });
                 /**/
 

@@ -5,14 +5,14 @@ import { BoundingBox } from 'xyzt';
 import { Awaitable } from '../interfaces/Awaitable';
 import { ITouchController } from '../interfaces/ITouchController';
 import { TouchFrame } from '../touch/TouchFrame';
-import { MultiTouch } from './MultiTouch';
+import { Multitouch } from './Multitouch';
 
-export class MultiTouchController<TElement extends BoundingBox> {
+export class MultitouchController<TElement extends BoundingBox> {
     
-    public readonly multiTouches = new Subject<
-        MultiTouch<TElement>
+    public readonly multitouches = new Subject<
+        Multitouch<TElement>
     >();
-    private ongoingMultiTouches: Array<MultiTouch<TElement>> = [];
+    private ongoingMultitouches: Array<Multitouch<TElement>> = [];
 
     constructor(
         public readonly touchController: ITouchController,
@@ -26,19 +26,19 @@ export class MultiTouchController<TElement extends BoundingBox> {
         this.touchController.touches.subscribe(async (touch) => {
             const element = await this.elementBinder(await touch.firstFrame);
 
-            let multiTouch = this.ongoingMultiTouches.find(
-                (ongoingMultiTouch) => ongoingMultiTouch.element === element,
+            let multitouch = this.ongoingMultitouches.find(
+                (ongoingMultitouch) => ongoingMultitouch.element === element,
             );
 
-            if(!multiTouch) {
-                multiTouch = new MultiTouch(element);
-                this.ongoingMultiTouches.push(multiTouch);
-                this.multiTouches.next(multiTouch);
+            if(!multitouch) {
+                multitouch = new Multitouch(element);
+                this.ongoingMultitouches.push(multitouch);
+                this.multitouches.next(multitouch);
 
-                multiTouch.touches.subscribe({
+                multitouch.touches.subscribe({
                     complete: () => {
-                        this.ongoingMultiTouches = this.ongoingMultiTouches.filter(
-                            (multiTouch2) => multiTouch2 !== multiTouch,
+                        this.ongoingMultitouches = this.ongoingMultitouches.filter(
+                            (multitouch2) => multitouch2 !== multitouch,
                         );
                     },
                 });
@@ -46,7 +46,7 @@ export class MultiTouchController<TElement extends BoundingBox> {
             
             // !!! await forTime(100);
 
-            multiTouch.addTouch(touch);
+            multitouch.addTouch(touch);
 
         });
     }

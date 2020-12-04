@@ -1,16 +1,17 @@
-import { MultiTouchController } from '../multitouch/MultiTouchController';
+import { MultitouchController } from '../multitouch/MultitouchController';
+import { multitouchTransforms } from '../multitouch/multitouchTransforms/multitouchTransforms';
 import { _createDebugLayerCss, _CSS_PREFIX } from './createDebugLayerCss';
 
 
-export class MultiTouchControllerDebugLayer {
-    constructor(multiTouchController: MultiTouchController<any>) {
+export class MultitouchControllerDebugLayer {
+    constructor(multitouchController: MultitouchController<any>) {
         _createDebugLayerCss();
 
         const logElement = document.createElement('div');
         logElement.classList.add(`${_CSS_PREFIX}main`);
         document.body.appendChild(logElement);
 
-        multiTouchController.multiTouches.subscribe((multitouch) => {
+        multitouchController.multitouches.subscribe((multitouch) => {
             // const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
 
             const logMultitouchElement = document.createElement('div');
@@ -18,31 +19,31 @@ export class MultiTouchControllerDebugLayer {
             logMultitouchElement.innerHTML = `
             <div class="${_CSS_PREFIX}multitouch">
                 <div class="${_CSS_PREFIX}title">${multitouch.toString()}</div>
-                <div class="${_CSS_PREFIX}multitouch-last-transformation"></div>
+                <div class="${_CSS_PREFIX}multitouch-last-transform"></div>
                 <div class="touches"></div>
             </div>
             `;
 
             const logMultitouchLastTransformElement = logMultitouchElement.querySelector(
-                `.${_CSS_PREFIX}multitouch-last-transformation`,
+                `.${_CSS_PREFIX}multitouch-last-transform`,
             ) as HTMLDivElement;
 
             logElement.appendChild(logMultitouchElement);
 
-            multitouch.transforms.subscribe((transformation) => {
+            multitouchTransforms(multitouch).subscribe((transform) => {
                 logMultitouchLastTransformElement.innerHTML = `
                         <table>
                             <tr>
                                 <th>Translate:</th>
-                                <td>${transformation.translate}</td>
+                                <td>${transform.translate}</td>
                             </tr>
                             <tr>
                                 <th>Rotate:</th>
-                                <td>${transformation.rotate}</td>
+                                <td>${transform.rotate}</td>
                             </tr>
                             <tr>
                                 <th>Scale:</th>
-                                <td>${transformation.scale}</td>
+                                <td>${transform.scale}</td>
                             </tr>
                         </table>
                     `;

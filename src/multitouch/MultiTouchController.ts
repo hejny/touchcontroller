@@ -1,8 +1,7 @@
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
-import { Observer } from 'rxjs/internal/types';
-import { forImmediate, forTime } from 'waitasecond';
 import { BoundingBox } from 'xyzt';
+
 import { Awaitable } from '../interfaces/Awaitable';
 import { ITouchController } from '../interfaces/ITouchController';
 import { TouchFrame } from '../touch/TouchFrame';
@@ -53,7 +52,7 @@ export class MultiTouchController<TElement extends BoundingBox> {
     }
 
     public get hoveredElements(): Observable<TElement | undefined> {
-        return new Observable((observer: Observer<TElement | undefined>) => {
+        return new Observable((observer) => {
             this.touchController.hoveredFrames.subscribe(async (frame) => {
                 observer.next(await this.elementBinder(frame));
             });
@@ -64,11 +63,7 @@ export class MultiTouchController<TElement extends BoundingBox> {
         {previous?: TElement, current?:TElement}
         > {
         return new Observable(
-            (
-                observer: Observer<
-                    {previous?: TElement, current?:TElement}
-                >,
-            ) => {
+            (observer) => {
                 let previous: TElement | undefined;
                 this.hoveredElements.subscribe((current) => {
                     if (previous !== current) {

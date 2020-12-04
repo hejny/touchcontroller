@@ -1,7 +1,6 @@
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { Observer } from 'rxjs/internal/types';
 import * as uuid from 'uuid';
 import { BoundingBox, Transform } from 'xyzt';
 
@@ -50,7 +49,7 @@ export class MultiTouch<TElement extends BoundingBox> {
     }
 
     public get ongoingTouchesChanges(): Observable<Touch[]> {
-        return new Observable((observer: Observer<Touch[]>) => {
+        return new Observable((observer) => {
             this.touches.subscribe({
                 next: (touch) => {
                     observer.next(this.ongoingTouches);
@@ -72,7 +71,7 @@ export class MultiTouch<TElement extends BoundingBox> {
     }
 
     public get ongoingPositionsChanges(): Observable<Touch[]> {
-        return new Observable((observer: Observer<Touch[]>) => {
+        return new Observable((observer) => {
             let subscriptions: Subscription[] = [];
             this.ongoingTouchesChanges.subscribe({
                 next: (touches: Touch[]) => {

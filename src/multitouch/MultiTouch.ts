@@ -1,22 +1,20 @@
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
-import { Subscription } from 'rxjs/internal/Subscription';
 import * as uuid from 'uuid';
-import { BoundingBox, Transform } from 'xyzt';
+import { forImmediate } from 'waitasecond';
+import { BoundingBox } from 'xyzt';
 
 import { Touch } from '../touch/Touch';
-import { multitouchTransforms } from './multitouchTransforms/multitouchTransforms';
 
 let id = 0;
 export class Multitouch<TElement extends BoundingBox> {
     public readonly id = id++;
-    public readonly uuid = uuid.v4();
-    public empty = true;
+    public readonly uuid = uuid.v4(); // TODO: Do we really need uuid
     public ongoingTouches: Touch[] = [];
     public readonly touches = new Subject<Touch>();
 
     constructor(
-        public element: TElement | undefined, // TODO: this should be external
+        public element?: TElement,
     ) {
     }
 
@@ -29,14 +27,6 @@ export class Multitouch<TElement extends BoundingBox> {
         this.touches.next(touch);
 
         touch.frames.subscribe({
-            next: async (frame) => {
-                if (
-                    (await touch.firstFrame).position.distance(frame.position) >=
-                    5 /* TODO: to config*/
-                ) {
-                    this.empty = false;
-                }
-            },
             complete: () => {
                 this.ongoingTouches = this.ongoingTouches.filter(
                     (touch2) => touch2 !== touch,
@@ -48,20 +38,24 @@ export class Multitouch<TElement extends BoundingBox> {
         });
     }
 
+    /**
+     * Get RxJS Observable array which every item is list of touches
+     * For example when user scale object by two fingers it will be:
+     * [[finger1]],[[finger1,finger2]],[[finger1]]
+     */
     public get ongoingTouchesChanges(): Observable<Touch[]> {
         return new Observable((observer) => {
             this.touches.subscribe({
                 next: (touch) => {
                     observer.next(this.ongoingTouches);
-                    touch.frames.subscribe(
-                        // !!!
-                        (/*touch*/) => undefined,
-                        () => undefined,
-                        async () => {
-                            // await forImmediate();
+
+                    // Watch when this touch is complete and then again update the ongoingTouches
+                    touch.frames.subscribe({
+                        complete: async () => {
+                            await forImmediate(/* To ensure that this.ongoingTouches is updated */);
                             observer.next(this.ongoingTouches);
                         },
-                    );
+                    });
                 },
                 complete: () => {
                     observer.complete();

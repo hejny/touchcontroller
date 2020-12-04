@@ -15,19 +15,26 @@ export function _createDebugLayerCss():void {
 
     .${_CSS_PREFIX}main {
         position: fixed;
+        top: 0;
         bottom: 0;
-        left: 0;
         right: 0;
-        
+        width: 40vw;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        /*resize: horizontal;*/
+
+        border-left: 2px solid #555;
+
         z-index: 99999999;
     }
     
     .${_CSS_PREFIX}title {
         background-color: bisque;
+        padding: 10px;
     }
     
     .${_CSS_PREFIX}multitouch {
-        border: 2px solid black;
+        border-bottom: 2px solid #555;
         background-color: white;
     }
 
@@ -36,7 +43,7 @@ export function _createDebugLayerCss():void {
     }
     
     .${_CSS_PREFIX}touch {
-        border: 2px solid black;
+        border: 2px solid #555;
     }
 
 

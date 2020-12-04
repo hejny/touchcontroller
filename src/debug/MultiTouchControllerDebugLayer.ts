@@ -1,11 +1,14 @@
 import { MultitouchController } from '../multitouch/MultitouchController';
 import { multitouchTransforms } from '../multitouch/multitouchTransforms/multitouchTransforms';
+import { Touch } from '../touch/Touch';
 import { _createDebugLayerCss, _CSS_PREFIX } from './createDebugLayerCss';
 
 
 export class MultitouchControllerDebugLayer {
     constructor(multitouchController: MultitouchController<any>) {
         _createDebugLayerCss();
+
+        const touchElements = new WeakMap<Touch,HTMLDivElement>();
 
         const logElement = document.createElement('div');
         logElement.classList.add(`${_CSS_PREFIX}main`);
@@ -51,99 +54,110 @@ export class MultitouchControllerDebugLayer {
 
             multitouch.touches.subscribe({
                 next: (touch) => {
-
-                    console.log({touch});
-                    const logTouchElement = document.createElement('div');
-
-                    logTouchElement.innerHTML = `
-                        <div class="${_CSS_PREFIX}touch">
-                            <div class="${_CSS_PREFIX}title">${touch.toString()}</div>
-                            <div class="${_CSS_PREFIX}touch-frames-count"></div>
-                            <div class="${_CSS_PREFIX}touch-last-frame"></div>
-                        </div>
-                        `;
-                    const logTouchFramesCountElement = logTouchElement.querySelector(
-                        `.${_CSS_PREFIX}touch-frames-count`,
-                    ) as HTMLDivElement;
-                    const logTouchLastFrameElement = logTouchElement.querySelector(
-                        `.${_CSS_PREFIX}touch-last-frame`,
-                    ) as HTMLDivElement;
-
-                    logMultitouchElement.querySelector('.touches')!.appendChild(logTouchElement);
-
-                    let framesCounter = 0;
-
-                    touch.frames.subscribe({
-                        next: (frame) => {
-
-                            console.log({frame});
-
-
-                            logTouchFramesCountElement.innerText = (framesCounter++).toString();
-
-                            logTouchLastFrameElement.innerHTML = `
-                            <table>
-                                <tr>
-                                    <th colspan="2">Touch</th>
-                                </tr>
-                                <tr>
-                                    <th>ID:</th>
-                                    <td>${touch.id}</td>
-                                </tr>
-                                <tr>
-                                    <th>Type:</th>
-                                    <td>${touch.type}</td>
-                                </tr>
-                                <tr>
-                                    <th>UUID:</th>
-                                    <td>${touch.uuid}</td>
-                                </tr>
-                                <tr>
-                                    <th>ButtonIdentifier:</th>
-                                    <td>${touch.buttonIdentifier}</td>
-                                </tr>
-                                <tr>
-                                    <th colspan="2">Current frame</th>
-                                </tr>
-                                <tr>
-                                    <th>Position:</th>
-                                    <td>${frame.position}</td>
-                                </tr>
-                                <tr>
-                                    <th>Time:</th>
-                                    <td>${frame.time}</td>
-                                </tr>
-                                <tr>
-                                    <th>Force:</th>
-                                    <td>${frame.force}</td>
-                                </tr>
-                                <tr>
-                                    <th>Radius:</th>
-                                    <td>${frame.radius}</td>
-                                </tr>
-                            </table>
-                    `;
-                            /*
-                            <tr>
-                                <th>Rotation:</th>
-                                <td>${frame.rotation}</td>
-                            </tr>
-                            <tr>
-                                <th>Scale:</th>
-                                <td>${frame.scale}</td>
-                            </tr>
-                    */
-                        },
-                        complete: () => {
-                            logTouchElement.remove();
-                        },
-                    });
-                },
-                complete: () => {
-                    logMultitouchElement.remove();
-                }}
-            );
+                    logMultitouchElement.querySelector('.touches')!.appendChild(touchElements.get(touch)!);
+                }
+            });
         });
+
+        multitouchController.touchController.touches.subscribe({
+            next: (touch) => {
+
+                console.log({touch});
+                const logTouchElement = document.createElement('div');
+                touchElements.set(touch,logTouchElement);
+
+                logTouchElement.innerHTML = `
+                    <div class="${_CSS_PREFIX}touch">
+                        <div class="${_CSS_PREFIX}title">${touch.toString()}</div>
+                        <div class="${_CSS_PREFIX}touch-frames-count"></div>
+                        <div class="${_CSS_PREFIX}touch-last-frame"></div>
+                    </div>
+                    `;
+                const logTouchFramesCountElement = logTouchElement.querySelector(
+                    `.${_CSS_PREFIX}touch-frames-count`,
+                ) as HTMLDivElement;
+                const logTouchLastFrameElement = logTouchElement.querySelector(
+                    `.${_CSS_PREFIX}touch-last-frame`,
+                ) as HTMLDivElement;
+
+                let framesCounter = 0;
+
+                touch.frames.subscribe({
+                    next: (frame) => {
+
+                        console.log({frame});
+
+
+                        logTouchFramesCountElement.innerText = (framesCounter++).toString();
+
+                        logTouchLastFrameElement.innerHTML = `
+                        <table>
+                            <tr>
+                                <th colspan="2">Touch</th>
+                            </tr>
+                            <tr>
+                                <th>ID:</th>
+                                <td>${touch.id}</td>
+                            </tr>
+                            <tr>
+                                <th>Type:</th>
+                                <td>${touch.type}</td>
+                            </tr>
+                            <tr>
+                                <th>UUID:</th>
+                                <td>${touch.uuid}</td>
+                            </tr>
+                            <tr>
+                                <th>ButtonIdentifier:</th>
+                                <td>${touch.buttonIdentifier}</td>
+                            </tr>
+                            <tr>
+                                <th colspan="2">Current frame</th>
+                            </tr>
+                            <tr>
+                                <th>Position:</th>
+                                <td>${frame.position}</td>
+                            </tr>
+                            <tr>
+                                <th>Time:</th>
+                                <td>${frame.time}</td>
+                            </tr>
+                            <tr>
+                                <th>Force:</th>
+                                <td>${frame.force}</td>
+                            </tr>
+                            <tr>
+                                <th>Radius:</th>
+                                <td>${frame.radius}</td>
+                            </tr>
+                        </table>
+                `;
+                        /*
+                        <tr>
+                            <th>Rotation:</th>
+                            <td>${frame.rotation}</td>
+                        </tr>
+                        <tr>
+                            <th>Scale:</th>
+                            <td>${frame.scale}</td>
+                        </tr>
+                        */
+                    },
+                    complete: () => {
+                        logTouchElement.remove();
+                    },
+                });
+            },
+            complete: () => {
+                //logMultitouchElement.remove();
+            }}
+        );
+
+
+
+
+
+
     }
 }
 

@@ -8,7 +8,7 @@ import { TouchFrame } from './TouchFrame';
 let id = 0;
 export class Touch {
     public readonly id = id++;
-    public readonly uuid = uuid.v4();
+    public readonly uuid = uuid.v4(); // TODO: Do we really need uuid
     public readonly frames = new Subject<TouchFrame>();
     public readonly firstFrame: Promise<TouchFrame>;
 

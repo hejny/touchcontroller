@@ -1,12 +1,13 @@
 // GENERATED WITH generate-main-exports
 // Warning: Do not edit by hand, all changes will be lost on next execution!
 
-import { MultitouchControllerDebugLayer } from './debug/MultitouchControllerDebugLayer';
+import { MultitouchControllerDebugLayer } from './debug/MultiTouchControllerDebugLayer';
 import { TouchControllerDebugLayer } from './debug/TouchControllerDebugLayer';
 import { DrawController } from './drawController/CanvasParticlesRenderer';
 import { IParticleOptions, IParticleOptionsExternals, Particle } from './drawController/Particle';
 import { Scene } from './drawController/Scene';
 import { emulateTouch } from './emulate/emulateTouch';
+import { IEmulateTouchOptions, IEmulateTouchOptionsAdvanced } from './emulate/IEmulateTouchOptions';
 import { Awaitable } from './interfaces/Awaitable';
 import { IElement } from './interfaces/IElement';
 import { IEvent } from './interfaces/IEvent';
@@ -16,7 +17,7 @@ import { MouseListener } from './listeners/MouseListener';
 import { TouchListener } from './listeners/TouchListener';
 import { Multitouch } from './multitouch/Multitouch';
 import { MultitouchController } from './multitouch/MultitouchController';
-import { multitouchTransforms } from './multitouch/multitouchTransforms/multitouchTransforms';
+import { multitouchTransforms } from './multitouch/multiTouchTransforms/multiTouchTransforms';
 import { Touch } from './touch/Touch';
 import { TouchController } from './touch/TouchController';
 import { TouchFrame } from './touch/TouchFrame';
@@ -58,10 +59,12 @@ export {
     createCanvasFromSrc,
     multitouchTransforms,
     MultitouchController,
+    IEmulateTouchOptions,
     particleOptionsAverage,
     IParticleOptionsExternals,
     TouchControllerDebugLayer,
     createColoredCanvasFromSrc,
+    IEmulateTouchOptionsAdvanced,
     getBoundingClientRectEnhanced,
     MultitouchControllerDebugLayer
 };

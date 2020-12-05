@@ -3,8 +3,8 @@ import { Subject } from 'rxjs/internal/Subject';
 import * as uuid from 'uuid';
 import { forImmediate } from 'waitasecond';
 import { BoundingBox } from 'xyzt';
-
 import { Touch } from '../touch/Touch';
+
 
 let id = 0;
 export class Multitouch<TElement extends BoundingBox> {

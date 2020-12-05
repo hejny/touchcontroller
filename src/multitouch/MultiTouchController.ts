@@ -1,11 +1,11 @@
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
 import { BoundingBox } from 'xyzt';
-
 import { Awaitable } from '../interfaces/Awaitable';
 import { ITouchController } from '../interfaces/ITouchController';
 import { TouchFrame } from '../touch/TouchFrame';
 import { Multitouch } from './Multitouch';
+
 
 export class MultitouchController<TElement extends BoundingBox> {
     

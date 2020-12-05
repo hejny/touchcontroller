@@ -1,11 +1,11 @@
 import { forTime } from 'waitasecond';
 import { Vector } from 'xyzt';
-
 import { Touch } from '../touch/Touch';
 import { TouchController } from '../touch/TouchController';
 import { TouchFrame } from '../touch/TouchFrame';
 import { IEmulateTouchOptions } from './IEmulateTouchOptions';
 import { _getEmulateTouchAdvancedOptions } from './_getEmulateTouchAdvancedOptions';
+
 
 export async function emulateTouch(touchController: TouchController,options: IEmulateTouchOptions): Promise<void>{
 

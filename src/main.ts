@@ -4,12 +4,16 @@
 import { MultitouchControllerDebugLayer } from './debug/MultiTouchControllerDebugLayer';
 import { TouchControllerDebugLayer } from './debug/TouchControllerDebugLayer';
 import { DrawController } from './drawController/CanvasParticlesRenderer';
-import { IParticleOptions, IParticleOptionsExternals, Particle } from './drawController/Particle';
+import { IParticleOptions } from './drawController/Particle';
+import { IParticleOptionsExternals } from './drawController/Particle';
+import { Particle } from './drawController/Particle';
 import { Scene } from './drawController/Scene';
 import { emulateTouch } from './emulate/emulateTouch';
-import { IEmulateTouchOptions, IEmulateTouchOptionsAdvanced } from './emulate/IEmulateTouchOptions';
+import { IEmulateTouchOptions } from './emulate/IEmulateTouchOptions';
+import { IEmulateTouchOptionsAdvanced } from './emulate/IEmulateTouchOptions';
 import { Awaitable } from './interfaces/Awaitable';
-import { IElement, IElementListeners } from './interfaces/IElement';
+import { IElement } from './interfaces/IElement';
+import { IElementListeners } from './interfaces/IElement';
 import { IEvent } from './interfaces/IEvent';
 import { IListener } from './interfaces/IListener';
 import { ITouchController } from './interfaces/ITouchController';
@@ -18,15 +22,21 @@ import { TouchListener } from './listeners/TouchListener';
 import { Multitouch } from './multitouch/Multitouch';
 import { MultitouchController } from './multitouch/MultitouchController';
 import { multitouchTransforms } from './multitouch/multitouchTransforms/multitouchTransforms';
+import { multitouchTransformsOnElement } from './multitouch/multitouchTransforms/multitouchTransformsOnElement';
 import { Touch } from './touch/Touch';
 import { TouchController } from './touch/TouchController';
 import { TouchFrame } from './touch/TouchFrame';
-import { average, particleOptionsAverage, TAverageItems, VectorAverage } from './utils/average';
+import { TAverageItems } from './utils/average';
+import { average } from './utils/average';
+import { VectorAverage } from './utils/average';
+import { particleOptionsAverage } from './utils/average';
 import { SourceCache } from './utils/Cache';
 import { CanvasRectangle } from './utils/CanvasRectangle';
 import { EventManager } from './utils/EventManager';
 import { getBoundingClientRectEnhanced } from './utils/getBoundingClientRectEnhanced';
-import { createCanvasFromSrc, createColoredCanvasFromSrc, createImageFromSrc } from './utils/imageTools';
+import { createImageFromSrc } from './utils/imageTools';
+import { createCanvasFromSrc } from './utils/imageTools';
+import { createColoredCanvasFromSrc } from './utils/imageTools';
 import { sign } from './utils/mathTools';
 import { padArray } from './utils/padArray';
 
@@ -67,5 +77,6 @@ export {
     createColoredCanvasFromSrc,
     IEmulateTouchOptionsAdvanced,
     getBoundingClientRectEnhanced,
-    MultitouchControllerDebugLayer
+    multitouchTransformsOnElement,
+    MultitouchControllerDebugLayer,
 };

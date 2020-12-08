@@ -19,7 +19,7 @@
                     TouchControllerDebugLayer,
                     MultitouchControllerDebugLayer,
                     emulateTouch,
-                    multitouchTransforms,
+                    multitouchTransformsOnElement,
                 } = window.TouchController;
                 const { Vector } = window.Xyzt;
 
@@ -79,7 +79,7 @@
                     if (!multitouch.element) return;
                     const rect = multitouch.element;
                     const sizeRatio = rect.size.y / rect.size.x;
-                    multitouchTransforms(multitouch).subscribe((transform) => {
+                    multitouchTransformsOnElement(multitouch).subscribe((transform) => {
                         multitouch.element.applyTransform(transform);
                     });
                 });

@@ -153,7 +153,7 @@
                     TouchController,
                     MultitouchController,
                     MultitouchControllerDebugLayer,
-                    multitouchTransforms,
+                    multitouchTransformsOnElement,
                 } = window.TouchController;
                 const { BoundingBox, applyTransformOnSvgElement } = window.Xyzt;
 
@@ -204,7 +204,7 @@
                 multitouchController.multitouches.subscribe((multitouch) => {
                     if (!multitouch.element) return;
 
-                    multitouchTransforms(multitouch).subscribe(
+                    multitouchTransformsOnElement(multitouch).subscribe(
                         (transform) => {
                             applyTransformOnSvgElement(transform, multitouch.element);
                         },

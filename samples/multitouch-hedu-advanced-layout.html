@@ -106,7 +106,7 @@
                     TouchController,
                     MultitouchController,
                     MultitouchControllerDebugLayer,
-                    multitouchTransforms,
+                    multitouchTransformsOnElement,
                 } = window.TouchController;
                 const { Transform, BoundingBox, applyTransformOnSvgElement } = window.Xyzt;
                 const touchController = new TouchController([], document.body); // TODO: document.body as default
@@ -127,7 +127,7 @@
                     if (!multitouch.element) return;
                     let draggingElement = multitouch.element;
 
-                    multitouchTransforms(multitouch).subscribe(
+                    multitouchTransformsOnElement(multitouch).subscribe(
                         (transform) => {
                             applyTransformOnSvgElement(transform, draggingElement);
                         },

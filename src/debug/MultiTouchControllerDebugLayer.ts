@@ -1,5 +1,5 @@
 import { MultitouchController } from '../multitouch/MultitouchController';
-import { multitouchTransforms } from '../multitouch/multitouchTransforms/multitouchTransforms';
+import { multitouchTransformsOnElement } from '../multitouch/multitouchTransforms/multitouchTransformsOnElement';
 import { Touch } from '../touch/Touch';
 import { _createDebugLayerCss, _CSS_PREFIX } from './createDebugLayerCss';
 
@@ -32,7 +32,7 @@ export class MultitouchControllerDebugLayer {
 
             logElement.appendChild(logMultitouchElement);
 
-            multitouchTransforms(multitouch).subscribe((transform) => {
+            multitouchTransformsOnElement(multitouch).subscribe((transform) => {
                 logMultitouchLastTransformElement.innerHTML = `
                         <table>
                             <tr>

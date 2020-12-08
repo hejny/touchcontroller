@@ -9,7 +9,7 @@ import { Scene } from './drawController/Scene';
 import { emulateTouch } from './emulate/emulateTouch';
 import { IEmulateTouchOptions, IEmulateTouchOptionsAdvanced } from './emulate/IEmulateTouchOptions';
 import { Awaitable } from './interfaces/Awaitable';
-import { IElement } from './interfaces/IElement';
+import { IElement, IElementListeners } from './interfaces/IElement';
 import { IEvent } from './interfaces/IEvent';
 import { IListener } from './interfaces/IListener';
 import { ITouchController } from './interfaces/ITouchController';
@@ -55,6 +55,7 @@ export {
     TouchController,
     ITouchController,
     IParticleOptions,
+    IElementListeners,
     createImageFromSrc,
     createCanvasFromSrc,
     multitouchTransforms,
@@ -66,5 +67,5 @@ export {
     createColoredCanvasFromSrc,
     IEmulateTouchOptionsAdvanced,
     getBoundingClientRectEnhanced,
-    MultitouchControllerDebugLayer,
+    MultitouchControllerDebugLayer
 };

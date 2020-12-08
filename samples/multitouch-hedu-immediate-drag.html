@@ -46,27 +46,18 @@
                     ...Array.from(document.querySelectorAll('svg > g')),
                 ];
 
-                const touchController = new TouchController(
-                    dragElements,
-                    document.body,
-                ); // TODO: document.body as default
+                const touchController = new TouchController(dragElements, document.body); // TODO: document.body as default
 
-                const multitouchController = new MultitouchController(
-                    touchController,
-                    (frame) => frame.element,
-                );
+                const multitouchController = new MultitouchController(touchController, (frame) => frame.element);
 
                 multitouchController.multitouches.subscribe((multitouch) => {
-                    if (typeof multitouch.element === 'undefined') return;
+                    if (!multitouch.element) return;
 
                     let draggingElement = multitouch.element;
 
                     multitouchTransforms(multitouch).subscribe(
                         (transform) => {
-                            applyTransformOnSvgElement(
-                                transform,
-                                draggingElement,
-                            );
+                            applyTransformOnSvgElement(transform, draggingElement);
                         },
                         () => {},
                         () => {

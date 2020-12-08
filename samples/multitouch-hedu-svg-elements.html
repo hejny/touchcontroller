@@ -9,25 +9,10 @@
         <canvas id="scene-background"></canvas>
 
         <div class="foreground">
-            <canvas
-                class="scene item"
-                style="position: absolute; top: 0; left: 0"
-                width="40"
-                height="40"
-            ></canvas>
-            <canvas
-                class="scene item"
-                style="position: absolute; top: 0; left: 0"
-                width="40"
-                height="40"
-            ></canvas>
+            <canvas class="scene item" style="position: absolute; top: 0; left: 0" width="40" height="40"></canvas>
+            <canvas class="scene item" style="position: absolute; top: 0; left: 0" width="40" height="40"></canvas>
 
-            <svg
-                data-playground='{"debug":true}'
-                style="overflow: visible"
-                width="500"
-                height="500"
-            >
+            <svg data-playground='{"debug":true}' style="overflow: visible" width="500" height="500">
                 <g
                     transform="translate(4,4)"
                     data-playground='{"amount": 1, "interactions": [{"type": "drag"}], "anchors":{"donors": [{"type": "trains", "position": {"x":-15,"y":0}}], "acceptors": [{"type": "trains", "position": {"x":20,"y":0}, "accepts": 1, "parent": true}]}}'
@@ -184,15 +169,11 @@
                 ctx.lineWidth = 10;
                 ctx.lineCap = 'round';
 
-                const touchController = new TouchController(
-                    dragElements,
-                    scene,
-                );
+                const touchController = new TouchController(dragElements, scene);
                 touchController.touches.subscribe((touch) => {
                     //console.log('touch',touch);
 
-                    const color =
-                        '#' + Math.floor(Math.random() * 16777215).toString(16);
+                    const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
                     let lastFrame = touch.firstFrame;
 
                     touch.frames.subscribe((frame) => {
@@ -209,31 +190,23 @@
                     });
                 });
 
-                const multitouchController = new MultitouchController(
-                    touchController,
-                    (frame) => frame.element,
-                );
+                const multitouchController = new MultitouchController(touchController, (frame) => frame.element);
 
-                multitouchController.hoveredElementsChanges.subscribe(
-                    ({current, previous}) => {
-                        if (current) {
-                            elementNew.style.border = '2px solid yellow';
-                        }
-                        if (previous) {
-                            elementOld.style.border = '2px solid black';
-                        }
-                    },
-                );
+                multitouchController.hoveredElementsChanges.subscribe(({ current, previous }) => {
+                    if (current) {
+                        elementNew.style.border = '2px solid yellow';
+                    }
+                    if (previous) {
+                        elementOld.style.border = '2px solid black';
+                    }
+                });
 
                 multitouchController.multitouches.subscribe((multitouch) => {
-                    if (typeof multitouch.element === 'undefined') return;
+                    if (!multitouch.element) return;
 
                     multitouchTransforms(multitouch).subscribe(
                         (transform) => {
-                            applyTransformOnSvgElement(
-                                transform,
-                                multitouch.element,
-                            );
+                            applyTransformOnSvgElement(transform, multitouch.element);
                         },
                         () => {},
                         () => {

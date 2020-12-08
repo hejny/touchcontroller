@@ -19,7 +19,7 @@
                     TouchControllerDebugLayer,
                     MultitouchControllerDebugLayer,
                     emulateTouch,
-                    multitouchTransforms
+                    multitouchTransforms,
                 } = window.TouchController;
                 const { Vector } = window.Xyzt;
 
@@ -61,67 +61,55 @@
                 render();
 
                 const touchController = new TouchController.fromCanvas(scene);
-                const multitouchController = new MultitouchController(
-                    touchController,
-                    (frame) =>
-                        rects.find((rect) => rect.intersects(frame.position)),
+                const multitouchController = new MultitouchController(touchController, (frame) =>
+                    rects.find((rect) => rect.intersects(frame.position)),
                 );
 
-                multitouchController.hoveredElementsChanges.subscribe(
-                    ({current, previous}) => {
-                        if (current) {
-                            //elementNew.transform.rotate.z += (Math.PI * 2) / 36 /2;
-                            current.options.hovered = true;
-                        }
-                        if (previous) {
-                            previous.options.hovered = false;
-                        }
-                    },
-                );
+                multitouchController.hoveredElementsChanges.subscribe(({ current, previous }) => {
+                    if (current) {
+                        //elementNew.transform.rotate.z += (Math.PI * 2) / 36 /2;
+                        current.options.hovered = true;
+                    }
+                    if (previous) {
+                        previous.options.hovered = false;
+                    }
+                });
 
                 multitouchController.multitouches.subscribe((multitouch) => {
-                    if (typeof multitouch.element === 'undefined') return;
+                    if (!multitouch.element) return;
                     const rect = multitouch.element;
                     const sizeRatio = rect.size.y / rect.size.x;
-                    multitouchTransforms(multitouch).subscribe(
-                        (transform) => {
-                            multitouch.element.applyTransform(transform);
-                        },
-                        () => {},
-                        () => {
-                            if (multitouch.empty) {
-                                rect.transform.rotation += (Math.PI * 2) / 36;
-                                
-                            }
-                        },
-                    );
+                    multitouchTransforms(multitouch).subscribe((transform) => {
+                        multitouch.element.applyTransform(transform);
+                    });
                 });
-                
 
                 new TouchControllerDebugLayer(touchController);
                 new MultitouchControllerDebugLayer(multitouchController);
 
                 /**/
-                emulateTouch(touchController,{
-                    position: {x: 150,y:50},
-                    
+                emulateTouch(touchController, {
+                    position: { x: 150, y: 50 },
                 });
                 /**/
-                emulateTouch(touchController,{
-                    position: {x: 250,y:350},
+                emulateTouch(touchController, {
+                    position: { x: 250, y: 350 },
                 });
                 /**/
-                emulateTouch(touchController,{
-                    frames:[{
-                        position: {x: 300,y:300},
-                    },{
-                        position: {x: 350,y:275},
-                    },{
-                        position: {x: 350,y:250},
-                    }],
+                emulateTouch(touchController, {
+                    frames: [
+                        {
+                            position: { x: 300, y: 300 },
+                        },
+                        {
+                            position: { x: 350, y: 275 },
+                        },
+                        {
+                            position: { x: 350, y: 250 },
+                        },
+                    ],
                 });
                 /**/
-
             })();
         </script>
     </body>

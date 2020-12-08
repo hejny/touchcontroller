@@ -106,49 +106,32 @@
                     MultitouchControllerDebugLayer,
                     multitouchTransforms,
                 } = window.TouchController;
-                const {
-                    BoundingBox,
-                    Transform,
-                    applyTransformOnSvgElement,
-                } = window.Xyzt;
+                const { BoundingBox, Transform, applyTransformOnSvgElement } = window.Xyzt;
 
                 const dragElements = [
                     ...Array.from(document.querySelectorAll('.item')),
                     ...Array.from(document.querySelectorAll('svg > g')),
                 ];
 
-                const touchController = new TouchController(
-                    dragElements,
-                    document.body,
-                ); // TODO: document.body as default
+                const touchController = new TouchController(dragElements, document.body); // TODO: document.body as default
 
-                const multitouchController = new MultitouchController(
-                    touchController,
-                    (frame) => frame.element,
-                );
+                const multitouchController = new MultitouchController(touchController, (frame) => frame.element);
 
                 multitouchController.multitouches.subscribe((multitouch) => {
-                    if (typeof multitouch.element === 'undefined') return;
+                    if (!multitouch.element) return;
 
                     let draggingElement = multitouch.element;
 
                     if (!multitouch.element.hasAttribute('data-clone')) {
-                        const draggingElement = multitouch.element.cloneNode(
-                            true,
-                        );
-                        multitouch.element.parentNode.appendChild(
-                            draggingElement,
-                        );
+                        const draggingElement = multitouch.element.cloneNode(true);
+                        multitouch.element.parentNode.appendChild(draggingElement);
                         touchController.addElement(draggingElement);
                         multitouch.element.setAttribute('data-clone', 'true');
                     }
 
                     multitouchTransforms(multitouch).subscribe(
                         (transform) => {
-                            applyTransformOnSvgElement(
-                                transform,
-                                draggingElement,
-                            );
+                            applyTransformOnSvgElement(transform, draggingElement);
                         },
                         () => {},
                         () => {

@@ -2,23 +2,18 @@ import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
 import * as uuid from 'uuid';
 import { forImmediate } from 'waitasecond';
-import { BoundingBox } from 'xyzt';
 import { Touch } from '../touch/Touch';
 
-
 let id = 0;
-export class Multitouch<TElement extends BoundingBox> {
+export class Multitouch<TElement> {
     public readonly id = id++;
     public readonly uuid = uuid.v4(); // TODO: Do we really need uuid
     public ongoingTouches: Touch[] = [];
     public readonly touches = new Subject<Touch>();
 
-    constructor(
-        public element?: TElement,
-    ) {
-    }
+    constructor(public element?: TElement) {}
 
-    public toString():string {
+    public toString(): string {
         return `Multitouch ${this.id}`;
     }
 
@@ -28,9 +23,7 @@ export class Multitouch<TElement extends BoundingBox> {
 
         touch.frames.subscribe({
             complete: () => {
-                this.ongoingTouches = this.ongoingTouches.filter(
-                    (touch2) => touch2 !== touch,
-                );
+                this.ongoingTouches = this.ongoingTouches.filter((touch2) => touch2 !== touch);
                 if (this.ongoingTouches.length === 0) {
                     this.touches.complete();
                 }

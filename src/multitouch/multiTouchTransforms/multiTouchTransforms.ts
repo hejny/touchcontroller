@@ -4,9 +4,7 @@ import { Multitouch } from '../Multitouch';
 import { _dragging } from './dragging';
 import { _twoFingerring } from './twoFingerring';
 
-export function multitouchTransforms<TElement extends BoundingBox>(
-    multitouch: Multitouch<TElement>,
-): Observable<Transform> {
+export function multitouchTransforms(multitouch: Multitouch<BoundingBox>): Observable<Transform> {
     return new Observable((observer) => {
         multitouch.ongoingTouchesChanges.subscribe(
             (touches) => {

@@ -2,9 +2,7 @@ import { IElement } from '../interfaces/IElement';
 
 // TODO: Maybe better function name
 
-export function getBoundingClientRectEnhanced(
-    element: IElement,
-): ClientRect | DOMRect {
+export function getBoundingClientRectEnhanced(element: IElement): DOMRect {
     if (element instanceof Document) {
         // TODO: Is this solution good?
         return getBoundingClientRectEnhanced(element.body);

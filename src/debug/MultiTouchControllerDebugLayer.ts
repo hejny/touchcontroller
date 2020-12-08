@@ -3,12 +3,11 @@ import { multitouchTransforms } from '../multitouch/multitouchTransforms/multito
 import { Touch } from '../touch/Touch';
 import { _createDebugLayerCss, _CSS_PREFIX } from './createDebugLayerCss';
 
-
 export class MultitouchControllerDebugLayer {
     constructor(multitouchController: MultitouchController<any>) {
         _createDebugLayerCss();
 
-        const touchElements = new WeakMap<Touch,HTMLDivElement>();
+        const touchElements = new WeakMap<Touch, HTMLDivElement>();
 
         const logElement = document.createElement('div');
         logElement.classList.add(`${_CSS_PREFIX}main`);
@@ -55,16 +54,15 @@ export class MultitouchControllerDebugLayer {
             multitouch.touches.subscribe({
                 next: (touch) => {
                     logMultitouchElement.querySelector('.touches')!.appendChild(touchElements.get(touch)!);
-                }
+                },
             });
         });
 
         multitouchController.touchController.touches.subscribe({
             next: (touch) => {
-
-                console.log({touch});
+                console.log({ touch });
                 const logTouchElement = document.createElement('div');
-                touchElements.set(touch,logTouchElement);
+                touchElements.set(touch, logTouchElement);
 
                 logTouchElement.innerHTML = `
                     <div class="${_CSS_PREFIX}touch">
@@ -84,9 +82,7 @@ export class MultitouchControllerDebugLayer {
 
                 touch.frames.subscribe({
                     next: (frame) => {
-
-                        console.log({frame});
-
+                        console.log({ frame });
 
                         logTouchFramesCountElement.innerText = (framesCounter++).toString();
 
@@ -150,15 +146,7 @@ export class MultitouchControllerDebugLayer {
             },
             complete: () => {
                 //logMultitouchElement.remove();
-            }}
-        );
-
-
-
-
-
-
+            },
+        });
     }
 }
-
-

@@ -41,9 +41,7 @@ export class TouchController implements ITouchController {
         if (setListeners) {
             this.addListener(new MouseListener(this.eventManager));
 
-            this.addListener(
-                new MouseListener(this.eventManager, [1, 2], true),
-            );
+            this.addListener(new MouseListener(this.eventManager, [1, 2], true));
 
             this.addListener(new TouchListener(this.eventManager));
         }
@@ -64,36 +62,25 @@ export class TouchController implements ITouchController {
         }
     }
 
-    public addInitialElement(
-        element: IElement,
-        newElementCreator: (event: Event) => Awaitable<IElement>,
-    ): void {
+    public addInitialElement(element: IElement, newElementCreator: (event: Event) => Awaitable<IElement>): void {
         for (const listener of this.listeners) {
             // TODO: Should be here updateEventListener or addEventListener
-            this.eventManager.addEventListener(
-                element,
-                listener.startEventType,
-                async (event) => {
-                    if (!listener.acceptsEvent(event)) {
-                        return;
-                    }
+            this.eventManager.addEventListener(element, listener.startEventType, async (event) => {
+                if (!listener.acceptsEvent(event)) {
+                    return;
+                }
 
-                    const newElement = await newElementCreator(event);
-                    // this.addElement(newElement);
+                const newElement = await newElementCreator(event);
+                // this.addElement(newElement);
 
-                    if (
-                        !this.elements.some(
-                            (elementx) => elementx === newElement,
-                        )
-                    ) {
-                        throw new Error(
-                            'When using touchController.addInitialElement you must use touchController.addElement inside the newElementCreator callback.',
-                        );
-                    }
+                if (!this.elements.some((elementx) => elementx === newElement)) {
+                    throw new Error(
+                        'When using touchController.addInitialElement you must use touchController.addElement inside the newElementCreator callback.',
+                    );
+                }
 
-                    listener.startFromExternalEvent(newElement, event as any);
-                },
-            );
+                listener.startFromExternalEvent(newElement, event as any);
+            });
         }
     }
 

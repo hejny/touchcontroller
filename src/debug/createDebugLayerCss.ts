@@ -1,8 +1,6 @@
-
 export const _CSS_PREFIX = 'touchcontroller-debug-layer-';
 
-export function _createDebugLayerCss():void {
-
+export function _createDebugLayerCss(): void {
     // TODO: Create only once
 
     const debugLayerCssElement = document.createElement('style');
@@ -51,12 +49,11 @@ export function _createDebugLayerCss():void {
 
     .${_CSS_PREFIX}touch-show{
         pointer-events: none;
-        position: absolute;
         width: 30px;
         height: 30px;
         border: 2px solid #cc3377;
         border-radius: 999px;
-        /*transform: translate(-15px, -15px);*/
+        transform: translate(-15px, -15px);
     }
 
 

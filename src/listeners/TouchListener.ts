@@ -131,8 +131,8 @@ export class TouchListener implements IListener {
                 element,
                 anchorElement,
                 Vector.fromArray(
-                    event.clientX - boundingRect.left,
-                    event.clientY - boundingRect.top,
+                    event.clientX - boundingRect.x,
+                    event.clientY - boundingRect.y,
                 ),
                 performance.now(),
             );

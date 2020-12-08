@@ -13,6 +13,10 @@ export class Touch {
     public readonly firstFrame: Promise<TouchFrame>;
 
 
+    /**
+     * 
+     * @param anchorElement Positions of touch are relative to anchorElement
+     */
     constructor(
         // TODO: options
         public readonly type: 'TOUCH' | 'MOUSE' /* TODO: | 'EMULATED' */ , // TODO: maybe as second optional param and extendable

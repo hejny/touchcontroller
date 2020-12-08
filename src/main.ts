@@ -17,7 +17,7 @@ import { MouseListener } from './listeners/MouseListener';
 import { TouchListener } from './listeners/TouchListener';
 import { Multitouch } from './multitouch/Multitouch';
 import { MultitouchController } from './multitouch/MultitouchController';
-import { multitouchTransforms } from './multitouch/multiTouchTransforms/multiTouchTransforms';
+import { multitouchTransforms } from './multitouch/multitouchTransforms/multitouchTransforms';
 import { Touch } from './touch/Touch';
 import { TouchController } from './touch/TouchController';
 import { TouchFrame } from './touch/TouchFrame';
@@ -66,5 +66,5 @@ export {
     createColoredCanvasFromSrc,
     IEmulateTouchOptionsAdvanced,
     getBoundingClientRectEnhanced,
-    MultitouchControllerDebugLayer
+    MultitouchControllerDebugLayer,
 };

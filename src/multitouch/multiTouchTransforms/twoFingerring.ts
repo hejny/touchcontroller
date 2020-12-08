@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/internal/Observable';
 import { Transform, Vector } from 'xyzt';
-
 import { Touch } from '../../main';
+
 
 export function _twoFingerring(elementCenter: () => Vector, touch1: Touch, touch2: Touch): Observable<Transform> {
     // Note: I can not figure out better name

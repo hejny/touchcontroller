@@ -79,9 +79,11 @@
                     if (!multitouch.element) return;
                     const rect = multitouch.element;
                     const sizeRatio = rect.size.y / rect.size.x;
-                    multitouchTransformsOnElement({ multitouch }).subscribe((transform) => {
-                        multitouch.element.applyTransform(transform);
-                    });
+                    multitouchTransformsOnElement({ multitouch/*, pick: ['translate', 'scale'*/] }).subscribe(
+                        (transform) => {
+                            multitouch.element.applyTransform(transform);
+                        },
+                    );
                 });
 
                 new TouchControllerDebugLayer(touchController);

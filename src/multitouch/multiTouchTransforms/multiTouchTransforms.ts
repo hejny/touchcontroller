@@ -1,29 +1,36 @@
 import { Observable } from 'rxjs/internal/Observable';
-import { BoundingBox, Transform, Vector } from 'xyzt';
+import { BoundingBox, ITransform, Transform, Vector } from 'xyzt';
 import { Multitouch } from '../Multitouch';
 import { _dragging } from './dragging';
 import { _twoFingerring } from './twoFingerring';
 
-interface IMultitouchTransformsOptions {
+export interface IMultitouchTransformsOptions {
     multitouch: Multitouch<BoundingBox>;
     getElementCenter: () => Vector;
+    pick?: Array<keyof ITransform>;
 }
 
 export function multitouchTransforms({
     multitouch,
     getElementCenter,
+    pick,
 }: IMultitouchTransformsOptions): Observable<Transform> {
+    pick = pick || ['translate', 'scale', 'rotate'];
     return new Observable((observer) => {
         multitouch.ongoingTouchesChanges.subscribe(
             (touches) => {
-                // TODO: free the memory
+                // TODO: !! free the memory
                 // TODO: Debounce
                 // TODO: What about 3 and more fingers
 
                 if (touches.length === 1) {
-                    _dragging(touches[0]).subscribe(observer);
+                    if (pick!.includes('translate')) {
+                        _dragging(touches[0]).subscribe(observer);
+                    }
                 } else if (touches.length > 1) {
-                    _twoFingerring(getElementCenter, touches[0], touches[1]).subscribe(observer);
+                    _twoFingerring({ getElementCenter, touch1: touches[0], touch2: touches[1], pick: pick! }).subscribe(
+                        observer,
+                    );
                 }
             },
             // TODO: Maybe error and complete callbacks not nessesary

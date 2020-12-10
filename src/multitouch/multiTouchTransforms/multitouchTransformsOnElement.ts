@@ -1,16 +1,12 @@
 import { Observable } from 'rxjs/internal/Observable';
-import { BoundingBox, Transform } from 'xyzt';
-import { Multitouch } from '../Multitouch';
-import { multitouchTransforms } from './multitouchTransforms';
+import { Transform } from 'xyzt';
 
-interface IMultitouchTransformsOnElementOptions {
-    multitouch: Multitouch<BoundingBox>;
-}
+import { IMultitouchTransformsOptions, multitouchTransforms } from './multitouchTransforms';
 
-export function multitouchTransformsOnElement({
-    multitouch,
-}: IMultitouchTransformsOnElementOptions): Observable<Transform> {
-    return multitouch.element
-        ? multitouchTransforms({ multitouch, getElementCenter: () => multitouch.element!.center })
+type IMultitouchTransformsOnElementOptions = Omit<IMultitouchTransformsOptions, 'getElementCenter'>;
+
+export function multitouchTransformsOnElement(options: IMultitouchTransformsOnElementOptions): Observable<Transform> {
+    return options.multitouch.element
+        ? multitouchTransforms({ ...options, getElementCenter: () => options.multitouch.element!.center })
         : new Observable();
 }

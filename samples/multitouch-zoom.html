@@ -8,6 +8,26 @@
     <body>
         <script src="../dist/main.dev.browser.js"></script>
         <script src="/node_modules/xyzt/dist/main.browser.js"></script>
+        <div class="board-container"><div id="board"></div></div>
+        <style>
+            .board-container {
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                overflow: hidden;
+            }
+            #board {
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+            }
+        </style>
         <script>
             (() => {
                 const {
@@ -21,6 +41,20 @@
                 } = window.TouchController;
                 const { Vector, Transform, transformToStyleCss } = window.Xyzt;
 
+                const boardElement = document.getElementById('board');
+
+                //-----------------
+                // TODO: Maybe window size as exported helper from TC
+                let windowSize = getWindowSize();
+                function getWindowSize() {
+                    return Vector.fromObject(window, ['innerWidth', 'innerHeight']);
+                }
+                window.addEventListener('resize', () => {
+                    this.windowSize = getWindowSize();
+                    console.log(`Window resized to ${this.windowSize}.`);
+                });
+                //-----------------
+
                 let transformGlobal = Transform.fromObject({
                     // translate: { x: -300, y: -200 },
                     // scale: 1.3,
@@ -31,7 +65,7 @@
                     {
                         // TODO: transform: Transform.translate(new Vector(100, 100)),
                         innerHTML: `
-                        <img  style="position: absolute" src="https://upload.wikimedia.org/wikipedia/commons/7/79/Topographic_map_example.png" />
+                        <img  style="position: absolute; top:-200px; left:-200px" src="https://upload.wikimedia.org/wikipedia/commons/7/79/Topographic_map_example.png" />
                        `,
                     },
                     {
@@ -55,33 +89,28 @@
                 ];
 
                 function render() {
+                    const transformGlobalCentered = transformGlobal.apply(Transform.translate(windowSize.half()));
+
                     for (const art of arts) {
                         if (!art.artElement) {
-                            //const artElementWrapper = document.createElement('div');
                             const artElement = document.createElement('div');
                             artElement.innerHTML = art.innerHTML;
                             art.artElement = artElement;
-                            //artElementWrapper.style.position = `absolute`;
-                            //artElementWrapper.appendChild(artElement);
-                            //document.body.appendChild(artElementWrapper);
-                            document.body.appendChild(artElement);
+                            boardElement.appendChild(artElement);
                         }
 
-                        //art.artElement.style.position = `absolute`;
-                        art.artElement.style.transformOrigin = `center center`;
+                        art.artElement.style.position = `absolute`;
+                        //art.artElement.style.transformOrigin = `center center`;
                         art.artElement.style.transform = transformToStyleCss(
-                            transformGlobal /* TODO: merge art.transform*/,
+                            transformGlobalCentered /* TODO: merge art.transform*/,
                         );
                     }
                     requestAnimationFrame(render);
                 }
                 render();
 
-                const touchController = new TouchController(
-                    // !!! Options
-                    [document],
-                    document.body,
-                );
+                // TODO: !!! TouchController.fromElement
+                const touchController = TouchController.fromCanvas(boardElement);
                 const multitouchController = new MultitouchController(
                     // !!! Options
                     touchController,
@@ -102,7 +131,11 @@
                     multitouchTransforms({
                         multitouch,
                         //pick: ['translate', 'scale'],
-                        getElementCenter: () => transformGlobal.translate,
+                        getElementCenter: () =>
+                            transformGlobal.translate.add(
+                                //this.plugin.appState.windowSize.scale(0.6666),
+                                windowSize.half(),
+                            ),
                     }).subscribe((transform) => {
                         // console.log({ transform });
                         transformGlobal = transformGlobal.apply(transform);
@@ -110,11 +143,11 @@
                 });
 
                 new TouchControllerDebugLayer(touchController);
-                new MultitouchControllerDebugLayer(multitouchController);
+                // new MultitouchControllerDebugLayer(multitouchController);
 
                 /**/
                 emulateTouch(touchController, {
-                    position: { x: 0, y: 0 },
+                    position: windowSize.half(),
                 });
                 /**/
             })();

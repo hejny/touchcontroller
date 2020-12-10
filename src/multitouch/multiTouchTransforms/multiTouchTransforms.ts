@@ -4,10 +4,15 @@ import { Multitouch } from '../Multitouch';
 import { _dragging } from './dragging';
 import { _twoFingerring } from './twoFingerring';
 
-export function multitouchTransforms(
-    multitouch: Multitouch<BoundingBox>,
-    elementCenter: () => Vector,
-): Observable<Transform> {
+interface IMultitouchTransformsOptions {
+    multitouch: Multitouch<BoundingBox>;
+    getElementCenter: () => Vector;
+}
+
+export function multitouchTransforms({
+    multitouch,
+    getElementCenter,
+}: IMultitouchTransformsOptions): Observable<Transform> {
     return new Observable((observer) => {
         multitouch.ongoingTouchesChanges.subscribe(
             (touches) => {
@@ -18,7 +23,7 @@ export function multitouchTransforms(
                 if (touches.length === 1) {
                     _dragging(touches[0]).subscribe(observer);
                 } else if (touches.length > 1) {
-                    _twoFingerring(elementCenter, touches[0], touches[1]).subscribe(observer);
+                    _twoFingerring(getElementCenter, touches[0], touches[1]).subscribe(observer);
                 }
             },
             // TODO: Maybe error and complete callbacks not nessesary

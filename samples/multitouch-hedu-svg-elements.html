@@ -204,7 +204,7 @@
                 multitouchController.multitouches.subscribe((multitouch) => {
                     if (!multitouch.element) return;
 
-                    multitouchTransformsOnElement(multitouch).subscribe(
+                    multitouchTransformsOnElement({multitouch}).subscribe(
                         (transform) => {
                             applyTransformOnSvgElement(transform, multitouch.element);
                         },

@@ -32,7 +32,7 @@ export class MultitouchControllerDebugLayer {
 
             logElement.appendChild(logMultitouchElement);
 
-            multitouchTransformsOnElement(multitouch).subscribe((transform) => {
+            multitouchTransformsOnElement({ multitouch }).subscribe((transform) => {
                 logMultitouchLastTransformElement.innerHTML = `
                         <table>
                             <tr>

@@ -3,6 +3,14 @@ import { BoundingBox, Transform } from 'xyzt';
 import { Multitouch } from '../Multitouch';
 import { multitouchTransforms } from './multitouchTransforms';
 
-export function multitouchTransformsOnElement(multitouch: Multitouch<BoundingBox>): Observable<Transform> {
-    return multitouch.element ? multitouchTransforms(multitouch, () => multitouch.element!.center) : new Observable();
+interface IMultitouchTransformsOnElementOptions {
+    multitouch: Multitouch<BoundingBox>;
+}
+
+export function multitouchTransformsOnElement({
+    multitouch,
+}: IMultitouchTransformsOnElementOptions): Observable<Transform> {
+    return multitouch.element
+        ? multitouchTransforms({ multitouch, getElementCenter: () => multitouch.element!.center })
+        : new Observable();
 }

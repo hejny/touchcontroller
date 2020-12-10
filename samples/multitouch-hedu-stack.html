@@ -129,7 +129,7 @@
                         multitouch.element.setAttribute('data-clone', 'true');
                     }
 
-                    multitouchTransformsOnElement(multitouch).subscribe(
+                    multitouchTransformsOnElement({ multitouch }).subscribe(
                         (transform) => {
                             applyTransformOnSvgElement(transform, draggingElement);
                         },

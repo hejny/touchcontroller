@@ -55,7 +55,7 @@
 
                     let draggingElement = multitouch.element;
 
-                    multitouchTransformsOnElement(multitouch).subscribe(
+                    multitouchTransformsOnElement({ multitouch }).subscribe(
                         (transform) => {
                             applyTransformOnSvgElement(transform, draggingElement);
                         },

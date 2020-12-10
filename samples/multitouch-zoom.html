@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Sample of TC (ES6)</title>
+        <link rel="stylesheet" type="text/css" href="./assets/common.css" />
+    </head>
+    <body>
+        <script src="../dist/main.dev.browser.js"></script>
+        <script src="/node_modules/xyzt/dist/main.browser.js"></script>
+        <script>
+            (() => {
+                const {
+                    TouchController,
+                    MultitouchController,
+                    CanvasRectangle,
+                    TouchControllerDebugLayer,
+                    MultitouchControllerDebugLayer,
+                    emulateTouch,
+                    multitouchTransforms,
+                } = window.TouchController;
+                const { Vector, Transform, transformToStyleCss } = window.Xyzt;
+
+                let transformGlobal = Transform.fromObject({
+                    // translate: { x: -300, y: -200 },
+                    // scale: 1.3,
+                    // rotate: Math.PI / 18,
+                });
+
+                const arts = [
+                    {
+                        // TODO: transform: Transform.translate(new Vector(100, 100)),
+                        innerHTML: `
+                        <img  style="position: absolute" src="https://upload.wikimedia.org/wikipedia/commons/7/79/Topographic_map_example.png" />
+                       `,
+                    },
+                    {
+                        // TODO: transform: Transform.translate(new Vector(100, 100)),
+                        innerHTML: `
+                       <h1 style="position: absolute; border: 2px dashed #227799">Foo</h1>
+                       `,
+                    },
+                    {
+                        // TODO: transform: Transform.translate(new Vector(100, 100)),
+                        innerHTML: `
+                       <h2 style="position: absolute; top:100px; left:100px;border: 2px dashed #227799">Bar</h2>
+                       `,
+                    },
+                    {
+                        // TODO: transform: Transform.translate(new Vector(100, 100)),
+                        innerHTML: `
+                       <div style="position: absolute; width:100px; height:100px;border: 2px dashed #227799"></div>
+                       `,
+                    },
+                ];
+
+                function render() {
+                    for (const art of arts) {
+                        if (!art.artElement) {
+                            //const artElementWrapper = document.createElement('div');
+                            const artElement = document.createElement('div');
+                            artElement.innerHTML = art.innerHTML;
+                            art.artElement = artElement;
+                            //artElementWrapper.style.position = `absolute`;
+                            //artElementWrapper.appendChild(artElement);
+                            //document.body.appendChild(artElementWrapper);
+                            document.body.appendChild(artElement);
+                        }
+
+                        //art.artElement.style.position = `absolute`;
+                        art.artElement.style.transformOrigin = `center center`;
+                        art.artElement.style.transform = transformToStyleCss(
+                            transformGlobal /* TODO: merge art.transform*/,
+                        );
+                    }
+                    requestAnimationFrame(render);
+                }
+                render();
+
+                const touchController = new TouchController(
+                    // !!! Options
+                    [document],
+                    document.body,
+                );
+                const multitouchController = new MultitouchController(
+                    // !!! Options
+                    touchController,
+                    () => undefined,
+                );
+
+                multitouchController.hoveredElementsChanges.subscribe(({ current, previous }) => {
+                    if (current) {
+                        //elementNew.transform.rotate.z += (Math.PI * 2) / 36 /2;
+                        current.options.hovered = true;
+                    }
+                    if (previous) {
+                        previous.options.hovered = false;
+                    }
+                });
+
+                multitouchController.multitouches.subscribe((multitouch) => {
+                    multitouchTransforms({
+                        multitouch,
+                        //pick: ['translate', 'scale'],
+                        getElementCenter: () => transformGlobal.translate,
+                    }).subscribe((transform) => {
+                        // console.log({ transform });
+                        transformGlobal = transformGlobal.apply(transform);
+                    });
+                });
+
+                new TouchControllerDebugLayer(touchController);
+                new MultitouchControllerDebugLayer(multitouchController);
+
+                /**/
+                emulateTouch(touchController, {
+                    position: { x: 0, y: 0 },
+                });
+                /**/
+            })();
+        </script>
+    </body>
+</html>

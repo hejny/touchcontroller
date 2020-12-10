@@ -8,6 +8,7 @@ export interface IMultitouchTransformsOptions {
     multitouch: Multitouch<BoundingBox>;
     getElementCenter: () => Vector;
     pick?: Array<keyof ITransform>;
+    // TODO: Prevent extremes
 }
 
 export function multitouchTransforms({

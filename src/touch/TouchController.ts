@@ -33,6 +33,7 @@ export class TouchController implements ITouchController {
     private listeners: IListener[] = [];
 
     constructor(
+        // TODO: document.body vs document
         public readonly elements: IElement[], // TODO: syntax sugar if set only one element
         public readonly anchorElement: HTMLElement,
         setListeners = true,

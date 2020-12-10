@@ -82,7 +82,7 @@ export class MultitouchControllerDebugLayer {
 
                 touch.frames.subscribe({
                     next: (frame) => {
-                        console.log({ frame });
+                        // console.log({ frame });
 
                         logTouchFramesCountElement.innerText = (framesCounter++).toString();
 

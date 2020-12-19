@@ -1,10 +1,13 @@
 import { Observable } from 'rxjs/internal/Observable';
 import { BoundingBox, ITransform, Transform, Vector } from 'xyzt';
+import { TouchController } from '../../main';
 import { Multitouch } from '../Multitouch';
 import { _dragging } from './dragging';
 import { _twoFingerring } from './twoFingerring';
 
 export interface IMultitouchTransformsOptions {
+    // TODO: !!!
+    touchController: TouchController;
     multitouch: Multitouch<BoundingBox>;
     getElementCenter: () => Vector;
     pick?: Array<keyof ITransform>;
@@ -12,6 +15,7 @@ export interface IMultitouchTransformsOptions {
 }
 
 export function multitouchTransforms({
+    touchController,
     multitouch,
     getElementCenter,
     pick,
@@ -29,9 +33,13 @@ export function multitouchTransforms({
                         _dragging(touches[0]).subscribe(observer);
                     }
                 } else if (touches.length > 1) {
-                    _twoFingerring({ getElementCenter, touch1: touches[0], touch2: touches[1], pick: pick! }).subscribe(
-                        observer,
-                    );
+                    _twoFingerring({
+                        touchController,
+                        getElementCenter,
+                        touch1: touches[0],
+                        touch2: touches[1],
+                        pick: pick!,
+                    }).subscribe(observer);
                 }
             },
             // TODO: Maybe error and complete callbacks not nessesary

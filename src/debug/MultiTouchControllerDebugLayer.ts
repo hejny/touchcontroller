@@ -32,8 +32,9 @@ export class MultitouchControllerDebugLayer {
 
             logElement.appendChild(logMultitouchElement);
 
-            multitouchTransformsOnElement({ multitouch }).subscribe((transform) => {
-                logMultitouchLastTransformElement.innerHTML = `
+            multitouchTransformsOnElement({ multitouch, touchController: null as any /* !!! */ }).subscribe(
+                (transform) => {
+                    logMultitouchLastTransformElement.innerHTML = `
                         <table>
                             <tr>
                                 <th>Translate:</th>
@@ -49,7 +50,8 @@ export class MultitouchControllerDebugLayer {
                             </tr>
                         </table>
                     `;
-            });
+                },
+            );
 
             multitouch.touches.subscribe({
                 next: (touch) => {

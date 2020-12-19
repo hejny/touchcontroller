@@ -129,6 +129,7 @@
 
                 multitouchController.multitouches.subscribe((multitouch) => {
                     multitouchTransforms({
+                        touchController,
                         multitouch,
                         //pick: ['translate', 'scale'],
                         getElementCenter: () =>
@@ -147,7 +148,7 @@
 
                 /**/
                 emulateTouch(touchController, {
-                    position: windowSize.half(),
+                    position: windowSize.scale(0.9),
                 });
                 /**/
             })();

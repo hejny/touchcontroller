@@ -68,10 +68,10 @@
                 render();
 
                 const touchController = new TouchController.fromCanvas(scene);
-                const multitouchController = new MultitouchController(
-                    touchController, // !!! .applyTransform(() => globalTransform),
-                    (frame) => rects.find((rect) => rect.intersects(frame.position)) || globalViewport,
-                );
+                const multitouchController = new MultitouchController({
+                    touchController, // !!! .applyTransform(() => globalTransform)
+                    elementBinder: (frame) => rects.find((rect) => rect.intersects(frame.position)) || globalViewport,
+                });
 
                 multitouchController.hoveredElementsChanges.subscribe(({ current, previous }) => {
                     console.log(current, previous);

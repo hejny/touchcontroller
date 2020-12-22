@@ -190,7 +190,10 @@
                     });
                 });
 
-                const multitouchController = new MultitouchController(touchController, (frame) => frame.element);
+                const multitouchController = new MultitouchController({
+                    touchController,
+                    elementBinder: (frame) => frame.element,
+                });
 
                 multitouchController.hoveredElementsChanges.subscribe(({ current, previous }) => {
                     if (current) {

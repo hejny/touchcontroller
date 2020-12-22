@@ -111,11 +111,9 @@
 
                 // TODO: !!! TouchController.fromElement
                 const touchController = TouchController.fromCanvas(boardElement);
-                const multitouchController = new MultitouchController(
-                    // !!! Options
+                const multitouchController = new MultitouchController({
                     touchController,
-                    () => undefined,
-                );
+                });
 
                 multitouchController.hoveredElementsChanges.subscribe(({ current, previous }) => {
                     if (current) {

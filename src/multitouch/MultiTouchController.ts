@@ -4,25 +4,38 @@ import { BoundingBox } from 'xyzt';
 import { Awaitable } from '../interfaces/Awaitable';
 import { ITouchController } from '../interfaces/ITouchController';
 import { TouchFrame } from '../touch/TouchFrame';
+import { WithOptional } from '../utils/WithOptional';
 import { Multitouch } from './Multitouch';
 
+interface IMultitouchControllerOptions<TElement extends BoundingBox> {
+    touchController: ITouchController;
+    elementBinder: (frame: TouchFrame) => Awaitable<TElement | undefined>;
+}
+
+const multitouchControllerOptionsDefault = {
+    elementBinder: () => undefined,
+};
 
 export class MultitouchController<TElement extends BoundingBox> {
-    
-    public readonly multitouches = new Subject<
-        Multitouch<TElement>
-    >();
+    public readonly touchController: ITouchController;
+    public readonly multitouches = new Subject<Multitouch<TElement>>();
     private ongoingMultitouches: Array<Multitouch<TElement>> = [];
+    private readonly elementBinder: (frame: TouchFrame) => Awaitable<TElement | undefined>;
 
     constructor(
-        public readonly touchController: ITouchController,
-        private readonly elementBinder: (frame: TouchFrame) => Awaitable<TElement | undefined>,
+        options: WithOptional<IMultitouchControllerOptions<TElement>, keyof typeof multitouchControllerOptionsDefault>,
     ) {
+        const { touchController, elementBinder } = {
+            ...multitouchControllerOptionsDefault,
+            ...options,
+        };
+
+        this.touchController = touchController;
+        this.elementBinder = elementBinder;
         this.watchNewTouchesAndPassThemToMultitouches();
     }
 
-
-    private watchNewTouchesAndPassThemToMultitouches(){
+    private watchNewTouchesAndPassThemToMultitouches() {
         this.touchController.touches.subscribe(async (touch) => {
             const element = await this.elementBinder(await touch.firstFrame);
 
@@ -30,7 +43,7 @@ export class MultitouchController<TElement extends BoundingBox> {
                 (ongoingMultitouch) => ongoingMultitouch.element === element,
             );
 
-            if(!multitouch) {
+            if (!multitouch) {
                 multitouch = new Multitouch(element);
                 this.ongoingMultitouches.push(multitouch);
                 this.multitouches.next(multitouch);
@@ -43,11 +56,10 @@ export class MultitouchController<TElement extends BoundingBox> {
                     },
                 });
             }
-            
+
             // !!! await forTime(100);
 
             multitouch.addTouch(touch);
-
         });
     }
 
@@ -59,20 +71,16 @@ export class MultitouchController<TElement extends BoundingBox> {
         });
     }
 
-    public get hoveredElementsChanges(): Observable<
-        {previous?: TElement, current?:TElement}
-        > {
-        return new Observable(
-            (observer) => {
-                let previous: TElement | undefined;
-                this.hoveredElements.subscribe((current) => {
-                    if (previous !== current) {
-                        observer.next({current, previous});
-                        previous = current;
-                    }
-                });
-            },
-        );
+    public get hoveredElementsChanges(): Observable<{ previous?: TElement; current?: TElement }> {
+        return new Observable((observer) => {
+            let previous: TElement | undefined;
+            this.hoveredElements.subscribe((current) => {
+                if (previous !== current) {
+                    observer.next({ current, previous });
+                    previous = current;
+                }
+            });
+        });
     }
 
     // TODO: method for dispose

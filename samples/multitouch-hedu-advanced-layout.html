@@ -121,8 +121,10 @@
                     dragElement.addEventListener('touchstart', pointerDown);
                 }
 
-                const multitouchController = new MultitouchController(touchController, (frame) => frame.element);
-
+                const multitouchController = new MultitouchController({
+                    touchController,
+                    elementBinder: (frame) => frame.element,
+                });
                 multitouchController.multitouches.subscribe((multitouch) => {
                     if (!multitouch.element) return;
                     let draggingElement = multitouch.element;

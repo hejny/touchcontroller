@@ -22,12 +22,12 @@
                 ctx.lineCap = 'round';
 
                 const touchController = new TouchController.fromCanvas(scene);
-                const multitouchController = new MultitouchController(
+                const multitouchController = new MultitouchController({
                     touchController,
-                    (frame) => {
+                    elementBinder: (frame) => {
                         return Math.round(frame.position.x / 100);
                     },
-                );
+                });
 
                 new MultitouchControllerDebugLayer(multitouchController);
             })();

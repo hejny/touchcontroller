@@ -3,7 +3,8 @@
     "terminals": [
         {
             "name": "lint-watch",
-            "command": "npm run lint-watch"
+            "command": "npm run lint-watch",
+            "onlySingle": true
         },
         {
             "name": "develop-build",
@@ -11,7 +12,8 @@
         },
         {
             "name": "test-watch",
-            "command": "npm run test-watch"
+            "command": "npm run test-watch",
+            "onlySingle": true
         },
         {
             "name": "develop-samples-server",

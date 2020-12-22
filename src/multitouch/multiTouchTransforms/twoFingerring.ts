@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/internal/Observable';
 import { ITransform, Transform, Vector } from 'xyzt';
-
 import { Touch, TouchController } from '../../main';
+
 
 interface ITwoFingerringOptions {
     // TODO: !!!

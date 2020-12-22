@@ -19,7 +19,7 @@ import { Multitouch } from './multitouch/Multitouch';
 import { MultitouchController } from './multitouch/MultitouchController';
 import {
     IMultitouchTransformsOptions,
-    multitouchTransforms,
+    multitouchTransforms
 } from './multitouch/multitouchTransforms/multitouchTransforms';
 import { multitouchTransformsOnElement } from './multitouch/multitouchTransforms/multitouchTransformsOnElement';
 import { Touch } from './touch/Touch';

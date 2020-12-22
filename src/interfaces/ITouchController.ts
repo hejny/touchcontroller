@@ -1,5 +1,4 @@
 import { Observable } from 'rxjs/internal/Observable';
-import { ITransform } from 'xyzt';
 import { Touch } from '../touch/Touch';
 import { TouchFrame } from '../touch/TouchFrame';
 

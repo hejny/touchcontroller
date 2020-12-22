@@ -15,13 +15,10 @@ import { IListener } from './interfaces/IListener';
 import { ITouchController } from './interfaces/ITouchController';
 import { MouseListener } from './listeners/MouseListener';
 import { TouchListener } from './listeners/TouchListener';
-import { Multitouch } from './multitouch/Multitouch';
-import { MultitouchController } from './multitouch/MultitouchController';
-import {
-    IMultitouchTransformsOptions,
-    multitouchTransforms
-} from './multitouch/multitouchTransforms/multitouchTransforms';
-import { multitouchTransformsOnElement } from './multitouch/multitouchTransforms/multitouchTransformsOnElement';
+import { Multitouch } from './multitouch/MultiTouch';
+import { MultitouchController } from './multitouch/MultiTouchController';
+import { IMultitouchTransformsOptions, multitouchTransforms } from './multitouch/multiTouchTransforms/multiTouchTransforms';
+import { multitouchTransformsOnElement } from './multitouch/multiTouchTransforms/multitouchTransformsOnElement';
 import { Touch } from './touch/Touch';
 import { TouchController } from './touch/TouchController';
 import { TouchFrame } from './touch/TouchFrame';
@@ -32,9 +29,12 @@ import { EventManager } from './utils/EventManager';
 import { getBoundingClientRectEnhanced } from './utils/getBoundingClientRectEnhanced';
 import { createCanvasFromSrc, createColoredCanvasFromSrc, createImageFromSrc } from './utils/imageTools';
 import { sign } from './utils/mathTools';
+import { Omit } from './utils/Omit';
 import { padArray } from './utils/padArray';
+import { WithOptional } from './utils/WithOptional';
 
 export {
+    Omit,
     sign,
     Touch,
     Scene,
@@ -48,6 +48,7 @@ export {
     TouchFrame,
     Multitouch,
     SourceCache,
+    WithOptional,
     EventManager,
     emulateTouch,
     VectorAverage,
@@ -73,5 +74,5 @@ export {
     IEmulateTouchOptionsAdvanced,
     getBoundingClientRectEnhanced,
     multitouchTransformsOnElement,
-    MultitouchControllerDebugLayer,
+    MultitouchControllerDebugLayer
 };

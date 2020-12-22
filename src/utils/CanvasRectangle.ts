@@ -11,21 +11,17 @@ export class CanvasRectangle extends BoundingBox {
         super(Transform.fromObject(options.transform));
     }
 
-    public render(ctx: CanvasRenderingContext2D):void {
+    public render(ctx: CanvasRenderingContext2D, transform: Transform): void {
         ctx.save();
         ctx.beginPath();
 
-        
-        ctx.translate(
-            ...this.center
-                //.subtract(this.transform.scale.half())
-                .toArray2D(),
-        );
+        transform = this.transform.apply(transform);
 
-        ctx.rotate(this.transform.rotate.z);
-       
+        ctx.translate(...transform.translate.toArray2D());
 
-        ctx.rect(this.size.x/-2, this.size.y/-2, this.size.x, this.size.y);
+        ctx.rotate(transform.rotate.z);
+
+        ctx.rect(transform.scale.x / -2, transform.scale.y / -2, transform.scale.x, transform.scale.y);
         ctx.fillStyle = this.options.color || '#ff0000';
         ctx.fill();
         if (this.options.hovered) {
@@ -36,8 +32,7 @@ export class CanvasRectangle extends BoundingBox {
         ctx.restore();
     }
 
-    public applyTransform(transform: ITransform):void {
-
+    public applyTransform(transform: ITransform): void {
         //this.transform =  this.transform.apply(Transform.fromObject(transform));
 
         /**/
@@ -49,12 +44,8 @@ export class CanvasRectangle extends BoundingBox {
         this.transform = Transform.fromObject({
             rotate: Vector.add(t1.rotate, t2.rotate),
             scale: Vector.multiply(t1.scale, t2.scale),
-            translate: Vector.add(
-                t1.translate,
-                t2.translate
-            ),
+            translate: Vector.add(t1.translate, t2.translate),
         });
         /* */
-
     }
 }

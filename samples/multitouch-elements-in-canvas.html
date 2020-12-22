@@ -21,11 +21,17 @@
                     emulateTouch,
                     multitouchTransformsOnElement,
                 } = window.TouchController;
-                const { Vector } = window.Xyzt;
+                const { Vector, BoundingBox, Transform } = window.Xyzt;
 
                 const scene = document.getElementById('scene');
                 const ctx = scene.getContext('2d');
 
+                let globalTransform = Transform.fromObject({
+                    // scale: new Vector(1.1, 2),
+                    // scale: new Vector(500, 500),
+                });
+                const globalViewport = BoundingBox.fromTransform(globalTransform);
+                // TODO: !!! Use one of transform vs viewport
                 const rects = [
                     new CanvasRectangle({
                         color: 'blue',
@@ -35,13 +41,13 @@
                             rotate: Math.PI / 10,
                         },
                     }),
-                    new CanvasRectangle({
+                    /*new CanvasRectangle({
                         color: 'green',
                         transform: {
                             translate: new Vector(300, 300),
                             scale: new Vector(200, 200),
                         },
-                    }),
+                    }),*/
                     new CanvasRectangle({
                         color: 'red',
                         transform: {
@@ -52,36 +58,42 @@
                 ];
 
                 function render() {
+                    // TODO: !!! Deal with different aspect rations of canvas
                     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
                     for (const rect of rects.slice().reverse()) {
-                        rect.render(ctx);
+                        rect.render(ctx, globalTransform);
                     }
                     requestAnimationFrame(render);
                 }
                 render();
 
                 const touchController = new TouchController.fromCanvas(scene);
-                const multitouchController = new MultitouchController(touchController, (frame) =>
-                    rects.find((rect) => rect.intersects(frame.position)),
+                const multitouchController = new MultitouchController(
+                    touchController, // !!! .applyTransform(() => globalTransform),
+                    (frame) => rects.find((rect) => rect.intersects(frame.position)) || globalViewport,
                 );
 
                 multitouchController.hoveredElementsChanges.subscribe(({ current, previous }) => {
-                    if (current) {
+                    console.log(current, previous);
+                    if (current && current !== globalViewport) {
                         //elementNew.transform.rotate.z += (Math.PI * 2) / 36 /2;
                         current.options.hovered = true;
                     }
-                    if (previous) {
+                    if (previous && previous !== globalViewport) {
                         previous.options.hovered = false;
                     }
                 });
 
                 multitouchController.multitouches.subscribe((multitouch) => {
-                    if (!multitouch.element) return;
-                    const rect = multitouch.element;
-                    const sizeRatio = rect.size.y / rect.size.x;
-                    multitouchTransformsOnElement({ multitouch/*, pick: ['translate', 'scale'*/] }).subscribe(
+                    multitouchTransformsOnElement({ multitouch /*, pick: ['translate', 'scale']*/ }).subscribe(
+                        // TODO: !!! DRY
                         (transform) => {
-                            multitouch.element.applyTransform(transform);
+                            if (multitouch.element !== globalViewport) {
+                                multitouch.element.applyTransform(transform);
+                            } else {
+                                console.log({ globalTransform });
+                                globalTransform = globalTransform.apply(transform);
+                            }
                         },
                     );
                 });
@@ -91,13 +103,20 @@
 
                 /**/
                 emulateTouch(touchController, {
+                    position: { x: 350, y: 250 },
+                });
+                /**/
+                /**/
+                emulateTouch(touchController, {
                     position: { x: 150, y: 50 },
                 });
                 /**/
+                /*/
                 emulateTouch(touchController, {
                     position: { x: 250, y: 350 },
                 });
                 /**/
+                /*/
                 emulateTouch(touchController, {
                     frames: [
                         {

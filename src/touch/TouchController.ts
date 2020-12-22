@@ -1,4 +1,5 @@
 import { Subject } from 'rxjs/internal/Subject';
+import { ITransform, Transform } from 'xyzt';
 import { Awaitable } from '../interfaces/Awaitable';
 import { IElement } from '../interfaces/IElement';
 import { IListener } from '../interfaces/IListener';
@@ -25,6 +26,7 @@ export class TouchController implements ITouchController {
         return new TouchController([canvas], canvas, true);
     }
 
+    // TODO: !!! options
     // TODO: !!! Use subjects everywhere
     public readonly touches = new Subject<Touch>();
     public readonly hoveredFrames = new Subject<TouchFrame>();
@@ -37,7 +39,7 @@ export class TouchController implements ITouchController {
         public readonly elements: IElement[], // TODO: syntax sugar if set only one element
         public readonly anchorElement: HTMLElement,
         setListeners = true,
-        // public readonly options: ITouchControllerOptions = TouchControllerOptionsDefault,
+        private getTransform: () => ITransform = () => Transform.neutral(), // public readonly options: ITouchControllerOptions = TouchControllerOptionsDefault,
     ) {
         if (setListeners) {
             this.addListener(new MouseListener(this.eventManager));
@@ -86,7 +88,22 @@ export class TouchController implements ITouchController {
     }
 
     /*
+    TODO: Delete (should be in each touchframe)
+    public instance(): TouchController {
+        const touchController = new TouchController(this.elements, this.anchorElement, false);
+        this.touches();
+        return touchController;
+    }
+
+     TODO: Delete (should be in each touchframe)
+    public applyGrid(grid: () => ITransform): TouchController {
+        return new TouchController(this.elements, this.anchorElement, false);
+    }
+    */
+
+    /*
     TODO:
+     TODO: Delete (should be in each touchframe)
     public applyGrid(grid: Grid): GridTouchController {
         return grid.applyToTouchController(this);
     }

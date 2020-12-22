@@ -18,7 +18,7 @@ export interface IParticleOptionsExternals {
 }
 
 export class Particle {
-    public static compare(a: Particle, b: Particle): 0|-1|1  {
+    public static compare(a: Particle, b: Particle): 0 | -1 | 1 {
         return sign(a.zIndex - b.zIndex);
     }
 
@@ -28,14 +28,11 @@ export class Particle {
         this.initializeSource();
     }
 
-    public async initializeSource():Promise<void> {
-        this.shapeData = await createColoredCanvasFromSrc(
-            this.options.shapeSrc,
-            this.options.color,
-        ); // TODO: optimize image loads
+    public async initializeSource(): Promise<void> {
+        this.shapeData = await createColoredCanvasFromSrc(this.options.shapeSrc, this.options.color); // TODO: optimize image loads
     }
 
-    public get size():Vector {
+    public get size(): Vector {
         if (!this.shapeData) {
             // TODO: maybe only warn and return width,width
             throw new Error('Particle image is not yet loaded.');
@@ -43,8 +40,7 @@ export class Particle {
 
         return Vector.fromArray(
             this.options.current.widthSize,
-            (this.options.current.widthSize / this.shapeData.width) *
-                this.shapeData.height,
+            (this.options.current.widthSize / this.shapeData.width) * this.shapeData.height,
         );
     }
 
@@ -57,13 +53,10 @@ export class Particle {
         );
     }
 
-    public update(delta: number):void {
-        this.options.current.position.add(
-            this.options.movement.position.scale(delta),
-        );
+    public update(delta: number): void {
+        this.options.current.position.add(this.options.movement.position.scale(delta));
         this.options.current.rotation += this.options.movement.rotation * delta;
-        this.options.current.widthSize +=
-            this.options.movement.widthSize * delta;
+        this.options.current.widthSize += this.options.movement.widthSize * delta;
 
         const frictionPowered = Math.pow(this.options.friction, delta);
         this.options.movement.position.scale(frictionPowered);
@@ -71,17 +64,14 @@ export class Particle {
         this.options.movement.widthSize *= frictionPowered; // TODO: maybe as area
     }
 
-    public render(ctx: CanvasRenderingContext2D):void {
+    public render(ctx: CanvasRenderingContext2D): void {
         if (!this.shapeData) {
             // TODO: maybe console.warn(`Particle image is not yet loaded.`);
             return;
         }
 
         ctx.save();
-        ctx.translate(
-            this.options.current.position.x,
-            this.options.current.position.y,
-        );
+        ctx.translate(this.options.current.position.x, this.options.current.position.y);
         ctx.rotate(this.options.current.rotation + Math.PI / 2);
         // ctx.globalAlpha = this.lifetime === -1 ? 1 : Math.sqrt(this.lifetime / 10);
         ctx.drawImage(

@@ -13,18 +13,18 @@ export class Scene {
         this.particles = [];
     }
 
-    public addObject(object: Particle) :void{
+    public addObject(object: Particle): void {
         this.particles.push(object);
     }
 
-    public render() :void{
+    public render(): void {
         // this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
         for (const particle of this.particles.sort(Particle.compare)) {
             particle.render(this.ctx);
         }
     }
 
-    public update(delta: number):Particle[] {
+    public update(delta: number): Particle[] {
         for (const object of this.particles) {
             // console.log(object.position,object.movement);
             object.update(delta);
@@ -45,7 +45,7 @@ export class Scene {
         return dead;
     }
 
-    public get size():Vector {
+    public get size(): Vector {
         return Vector.fromArray(this.ctx.canvas.width, this.ctx.canvas.height);
     }
 }

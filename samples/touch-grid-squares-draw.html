@@ -25,12 +25,8 @@
                 ctx.lineWidth = 10;
                 ctx.lineCap = 'round';
 
-                const touchController = new TouchController.fromCanvas(
-                    scene,
-                ).applyGrid(
-                    new Grid((position) =>
-                        position.map((value) => Math.round(value / 50) * 50),
-                    ),
+                const touchController = new TouchController.fromCanvas(scene).applyGrid(
+                    new Grid((position) => position.map((value) => Math.round(value / 50) * 50)),
                 );
                 //TC.Plugins.toggleTouchByTap(touchController);
 
@@ -41,8 +37,7 @@
                 touchController.touches.subscribe((touch) => {
                     //console.log(touch);
 
-                    const color =
-                        '#' + Math.floor(Math.random() * 16777215).toString(16);
+                    const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
                     let lastFrame = touch.firstFrame;
 
                     touch.frames.subscribe((frame) => {

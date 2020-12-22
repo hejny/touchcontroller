@@ -42,9 +42,7 @@ export class TouchListener implements IListener {
         // newHoverFrame: (frame: TouchFrame) => void,
     ): void {
         if (this.elements.hasItem(element)) {
-            throw new Error(
-                'Element should not be initialized when using init.',
-            );
+            throw new Error('Element should not be initialized when using init.');
         }
 
         this.eventManager.addEventListener(
@@ -79,11 +77,7 @@ export class TouchListener implements IListener {
             event.stopPropagation();
             const touches = event.changedTouches;
             for (let i = 0, l = touches.length; i < l; i++) {
-                const currentTouch = new Touch(
-                    'TOUCH',
-                    anchorElement,
-                    touches[i].identifier,
-                );
+                const currentTouch = new Touch('TOUCH', anchorElement, touches[i].identifier);
                 currentTouches[touches[i].identifier] = currentTouch;
                 newTouch(currentTouch);
             }
@@ -93,16 +87,9 @@ export class TouchListener implements IListener {
             event.preventDefault();
             const touches = event.changedTouches;
             for (let i = 0, l = touches.length; i < l; i++) {
-                const currentTouch =
-                    currentTouches[touches[i].identifier] || null;
+                const currentTouch = currentTouches[touches[i].identifier] || null;
                 if (currentTouch) {
-                    currentTouch.frames.next(
-                        createTouchFrameFromEvent(touches[i]),
-
-
-                        
-
-                    );
+                    currentTouch.frames.next(createTouchFrameFromEvent(touches[i]));
                 }
             }
         };
@@ -111,29 +98,21 @@ export class TouchListener implements IListener {
             event.preventDefault();
             const touches = event.changedTouches;
             for (let i = 0, l = touches.length; i < l; i++) {
-                const currentTouch =
-                    currentTouches[touches[i].identifier] || null;
+                const currentTouch = currentTouches[touches[i].identifier] || null;
                 if (currentTouch) {
-                    currentTouch.frames.next(
-                        createTouchFrameFromEvent(touches[i]),
-                    );
+                    currentTouch.frames.next(createTouchFrameFromEvent(touches[i]));
                     currentTouch.frames.complete();
                     delete currentTouches[touches[i].identifier];
                 }
             }
         };
 
-        const createTouchFrameFromEvent: ICreateTouchFrameFromEvent = (
-            event: IEvent,
-        ) => {
+        const createTouchFrameFromEvent: ICreateTouchFrameFromEvent = (event: IEvent) => {
             const boundingRect = getBoundingClientRectEnhanced(element);
             return new TouchFrame(
                 element,
                 anchorElement,
-                Vector.fromArray(
-                    event.clientX - boundingRect.x,
-                    event.clientY - boundingRect.y,
-                ),
+                Vector.fromArray(event.clientX - boundingRect.x, event.clientY - boundingRect.y),
                 performance.now(),
             );
         };
@@ -145,15 +124,10 @@ export class TouchListener implements IListener {
         });
     }
 
-    public async startFromExternalEvent(
-        element: IElement,
-        originalEvent: Event,
-    ): Promise<void> {
+    public async startFromExternalEvent(element: IElement, originalEvent: Event): Promise<void> {
         const item = this.elements.getItem(element);
         if (!item) {
-            throw new Error(
-                'Element should be initialized when using startFromExternalEvent.',
-            );
+            throw new Error('Element should be initialized when using startFromExternalEvent.');
         }
         const { anchorElement, createTouchFrameFromEvent, newTouch } = item;
 
@@ -164,16 +138,10 @@ export class TouchListener implements IListener {
         // TODO: maybe DRY this block with block in createMouseListener
         // TODO: better naming in this block
 
-        const currentTouch = new Touch(
-            'TOUCH',
-            anchorElement,
-            identifier,
-        );
+        const currentTouch = new Touch('TOUCH', anchorElement, identifier);
 
         const getTouchFromEvent = (event: TouchEvent) =>
-            Array.from(event.touches).find(
-                (touch) => touch.identifier === identifier,
-            );
+            Array.from(event.touches).find((touch) => touch.identifier === identifier);
 
         const handleTouchMoveOnDocument = (event: TouchEvent) => {
             // TODO: problems with zoom whole page
@@ -185,32 +153,18 @@ export class TouchListener implements IListener {
                 currentTouch.frames.next(createTouchFrameFromEvent(touch));
             }
         };
-        this.eventManager.addEventListener(
-            document,
-            'touchmove',
-            handleTouchMoveOnDocument,
-            TOUCH_LISTENER_OPTIONS,
-        );
+        this.eventManager.addEventListener(document, 'touchmove', handleTouchMoveOnDocument, TOUCH_LISTENER_OPTIONS);
 
         const handleTouchUpOnDocument = (/*event: TouchEvent*/) => {
             currentTouch.frames.complete();
 
-            this.eventManager.removeEventListener(
-                document,
-                'touchmove',
-                handleTouchMoveOnDocument,
-            );
+            this.eventManager.removeEventListener(document, 'touchmove', handleTouchMoveOnDocument);
 
             document.removeEventListener('touchend', handleTouchUpOnDocument);
             // }
         };
 
-        this.eventManager.addEventListener(
-            document,
-            'touchend',
-            handleTouchUpOnDocument,
-            TOUCH_LISTENER_OPTIONS,
-        );
+        this.eventManager.addEventListener(document, 'touchend', handleTouchUpOnDocument, TOUCH_LISTENER_OPTIONS);
 
         newTouch(currentTouch);
     }

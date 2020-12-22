@@ -8,7 +8,6 @@ import { getBoundingClientRectEnhanced } from '../utils/getBoundingClientRectEnh
 import { IElement } from './../interfaces/IElement';
 import { SourceCache } from './../utils/Cache';
 
-
 const MOUSE_LISTENER_OPTIONS = {
     capture: true,
     passive: false,
@@ -36,7 +35,7 @@ export class MouseListener implements IListener {
         private readonly rotating = false,
     ) {}
 
-    public acceptsEvent(event: Event):boolean {
+    public acceptsEvent(event: Event): boolean {
         return this.buttons.indexOf((event as MouseEvent).button) !== -1;
     }
 
@@ -45,11 +44,9 @@ export class MouseListener implements IListener {
         anchorElement: IElement,
         newTouch: (touch: Touch) => void,
         newHoverFrame: (frame: TouchFrame) => void,
-    ) :void{
+    ): void {
         if (this.elements.hasItem(element)) {
-            throw new Error(
-                'Element should not be already initialized when using init.',
-            );
+            throw new Error('Element should not be already initialized when using init.');
         }
 
         this.eventManager.addEventListener(
@@ -79,9 +76,7 @@ export class MouseListener implements IListener {
 
         let currentTouch: Touch | null = null;
 
-        const handleMouseDownOnElement: IHandleMouseDownOnElement = (
-            event: MouseEvent,
-        ) => {
+        const handleMouseDownOnElement: IHandleMouseDownOnElement = (event: MouseEvent) => {
             if (!this.acceptsEvent(event)) {
                 return;
             }
@@ -91,9 +86,7 @@ export class MouseListener implements IListener {
             handleStart(event);
         };
 
-        const handleStart = async (
-            event: MouseEvent,
-        ) => {
+        const handleStart = async (event: MouseEvent) => {
             if (onlyTouch) {
                 onlyTouch.frames.complete();
             }
@@ -117,23 +110,12 @@ export class MouseListener implements IListener {
                     currentTouch = null;
                 }
 
-                document.removeEventListener(
-                    'mousemove',
-                    handleMouseMoveOnDocument,
-                );
+                document.removeEventListener('mousemove', handleMouseMoveOnDocument);
 
-                document.removeEventListener(
-                    'mouseup',
-                    mouseUpListenerOnDocument,
-                );
+                document.removeEventListener('mouseup', mouseUpListenerOnDocument);
             };
 
-            this.eventManager.addEventListener(
-                document,
-                'mouseup',
-                mouseUpListenerOnDocument,
-                MOUSE_LISTENER_OPTIONS,
-            );
+            this.eventManager.addEventListener(document, 'mouseup', mouseUpListenerOnDocument, MOUSE_LISTENER_OPTIONS);
 
             newTouch(currentTouch);
             onlyTouch = currentTouch;
@@ -172,10 +154,7 @@ export class MouseListener implements IListener {
             return new TouchFrame(
                 element,
                 anchorElement,
-                Vector.fromArray(
-                    event.clientX - boundingRect.left,
-                    event.clientY - boundingRect.top,
-                ),
+                Vector.fromArray(event.clientX - boundingRect.left, event.clientY - boundingRect.top),
                 performance.now(),
                 this.rotating,
             );
@@ -186,12 +165,10 @@ export class MouseListener implements IListener {
         });
     }
 
-    public async startFromExternalEvent(element: IElement, event: Event):Promise<void> {
+    public async startFromExternalEvent(element: IElement, event: Event): Promise<void> {
         const item = this.elements.getItem(element);
         if (!item) {
-            throw new Error(
-                'Element should be initialized when using startFromExternalEvent.',
-            );
+            throw new Error('Element should be initialized when using startFromExternalEvent.');
         }
         const { handleMouseDownOnElement } = item;
 

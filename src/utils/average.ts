@@ -1,16 +1,9 @@
 import { Vector } from 'xyzt';
-import {
-    IParticleOptions,
-    IParticleOptionsExternals
-} from '../drawController/Particle';
+import { IParticleOptions, IParticleOptionsExternals } from '../drawController/Particle';
 
 export type TAverageItems<T> = Array<{ value: T; weight: number }>;
 
-export function average<T>(
-    add: (a: T, b: T) => T,
-    multiply: (a: T, b: number) => T,
-    items: TAverageItems<T>,
-): T {
+export function average<T>(add: (a: T, b: T) => T, multiply: (a: T, b: number) => T, items: TAverageItems<T>): T {
     let sum = 0;
     let count: null | T = null;
     for (const item of items) {
@@ -19,9 +12,7 @@ export function average<T>(
         count = !count ? value : add(count, value);
     }
     if (!count) {
-        throw new Error(
-            'There must be at least one item when counting average.',
-        );
+        throw new Error('There must be at least one item when counting average.');
     }
     if (sum <= 0) {
         throw new Error('Sum of weights should be positive number.');
@@ -31,7 +22,7 @@ export function average<T>(
 
 // TODO: not used
 // TODO: !!! xyzt
-export function VectorAverage(...items: TAverageItems<Vector>):Vector {
+export function VectorAverage(...items: TAverageItems<Vector>): Vector {
     return average<Vector>(
         (a, b) => Vector.add(a, b),
         (a, b) => a.scale(b),
@@ -42,7 +33,7 @@ export function VectorAverage(...items: TAverageItems<Vector>):Vector {
 function particleOptionsExternalsAdd(
     a: IParticleOptionsExternals,
     b: IParticleOptionsExternals,
-):IParticleOptionsExternals {
+): IParticleOptionsExternals {
     return {
         position: Vector.add(a.position, b.position),
         rotation: a.rotation + b.rotation,
@@ -50,10 +41,7 @@ function particleOptionsExternalsAdd(
     };
 }
 
-function particleOptionsExternalsMultiply(
-    a: IParticleOptionsExternals,
-    b: number,
-):IParticleOptionsExternals {
+function particleOptionsExternalsMultiply(a: IParticleOptionsExternals, b: number): IParticleOptionsExternals {
     return {
         position: a.position.scale(b),
         rotation: a.rotation * b,
@@ -61,9 +49,7 @@ function particleOptionsExternalsMultiply(
     };
 }
 
-export function particleOptionsAverage(
-    ...items: TAverageItems<IParticleOptions>
-):IParticleOptions {
+export function particleOptionsAverage(...items: TAverageItems<IParticleOptions>): IParticleOptions {
     return average<IParticleOptions>(
         (a, b) => ({
             shapeSrc: a.shapeSrc,

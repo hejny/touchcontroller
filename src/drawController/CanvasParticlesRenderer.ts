@@ -27,12 +27,7 @@ export class DrawController {
             canvas.height = quality.y;
             this.deadCtx = canvas.getContext('2d')!;
             this.deadCtx.fillStyle = initialColor;
-            this.deadCtx.fillRect(
-                0,
-                0,
-                this.deadCtx.canvas.width,
-                this.deadCtx.canvas.height,
-            );
+            this.deadCtx.fillRect(0, 0, this.deadCtx.canvas.width, this.deadCtx.canvas.height);
         }
 
         this.scene = new Scene(this.liveCtx);
@@ -46,18 +41,12 @@ export class DrawController {
         this.scene.addObject(particle);
     }
 
-    public drawLine(
-        options1: IParticleOptions,
-        options2: IParticleOptions,
-        segmentSize: number,
-    ): void  {
+    public drawLine(options1: IParticleOptions, options2: IParticleOptions, segmentSize: number): void {
         // console.log('options1',options1);
         // console.log('options2',options2);
 
-        const segmentsCount = 1+Math.floor(
-            options1.current.position.distance(options2.current.position) /
-                segmentSize,
-        );
+        const segmentsCount =
+            1 + Math.floor(options1.current.position.distance(options2.current.position) / segmentSize);
 
         for (let i = 0; i < segmentsCount; i++) {
             const weight1 = i / segmentsCount;
@@ -74,11 +63,11 @@ export class DrawController {
         return this.scene.particles.length;
     }
 
-    public addContext(context: CanvasRenderingContext2D): void  {
+    public addContext(context: CanvasRenderingContext2D): void {
         this.contexts.push(context);
     }
 
-    public subscribe(callback: () => void): void  {
+    public subscribe(callback: () => void): void {
         this.subscribers.push(callback);
     }
 
@@ -98,9 +87,7 @@ export class DrawController {
         // this.liveCtx.fillRect(0, 0, this.liveCtx.canvas.width, this.liveCtx.canvas.height);
 
         if (this.lastRenderNow) {
-            const deadParticles = this.scene.update(
-                (now - this.lastRenderNow) / 1000,
-            );
+            const deadParticles = this.scene.update((now - this.lastRenderNow) / 1000);
             this.deadParticlesCount += deadParticles.length;
             for (const object of deadParticles.sort(Particle.compare)) {
                 object.render(this.deadCtx);

@@ -29,13 +29,10 @@
                 const drawController = new DrawController(new Vector(800, 500));
                 drawController.addContext(sceneContext);
 
-                const touchController = new TouchController.fromCanvas(
-                    sceneElement,
-                );
+                const touchController = new TouchController.fromCanvas(sceneElement);
                 touchController.touches.subscribe((touch) => {
-                    const color =
-                        '#' + Math.floor(Math.random() * 16777215).toString(16);
-                    touch.frameTuples({itemsPerTuple:2, startImmediately: true}).subscribe(([frame1,frame2]) => {
+                    const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+                    touch.frameTuples({ itemsPerTuple: 2, startImmediately: true }).subscribe(([frame1, frame2]) => {
                         drawController.drawLine(
                             {
                                 shapeSrc: './assets/particle1.png',
@@ -51,8 +48,7 @@
                                         (Math.random() - 0.5) * 10, // TODO: depend this value
                                         (Math.random() - 0.5) * 10,
                                     ),
-                                    rotation:
-                                        (Math.random() - 0.5) * Math.PI * 2,
+                                    rotation: (Math.random() - 0.5) * Math.PI * 2,
                                     widthSize: 20,
                                 },
                                 friction: 0.2,
@@ -71,8 +67,7 @@
                                         (Math.random() - 0.5) * 10, // TODO: depend this value
                                         (Math.random() - 0.5) * 10,
                                     ),
-                                    rotation:
-                                        (Math.random() - 0.5) * Math.PI * 2,
+                                    rotation: (Math.random() - 0.5) * Math.PI * 2,
                                     widthSize: 20,
                                 },
                                 friction: 0.2,
@@ -83,10 +78,8 @@
                 });
 
                 setInterval(() => {
-                    document.getElementById('liveParticlesCount').innerText =
-                        drawController.liveParticlesCount;
-                    document.getElementById('deadParticlesCount').innerText =
-                        drawController.deadParticlesCount;
+                    document.getElementById('liveParticlesCount').innerText = drawController.liveParticlesCount;
+                    document.getElementById('deadParticlesCount').innerText = drawController.deadParticlesCount;
                 }, 100);
             })();
         </script>

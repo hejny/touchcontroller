@@ -10,9 +10,7 @@ export function createImageFromSrc(src: string): Promise<HTMLImageElement> {
 
 const canvasFromSrcCache = new SourceCache<string, HTMLCanvasElement>();
 
-export async function createCanvasFromSrc(
-    src: string,
-): Promise<HTMLCanvasElement> {
+export async function createCanvasFromSrc(src: string): Promise<HTMLCanvasElement> {
     if (canvasFromSrcCache.hasItem(src)) {
         return canvasFromSrcCache.getItem(src)!;
     }
@@ -30,10 +28,7 @@ const canvasColoredFromSrcCache = new SourceCache<string, HTMLCanvasElement>();
 
 // TODO: Color library
 
-export async function createColoredCanvasFromSrc(
-    src: string,
-    color: string,
-): Promise<HTMLCanvasElement> {
+export async function createColoredCanvasFromSrc(src: string, color: string): Promise<HTMLCanvasElement> {
     const id = `${src}#${color}`;
     if (canvasColoredFromSrcCache.hasItem(id)) {
         return canvasColoredFromSrcCache.getItem(id)!;
@@ -57,9 +52,7 @@ export async function createColoredCanvasFromSrc(
         data[p + 3] = 255;
     }
 
-    const canvasColored = window.document.createElement(
-        'CANVAS',
-    ) as HTMLCanvasElement;
+    const canvasColored = window.document.createElement('CANVAS') as HTMLCanvasElement;
     canvasColored.width = canvas.width;
     canvasColored.height = canvas.height;
     const ctxColored = canvasColored.getContext('2d')!;
@@ -78,13 +71,13 @@ function hexToRgb(color: string) {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
     return result
         ? {
-            r: parseInt(result[1], 16),
-            g: parseInt(result[2], 16),
-            b: parseInt(result[3], 16),
-        }
+              r: parseInt(result[1], 16),
+              g: parseInt(result[2], 16),
+              b: parseInt(result[3], 16),
+          }
         : {
-            r: 0,
-            g: 0,
-            b: 0,
-        };
+              r: 0,
+              g: 0,
+              b: 0,
+          };
 }

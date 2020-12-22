@@ -17,14 +17,8 @@ export class TouchFrame {
         countPosition = true,
     ) {
         if (countPosition) {
-            const offset = Vector.fromObject(
-                getBoundingClientRectEnhanced(element),
-                ['x', 'y'],
-            ).subtract(
-                Vector.fromObject(
-                    getBoundingClientRectEnhanced(anchorElement),
-                    ['x', 'y'],
-                ),
+            const offset = Vector.fromObject(getBoundingClientRectEnhanced(element), ['x', 'y']).subtract(
+                Vector.fromObject(getBoundingClientRectEnhanced(anchorElement), ['x', 'y']),
             );
             this.position = this.positionRelative.add(offset);
         }

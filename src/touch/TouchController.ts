@@ -1,5 +1,4 @@
 import { Subject } from 'rxjs/internal/Subject';
-import { ITransform, Transform } from 'xyzt';
 import { Awaitable } from '../interfaces/Awaitable';
 import { IElement } from '../interfaces/IElement';
 import { IListener } from '../interfaces/IListener';
@@ -7,45 +6,55 @@ import { ITouchController } from '../interfaces/ITouchController';
 import { MouseListener } from '../listeners/MouseListener';
 import { TouchListener } from '../listeners/TouchListener';
 import { EventManager } from '../utils/EventManager';
+import { WithOptional } from '../utils/WithOptional';
 import { Touch } from './Touch';
 import { TouchFrame } from './TouchFrame';
 
-/*
 interface ITouchControllerOptions {
-    toggleTouchByTap: boolean;
+    elements: IElement[];
+    anchorElement: HTMLElement;
+    setListeners: boolean;
+    // TODO: CoorsysLibrary
+    // maybe TODO: toggleTouchByTap
 }
 
-const TouchControllerOptionsDefault: ITouchControllerOptions = {
-    toggleTouchByTap: false,
+const touchControllerOptionsDefault = {
+    setListeners: true,
 };
-*/
 
-// TODO: multitouch should be extended from this
 export class TouchController implements ITouchController {
+    // TODO: Rename TouchController to Touchcontroller
+
     public static fromCanvas(canvas: HTMLCanvasElement): TouchController {
-        return new TouchController([canvas], canvas, true);
+        // TODO: fromElement > syntax sugar if set only one element and not only a canvas
+        return new TouchController({ elements: [canvas], anchorElement: canvas, setListeners: true });
     }
 
     // TODO: !!! options
     // TODO: !!! Use subjects everywhere
+    public readonly elements: IElement[];
+    public readonly anchorElement: HTMLElement;
     public readonly touches = new Subject<Touch>();
     public readonly hoveredFrames = new Subject<TouchFrame>();
     public readonly eventManager = new EventManager();
 
     private listeners: IListener[] = [];
 
-    constructor(
-        // TODO: document.body vs document
-        public readonly elements: IElement[], // TODO: syntax sugar if set only one element
-        public readonly anchorElement: HTMLElement,
-        setListeners = true,
-        private getTransform: () => ITransform = () => Transform.neutral(), // public readonly options: ITouchControllerOptions = TouchControllerOptionsDefault,
-    ) {
+    constructor(options: WithOptional<ITouchControllerOptions, keyof typeof touchControllerOptionsDefault>) {
+        const { elements, anchorElement, setListeners } = {
+            ...options,
+            ...touchControllerOptionsDefault,
+        };
+
+        console.log({ elements, anchorElement, setListeners });
+
+        this.elements = elements;
+        this.anchorElement = anchorElement;
+
+        // TODO: document.body vs document in anchorElement and elements
         if (setListeners) {
             this.addListener(new MouseListener(this.eventManager));
-
             this.addListener(new MouseListener(this.eventManager, [1, 2], true));
-
             this.addListener(new TouchListener(this.eventManager));
         }
     }

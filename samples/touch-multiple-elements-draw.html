@@ -24,24 +24,16 @@
                 ctx.lineWidth = 10;
                 ctx.lineCap = 'round';
 
-                const touchController = new TouchController(
-                    [scene1, scene2],
-                    scene1,
-                );
+                const touchController = new TouchController({ elements: [scene1, scene2], anchorElement: scene1 });
                 touchController.touches.subscribe((touch) => {
-                    console.log(touch);
+                    const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
 
-                    const color =
-                        '#' + Math.floor(Math.random() * 16777215).toString(16);
-                    let lastFrame = touch.firstFrame;
-
-                    touch.frames.subscribe((frame) => {
+                    touch.frameTuples({ itemsPerTuple: 2, startImmediately: true }).subscribe(([frame1, frame2]) => {
                         ctx.strokeStyle = color;
                         ctx.beginPath();
-                        ctx.moveTo(lastFrame.position.x, lastFrame.position.y);
-                        ctx.lineTo(frame.position.x, frame.position.y);
+                        ctx.moveTo(frame1.position.x, frame1.position.y);
+                        ctx.lineTo(frame2.position.x, frame2.position.y);
                         ctx.stroke();
-                        lastFrame = frame;
                     });
                 });
             })();

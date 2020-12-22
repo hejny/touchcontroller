@@ -169,7 +169,7 @@
                 ctx.lineWidth = 10;
                 ctx.lineCap = 'round';
 
-                const touchController = new TouchController(dragElements, scene);
+                const touchController = new TouchController({ elements: dragElements, anchorElement: scene });
                 touchController.touches.subscribe((touch) => {
                     //console.log('touch',touch);
 
@@ -204,7 +204,7 @@
                 multitouchController.multitouches.subscribe((multitouch) => {
                     if (!multitouch.element) return;
 
-                    multitouchTransformsOnElement({multitouch}).subscribe(
+                    multitouchTransformsOnElement({ multitouch }).subscribe(
                         (transform) => {
                             applyTransformOnSvgElement(transform, multitouch.element);
                         },

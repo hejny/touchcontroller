@@ -109,7 +109,7 @@
                     multitouchTransformsOnElement,
                 } = window.TouchController;
                 const { Transform, BoundingBox, applyTransformOnSvgElement } = window.Xyzt;
-                const touchController = new TouchController([], document.body); // TODO: document.body as default
+                const touchController = new TouchController({ elements: [], anchorElement: document.body }); // TODO: document.body as default
 
                 for (const dragElement of Array.from(document.querySelectorAll('svg > g'))) {
                     const pointerDown = (event) => {

@@ -2,10 +2,22 @@ import { Subject } from 'rxjs/internal/Subject';
 import * as uuid from 'uuid';
 import { IElement } from '../interfaces/IElement';
 import { padArray } from '../utils/padArray';
+import { WithOptional } from '../utils/WithOptional';
 import { TouchFrame } from './TouchFrame';
+
+interface ITouchOptions {
+    type: 'TOUCH' | 'MOUSE' /* TODO: | 'EMULATED' */; // TODO: maybe as second optional param and extendable
+    anchorElement: IElement;
+    buttonIdentifier?: string | number;
+}
+
+const touchOptionsDefault = {};
 
 let id = 0;
 export class Touch {
+    public readonly type: 'TOUCH' | 'MOUSE';
+    public readonly anchorElement: IElement;
+    public readonly buttonIdentifier?: string | number;
     public readonly id = id++;
     public readonly uuid = uuid.v4(); // TODO: Do we really need uuid
     public readonly frames = new Subject<TouchFrame>();
@@ -15,12 +27,15 @@ export class Touch {
      *
      * @param anchorElement Positions of touch are relative to anchorElement
      */
-    constructor(
-        // TODO: options
-        public readonly type: 'TOUCH' | 'MOUSE' /* TODO: | 'EMULATED' */, // TODO: maybe as second optional param and extendable
-        public readonly anchorElement: IElement,
-        public readonly buttonIdentifier?: string | number,
-    ) {
+    constructor(options: WithOptional<ITouchOptions, keyof typeof touchOptionsDefault>) {
+        const { type, anchorElement, buttonIdentifier } = {
+            ...touchOptionsDefault,
+            ...options,
+        };
+
+        this.type = type;
+        this.anchorElement = anchorElement;
+        this.buttonIdentifier = buttonIdentifier;
         this.firstFrame = new Promise((resolve) => {
             this.frames.subscribe((frame) => {
                 resolve(frame);

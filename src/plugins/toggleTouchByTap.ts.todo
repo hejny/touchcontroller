@@ -22,9 +22,11 @@ export function toggleTouchByTap(touchController: TouchController) {
                 ) {
                     if (!virtualTouch) {
                         virtualTouch = new Touch(
-                            'MOUSE',
-                            touch.anchorElement,
-                            touch.firstFrame,
+                                            {
+                                                type:'MOUSE'
+                                                ,anchorElement 
+                                                ,buttonIdentifier: touch.firstFrame
+                                            }
                         );
                         touchController.emulateTouch(virtualTouch);
                         // console.info('Starting virtual touch', virtualTouch);

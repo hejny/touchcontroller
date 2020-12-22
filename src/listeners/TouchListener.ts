@@ -77,7 +77,11 @@ export class TouchListener implements IListener {
             event.stopPropagation();
             const touches = event.changedTouches;
             for (let i = 0, l = touches.length; i < l; i++) {
-                const currentTouch = new Touch('TOUCH', anchorElement, touches[i].identifier);
+                const currentTouch = new Touch({
+                    type: 'TOUCH',
+                    anchorElement,
+                    buttonIdentifier: touches[i].identifier,
+                });
                 currentTouches[touches[i].identifier] = currentTouch;
                 newTouch(currentTouch);
             }
@@ -109,12 +113,11 @@ export class TouchListener implements IListener {
 
         const createTouchFrameFromEvent: ICreateTouchFrameFromEvent = (event: IEvent) => {
             const boundingRect = getBoundingClientRectEnhanced(element);
-            return new TouchFrame(
+            return new TouchFrame({
                 element,
                 anchorElement,
-                Vector.fromArray(event.clientX - boundingRect.x, event.clientY - boundingRect.y),
-                performance.now(),
-            );
+                positionRelative: Vector.fromArray(event.clientX - boundingRect.x, event.clientY - boundingRect.y),
+            });
         };
 
         this.elements.setItem(element, {
@@ -138,7 +141,11 @@ export class TouchListener implements IListener {
         // TODO: maybe DRY this block with block in createMouseListener
         // TODO: better naming in this block
 
-        const currentTouch = new Touch('TOUCH', anchorElement, identifier);
+        const currentTouch = new Touch({
+            type: 'TOUCH',
+            anchorElement,
+            buttonIdentifier: identifier,
+        });
 
         const getTouchFromEvent = (event: TouchEvent) =>
             Array.from(event.touches).find((touch) => touch.identifier === identifier);

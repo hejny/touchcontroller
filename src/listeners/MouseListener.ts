@@ -91,11 +91,11 @@ export class MouseListener implements IListener {
                 onlyTouch.frames.complete();
             }
 
-            currentTouch = new Touch(
-                'MOUSE',
+            currentTouch = new Touch({
+                type: 'MOUSE',
                 anchorElement,
-                event.buttons /* TODO: Is a good option to cast button to identifier? */,
-            );
+                buttonIdentifier: event.buttons /* TODO: Is a good option to cast button to identifier? */,
+            });
 
             this.eventManager.addEventListener(
                 document,
@@ -151,13 +151,12 @@ export class MouseListener implements IListener {
 
         const createTouchFrameFromEvent = (event: IEvent) => {
             const boundingRect = getBoundingClientRectEnhanced(element);
-            return new TouchFrame(
+            return new TouchFrame({
                 element,
                 anchorElement,
-                Vector.fromArray(event.clientX - boundingRect.left, event.clientY - boundingRect.top),
-                performance.now(),
-                this.rotating,
-            );
+                positionRelative: Vector.fromArray(event.clientX - boundingRect.left, event.clientY - boundingRect.top),
+                rotating: this.rotating,
+            });
         };
 
         this.elements.setItem(element, {

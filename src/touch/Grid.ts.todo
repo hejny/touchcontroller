@@ -23,11 +23,7 @@ export class Grid {
         // TODO: Maybe there should be some Touch.clone()
 
        
-        const gridTouch = new Touch(
-            touch.type,
-            touch.anchorElement,
-            touch.buttonIdentifier,
-        );
+        const gridTouch = new Touch(touch);
 
         // TODO: How to discard this subscription?
         touch.frames.subscribe(

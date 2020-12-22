@@ -12,17 +12,20 @@ export async function emulateTouch(touchController: TouchController, options: IE
 
     // await forTime(250);
 
-    const touch = new Touch('TOUCH', touchController.anchorElement);
+    const touch = new Touch({
+        type: 'TOUCH',
+        anchorElement: touchController.anchorElement,
+    });
     touchController.touches.next(touch);
 
     for (const frame of frames) {
         await forTime(250);
         touch.frames.next(
-            new TouchFrame(
-                touchController.anchorElement,
-                touchController.anchorElement,
-                Vector.fromObject(frame.position),
-            ),
+            new TouchFrame({
+                element: touchController.anchorElement,
+                anchorElement: touchController.anchorElement,
+                positionRelative: Vector.fromObject(frame.position),
+            }),
         );
     }
 

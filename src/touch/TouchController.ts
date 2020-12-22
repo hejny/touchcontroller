@@ -30,7 +30,6 @@ export class TouchController implements ITouchController {
         return new TouchController({ elements: [canvas], anchorElement: canvas, setListeners: true });
     }
 
-    // TODO: !!! options
     // TODO: !!! Use subjects everywhere
     public readonly elements: IElement[];
     public readonly anchorElement: HTMLElement;
@@ -42,11 +41,9 @@ export class TouchController implements ITouchController {
 
     constructor(options: WithOptional<ITouchControllerOptions, keyof typeof touchControllerOptionsDefault>) {
         const { elements, anchorElement, setListeners } = {
-            ...options,
             ...touchControllerOptionsDefault,
+            ...options,
         };
-
-        console.log({ elements, anchorElement, setListeners });
 
         this.elements = elements;
         this.anchorElement = anchorElement;

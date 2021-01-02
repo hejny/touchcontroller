@@ -21,7 +21,7 @@
                 ctx.lineWidth = 10;
                 ctx.lineCap = 'round';
 
-                const touchController = new TouchController.fromCanvas(scene);
+                const touchController = TouchController.fromCanvas(scene);
                 const multitouchController = new MultitouchController({
                     touchController,
                     elementBinder: (frame) => {

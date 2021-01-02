@@ -18,7 +18,7 @@
                 ctx.lineWidth = 10;
                 ctx.lineCap = 'round';
 
-                const touchController = new TouchController.fromCanvas(scene);
+                const touchController = TouchController.fromCanvas(scene);
                 // Plugins.toggleTouchByTap(touchController);
 
                 touchController.hoveredFrames.subscribe((frame) => {

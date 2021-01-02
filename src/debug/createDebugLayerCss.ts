@@ -56,6 +56,10 @@ export function _createDebugLayerCss(): void {
         transform: translate(-15px, -15px);
     }
 
+    .${_CSS_PREFIX}hovered{
+        border: 2px solid #cccc00!important;
+    }
+
 
     `;
 

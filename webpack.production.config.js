@@ -5,7 +5,7 @@ configs.push(
         output: {
             filename: 'main.js',
             path: __dirname + '/dist/',
-            libraryTarget: 'umd',// TODO: Maybe Problematic place
+            libraryTarget: 'umd', // TODO: Maybe Problematic place
         },
     }),
 );

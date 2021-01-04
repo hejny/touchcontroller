@@ -1,12 +1,9 @@
 module.exports = {
-
-    
     entry: {
         first: __dirname + '/src/main',
     },
 
     devtool: 'source-map',
-
 
     resolve: {
         // Add '.ts' and '.tsx' as a resolvable extension.

@@ -30,10 +30,11 @@
         <script src="/node_modules/xyzt/dist/main.browser.js"></script>
     </head>
     <body>
-        <canvas id="scene" width="500" height="500"></canvas>
+        <canvas id="scene1" class="scene" width="500" height="500"></canvas>
+        <canvas id="scene2" class="scene" width="500" height="500"></canvas>
         <!-- touch-action="none" for best results from PEP -->
         <script>
-            (() => {
+            (async () => {
                 const { TouchController /*, Plugins*/, TouchControllerDebugLayer } = window.TouchController;
 
                 // TODO: Import from waitasecond same way as importing xyzt
@@ -45,15 +46,27 @@
                     });
                 }
 
-                const canvas = document.getElementById('scene');
-                const engine = new BABYLON.Engine(canvas, true);
+                const canvas1 = document.getElementById('scene1');
+                const canvas2 = document.getElementById('scene2');
+
+                canvas1.addEventListener('pointerdown', () => {
+                    console.log('pointerdown');
+                });
+
+                canvas1.addEventListener('mousedown', () => {
+                    console.log('mousedown');
+                });
+
+                const engine = new BABYLON.Engine(canvas2, true);
 
                 // -------------- Scene
                 const scene = new BABYLON.Scene(engine);
-                const vrHelper = scene.createDefaultVRExperience();
-                vrHelper.deviceOrientationCamera.detachControl();
-                scene.activeCamera.setTarget(BABYLON.Vector3.Zero());
                 scene.clearColor = new BABYLON.Color3(1, 1, 1);
+
+                const camera1 = new BABYLON.UniversalCamera('camera1', BABYLON.Vector3.Zero(), scene);
+
+                //vrHelper.deviceOrientationCamera.detachControl();
+                //scene.activeCamera.setTarget(BABYLON.Vector3.Zero());
 
                 // -------------- Lighting
                 const light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0, 1, 0), scene);
@@ -122,22 +135,28 @@
                 })();
                 // -------------- Picking with TouchController
 
-                const touchController = TouchController.fromCanvas(canvas);
-                // Plugins.toggleTouchByTap(touchController);
-
-                touchController.hoveredFrames.subscribe((frame) => {
-                    console.info('Hover frame');
+                canvas1.addEventListener('pointerdown', () => {
+                    console.log('pointerdown');
                 });
 
-                touchController.touches.subscribe(async (touch) => {
-                    console.log({ touch });
-                    const { x, y } = await touch.firstFrame;
+                canvas1.addEventListener('mousedown', () => {
+                    console.log('mousedown');
+                    // Miluju a tohle v tom kodu zustane ;)
+                });
 
+                const touchController = new TouchController({ element: canvas1 });
+                // Plugins.toggleTouchByTap(touchController);
+
+                touchController.touches.subscribe(async (touch) => {
+                    const { x, y } = (await touch.firstFrame).position;
+                    console.log({ touch, x, y });
                     const pickingInfo = scene.pick(x, y /*(mesh)=>{
                     return true;
                 }*/);
 
                     console.log({ pickingInfo });
+
+                    pickingInfo.pickedMesh.rotation.y += (Math.PI / 180) * 30;
                 });
 
                 new TouchControllerDebugLayer(touchController);

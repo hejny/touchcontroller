@@ -8,11 +8,14 @@ export class EventManager {
     }> = [];
 
     public addEventListener(
+        // TODO: whole Options
         element: IElementListeners,
         eventType: string,
         callback: IListenerCallback,
         options?: AddEventListenerOptions | boolean,
     ): void {
+        console.log({ element, eventType, callback, options });
+
         element.addEventListener(eventType, callback, options);
         this.listeners.push({ element, eventType, callback });
     }
@@ -27,6 +30,7 @@ export class EventManager {
      * @param eventType String of event type - for example pointerdown or * as wildcard
      */
     public removeEventListeners(element: IElementListeners | '*' = '*', eventType = '*'): void {
+        // TODO: Options
         // TODO: eventType wildcard
         this.listeners
             .filter(
@@ -47,6 +51,7 @@ export class EventManager {
     }
 
     public updateEventListener(
+        // TODO: Options
         element: IElementListeners,
         eventType: string,
         callback: IListenerCallback,

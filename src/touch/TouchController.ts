@@ -10,13 +10,15 @@ import { WithOptional } from '../utils/WithOptional';
 import { Touch } from './Touch';
 import { TouchFrame } from './TouchFrame';
 
-interface ITouchControllerOptions {
-    elements: IElement[];
-    anchorElement: HTMLElement;
-    setListeners: boolean;
+type ITouchControllerOptions = (
+    | { elements: IElement[]; anchorElement: HTMLElement }
+    | { element: IElement; createEventCapturingElement?: boolean }
+) & {
+    // Note: Here I am not using WithOptional heplper so I need to put ? before optional options
+    setListeners?: boolean;
     // TODO: CoorsysLibrary
     // maybe TODO: toggleTouchByTap
-}
+};
 
 const touchControllerOptionsDefault = {
     setListeners: true,
@@ -25,12 +27,6 @@ const touchControllerOptionsDefault = {
 export class TouchController implements ITouchController {
     // TODO: Rename TouchController to Touchcontroller
 
-    public static fromCanvas(canvas: HTMLCanvasElement): TouchController {
-        // TODO: fromElement > syntax sugar if set only one element and not only a canvas
-        return new TouchController({ elements: [canvas], anchorElement: canvas, setListeners: true });
-    }
-
-    // TODO: !!! Use subjects everywhere
     public readonly elements: IElement[];
     public readonly anchorElement: HTMLElement;
     public readonly touches = new Subject<Touch>();
@@ -39,14 +35,23 @@ export class TouchController implements ITouchController {
 
     private listeners: IListener[] = [];
 
-    constructor(options: WithOptional<ITouchControllerOptions, keyof typeof touchControllerOptionsDefault>) {
-        const { elements, anchorElement, setListeners } = {
+    constructor(options: ITouchControllerOptions) {
+        const { element, elements, anchorElement, setListeners } = {
             ...touchControllerOptionsDefault,
             ...options,
         };
 
-        this.elements = elements;
-        this.anchorElement = anchorElement;
+        // TODO: !!! createEventCapturingElement
+
+        if (element) {
+            this.elements = [element];
+            this.anchorElement = element as HTMLElement;
+        } else if (elements && anchorElement) {
+            this.elements = elements;
+            this.anchorElement = anchorElement;
+        } else {
+            throw new Error('There must be set element or elements+anchorElement when costructing TouchController.');
+        }
 
         // TODO: document.body vs document in anchorElement and elements
         if (setListeners) {

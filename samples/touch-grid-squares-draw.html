@@ -25,7 +25,7 @@
                 ctx.lineWidth = 10;
                 ctx.lineCap = 'round';
 
-                const touchController = TouchController.fromCanvas(scene).applyGrid(
+                const touchController = new TouchController({ element: scene }).applyGrid(
                     new Grid((position) => position.map((value) => Math.round(value / 50) * 50)),
                 );
                 //TC.Plugins.toggleTouchByTap(touchController);

@@ -29,7 +29,7 @@
                 const drawController = new DrawController(new Vector(800, 500));
                 drawController.addContext(sceneContext);
 
-                const touchController = TouchController.fromCanvas(sceneElement);
+                const touchController = new TouchController({ element: sceneElement });
                 touchController.touches.subscribe((touch) => {
                     const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
                     touch.frameTuples({ itemsPerTuple: 2, startImmediately: true }).subscribe(([frame1, frame2]) => {
@@ -109,7 +109,7 @@
         requestAnimationFrame(loop);
     }
 
-    const touchController = TouchController.fromCanvas(sceneElement);
+    const touchController = new TouchController({ element: scene});
     touchController.touches.subscribe((touch)=>{
 
 

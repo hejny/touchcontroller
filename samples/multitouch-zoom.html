@@ -109,8 +109,7 @@
                 }
                 render();
 
-                // TODO: !!! TouchController.fromElement
-                const touchController = TouchController.fromCanvas(boardElement);
+                const touchController = new TouchController({ element: boardElement });
                 const multitouchController = new MultitouchController({
                     touchController,
                 });

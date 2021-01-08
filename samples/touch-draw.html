@@ -11,7 +11,7 @@
         <script src="../dist/main.dev.browser.js"></script>
         <script>
             (() => {
-                const { TouchController /*, Plugins*/, TouchControllerDebugLayer } = window.TouchController;
+                const { TouchController, TouchControllerDebugLayer } = window.TouchController;
 
                 const scene = document.getElementById('scene');
                 const ctx = scene.getContext('2d');
@@ -19,11 +19,6 @@
                 ctx.lineCap = 'round';
 
                 const touchController = new TouchController({ element: scene });
-                // Plugins.toggleTouchByTap(touchController);
-
-                touchController.hoveredFrames.subscribe((frame) => {
-                    // console.info('Hover frame');
-                });
 
                 touchController.touches.subscribe((touch) => {
                     const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
@@ -31,13 +26,13 @@
                     touch.frameTuples({ itemsPerTuple: 2, startImmediately: true }).subscribe(([frame1, frame2]) => {
                         ctx.strokeStyle = color;
                         ctx.beginPath();
-                        ctx.moveTo(frame1.position.x, frame1.position.y);
-                        ctx.lineTo(frame2.position.x, frame2.position.y);
+                        ctx.moveTo(...frame1.position.toArray());
+                        ctx.lineTo(...frame2.position.toArray());
                         ctx.stroke();
                     });
                 });
 
-                new TouchControllerDebugLayer(touchController);
+                // new TouchControllerDebugLayer(touchController);
             })();
         </script>
     </body>

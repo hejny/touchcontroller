@@ -31,11 +31,18 @@
     </head>
     <body>
         <canvas id="scene1" class="scene" width="500" height="500"></canvas>
-        <canvas id="scene2" class="scene" width="500" height="500"></canvas>
+        <!-- <canvas id="scene2" class="scene" width="500" height="500"></canvas> -->
         <!-- touch-action="none" for best results from PEP -->
         <script>
             (async () => {
-                const { TouchController /*, Plugins*/, TouchControllerDebugLayer } = window.TouchController;
+                const {
+                    TouchController,
+                    MultitouchController,
+                    multitouchTransformsOnElement,
+                    TouchControllerDebugLayer,
+                    MultitouchControllerDebugLayer,
+                    emulateTouch,
+                } = window.TouchController;
 
                 // TODO: Import from waitasecond same way as importing xyzt
                 function forAnimationFrame() {
@@ -47,7 +54,7 @@
                 }
 
                 const canvas1 = document.getElementById('scene1');
-                const canvas2 = document.getElementById('scene2');
+                // const canvas2 = document.getElementById('scene2');
 
                 canvas1.addEventListener('pointerdown', () => {
                     console.log('pointerdown');
@@ -57,7 +64,7 @@
                     console.log('mousedown');
                 });
 
-                const engine = new BABYLON.Engine(canvas2, true);
+                const engine = new BABYLON.Engine(canvas1, true);
 
                 // -------------- Scene
                 const scene = new BABYLON.Scene(engine);
@@ -144,22 +151,48 @@
                     // Miluju a tohle v tom kodu zustane ;)
                 });
 
-                const touchController = new TouchController({ element: canvas1 });
-                // Plugins.toggleTouchByTap(touchController);
+                const touchController = new TouchController({ element: canvas1, createNewEventCapturingElement: true });
+                const multitouchController = new MultitouchController({
+                    touchController,
+                    elementBinder: ({ position }) => scene.pick(...position.toArray())?.pickedMesh,
+                });
 
-                touchController.touches.subscribe(async (touch) => {
+                /*touchController.touches.subscribe(async (touch) => {
                     const { x, y } = (await touch.firstFrame).position;
                     console.log({ touch, x, y });
-                    const pickingInfo = scene.pick(x, y /*(mesh)=>{
-                    return true;
-                }*/);
+                    const pickingInfo = scene.pick(x, y);
 
                     console.log({ pickingInfo });
 
                     pickingInfo.pickedMesh.rotation.y += (Math.PI / 180) * 30;
                 });
+                */
+
+                multitouchController.multitouches.subscribe((multitouch) => {
+                    multitouchTransformsOnElement({ multitouch /*, pick: ['translate', 'scale']*/ }).subscribe(
+                        ({ translate }) => {
+                            if (multitouch.element) {
+                                console.log(multitouch.element);
+                                // TODO: Establish some quick util reg way how to convert xyzt vector to BABYLON.Vector3 (and other lib) vector maybe connected with point
+
+                                multitouch.element.position.addInPlace(new BABYLON.Vector3(...translate.toArray()));
+
+                                //multitouch.element.position.addInPlace(translate);
+                            }
+                        },
+                    );
+                });
 
                 new TouchControllerDebugLayer(touchController);
+                new MultitouchControllerDebugLayer(multitouchController);
+
+                /**/
+                for (let i = 0; i < 3; i++) {
+                    emulateTouch(touchController, {
+                        position: { x: Math.random() * 500, y: Math.random() * 500 },
+                    });
+                }
+                /**/
 
                 // -------------- Render loop
 

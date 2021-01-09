@@ -20,7 +20,7 @@ export class MultitouchController<TElement extends BoundingBox> {
     public readonly touchController: ITouchController;
     public readonly multitouches = new Subject<Multitouch<TElement>>();
     private ongoingMultitouches: Array<Multitouch<TElement>> = [];
-    private readonly elementBinder: (frame: TouchFrame) => Awaitable<TElement | undefined>;
+    private readonly elementBinder: (frame: TouchFrame) => Awaitable<TElement | undefined | null>;
 
     constructor(
         options: WithOptional<IMultitouchControllerOptions<TElement>, keyof typeof multitouchControllerOptionsDefault>,
@@ -37,7 +37,8 @@ export class MultitouchController<TElement extends BoundingBox> {
 
     private watchNewTouchesAndPassThemToMultitouches() {
         this.touchController.touches.subscribe(async (touch) => {
-            const element = await this.elementBinder(await touch.firstFrame);
+            const element =
+                (await this.elementBinder(await touch.firstFrame)) || undefined; /* TODO: Maybe work with null? */
 
             let multitouch = this.ongoingMultitouches.find(
                 (ongoingMultitouch) => ongoingMultitouch.element === element,
@@ -66,7 +67,7 @@ export class MultitouchController<TElement extends BoundingBox> {
     public get hoveredElements(): Observable<TElement | undefined> {
         return new Observable((observer) => {
             this.touchController.hoveredFrames.subscribe(async (frame) => {
-                observer.next(await this.elementBinder(frame));
+                observer.next((await this.elementBinder(frame)) || undefined /* TODO: Maybe work with null? */);
             });
         });
     }

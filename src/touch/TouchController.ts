@@ -1,18 +1,19 @@
 import { Subject } from 'rxjs/internal/Subject';
+
 import { Awaitable } from '../interfaces/Awaitable';
 import { IElement } from '../interfaces/IElement';
 import { IListener } from '../interfaces/IListener';
 import { ITouchController } from '../interfaces/ITouchController';
 import { MouseListener } from '../listeners/MouseListener';
 import { TouchListener } from '../listeners/TouchListener';
+import { createNewOverlayElement } from '../utils/createNewOverlayElement';
 import { EventManager } from '../utils/EventManager';
-import { WithOptional } from '../utils/WithOptional';
 import { Touch } from './Touch';
 import { TouchFrame } from './TouchFrame';
 
 type ITouchControllerOptions = (
     | { elements: IElement[]; anchorElement: HTMLElement }
-    | { element: IElement; createEventCapturingElement?: boolean }
+    | { element: IElement; createNewEventCapturingElement?: boolean }
 ) & {
     // Note: Here I am not using WithOptional heplper so I need to put ? before optional options
     setListeners?: boolean;
@@ -36,16 +37,22 @@ export class TouchController implements ITouchController {
     private listeners: IListener[] = [];
 
     constructor(options: ITouchControllerOptions) {
-        const { element, elements, anchorElement, setListeners } = {
+        const { element, elements, anchorElement, setListeners, createNewEventCapturingElement } = {
             ...touchControllerOptionsDefault,
             ...options,
         };
 
-        // TODO: !!! createEventCapturingElement
-
         if (element) {
-            this.elements = [element];
-            this.anchorElement = element as HTMLElement;
+            let capturingElement: HTMLElement;
+
+            if (createNewEventCapturingElement) {
+                capturingElement = createNewOverlayElement(element as HTMLElement);
+            } else {
+                capturingElement = element as HTMLElement;
+            }
+
+            this.elements = [capturingElement];
+            this.anchorElement = capturingElement;
         } else if (elements && anchorElement) {
             this.elements = elements;
             this.anchorElement = anchorElement;

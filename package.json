@@ -66,6 +66,6 @@
         "waitasecond": "^1.5.0",
         "webpack": "^5.6.0",
         "webpack-cli": "^4.2.0",
-        "xyzt": "^4.6.0"
+        "xyzt": "^4.7.0"
     }
 }

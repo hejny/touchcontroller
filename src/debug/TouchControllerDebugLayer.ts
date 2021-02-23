@@ -13,7 +13,7 @@ export class TouchControllerDebugLayer {
             showTouchElement.classList.add(`${_CSS_PREFIX}touch-show`);
             showTouchElement.classList.add(`${_CSS_PREFIX}hovered`);
             showElement.appendChild(showTouchElement);
-            touchController.hoveredFrames.subscribe(({ position, anchorElement }) => {
+            touchController.hoveredFrames.subscribe(({ point: position, anchorElement }) => {
                 const { left, top } = anchorElement.getBoundingClientRect();
                 showTouchElement.style.position = 'absolute';
                 showTouchElement.style.left = position.x + left + 'px';
@@ -27,7 +27,7 @@ export class TouchControllerDebugLayer {
             showElement.appendChild(showTouchElement);
 
             touch.frames.subscribe({
-                next: ({ position }) => {
+                next: ({ point: position }) => {
                     const { left, top } = touch.anchorElement.getBoundingClientRect();
                     showTouchElement.style.position = 'absolute';
                     showTouchElement.style.left = position.x + left + 'px';

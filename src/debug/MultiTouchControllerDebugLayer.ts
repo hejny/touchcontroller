@@ -114,7 +114,7 @@ export class MultitouchControllerDebugLayer {
                             </tr>
                             <tr>
                                 <th>Position:</th>
-                                <td>${frame.position}</td>
+                                <td>${frame.point}</td>
                             </tr>
                             <tr>
                                 <th>Time:</th>

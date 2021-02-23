@@ -14,8 +14,6 @@ export class EventManager {
         callback: IListenerCallback,
         options?: AddEventListenerOptions | boolean,
     ): void {
-        console.log({ element, eventType, callback, options });
-
         element.addEventListener(eventType, callback, options);
         this.listeners.push({ element, eventType, callback });
     }

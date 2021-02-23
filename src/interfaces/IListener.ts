@@ -1,3 +1,4 @@
+import { ICoorsys } from 'xyzt';
 import { Touch } from '../touch/Touch';
 import { TouchFrame } from '../touch/TouchFrame';
 import { Awaitable } from './Awaitable';
@@ -7,8 +8,10 @@ import { IElement } from './IElement';
 export interface IListener {
     title: string;
     init: (
+        // TODO: Maybe options
         element: IElement,
         anchorElement: IElement,
+        corsys: ICoorsys,
         newTouch: (touch: Touch) => void, // TODO: type Touch is not a good name because of it exist in default typings
         newHoverFrame: (frame: TouchFrame) => void, // acceptsEvent: (event:any)=>boolean
     ) => void;

@@ -1,4 +1,4 @@
-import { Vector } from 'xyzt';
+import { ICoorsys, Vector } from 'xyzt';
 import { IEvent } from '../interfaces/IEvent';
 import { IListener } from '../interfaces/IListener';
 import { EventManager } from '../main';
@@ -42,6 +42,7 @@ export class MouseListener implements IListener {
     public init(
         element: IElement,
         anchorElement: IElement,
+        corsys: ICoorsys,
         newTouch: (touch: Touch) => void,
         newHoverFrame: (frame: TouchFrame) => void,
     ): void {
@@ -152,6 +153,7 @@ export class MouseListener implements IListener {
         const createTouchFrameFromEvent = (event: IEvent) => {
             const boundingRect = getBoundingClientRectEnhanced(element);
             return new TouchFrame({
+                corsys,
                 element,
                 anchorElement,
                 positionRelative: Vector.fromArray(event.clientX - boundingRect.left, event.clientY - boundingRect.top),

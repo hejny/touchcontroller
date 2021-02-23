@@ -1,4 +1,5 @@
 import { Subject } from 'rxjs/internal/Subject';
+import { Coorsys, ICoorsys, Transform } from 'xyzt';
 
 import { Awaitable } from '../interfaces/Awaitable';
 import { IElement } from '../interfaces/IElement';
@@ -28,6 +29,7 @@ const touchControllerOptionsDefault = {
 export class TouchController implements ITouchController {
     // TODO: Rename TouchController to Touchcontroller
 
+    public readonly corsys: ICoorsys;
     public readonly elements: IElement[];
     public readonly anchorElement: HTMLElement;
     public readonly touches = new Subject<Touch>();
@@ -59,6 +61,9 @@ export class TouchController implements ITouchController {
         } else {
             throw new Error('There must be set element or elements+anchorElement when costructing TouchController.');
         }
+
+        // TODO: !!! What corsys should we use here??
+        this.corsys = new Coorsys('neutral', Transform.neutral());
 
         // TODO: document.body vs document in anchorElement and elements
         if (setListeners) {
@@ -131,6 +136,7 @@ export class TouchController implements ITouchController {
         listener.init(
             element,
             this.anchorElement,
+            this.corsys,
             (touch: Touch) => this.touches.next(touch),
             (frame: TouchFrame) => this.hoveredFrames.next(frame),
         );

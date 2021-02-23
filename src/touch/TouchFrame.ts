@@ -1,4 +1,4 @@
-import { Vector } from 'xyzt';
+import { ICoorsys, Point, Vector } from 'xyzt';
 import { IElement } from '../interfaces/IElement';
 import { getBoundingClientRectEnhanced } from '../utils/getBoundingClientRectEnhanced';
 import { WithOptional } from '../utils/WithOptional';
@@ -6,6 +6,7 @@ import { WithOptional } from '../utils/WithOptional';
 interface ITouchFrameOptions {
     element: IElement;
     anchorElement: IElement;
+    corsys: ICoorsys;
     positionRelative: Vector;
     time: number | null;
     rotating: boolean;
@@ -26,15 +27,16 @@ const touchFrameOptionsDefault = {
 export class TouchFrame {
     public readonly element: IElement;
     public readonly anchorElement: IElement;
+    public readonly corsys: ICoorsys;
     public readonly positionRelative: Vector;
     public readonly time: number | null;
     public readonly rotating: boolean;
     public readonly force: number;
     public readonly radius: Vector;
-    public position: Vector;
+    public point: Point;
 
     constructor(options: WithOptional<ITouchFrameOptions, keyof typeof touchFrameOptionsDefault>) {
-        const { element, anchorElement, positionRelative, time, rotating, force, radius, countPosition } = {
+        const { element, anchorElement, positionRelative, corsys, time, rotating, force, radius, countPosition } = {
             ...touchFrameOptionsDefault,
             time: performance.now(),
             ...options,
@@ -42,6 +44,7 @@ export class TouchFrame {
 
         this.element = element;
         this.anchorElement = anchorElement;
+        this.corsys = corsys;
         this.positionRelative = positionRelative;
         this.time = time;
         this.rotating = rotating;
@@ -52,13 +55,13 @@ export class TouchFrame {
             const offset = Vector.fromObject(getBoundingClientRectEnhanced(element), ['x', 'y']).subtract(
                 Vector.fromObject(getBoundingClientRectEnhanced(anchorElement), ['x', 'y']),
             );
-            this.position = this.positionRelative.add(offset);
+            this.point = new Point(corsys, this.positionRelative.add(offset));
         }
     }
 
     public clone(): TouchFrame {
         const touchFrame = new TouchFrame({ ...this, countPosition: false /* TODO: Why? */ });
-        touchFrame.position = this.position;
+        touchFrame.point = this.point;
         return touchFrame;
     }
 }

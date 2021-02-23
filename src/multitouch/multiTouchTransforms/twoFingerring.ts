@@ -1,7 +1,6 @@
 import { Observable } from 'rxjs/internal/Observable';
-import { ITransform, Transform, Vector } from 'xyzt';
+import { ITransformData, Transform, Vector } from 'xyzt';
 import { Touch, TouchController } from '../../main';
-
 
 interface ITwoFingerringOptions {
     // TODO: !!!
@@ -9,7 +8,7 @@ interface ITwoFingerringOptions {
     touch1: Touch;
     touch2: Touch;
     getElementCenter: () => Vector;
-    pick: Array<keyof ITransform>;
+    pick: Array<keyof ITransformData>;
 }
 
 export function _twoFingerring({
@@ -28,12 +27,12 @@ export function _twoFingerring({
             ].forEach(async ([centerTouch, actionTouch]) => {
                 // TODO: Better distinct between elementCenter and center
 
-                const centerTouchPosition = (await centerTouch.firstFrame).position;
+                const centerTouchPosition = (await centerTouch.firstFrame).point;
                 actionTouch
                     .frameTuples({ itemsPerTuple: 2, startImmediately: false })
                     .subscribe(([actionTouchFrameA, actionTouchFrameB]) => {
-                        const a = actionTouchFrameA.position.subtract(centerTouchPosition);
-                        const b = actionTouchFrameB.position.subtract(centerTouchPosition);
+                        const a = actionTouchFrameA.point.subtract(centerTouchPosition);
+                        const b = actionTouchFrameB.point.subtract(centerTouchPosition);
 
                         const rotate = pick.includes('rotate') ? b.rotation() - a.rotation() : 0;
                         const scale = pick.includes('scale') ? b.distance() / a.distance() : 1;

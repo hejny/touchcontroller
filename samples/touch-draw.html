@@ -26,8 +26,8 @@
                     touch.frameTuples({ itemsPerTuple: 2, startImmediately: true }).subscribe(([frame1, frame2]) => {
                         ctx.strokeStyle = color;
                         ctx.beginPath();
-                        ctx.moveTo(...frame1.position.toArray());
-                        ctx.lineTo(...frame2.position.toArray());
+                        ctx.moveTo(...frame1.point.toArray());
+                        ctx.lineTo(...frame2.point.toArray());
                         ctx.stroke();
                     });
                 });

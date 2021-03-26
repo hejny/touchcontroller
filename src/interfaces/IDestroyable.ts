@@ -1,4 +1,4 @@
-import { IAwaitable } from '../IAwaitable';
+import { IAwaitable } from './IAwaitable';
 
 export interface IDestroyable {
     readonly destroyed: boolean;

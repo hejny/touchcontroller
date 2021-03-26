@@ -27,6 +27,7 @@ export class MultitouchController<TElement extends BoundingBox> extends Destroya
     constructor(
         options: WithOptional<IMultitouchControllerOptions<TElement>, keyof typeof multitouchControllerOptionsDefault>,
     ) {
+        super();
         const { touchController, elementBinder } = {
             ...multitouchControllerOptionsDefault,
             ...options,

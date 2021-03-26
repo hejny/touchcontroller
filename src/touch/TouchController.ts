@@ -42,6 +42,7 @@ export class TouchController extends Destroyable implements ITouchController, ID
     private listeners: IListener[] = [];
 
     constructor(options: WithOptional<ITouchControllerOptions, keyof typeof touchControllerOptionsDefault>) {
+        super();
         const { elements, anchorElement, setListeners } = {
             ...touchControllerOptionsDefault,
             ...options,

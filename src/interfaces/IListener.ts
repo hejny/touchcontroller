@@ -1,6 +1,6 @@
 import { Touch } from '../touch/Touch';
 import { TouchFrame } from '../touch/TouchFrame';
-import { Awaitable } from './Awaitable';
+import { IAwaitable } from './IAwaitable';
 import { IElement } from './IElement';
 
 // TODO: This should be maybe regular Class not a Function
@@ -15,6 +15,6 @@ export interface IListener {
     // TODO: dispose: () => void;
 
     acceptsEvent: (event: Event) => boolean;
-    startFromExternalEvent: (element: IElement, event: Event) => Awaitable<void>;
+    startFromExternalEvent: (element: IElement, event: Event) => IAwaitable<void>;
     startEventType: string;
 }

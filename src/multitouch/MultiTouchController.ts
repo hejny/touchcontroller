@@ -1,26 +1,28 @@
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
 import { BoundingBox } from 'xyzt';
-import { Awaitable } from '../interfaces/Awaitable';
+import { IAwaitable } from '../interfaces/IAwaitable';
+import { IDestroyable } from '../interfaces/IDestroyable';
 import { ITouchController } from '../interfaces/ITouchController';
 import { TouchFrame } from '../touch/TouchFrame';
+import { Destroyable } from '../utils/Destroyable';
 import { WithOptional } from '../utils/WithOptional';
 import { Multitouch } from './Multitouch';
 
 interface IMultitouchControllerOptions<TElement extends BoundingBox> {
     touchController: ITouchController;
-    elementBinder: (frame: TouchFrame) => Awaitable<TElement | undefined>;
+    elementBinder: (frame: TouchFrame) => IAwaitable<TElement | undefined>;
 }
 
 const multitouchControllerOptionsDefault = {
     elementBinder: () => undefined,
 };
 
-export class MultitouchController<TElement extends BoundingBox> {
+export class MultitouchController<TElement extends BoundingBox> extends Destroyable implements IDestroyable {
     public readonly touchController: ITouchController;
     public readonly multitouches = new Subject<Multitouch<TElement>>();
     private ongoingMultitouches: Array<Multitouch<TElement>> = [];
-    private readonly elementBinder: (frame: TouchFrame) => Awaitable<TElement | undefined>;
+    private readonly elementBinder: (frame: TouchFrame) => IAwaitable<TElement | undefined>;
 
     constructor(
         options: WithOptional<IMultitouchControllerOptions<TElement>, keyof typeof multitouchControllerOptionsDefault>,
@@ -83,5 +85,6 @@ export class MultitouchController<TElement extends BoundingBox> {
         });
     }
 
-    // TODO: method for dispose
+    // TODO: override destroy and really destroy subscriptions created here
+    // TODO: detect in methods if I am destroyed
 }

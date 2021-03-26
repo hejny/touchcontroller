@@ -1,10 +1,12 @@
 import { Subject } from 'rxjs/internal/Subject';
-import { Awaitable } from '../interfaces/Awaitable';
+import { IAwaitable } from '../interfaces/IAwaitable';
+import { IDestroyable } from '../interfaces/IDestroyable';
 import { IElement } from '../interfaces/IElement';
 import { IListener } from '../interfaces/IListener';
 import { ITouchController } from '../interfaces/ITouchController';
 import { MouseListener } from '../listeners/MouseListener';
 import { TouchListener } from '../listeners/TouchListener';
+import { Destroyable } from '../utils/Destroyable';
 import { EventManager } from '../utils/EventManager';
 import { WithOptional } from '../utils/WithOptional';
 import { Touch } from './Touch';
@@ -22,7 +24,7 @@ const touchControllerOptionsDefault = {
     setListeners: true,
 };
 
-export class TouchController implements ITouchController {
+export class TouchController extends Destroyable implements ITouchController, IDestroyable {
     // TODO: Rename TouchController to Touchcontroller
 
     public static fromCanvas(canvas: HTMLCanvasElement): TouchController {
@@ -71,7 +73,7 @@ export class TouchController implements ITouchController {
         }
     }
 
-    public addInitialElement(element: IElement, newElementCreator: (event: Event) => Awaitable<IElement>): void {
+    public addInitialElement(element: IElement, newElementCreator: (event: Event) => IAwaitable<IElement>): void {
         for (const listener of this.listeners) {
             // TODO: Should be here updateEventListener or addEventListener
             this.eventManager.addEventListener(element, listener.startEventType, async (event) => {
@@ -125,5 +127,6 @@ export class TouchController implements ITouchController {
         // TODO: array of listeners disposers
     }
 
-    // TODO: method for dispose
+    // TODO: override destroy and really destroy event listeners created here
+    // TODO: detect in methods if I am destroyed
 }

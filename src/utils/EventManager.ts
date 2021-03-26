@@ -55,6 +55,9 @@ export class EventManager {
         this.removeEventListeners(element, eventType);
         this.addEventListener(element, eventType, callback, options);
     }
+
+    // TODO: override destroy and really destroy event listeners created here
+    // TODO: detect in methods if I am destroyed
 }
 
 type IListenerCallback = (event: any /*Event | TouchEvent | MouseEvent | PointerEvent /* TODO: Better */) => void;

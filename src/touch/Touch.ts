@@ -1,4 +1,4 @@
-import { Subject } from 'rxjs/internal/Subject';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import * as uuid from 'uuid';
 import { IElement } from '../interfaces/IElement';
 import { padArray } from '../utils/padArray';
@@ -20,8 +20,7 @@ export class Touch {
     public readonly buttonIdentifier?: string | number;
     public readonly id = id++;
     public readonly uuid = uuid.v4(); // TODO: Do we really need uuid
-    public readonly frames = new Subject<TouchFrame>();
-    public readonly firstFrame: Promise<TouchFrame>;
+    public readonly frames: BehaviorSubject<TouchFrame>;
 
     /**
      *
@@ -36,6 +35,8 @@ export class Touch {
         this.type = type;
         this.anchorElement = anchorElement;
         this.buttonIdentifier = buttonIdentifier;
+
+        this.frames = new BehaviorSubject<TouchFrame>();
         this.firstFrame = new Promise((resolve) => {
             this.frames.subscribe((frame) => {
                 resolve(frame);

@@ -39,7 +39,7 @@ export class TouchController extends Destroyable implements ITouchController, ID
     public readonly hoveredFrames = new Subject<TouchFrame>();
     public readonly eventManager = new EventManager();
 
-    private listeners: IListener[] = [];
+    private listeners: IListener<Event>[] = [];
 
     constructor(options: WithOptional<ITouchControllerOptions, keyof typeof touchControllerOptionsDefault>) {
         super();
@@ -55,11 +55,11 @@ export class TouchController extends Destroyable implements ITouchController, ID
         if (setListeners) {
             this.addListener(new MouseListener(this.eventManager));
             this.addListener(new MouseListener(this.eventManager, [1, 2], true));
-            this.addListener(new TouchListener(this.eventManager));
+            this.addListener(new TouchListener(this.eventManager) as IListener<any>);
         }
     }
 
-    public addListener(listener: IListener): void {
+    public addListener(listener: IListener<Event>): void {
         this.listeners.push(listener);
         for (const element of this.elements) {
             this.callListenerOnElement(listener, element);
@@ -118,7 +118,7 @@ export class TouchController extends Destroyable implements ITouchController, ID
     }
     */
 
-    private callListenerOnElement(listener: IListener, element: IElement) {
+    private callListenerOnElement(listener: IListener<Event>, element: IElement) {
         listener.init(
             element,
             this.anchorElement,

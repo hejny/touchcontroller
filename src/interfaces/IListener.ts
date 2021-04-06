@@ -4,7 +4,7 @@ import { IAwaitable } from './IAwaitable';
 import { IElement } from './IElement';
 
 // TODO: This should be maybe regular Class not a Function
-export interface IListener {
+export interface IListener<TEvent extends Event> {
     title: string;
     init: (
         element: IElement,
@@ -14,7 +14,7 @@ export interface IListener {
     ) => void;
     // TODO: dispose: () => void;
 
-    acceptsEvent: (event: Event) => boolean;
-    startFromExternalEvent: (element: IElement, event: Event) => IAwaitable<void>;
+    acceptsEvent: (event: Event) => event is TEvent;
+    startFromExternalEvent: (element: IElement, event: TEvent) => IAwaitable<void>;
     startEventType: string;
 }

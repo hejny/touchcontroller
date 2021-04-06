@@ -6,28 +6,32 @@ import { TouchFrame } from '../touch/TouchFrame';
 import { IEmulateTouchOptions } from './IEmulateTouchOptions';
 import { _getEmulateTouchAdvancedOptions } from './_getEmulateTouchAdvancedOptions';
 
-export async function emulateTouch(touchController: TouchController, options: IEmulateTouchOptions): Promise<Touch> {
-    // TODO: Maybe not async
-    const { frames } = _getEmulateTouchAdvancedOptions(options);
+export function emulateTouch(touchController: TouchController, options: IEmulateTouchOptions): Promise<Touch> {
+    // eslint-disable-line no-async-promise-executor
+    return new Promise(async (resolve) => {
+        const { frames } = _getEmulateTouchAdvancedOptions(options);
+        let touch: null | Touch = null;
 
-    // await forTime(250);
+        for (const frame of frames) {
+            await forTime(250);
 
-    const touch = new Touch({
-        type: 'TOUCH',
-        anchorElement: touchController.anchorElement,
-    });
-    touchController.touches.next(touch);
-
-    for (const frame of frames) {
-        await forTime(250);
-        touch.frames.next(
-            new TouchFrame({
+            const touchFrame = new TouchFrame({
                 element: touchController.anchorElement,
                 anchorElement: touchController.anchorElement,
                 positionRelative: Vector.fromObject(frame.position),
-            }),
-        );
-    }
+            });
 
-    return touch;
+            if (!touch) {
+                touch = new Touch({
+                    type: 'TOUCH',
+                    anchorElement: touchController.anchorElement,
+                    firstFrame: touchFrame,
+                });
+                touchController.touches.next(touch);
+                resolve(touch);
+            } else {
+                touch.frames.next(touchFrame);
+            }
+        }
+    });
 }

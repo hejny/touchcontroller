@@ -2,9 +2,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { ITransform, Transform, Vector } from 'xyzt';
 import { Touch, TouchController } from '../../main';
 
-
 interface ITwoFingerringOptions {
-    // TODO: !!!
     touchController: TouchController;
     touch1: Touch;
     touch2: Touch;
@@ -13,7 +11,6 @@ interface ITwoFingerringOptions {
 }
 
 export function _twoFingerring({
-    touchController,
     touch1,
     touch2,
     getElementCenter,

@@ -1,4 +1,5 @@
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { Subject } from 'rxjs/internal/Subject';
 import * as uuid from 'uuid';
 import { IElement } from '../interfaces/IElement';
 import { padArray } from '../utils/padArray';
@@ -9,6 +10,7 @@ interface ITouchOptions {
     type: 'TOUCH' | 'MOUSE' /* TODO: | 'EMULATED' */; // TODO: maybe as second optional param and extendable
     anchorElement: IElement;
     buttonIdentifier?: string | number;
+    firstFrame: TouchFrame;
 }
 
 const touchOptionsDefault = {};
@@ -21,13 +23,14 @@ export class Touch {
     public readonly id = id++;
     public readonly uuid = uuid.v4(); // TODO: Do we really need uuid
     public readonly frames: BehaviorSubject<TouchFrame>;
+    public readonly firstFrame: TouchFrame;
 
     /**
      *
      * @param anchorElement Positions of touch are relative to anchorElement
      */
     constructor(options: WithOptional<ITouchOptions, keyof typeof touchOptionsDefault>) {
-        const { type, anchorElement, buttonIdentifier } = {
+        const { type, anchorElement, buttonIdentifier, firstFrame } = {
             ...touchOptionsDefault,
             ...options,
         };
@@ -35,13 +38,9 @@ export class Touch {
         this.type = type;
         this.anchorElement = anchorElement;
         this.buttonIdentifier = buttonIdentifier;
+        this.firstFrame = firstFrame;
 
-        this.frames = new BehaviorSubject<TouchFrame>();
-        this.firstFrame = new Promise((resolve) => {
-            this.frames.subscribe((frame) => {
-                resolve(frame);
-            });
-        });
+        this.frames = new BehaviorSubject<TouchFrame>(firstFrame);
     }
 
     public frameTuples({ itemsPerTuple, startImmediately }: ITouchFrameTuplingOptions): Subject<TouchFrame[]> {

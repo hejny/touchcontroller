@@ -1,5 +1,4 @@
 import { Vector } from 'xyzt';
-import { IEvent } from '../interfaces/IEvent';
 import { IListener } from '../interfaces/IListener';
 import { EventManager } from '../main';
 import { Touch } from '../touch/Touch';
@@ -16,7 +15,7 @@ const MOUSE_LISTENER_OPTIONS = {
 // TODO: remove singleton
 let onlyTouch: Touch | null = null;
 
-export class MouseListener implements IListener {
+export class MouseListener implements IListener<MouseEvent> {
     public get title(): string {
         return `MOUSE(${this.buttons.join(',')})`;
     }
@@ -35,7 +34,8 @@ export class MouseListener implements IListener {
         private readonly rotating = false,
     ) {}
 
-    public acceptsEvent(event: Event): boolean {
+    public acceptsEvent(event: Event): event is MouseEvent {
+        if (!(event instanceof MouseEvent)) return false;
         return this.buttons.indexOf((event as MouseEvent).button) !== -1;
     }
 
@@ -95,6 +95,7 @@ export class MouseListener implements IListener {
                 type: 'MOUSE',
                 anchorElement,
                 buttonIdentifier: event.buttons /* TODO: Is a good option to cast button to identifier? */,
+                firstFrame: createTouchFrameFromEvent(event),
             });
 
             this.eventManager.addEventListener(
@@ -149,7 +150,7 @@ export class MouseListener implements IListener {
             }
         };
 
-        const createTouchFrameFromEvent = (event: IEvent) => {
+        const createTouchFrameFromEvent = (event: MouseEvent) => {
             const boundingRect = getBoundingClientRectEnhanced(element);
             return new TouchFrame({
                 element,

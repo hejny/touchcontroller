@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Sample of TouchController</title>
+        <link rel="stylesheet" type="text/css" href="./assets/common.css" />
+    </head>
+    <body>
+        <canvas id="scene" width="500" height="500"></canvas>
+
+        <script src="../dist/main.dev.browser.js"></script>
+        <script>
+            (() => {
+                const { TouchController, TouchControllerDebugLayer } = window.TouchController;
+
+                const scene = document.getElementById('scene');
+                const ctx = scene.getContext('2d');
+                ctx.lineWidth = 10;
+                ctx.lineCap = 'round';
+
+                const touchController = TouchController.fromCanvas(scene);
+
+                touchController.touches.subscribe((touch) => {
+                    const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+
+                    touch.frames.subscribe((frame) => {
+                        ctx.strokeStyle = color;
+                        ctx.beginPath();
+                        ctx.moveTo(frame.position.x, frame.position.y);
+                        ctx.lineTo(frame.position.x, frame.position.y);
+                        ctx.stroke();
+                    });
+                });
+
+                new TouchControllerDebugLayer(touchController);
+            })();
+        </script>
+    </body>
+</html>

@@ -128,6 +128,8 @@ export class TouchController extends Destroyable implements ITouchController, ID
         // TODO: array of listeners disposers
     }
 
+    // TODO: !!! Destoroy
+
     // TODO: override destroy and really destroy event listeners created here
     // TODO: detect in methods if I am destroyed
 }

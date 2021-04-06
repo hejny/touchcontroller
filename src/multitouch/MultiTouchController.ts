@@ -86,6 +86,7 @@ export class MultitouchController<TElement extends BoundingBox> extends Destroya
         });
     }
 
+    // TODO: !!! Destoroy
     // TODO: override destroy and really destroy subscriptions created here
     // TODO: detect in methods if I am destroyed
 }

@@ -87,4 +87,6 @@ export class Particle {
         );
         ctx.restore();
     }
+
+    // TODO: !!! Destoroy
 }

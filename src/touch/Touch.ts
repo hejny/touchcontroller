@@ -71,6 +71,7 @@ export class Touch {
         return `Touch ${this.id} ${this.buttonIdentifier ? `(external id is ${this.buttonIdentifier})` : ''}`;
     }
 
+    // TODO: !!! Destoroy
     /*
     // TODO: better name OR probbably delete
     public get start(): number {

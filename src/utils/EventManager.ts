@@ -56,6 +56,8 @@ export class EventManager {
         this.addEventListener(element, eventType, callback, options);
     }
 
+    // TODO: !!! Destoroy
+
     // TODO: override destroy and really destroy event listeners created here
     // TODO: detect in methods if I am destroyed
 }

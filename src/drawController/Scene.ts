@@ -48,4 +48,6 @@ export class Scene {
     public get size(): Vector {
         return Vector.fromArray(this.ctx.canvas.width, this.ctx.canvas.height);
     }
+
+    // TODO: !!! Destoroy
 }

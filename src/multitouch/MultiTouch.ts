@@ -56,4 +56,6 @@ export class Multitouch<TElement> {
             });
         });
     }
+
+    // TODO: !!! Destoroy
 }

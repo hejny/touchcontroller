@@ -74,5 +74,5 @@ export {
     IEmulateTouchOptionsAdvanced,
     getBoundingClientRectEnhanced,
     multitouchTransformsOnElement,
-    MultitouchControllerDebugLayer,
+    MultitouchControllerDebugLayer
 };

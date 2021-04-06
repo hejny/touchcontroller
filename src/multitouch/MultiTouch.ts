@@ -26,6 +26,7 @@ export class Multitouch<TElement> {
                 this.ongoingTouches = this.ongoingTouches.filter((touch2) => touch2 !== touch);
                 if (this.ongoingTouches.length === 0) {
                     this.touches.complete();
+                    // TODO: !!! Maybe destroy here
                 }
             },
         });

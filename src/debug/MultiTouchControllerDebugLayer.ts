@@ -13,12 +13,13 @@ export class MultitouchControllerDebugLayer {
         logElement.classList.add(`${_CSS_PREFIX}main`);
         document.body.appendChild(logElement);
 
-        multitouchController.multitouches.subscribe((multitouch) => {
-            // const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+        multitouchController.multitouches.subscribe({
+            next: (multitouch) => {
+                // const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
 
-            const logMultitouchElement = document.createElement('div');
+                const logMultitouchElement = document.createElement('div');
 
-            logMultitouchElement.innerHTML = `
+                logMultitouchElement.innerHTML = `
             <div class="${_CSS_PREFIX}multitouch">
                 <div class="${_CSS_PREFIX}title">${multitouch.toString()}</div>
                 <div class="${_CSS_PREFIX}multitouch-last-transform"></div>
@@ -26,15 +27,15 @@ export class MultitouchControllerDebugLayer {
             </div>
             `;
 
-            const logMultitouchLastTransformElement = logMultitouchElement.querySelector(
-                `.${_CSS_PREFIX}multitouch-last-transform`,
-            ) as HTMLDivElement;
+                const logMultitouchLastTransformElement = logMultitouchElement.querySelector(
+                    `.${_CSS_PREFIX}multitouch-last-transform`,
+                ) as HTMLDivElement;
 
-            logElement.appendChild(logMultitouchElement);
+                logElement.appendChild(logMultitouchElement);
 
-            multitouchTransformsOnElement({ multitouch, touchController: null as any /* !!! */ }).subscribe(
-                (transform) => {
-                    logMultitouchLastTransformElement.innerHTML = `
+                multitouchTransformsOnElement({ multitouch, touchController: null as any /* !!! */ }).subscribe(
+                    (transform) => {
+                        logMultitouchLastTransformElement.innerHTML = `
                         <table>
                             <tr>
                                 <th>Translate:</th>
@@ -50,14 +51,18 @@ export class MultitouchControllerDebugLayer {
                             </tr>
                         </table>
                     `;
-                },
-            );
+                    },
+                );
 
-            multitouch.touches.subscribe({
-                next: (touch) => {
-                    logMultitouchElement.querySelector('.touches')!.appendChild(touchElements.get(touch)!);
-                },
-            });
+                multitouch.touches.subscribe({
+                    next: (touch) => {
+                        logMultitouchElement.querySelector('.touches')!.appendChild(touchElements.get(touch)!);
+                    },
+                    complete: () => {
+                        logElement.removeChild(logMultitouchElement);
+                    },
+                });
+            },
         });
 
         multitouchController.touchController.touches.subscribe({

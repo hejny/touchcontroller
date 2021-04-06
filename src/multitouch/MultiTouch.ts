@@ -2,16 +2,20 @@ import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
 import * as uuid from 'uuid';
 import { forImmediate } from 'waitasecond';
+import { IDestroyable } from '../interfaces/IDestroyable';
 import { Touch } from '../touch/Touch';
+import { Destroyable } from '../utils/Destroyable';
 
 let id = 0;
-export class Multitouch<TElement> {
+export class Multitouch<TElement> extends Destroyable implements IDestroyable {
     public readonly id = id++;
     public readonly uuid = uuid.v4(); // TODO: Do we really need uuid
     public ongoingTouches: Touch[] = [];
     public readonly touches = new Subject<Touch>();
 
-    constructor(public element?: TElement) {}
+    constructor(public element?: TElement) {
+        super();
+    }
 
     public toString(): string {
         return `Multitouch ${this.id}`;
@@ -58,5 +62,9 @@ export class Multitouch<TElement> {
         });
     }
 
-    // TODO: !!! Destoroy
+    public async destroy(): Promise<void> {
+        super.destroy();
+        // TODO: Implement and really destroy things constructed and created here
+        // TODO: Use in methods this.checkWhetherNotDestroyed
+    }
 }

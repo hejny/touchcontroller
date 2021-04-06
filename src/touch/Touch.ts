@@ -1,7 +1,9 @@
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Subject } from 'rxjs/internal/Subject';
 import * as uuid from 'uuid';
+import { IDestroyable } from '../interfaces/IDestroyable';
 import { IElement } from '../interfaces/IElement';
+import { Destroyable } from '../utils/Destroyable';
 import { padArray } from '../utils/padArray';
 import { WithOptional } from '../utils/WithOptional';
 import { TouchFrame } from './TouchFrame';
@@ -16,7 +18,7 @@ interface ITouchOptions {
 const touchOptionsDefault = {};
 
 let id = 0;
-export class Touch {
+export class Touch extends Destroyable implements IDestroyable {
     public readonly type: 'TOUCH' | 'MOUSE';
     public readonly anchorElement: IElement;
     public readonly buttonIdentifier?: string | number;
@@ -30,6 +32,7 @@ export class Touch {
      * @param anchorElement Positions of touch are relative to anchorElement
      */
     constructor(options: WithOptional<ITouchOptions, keyof typeof touchOptionsDefault>) {
+        super();
         const { type, anchorElement, buttonIdentifier, firstFrame } = {
             ...touchOptionsDefault,
             ...options,
@@ -71,7 +74,12 @@ export class Touch {
         return `Touch ${this.id} ${this.buttonIdentifier ? `(external id is ${this.buttonIdentifier})` : ''}`;
     }
 
-    // TODO: !!! Destoroy
+    public async destroy(): Promise<void> {
+        super.destroy();
+        // TODO: Implement and really destroy things constructed and created here
+        // TODO: Use in methods this.checkWhetherNotDestroyed
+    }
+
     /*
     // TODO: better name OR probbably delete
     public get start(): number {

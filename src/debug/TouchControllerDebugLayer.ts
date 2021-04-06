@@ -1,8 +1,11 @@
+import { IDestroyable } from '../interfaces/IDestroyable';
 import { TouchController } from '../touch/TouchController';
+import { Destroyable } from '../utils/Destroyable';
 import { _createDebugLayerCss, _CSS_PREFIX } from './createDebugLayerCss';
 
-export class TouchControllerDebugLayer {
+export class TouchControllerDebugLayer extends Destroyable implements IDestroyable {
     constructor(touchController: TouchController) {
+        super();
         _createDebugLayerCss();
 
         const showElement = document.createElement('div');
@@ -27,5 +30,9 @@ export class TouchControllerDebugLayer {
         });
     }
 
-    // TODO: !!! Destoroy
+    public async destroy(): Promise<void> {
+        super.destroy();
+        // TODO: Implement and really destroy things constructed and created here
+        // TODO: Use in methods this.checkWhetherNotDestroyed
+    }
 }

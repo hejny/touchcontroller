@@ -1,10 +1,12 @@
 import { forAnimationFrame } from 'waitasecond';
 import { Vector } from 'xyzt';
+import { IDestroyable } from '../interfaces/IDestroyable';
 import { particleOptionsAverage } from '../utils/average';
+import { Destroyable } from '../utils/Destroyable';
 import { IParticleOptions, Particle } from './Particle';
 import { Scene } from './Scene';
 
-export class DrawController {
+export class DrawController extends Destroyable implements IDestroyable {
     public deadParticlesCount = 0;
     private readonly liveCtx: CanvasRenderingContext2D;
     private readonly deadCtx: CanvasRenderingContext2D;
@@ -15,6 +17,7 @@ export class DrawController {
 
     // TODO: initial do better
     constructor(quality: Vector, initialColor = '#ffffff') {
+        super();
         {
             const canvas = document.createElement('canvas');
             canvas.width = quality.x;
@@ -116,5 +119,9 @@ export class DrawController {
         this.callSubscribers();
     }
 
-    // TODO: !!! Destoroy
+    public async destroy(): Promise<void> {
+        super.destroy();
+        // TODO: Implement and really destroy things constructed and created here
+        // TODO: Use in methods this.checkWhetherNotDestroyed
+    }
 }

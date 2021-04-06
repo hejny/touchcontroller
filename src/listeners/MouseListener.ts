@@ -1,8 +1,8 @@
 import { Vector } from 'xyzt';
 import { IListener } from '../interfaces/IListener';
-import { EventManager } from '../main';
 import { Touch } from '../touch/Touch';
 import { TouchFrame } from '../touch/TouchFrame';
+import { EventManager } from '../utils/EventManager';
 import { getBoundingClientRectEnhanced } from '../utils/getBoundingClientRectEnhanced';
 import { IElement } from './../interfaces/IElement';
 import { SourceCache } from './../utils/Cache';

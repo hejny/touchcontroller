@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs/internal/Observable';
 import { BoundingBox, ITransform, Transform, Vector } from 'xyzt';
-import { TouchController } from '../../main';
+import { TouchController } from '../../touch/TouchController';
+
 import { Multitouch } from '../Multitouch';
 import { _dragging } from './dragging';
 import { _twoFingerring } from './twoFingerring';

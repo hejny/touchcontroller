@@ -1,4 +1,4 @@
-import { Touch } from '../main';
+import { Touch } from '../touch/Touch';
 import { TouchController } from '../touch/TouchController';
 
 // !!!

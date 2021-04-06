@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/internal/Observable';
 import { Transform, Vector } from 'xyzt';
-import { Touch } from '../../main';
+import { Touch } from '../../touch/Touch';
 
 export function _dragging(touch: Touch): Observable<Transform> {
     return new Observable((observer) => {

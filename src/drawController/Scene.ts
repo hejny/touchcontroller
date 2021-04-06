@@ -1,11 +1,14 @@
 import { Vector } from 'xyzt';
+import { IDestroyable } from '../interfaces/IDestroyable';
+import { Destroyable } from '../utils/Destroyable';
 import { Particle } from './Particle';
 
-export class Scene {
+export class Scene extends Destroyable implements IDestroyable {
     // private ctx: CanvasRenderingContext2D;
     public particles: Particle[];
 
     constructor(private readonly ctx: CanvasRenderingContext2D) {
+        super();
         // const { width, height } = sceneElement.getBoundingClientRect();
         // sceneElement.width = width;
         // sceneElement.height = height;
@@ -49,5 +52,9 @@ export class Scene {
         return Vector.fromArray(this.ctx.canvas.width, this.ctx.canvas.height);
     }
 
-    // TODO: !!! Destoroy
+    public async destroy(): Promise<void> {
+        super.destroy();
+        // TODO: Implement and really destroy things constructed and created here
+        // TODO: Use in methods this.checkWhetherNotDestroyed
+    }
 }

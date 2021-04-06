@@ -1,6 +1,8 @@
+import { IDestroyable } from '../interfaces/IDestroyable';
 import { IElementListeners } from './../interfaces/IElement';
+import { Destroyable } from './Destroyable';
 
-export class EventManager {
+export class EventManager extends Destroyable implements IDestroyable {
     private listeners: Array<{
         element: IElementListeners;
         eventType: string;
@@ -56,10 +58,11 @@ export class EventManager {
         this.addEventListener(element, eventType, callback, options);
     }
 
-    // TODO: !!! Destoroy
-
-    // TODO: override destroy and really destroy event listeners created here
-    // TODO: detect in methods if I am destroyed
+    public async destroy(): Promise<void> {
+        super.destroy();
+        // TODO: Implement and really destroy things constructed and created here
+        // TODO: Use in methods this.checkWhetherNotDestroyed
+    }
 }
 
 type IListenerCallback = (event: any /*Event | TouchEvent | MouseEvent | PointerEvent /* TODO: Better */) => void;

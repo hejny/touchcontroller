@@ -1,7 +1,7 @@
 // GENERATED WITH generate-main-exports
 // Warning: Do not edit by hand, all changes will be lost on next execution!
 
-import { MultitouchControllerDebugLayer } from './debug/MultitouchControllerDebugLayer';
+import { MultitouchControllerDebugLayer } from './debug/MultiTouchControllerDebugLayer';
 import { TouchControllerDebugLayer } from './debug/TouchControllerDebugLayer';
 import { DrawController } from './drawController/CanvasParticlesRenderer';
 import { IParticleOptions } from './drawController/Particle';

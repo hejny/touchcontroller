@@ -1,7 +1,7 @@
 // GENERATED WITH generate-main-exports
 // Warning: Do not edit by hand, all changes will be lost on next execution!
 
-import { MultitouchControllerDebugLayer } from './debug/MultiTouchControllerDebugLayer';
+import { MultitouchControllerDebugLayer } from './debug/MultitouchControllerDebugLayer';
 import { TouchControllerDebugLayer } from './debug/TouchControllerDebugLayer';
 import { DrawController } from './drawController/CanvasParticlesRenderer';
 import { IParticleOptions } from './drawController/Particle';
@@ -19,11 +19,11 @@ import { IListener } from './interfaces/IListener';
 import { ITouchController } from './interfaces/ITouchController';
 import { MouseListener } from './listeners/MouseListener';
 import { TouchListener } from './listeners/TouchListener';
-import { Multitouch } from './multitouch/MultiTouch';
-import { MultitouchController } from './multitouch/MultiTouchController';
-import { IMultitouchTransformsOptions } from './multitouch/multiTouchTransforms/multiTouchTransforms';
-import { multitouchTransforms } from './multitouch/multiTouchTransforms/multiTouchTransforms';
-import { multitouchTransformsOnElement } from './multitouch/multiTouchTransforms/multitouchTransformsOnElement';
+import { Multitouch } from './multitouch/Multitouch';
+import { MultitouchController } from './multitouch/MultitouchController';
+import { IMultitouchTransformsOptions } from './multitouch/multitouchTransforms/multitouchTransforms';
+import { multitouchTransforms } from './multitouch/multitouchTransforms/multitouchTransforms';
+import { multitouchTransformsOnElement } from './multitouch/multitouchTransforms/multitouchTransformsOnElement';
 import { Touch } from './touch/Touch';
 import { TouchController } from './touch/TouchController';
 import { TouchFrame } from './touch/TouchFrame';

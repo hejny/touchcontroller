@@ -2,7 +2,7 @@ import { forAnimationFrame } from 'waitasecond';
 import { Vector } from 'xyzt';
 import { IListener } from '../interfaces/IListener';
 import {
-    Touch as MyTouch /* Note: Name Touch overlaps with lib.dom.d.ts browser native Touch */,
+    Touch as MyTouch /* Note: Name Touch overlaps with lib.dom.d.ts browser native Touch */
 } from '../touch/Touch';
 import { TouchFrame } from '../touch/TouchFrame';
 import { getBoundingClientRectEnhanced } from '../utils/getBoundingClientRectEnhanced';

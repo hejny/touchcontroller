@@ -7,7 +7,7 @@ import { IEmulateTouchOptions } from './IEmulateTouchOptions';
 import { _getEmulateTouchAdvancedOptions } from './_getEmulateTouchAdvancedOptions';
 
 export function emulateTouch(touchController: TouchController, options: IEmulateTouchOptions): Promise<Touch> {
-    // eslint-disable-line no-async-promise-executor
+    // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve) => {
         const { frames } = _getEmulateTouchAdvancedOptions(options);
         let touch: null | Touch = null;

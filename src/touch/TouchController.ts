@@ -1,12 +1,10 @@
+import { Destroyable, IAwaitable, IDestroyable } from 'destroyable';
 import { Subject } from 'rxjs/internal/Subject';
-import { IAwaitable } from '../interfaces/IAwaitable';
-import { IDestroyable } from '../interfaces/IDestroyable';
 import { IElement } from '../interfaces/IElement';
 import { IListener } from '../interfaces/IListener';
 import { ITouchController } from '../interfaces/ITouchController';
 import { MouseListener } from '../listeners/MouseListener';
 import { TouchListener } from '../listeners/TouchListener';
-import { Destroyable } from '../utils/Destroyable';
 import { EventManager } from '../utils/EventManager';
 import { WithOptional } from '../utils/WithOptional';
 import { Touch } from './Touch';

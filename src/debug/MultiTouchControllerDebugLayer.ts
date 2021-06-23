@@ -1,8 +1,7 @@
-import { IDestroyable } from '../interfaces/IDestroyable';
+import { Destroyable, IDestroyable } from 'destroyable';
 import { MultitouchController } from '../multitouch/MultitouchController';
 import { multitouchTransformsOnElement } from '../multitouch/multitouchTransforms/multitouchTransformsOnElement';
 import { Touch } from '../touch/Touch';
-import { Destroyable } from '../utils/Destroyable';
 import { _createDebugLayerCss, _CSS_PREFIX } from './createDebugLayerCss';
 
 export class MultitouchControllerDebugLayer extends Destroyable implements IDestroyable {

@@ -1,10 +1,9 @@
+import { Destroyable, IDestroyable } from 'destroyable';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
 import * as uuid from 'uuid';
 import { forImmediate } from 'waitasecond';
-import { IDestroyable } from '../interfaces/IDestroyable';
 import { Touch } from '../touch/Touch';
-import { Destroyable } from '../utils/Destroyable';
 
 let id = 0;
 export class Multitouch<TElement> extends Destroyable implements IDestroyable {

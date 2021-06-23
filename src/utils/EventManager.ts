@@ -1,6 +1,5 @@
-import { IDestroyable } from '../interfaces/IDestroyable';
+import { Destroyable, IDestroyable } from 'destroyable';
 import { IElementListeners } from './../interfaces/IElement';
-import { Destroyable } from './Destroyable';
 
 export class EventManager extends Destroyable implements IDestroyable {
     private listeners: Array<{

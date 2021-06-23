@@ -1,6 +1,6 @@
+import { IAwaitable } from 'destroyable';
 import { Touch } from '../touch/Touch';
 import { TouchFrame } from '../touch/TouchFrame';
-import { IAwaitable } from './IAwaitable';
 import { IElement } from './IElement';
 
 // TODO: This should be maybe regular Class not a Function

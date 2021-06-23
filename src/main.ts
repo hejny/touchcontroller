@@ -8,8 +8,6 @@ import { IParticleOptions, IParticleOptionsExternals, Particle } from './drawCon
 import { Scene } from './drawController/Scene';
 import { emulateTouch } from './emulate/emulateTouch';
 import { IEmulateTouchOptions, IEmulateTouchOptionsAdvanced } from './emulate/IEmulateTouchOptions';
-import { IAwaitable } from './interfaces/IAwaitable';
-import { IDestroyable } from './interfaces/IDestroyable';
 import { IElement, IElementListeners } from './interfaces/IElement';
 import { IListener } from './interfaces/IListener';
 import { ITouchController } from './interfaces/ITouchController';
@@ -17,7 +15,10 @@ import { MouseListener } from './listeners/MouseListener';
 import { TouchListener } from './listeners/TouchListener';
 import { Multitouch } from './multitouch/Multitouch';
 import { MultitouchController } from './multitouch/MultitouchController';
-import { IMultitouchTransformsOptions, multitouchTransforms } from './multitouch/multitouchTransforms/multitouchTransforms';
+import {
+    IMultitouchTransformsOptions,
+    multitouchTransforms,
+} from './multitouch/multitouchTransforms/multitouchTransforms';
 import { multitouchTransformsOnElement } from './multitouch/multitouchTransforms/multitouchTransformsOnElement';
 import { Touch } from './touch/Touch';
 import { TouchController } from './touch/TouchController';
@@ -45,11 +46,9 @@ export {
     IListener,
     TouchFrame,
     Multitouch,
-    IAwaitable,
     SourceCache,
     WithOptional,
     EventManager,
-    IDestroyable,
     emulateTouch,
     VectorAverage,
     TAverageItems,
@@ -74,5 +73,5 @@ export {
     IEmulateTouchOptionsAdvanced,
     getBoundingClientRectEnhanced,
     multitouchTransformsOnElement,
-    MultitouchControllerDebugLayer
+    MultitouchControllerDebugLayer,
 };

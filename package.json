@@ -41,7 +41,9 @@
     "url": "https://github.com/hejny/touchcontroller/issues"
   },
   "homepage": "https://github.com/hejny/touchcontroller",
-  "dependencies": {},
+  "dependencies": {
+    "destroyable": "^0.5.0"
+  },
   "devDependencies": {
     "@types/jest": "^26.0.15",
     "@types/uuid": "^8.3.0",

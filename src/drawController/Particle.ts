@@ -1,6 +1,5 @@
+import { Destroyable, IDestroyable } from 'destroyable';
 import { Vector } from 'xyzt';
-import { IDestroyable } from '../interfaces/IDestroyable';
-import { Destroyable } from '../utils/Destroyable';
 import { createColoredCanvasFromSrc } from '../utils/imageTools';
 import { sign } from '../utils/mathTools';
 

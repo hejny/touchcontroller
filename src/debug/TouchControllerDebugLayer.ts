@@ -1,6 +1,5 @@
-import { IDestroyable } from '../interfaces/IDestroyable';
+import { Destroyable, IDestroyable } from 'destroyable';
 import { TouchController } from '../touch/TouchController';
-import { Destroyable } from '../utils/Destroyable';
 import { _createDebugLayerCss, _CSS_PREFIX } from './createDebugLayerCss';
 
 export class TouchControllerDebugLayer extends Destroyable implements IDestroyable {

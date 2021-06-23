@@ -5,7 +5,6 @@ import { Multitouch } from '../Multitouch';
 import { _dragging } from './dragging';
 import { _twoFingerring } from './twoFingerring';
 
-
 export interface IMultitouchTransformsOptions {
     // TODO: !!!
     touchController: TouchController;

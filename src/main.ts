@@ -15,10 +15,7 @@ import { MouseListener } from './listeners/MouseListener';
 import { TouchListener } from './listeners/TouchListener';
 import { Multitouch } from './multitouch/Multitouch';
 import { MultitouchController } from './multitouch/MultitouchController';
-import {
-    IMultitouchTransformsOptions,
-    multitouchTransforms
-} from './multitouch/multitouchTransforms/multitouchTransforms';
+import { IMultitouchTransformsOptions, multitouchTransforms } from './multitouch/multitouchTransforms/multitouchTransforms';
 import { multitouchTransformsOnElement } from './multitouch/multitouchTransforms/multitouchTransformsOnElement';
 import { Touch } from './touch/Touch';
 import { TouchController } from './touch/TouchController';
@@ -73,5 +70,5 @@ export {
     IEmulateTouchOptionsAdvanced,
     getBoundingClientRectEnhanced,
     multitouchTransformsOnElement,
-    MultitouchControllerDebugLayer,
+    MultitouchControllerDebugLayer
 };

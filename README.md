@@ -1,5 +1,16 @@
 # TouchController
 
+<!--Badges-->
+
+ [![Package Quality](https://packagequality.com/shield/touchcontroller.svg)](https://packagequality.com/#?package=touchcontroller)
+ [![License](https://img.shields.io/github/license/hejny/touchcontroller.svg?style=flat)](https://raw.githubusercontent.com/hejny/touchcontroller/master/LICENSE)
+ [![NPM Version](https://badge.fury.io/js/@hejny%2Ftouchcontroller.svg)](https://www.npmjs.com/package/@hejny/touchcontroller)
+ [![undefined](https://github.com/hejny/touchcontroller/actions/workflows/npmpublish.yml/badge.svg)](https://github.com/hejny/touchcontroller/actions/workflows/npmpublish.yml.yml)
+ [![Known Vulnerabilities](https://snyk.io/test/github/hejny/touchcontroller/badge.svg)](https://snyk.io/test/github/hejny/touchcontroller)
+ [![Issues](https://img.shields.io/github/issues/hejny/touchcontroller.svg?style=flat)](https://github.com/hejny/touchcontroller/issues)
+
+<!--/Badges-->
+
 Touch and mouse controller for web apps and games
 
 TODO: README, documentation and web

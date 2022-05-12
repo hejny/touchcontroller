@@ -1,28 +1,46 @@
 {
-    "autokill": true,
-    "terminals": [
-        {
-            "name": "lint-watch",
-            "command": "npm run lint-watch",
-            "onlySingle": true
-        },
-        {
-            "name": "develop-build",
-            "command": "npm run develop-build"
-        },
-        {
-            "name": "test-watch",
-            "command": "npm run test-watch",
-            "onlySingle": true
-        },
-        {
-            "name": "develop-samples-server",
-            "command": "npm run develop-samples-server"
-        },
-        {
-            "name": "generate-main-exports",
-            "command": "npm run generate-main-exports",
-            "onlySingle": true
-        }
-    ]
+  "autokill": true,
+  "terminals": [
+    {
+      "name": "lint-watch",
+      "command": "npm run lint-watch",
+      "onlySingle": true
+    },
+    {
+      "name": "develop-build",
+      "command": "npm run develop-build"
+    },
+    {
+      "name": "test-watch",
+      "command": "npm run test-watch",
+      "onlySingle": true
+    },
+    {
+      "name": "develop-samples-server",
+      "command": "npm run develop-samples-server"
+    },
+    {
+      "name": "generate-main-exports",
+      "command": "npm run generate-main-exports",
+      "onlySingle": true
+    },
+    {
+      "name": "🔼👑 Release major version",
+      "command": "npm version major",
+      "onlySingle": true,
+      "focus": true
+    },
+    {
+      "name": "🔼🚀 Release minor version",
+      "command": "npm version minor",
+      "onlySingle": true,
+      "focus": true
+    },
+    {
+      "name": "🔼🩹 Release patch version",
+      "command": "npm version patch",
+      "onlySingle": true,
+      "focus": true
+    }
+  ]
 }

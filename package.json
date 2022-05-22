@@ -1,73 +1,73 @@
 {
-  "name": "touchcontroller",
-  "version": "4.1.0",
-  "author": "Pavol Hejný <me@pavolhejny.com> (https://pavolhejny.com)",
-  "description": "Touch and mouse controller for web apps and games",
-  "main": "./dist/main.js",
-  "types": "./dist/typings/main.d.ts",
-  "files": [
-    "dist/**"
-  ],
-  "scripts": {
-    "start": "npm run develop",
-    "build": "rm -rf ./dist && webpack --config webpack.production.config.js",
-    "develop-samples-server": "node server.js",
-    "develop-build": "chokidar \"src/**/*.ts\" --initial --kill --debounce 100  -c \"webpack --config ./webpack.development.config.js\"",
-    "test": "jest --config jestconfig.json",
-    "test-watch": "jest --config jestconfig.json --watchAll",
-    "lint": "npx eslint \"src/**/*.{ts,tsx}\"",
-    "lint-fix": "npx eslint \"src/**/*.{ts,tsx}\" --fix",
-    "lint-watch": "chokidar \"{src,test,samples}/**/*.{ts,json,js,html,css}\" --verbose --command \"npx eslint {path} --fix\"",
-    "pretty-imports": "npx organize-imports-cli tsconfig.json",
-    "autofix": "npm run pretty-imports && npm run lint-fix",
-    "autofix-commit": "git diff --exit-code && npm run autofix && git add src && git commit --allow-empty -m \"Autofixing\"",
-    "documentation": "echo \"TODO: make typedoc working\"",
-    "--documentation": "npx typedoc --excludePrivate --hideGenerator --mode file --theme minimal --out docs --name \"TouchController\" ./src",
-    "documentation-commit": "git diff --exit-code && npm run documentation && git add docs && git commit --allow-empty -m \"TouchController\"",
-    "generate-main-exports": "ts-node ./scripts/generate-main-exports/generate-main-exports.ts",
-    "generate-main-exports-commit": "git diff --exit-code && npm run generate-main-exports && npm run autofix && git add src && git commit --allow-empty -m \"Updating exports\"",
-    "preversion": "npm test  && npm run autofix-commit && npm run generate-main-exports-commit && npm run build && npm run documentation-commit",
-    "postversion": "git push && git push --tags && npm publish",
-    "update-packages": "npm-check-updates -u && git add ./package.json && git commit -m \"Update packages\" && npm run force-reinstall",
-    "force-reinstall": "rm ./package-lock.json && rm -rf ./node_modules && npm install && git add ./package-lock.json && git commit -m \"Force reinstall\""
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/hejny/touchcontroller"
-  },
-  "keywords": [],
-  "license": "SEE LICENSE IN LICENSE",
-  "bugs": {
-    "url": "https://github.com/hejny/touchcontroller/issues"
-  },
-  "homepage": "https://github.com/hejny/touchcontroller",
-  "dependencies": {
-    "destroyable": "0.5.0"
-  },
-  "devDependencies": {
-    "@types/jest": "26.0.15",
-    "@types/uuid": "8.3.0",
-    "@typescript-eslint/eslint-plugin": "4.8.2",
-    "@typescript-eslint/parser": "4.8.2",
-    "chokidar-cli": "2.1.0",
-    "codecov": "3.8.1",
-    "eslint": "7.14.0",
-    "express": "4.17.1",
-    "glob-promise": "3.4.0",
-    "jest": "26.6.3",
-    "open": "7.3.0",
-    "rxjs": "6.6.7",
-    "serve-index": "1.9.1",
-    "serve-static": "1.14.1",
-    "ts-jest": "26.4.4",
-    "ts-loader": "8.0.11",
-    "ts-node": "9.0.0",
-    "typescript": "4.1.2",
-    "update": "0.7.4",
-    "uuid": "8.3.1",
-    "waitasecond": "1.5.0",
-    "webpack": "5.6.0",
-    "webpack-cli": "4.2.0",
-    "xyzt": "4.6.0"
-  }
+    "name": "touchcontroller",
+    "version": "4.1.0",
+    "author": "Pavol Hejný <me@pavolhejny.com> (https://pavolhejny.com)",
+    "description": "Touch and mouse controller for web apps and games",
+    "main": "./dist/main.js",
+    "types": "./dist/typings/main.d.ts",
+    "files": [
+        "dist/**"
+    ],
+    "scripts": {
+        "start": "npm run develop",
+        "build": "rm -rf ./dist && webpack --config webpack.production.config.js",
+        "develop-samples-server": "node server.js",
+        "develop-build": "chokidar \"src/**/*.ts\" --initial --kill --debounce 100  -c \"webpack --config ./webpack.development.config.js\"",
+        "test": "jest --config jestconfig.json",
+        "test-watch": "jest --config jestconfig.json --watchAll",
+        "lint": "npx eslint \"src/**/*.{ts,tsx}\"",
+        "lint-fix": "npx eslint \"src/**/*.{ts,tsx}\" --fix",
+        "lint-watch": "chokidar \"{src,test,samples}/**/*.{ts,json,js,html,css}\" --verbose --command \"npx eslint {path} --fix\"",
+        "pretty-imports": "npx organize-imports-cli tsconfig.json",
+        "autofix": "npm run pretty-imports && npm run lint-fix",
+        "autofix-commit": "git diff --exit-code && npm run autofix && git add src && git commit --allow-empty -m \"Autofixing\"",
+        "documentation": "echo \"TODO: make typedoc working\"",
+        "--documentation": "npx typedoc --excludePrivate --hideGenerator --mode file --theme minimal --out docs --name \"TouchController\" ./src",
+        "documentation-commit": "git diff --exit-code && npm run documentation && git add docs && git commit --allow-empty -m \"TouchController\"",
+        "generate-main-exports": "ts-node ./scripts/generate-main-exports/generate-main-exports.ts",
+        "generate-main-exports-commit": "git diff --exit-code && npm run generate-main-exports && npm run autofix && git add src && git commit --allow-empty -m \"Updating exports\"",
+        "preversion": "npm test  && npm run autofix-commit && npm run generate-main-exports-commit && npm run build && npm run documentation-commit",
+        "postversion": "git push && git push --tags && npm publish",
+        "update-packages": "npm-check-updates -u && git add ./package.json && git commit -m \"Update packages\" && npm run force-reinstall",
+        "force-reinstall": "rm ./package-lock.json && rm -rf ./node_modules && npm install && git add ./package-lock.json && git commit -m \"Force reinstall\""
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/hejny/touchcontroller"
+    },
+    "keywords": [],
+    "license": "SEE LICENSE IN LICENSE",
+    "bugs": {
+        "url": "https://github.com/hejny/touchcontroller/issues"
+    },
+    "homepage": "https://github.com/hejny/touchcontroller",
+    "dependencies": {
+        "destroyable": "0.5.0"
+    },
+    "devDependencies": {
+        "@types/jest": "26.0.15",
+        "@types/uuid": "8.3.0",
+        "@typescript-eslint/eslint-plugin": "4.8.2",
+        "@typescript-eslint/parser": "4.8.2",
+        "chokidar-cli": "2.1.0",
+        "codecov": "3.8.1",
+        "eslint": "7.14.0",
+        "express": "4.17.1",
+        "glob-promise": "3.4.0",
+        "jest": "26.6.3",
+        "open": "7.3.0",
+        "rxjs": "6.6.7",
+        "serve-index": "1.9.1",
+        "serve-static": "1.14.1",
+        "ts-jest": "26.4.4",
+        "ts-loader": "8.0.11",
+        "ts-node": "9.0.0",
+        "typescript": "4.1.2",
+        "update": "0.7.4",
+        "uuid": "8.3.1",
+        "waitasecond": "1.5.0",
+        "webpack": "5.6.0",
+        "webpack-cli": "4.2.0",
+        "xyzt": "4.6.0"
+    }
 }

@@ -14,7 +14,6 @@
         "develop-samples-server": "node server.js",
         "develop-build": "chokidar \"src/**/*.ts\" --initial --kill --debounce 100  -c \"webpack --config ./webpack.development.config.js\"",
         "test": "jest --config jestconfig.json",
-        "test-watch": "jest --config jestconfig.json --watchAll",
         "lint": "npx eslint \"src/**/*.{ts,tsx}\"",
         "lint-fix": "npx eslint \"src/**/*.{ts,tsx}\" --fix",
         "lint-watch": "chokidar \"{src,test,samples}/**/*.{ts,json,js,html,css}\" --verbose --command \"npx eslint {path} --fix\"",

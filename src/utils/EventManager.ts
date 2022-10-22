@@ -65,3 +65,10 @@ export class EventManager extends Destroyable implements IDestroyable {
 }
 
 type IListenerCallback = (event: any /*Event | TouchEvent | MouseEvent | PointerEvent /* TODO: Better */) => void;
+
+
+/**
+ * TODO: Anotate
+ * TODO: breakup into files
+ * TODO: Write tests
+ */

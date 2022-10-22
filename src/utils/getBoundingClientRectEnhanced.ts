@@ -1,6 +1,5 @@
 import { IElement } from '../interfaces/IElement';
 
-// TODO: Maybe better function name
 
 export function getBoundingClientRectEnhanced(element: IElement): DOMRect {
     if (element instanceof Document) {
@@ -19,3 +18,10 @@ export function getBoundingClientRectEnhanced(element: IElement): DOMRect {
         return element.getBoundingClientRect();
     }
 }
+
+
+/**
+ * TODO: Maybe better function name
+ * TODO: Anotate
+ * TODO: Write tests
+ */

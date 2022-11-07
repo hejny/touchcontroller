@@ -31,7 +31,7 @@
 
                 const touchController = TouchController.fromCanvas(sceneElement);
                 touchController.touches.subscribe((touch) => {
-                    const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+                    const color = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
                     touch.frameTuples({ itemsPerTuple: 2, startImmediately: true }).subscribe(([frame1, frame2]) => {
                         drawController.drawLine(
                             {

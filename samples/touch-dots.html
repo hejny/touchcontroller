@@ -21,7 +21,7 @@
                 const touchController = TouchController.fromCanvas(scene);
 
                 touchController.touches.subscribe((touch) => {
-                    const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+                    const color = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
 
                     touch.frames.subscribe((frame) => {
                         ctx.strokeStyle = color;

@@ -22,7 +22,7 @@
                 // Plugins.toggleTouchByTap(touchController);
 
                 touchController.touches.subscribe((touch) => {
-                    const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+                    const color = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
 
                     touch
                         .frameTuples({ itemsPerTuple: 3, startImmediately: true })
@@ -32,7 +32,7 @@
                             ctx.strokeStyle = color;
                             ctx.beginPath();
 
-                            // TODO: Implement working bezier curve
+                            // TODO:  Implement working bezier curve - write to filename which cubic, quadratic
                             ctx.bezierCurveTo(
                                 frame1.position.x,
                                 frame1.position.y,

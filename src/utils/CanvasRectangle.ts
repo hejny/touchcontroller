@@ -49,3 +49,10 @@ export class CanvasRectangle extends BoundingBox {
         /* */
     }
 }
+
+
+/**
+ * TODO: Anotate
+ * TODO: breakup into files
+ * TODO: Write tests
+ */

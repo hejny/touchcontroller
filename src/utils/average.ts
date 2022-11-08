@@ -70,3 +70,9 @@ export function particleOptionsAverage(...items: TAverageItems<IParticleOptions>
         items,
     );
 }
+
+/**
+ * TODO: Anotate
+ * TODO: breakup into files
+ * TODO: Write tests
+ */

@@ -1,4 +1,4 @@
-// TODO: To library
+//
 
 export class SourceCache<TId, TSource> {
     private readonly storage: Array<{ id: TId; source: TSource }> = [];
@@ -15,3 +15,10 @@ export class SourceCache<TId, TSource> {
         this.storage.push({ id, source });
     }
 }
+
+/**
+ * TODO: Maybe to indipendent LIB
+ * TODO: Anotate
+ * TODO: breakup into files
+ * TODO: Write tests
+ */

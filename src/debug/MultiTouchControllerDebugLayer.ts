@@ -17,7 +17,7 @@ export class MultitouchControllerDebugLayer extends Destroyable implements IDest
 
         multitouchController.multitouches.subscribe({
             next: (multitouch) => {
-                // const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+                // const color = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
 
                 const logMultitouchElement = document.createElement('div');
 

@@ -1,4 +1,4 @@
-// TODO: maybe with polyfill or native
+
 export function sign(x: number): 0 | -1 | 1 {
     if (x === 0) {
         return 0;
@@ -10,3 +10,8 @@ export function sign(x: number): 0 | -1 | 1 {
         return 0;
     }
 }
+
+
+/**
+ * TODO: Use native
+ */

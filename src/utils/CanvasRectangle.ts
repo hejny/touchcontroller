@@ -36,11 +36,11 @@ export class CanvasRectangle extends BoundingBox {
         //this.transform =  this.transform.apply(Transform.fromObject(transform));
 
         /**/
-        // TODO: !!! TO xyzt
+        // TODO: !! TO xyzt
         const t1 = Transform.fromObject(transform);
         const t2 = this.transform;
 
-        // TODO: !!! Transform.combine
+        // TODO: !! Transform.combine
         this.transform = Transform.fromObject({
             rotate: Vector.add(t1.rotate, t2.rotate),
             scale: Vector.multiply(t1.scale, t2.scale),
@@ -49,7 +49,6 @@ export class CanvasRectangle extends BoundingBox {
         /* */
     }
 }
-
 
 /**
  * TODO: Anotate

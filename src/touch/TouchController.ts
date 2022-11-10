@@ -30,7 +30,7 @@ export class TouchController extends Destroyable implements ITouchController, ID
         return new TouchController({ elements: [canvas], anchorElement: canvas, setListeners: true });
     }
 
-    // TODO: !!! Use subjects everywhere
+    // TODO: !! Use subjects everywhere
     public readonly elements: IElement[];
     public readonly anchorElement: HTMLElement;
     public readonly touches = new Subject<Touch>();

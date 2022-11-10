@@ -91,7 +91,7 @@ export class MouseListener implements IListener<MouseEvent> {
                 onlyTouch.frames.complete();
             }
 
-            console.log('!!!!');
+            console.log('!!!');
 
             currentTouch = new Touch({
                 type: 'MOUSE',

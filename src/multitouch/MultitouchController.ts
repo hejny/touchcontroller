@@ -58,7 +58,7 @@ export class MultitouchController<TElement extends BoundingBox> extends Destroya
                 });
             }
 
-            // !!! await forTime(100);
+            // TODO: !! await forTime(100);
 
             multitouch.addTouch(touch);
         });

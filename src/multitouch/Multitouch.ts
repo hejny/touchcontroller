@@ -29,7 +29,7 @@ export class Multitouch<TElement> extends Destroyable implements IDestroyable {
                 this.ongoingTouches = this.ongoingTouches.filter((touch2) => touch2 !== touch);
                 if (this.ongoingTouches.length === 0) {
                     this.touches.complete();
-                    // TODO: !!! Maybe destroy here
+                    // TODO: !! Maybe destroy here
                 }
             },
         });

@@ -128,7 +128,6 @@ export class TouchListener implements IListener<TouchEvent> {
     }
 
     public async startFromExternalEvent(element: IElement, originalEvent: TouchEvent): Promise<void> {
-        // !!!  What is  startFromExternalEvent
         const item = this.elements.getItem(element);
         if (!item) {
             throw new Error('Element should be initialized when using startFromExternalEvent.');

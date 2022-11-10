@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Sample of TouchController</title>
+        <link rel="stylesheet" type="text/css" href="./assets/common.css" />
+    </head>
+    <body>
+        <div id="scene" style="display: block; width: 500; height: 500px">
+            Open console and click and move <b>here</b>
+        </div>
+
+        <script src="../dist/main.dev.browser.js"></script>
+        <script>
+            (() => {
+                const { TouchController /*, Plugins*/, TouchControllerDebugLayer } = window.TouchController;
+
+                const touchController = TouchController.fromCanvas(document.getElementById('scene'));
+                // Plugins.toggleTouchByTap(touchController);
+
+                touchController.hoveredFrames.subscribe((frame) => {
+                    // console.info('Hover frame');
+                });
+
+                let touchCounter = 0;
+
+                touchController.touches.subscribe((touch) => {
+                    const touchNumber = touchCounter++;
+
+                    console.info(`touch${touchNumber}`, { touch });
+
+                    touch.frames.subscribe({
+                        next(frame) {
+                            console.info(`touch${touchNumber}.frames`, 'next', { frame });
+                        },
+                        complete() {
+                            console.info(`touch${touchNumber}.frames`, 'complete');
+                        },
+                        error(error) {
+                            console.error(`touch${touchNumber}.frames`, 'error', { error });
+                        },
+                    });
+                });
+
+                new TouchControllerDebugLayer(touchController);
+            })();
+        </script>
+    </body>
+</html>

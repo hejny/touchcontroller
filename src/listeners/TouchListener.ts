@@ -52,8 +52,6 @@ export class TouchListener implements IListener<TouchEvent> {
             event.stopPropagation();
             const touches = event.changedTouches;
             for (let i = 0, l = touches.length; i < l; i++) {
-                console.log('!!! Touch');
-
                 const currentMyTouch = new Touch({
                     type: 'TOUCH',
                     anchorElement,
@@ -82,7 +80,6 @@ export class TouchListener implements IListener<TouchEvent> {
             for (let i = 0, l = touches.length; i < l; i++) {
                 const currentMyTouch = currentMyTouches[touches[i].identifier] || null;
                 if (currentMyTouch) {
-                    // !!! Remove and test> currentMyTouch.frames.next(createTouchFrameFromEventsTouch(touches[i]));
                     currentMyTouch.frames.complete();
                     delete currentMyTouches[touches[i].identifier];
                 }

@@ -45,31 +45,6 @@ export class TouchListener implements IListener<TouchEvent> {
             throw new Error('Element should not be initialized when using init.');
         }
 
-        this.eventManager.addEventListener(
-            element,
-            'touchstart',
-            (event) => handleMyTouchesStart(event),
-            TOUCH_LISTENER_OPTIONS,
-        );
-        this.eventManager.addEventListener(
-            element,
-            'touchmove',
-            (event) => handleMyTouchesMove(event),
-            TOUCH_LISTENER_OPTIONS,
-        );
-        this.eventManager.addEventListener(
-            element,
-            'touchend',
-            (event) => handleMyTouchesEnd(event),
-            TOUCH_LISTENER_OPTIONS,
-        );
-        this.eventManager.addEventListener(
-            element,
-            'touchcancel',
-            (event) => handleMyTouchesEnd(event),
-            TOUCH_LISTENER_OPTIONS,
-        );
-
         const currentMyTouches: { [identifier: number]: Touch } = {};
 
         const handleMyTouchesStart = (event: TouchEvent) => {
@@ -77,6 +52,8 @@ export class TouchListener implements IListener<TouchEvent> {
             event.stopPropagation();
             const touches = event.changedTouches;
             for (let i = 0, l = touches.length; i < l; i++) {
+                console.log('!!! Touch');
+
                 const currentMyTouch = new Touch({
                     type: 'TOUCH',
                     anchorElement,
@@ -105,7 +82,7 @@ export class TouchListener implements IListener<TouchEvent> {
             for (let i = 0, l = touches.length; i < l; i++) {
                 const currentMyTouch = currentMyTouches[touches[i].identifier] || null;
                 if (currentMyTouch) {
-                    currentMyTouch.frames.next(createTouchFrameFromEventsTouch(touches[i]));
+                    // !!! Remove and test> currentMyTouch.frames.next(createTouchFrameFromEventsTouch(touches[i]));
                     currentMyTouch.frames.complete();
                     delete currentMyTouches[touches[i].identifier];
                 }
@@ -121,6 +98,31 @@ export class TouchListener implements IListener<TouchEvent> {
             });
         };
 
+        this.eventManager.addEventListener(
+            element,
+            'touchstart',
+            (event) => handleMyTouchesStart(event),
+            TOUCH_LISTENER_OPTIONS,
+        );
+        this.eventManager.addEventListener(
+            element,
+            'touchmove',
+            (event) => handleMyTouchesMove(event),
+            TOUCH_LISTENER_OPTIONS,
+        );
+        this.eventManager.addEventListener(
+            element,
+            'touchend',
+            (event) => handleMyTouchesEnd(event),
+            TOUCH_LISTENER_OPTIONS,
+        );
+        this.eventManager.addEventListener(
+            element,
+            'touchcancel',
+            (event) => handleMyTouchesEnd(event),
+            TOUCH_LISTENER_OPTIONS,
+        );
+
         this.elements.setItem(element, {
             anchorElement,
             createTouchFrameFromEvent: createTouchFrameFromEventsTouch,
@@ -129,6 +131,7 @@ export class TouchListener implements IListener<TouchEvent> {
     }
 
     public async startFromExternalEvent(element: IElement, originalEvent: TouchEvent): Promise<void> {
+        // !!!  What is  startFromExternalEvent
         const item = this.elements.getItem(element);
         if (!item) {
             throw new Error('Element should be initialized when using startFromExternalEvent.');

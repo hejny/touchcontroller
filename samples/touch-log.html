@@ -27,11 +27,11 @@
                 touchController.touches.subscribe((touch) => {
                     const touchNumber = touchCounter++;
 
-                    console.info(`touch${touchNumber}`, { touch });
+                    console.info(`touch${touchNumber}`, { touch }, touch.firstFrame.position);
 
                     touch.frames.subscribe({
                         next(frame) {
-                            console.info(`touch${touchNumber}.frames`, 'next', { frame });
+                            console.info(`touch${touchNumber}.frames`, 'next', { frame }, frame.position);
                         },
                         complete() {
                             console.info(`touch${touchNumber}.frames`, 'complete');

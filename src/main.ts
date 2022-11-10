@@ -23,6 +23,7 @@ import { TouchFrame } from './touch/TouchFrame';
 import { average, particleOptionsAverage, TAverageItems, VectorAverage } from './utils/average';
 import { SourceCache } from './utils/Cache';
 import { CanvasRectangle } from './utils/CanvasRectangle';
+import { DomTouch } from './utils/DomTouch';
 import { EventManager } from './utils/EventManager';
 import { getBoundingClientRectEnhanced } from './utils/getBoundingClientRectEnhanced';
 import { createCanvasFromSrc, createColoredCanvasFromSrc, createImageFromSrc } from './utils/imageTools';
@@ -38,6 +39,7 @@ export {
     Scene,
     average,
     padArray,
+    DomTouch,
     IElement,
     Particle,
     IListener,

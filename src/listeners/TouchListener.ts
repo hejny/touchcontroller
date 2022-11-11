@@ -1,10 +1,9 @@
 import { forAnimationFrame } from 'waitasecond';
 import { Vector } from 'xyzt';
 import { IListener } from '../interfaces/IListener';
-import {
-    Touch as MyTouch /* Note: Name Touch overlaps with lib.dom.d.ts browser native Touch */
-} from '../touch/Touch';
+import { Touch } from '../touch/Touch';
 import { TouchFrame } from '../touch/TouchFrame';
+import { DomTouch } from '../utils/DomTouch';
 import { getBoundingClientRectEnhanced } from '../utils/getBoundingClientRectEnhanced';
 import { IElement } from './../interfaces/IElement';
 import { SourceCache } from './../utils/Cache';
@@ -26,7 +25,7 @@ export class TouchListener implements IListener<TouchEvent> {
         {
             anchorElement: IElement;
             createTouchFrameFromEvent: ICreateTouchFrameFromTouchEvent;
-            newMyTouch: (touch: MyTouch) => void;
+            newMyTouch: (touch: Touch) => void;
         }
     >();
 
@@ -39,46 +38,21 @@ export class TouchListener implements IListener<TouchEvent> {
     public init(
         element: IElement,
         anchorElement: IElement,
-        newTouch: (touch: MyTouch) => void,
+        newTouch: (touch: Touch) => void,
         // newHoverFrame: (frame: TouchFrame) => void,
     ): void {
         if (this.elements.hasItem(element)) {
             throw new Error('Element should not be initialized when using init.');
         }
 
-        this.eventManager.addEventListener(
-            element,
-            'touchstart',
-            (event) => handleMyTouchesStart(event),
-            TOUCH_LISTENER_OPTIONS,
-        );
-        this.eventManager.addEventListener(
-            element,
-            'touchmove',
-            (event) => handleMyTouchesMove(event),
-            TOUCH_LISTENER_OPTIONS,
-        );
-        this.eventManager.addEventListener(
-            element,
-            'touchend',
-            (event) => handleMyTouchesEnd(event),
-            TOUCH_LISTENER_OPTIONS,
-        );
-        this.eventManager.addEventListener(
-            element,
-            'touchcancel',
-            (event) => handleMyTouchesEnd(event),
-            TOUCH_LISTENER_OPTIONS,
-        );
-
-        const currentMyTouches: { [identifier: number]: MyTouch } = {};
+        const currentMyTouches: { [identifier: number]: Touch } = {};
 
         const handleMyTouchesStart = (event: TouchEvent) => {
             event.preventDefault();
             event.stopPropagation();
             const touches = event.changedTouches;
             for (let i = 0, l = touches.length; i < l; i++) {
-                const currentMyTouch = new MyTouch({
+                const currentMyTouch = new Touch({
                     type: 'TOUCH',
                     anchorElement,
                     buttonIdentifier: touches[i].identifier,
@@ -106,14 +80,13 @@ export class TouchListener implements IListener<TouchEvent> {
             for (let i = 0, l = touches.length; i < l; i++) {
                 const currentMyTouch = currentMyTouches[touches[i].identifier] || null;
                 if (currentMyTouch) {
-                    currentMyTouch.frames.next(createTouchFrameFromEventsTouch(touches[i]));
                     currentMyTouch.frames.complete();
                     delete currentMyTouches[touches[i].identifier];
                 }
             }
         };
 
-        const createTouchFrameFromEventsTouch: ICreateTouchFrameFromTouchEvent = (event: Touch) => {
+        const createTouchFrameFromEventsTouch: ICreateTouchFrameFromTouchEvent = (event: DomTouch) => {
             const boundingRect = getBoundingClientRectEnhanced(element);
             return new TouchFrame({
                 element,
@@ -121,6 +94,31 @@ export class TouchListener implements IListener<TouchEvent> {
                 positionRelative: Vector.fromArray(event.clientX - boundingRect.x, event.clientY - boundingRect.y),
             });
         };
+
+        this.eventManager.addEventListener(
+            element,
+            'touchstart',
+            (event) => handleMyTouchesStart(event),
+            TOUCH_LISTENER_OPTIONS,
+        );
+        this.eventManager.addEventListener(
+            element,
+            'touchmove',
+            (event) => handleMyTouchesMove(event),
+            TOUCH_LISTENER_OPTIONS,
+        );
+        this.eventManager.addEventListener(
+            element,
+            'touchend',
+            (event) => handleMyTouchesEnd(event),
+            TOUCH_LISTENER_OPTIONS,
+        );
+        this.eventManager.addEventListener(
+            element,
+            'touchcancel',
+            (event) => handleMyTouchesEnd(event),
+            TOUCH_LISTENER_OPTIONS,
+        );
 
         this.elements.setItem(element, {
             anchorElement,
@@ -143,7 +141,7 @@ export class TouchListener implements IListener<TouchEvent> {
         // TODO: maybe DRY this block with block in createMouseListener
         // TODO: better naming in this block
 
-        const currentMyTouch = new MyTouch({
+        const currentMyTouch = new Touch({
             type: 'TOUCH',
             anchorElement,
             buttonIdentifier: identifier,
@@ -180,4 +178,4 @@ export class TouchListener implements IListener<TouchEvent> {
     }
 }
 
-type ICreateTouchFrameFromTouchEvent = (event: Touch) => TouchFrame;
+type ICreateTouchFrameFromTouchEvent = (event: DomTouch) => TouchFrame;

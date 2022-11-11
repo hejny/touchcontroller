@@ -21,7 +21,7 @@ export function average<T>(add: (a: T, b: T) => T, multiply: (a: T, b: number) =
 }
 
 // TODO: not used
-// TODO: !!! xyzt
+// TODO: !! xyzt
 export function VectorAverage(...items: TAverageItems<Vector>): Vector {
     return average<Vector>(
         (a, b) => Vector.add(a, b),

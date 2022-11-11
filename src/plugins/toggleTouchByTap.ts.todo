@@ -1,7 +1,7 @@
 import { Touch } from '../touch/Touch';
 import { TouchController } from '../touch/TouchController';
 
-// !!!
+// TODO: !!
 
 // TODO: Maybe as plugin in touchController.installPlugin
 // TODO: Tresholds to params
@@ -24,7 +24,7 @@ export function toggleTouchByTap(touchController: TouchController) {
                         virtualTouch = new Touch(
                                             {
                                                 type:'MOUSE'
-                                                ,anchorElement 
+                                                ,anchorElement
                                                 ,buttonIdentifier: touch.firstFrame
                                             }
                         );

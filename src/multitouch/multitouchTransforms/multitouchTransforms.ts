@@ -6,7 +6,7 @@ import { _dragging } from './dragging';
 import { _twoFingerring } from './twoFingerring';
 
 export interface IMultitouchTransformsOptions {
-    // TODO: !!!
+    // TODO: !!
     touchController: TouchController;
     multitouch: Multitouch<BoundingBox>;
     getElementCenter: () => Vector;

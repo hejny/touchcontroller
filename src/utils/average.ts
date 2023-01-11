@@ -21,7 +21,7 @@ export function average<T>(add: (a: T, b: T) => T, multiply: (a: T, b: number) =
 }
 
 // TODO: not used
-// TODO: !!! xyzt
+// TODO: !! xyzt
 export function VectorAverage(...items: TAverageItems<Vector>): Vector {
     return average<Vector>(
         (a, b) => Vector.add(a, b),
@@ -70,3 +70,9 @@ export function particleOptionsAverage(...items: TAverageItems<IParticleOptions>
         items,
     );
 }
+
+/**
+ * TODO: Anotate
+ * TODO: breakup into files
+ * TODO: Write tests
+ */

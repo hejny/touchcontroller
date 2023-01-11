@@ -40,19 +40,19 @@ describe('padArray', () => {
     it('crop longer array', () => {
         const array: number[] = [1, 2, 3];
         const padWith = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-        expect(padArray(array, { padWith, length: 1, crop: true })).toEqual([1]);
-        expect(padArray(array, { padWith, length: 2, crop: true })).toEqual([1, 2]);
-        expect(padArray(array, { padWith, length: 3, crop: true })).toEqual([1, 2, 3]);
-        expect(padArray(array, { padWith, length: 4, crop: true })).toEqual([1, 2, 3, 1]);
+        expect(padArray(array, { padWith, length: 1, isCropped: true })).toEqual([1]);
+        expect(padArray(array, { padWith, length: 2, isCropped: true })).toEqual([1, 2]);
+        expect(padArray(array, { padWith, length: 3, isCropped: true })).toEqual([1, 2, 3]);
+        expect(padArray(array, { padWith, length: 4, isCropped: true })).toEqual([1, 2, 3, 1]);
     });
 
     it('do not crop longer array', () => {
         const array: number[] = [1, 2, 3];
         const padWith = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-        expect(padArray(array, { padWith, length: 1, crop: false })).toEqual([1, 2, 3]);
-        expect(padArray(array, { padWith, length: 2, crop: false })).toEqual([1, 2, 3]);
-        expect(padArray(array, { padWith, length: 3, crop: false })).toEqual([1, 2, 3]);
-        expect(padArray(array, { padWith, length: 4, crop: false })).toEqual([1, 2, 3, 1]);
+        expect(padArray(array, { padWith, length: 1, isCropped: false })).toEqual([1, 2, 3]);
+        expect(padArray(array, { padWith, length: 2, isCropped: false })).toEqual([1, 2, 3]);
+        expect(padArray(array, { padWith, length: 3, isCropped: false })).toEqual([1, 2, 3]);
+        expect(padArray(array, { padWith, length: 4, isCropped: false })).toEqual([1, 2, 3, 1]);
     });
 
     it('crop longer array by default', () => {

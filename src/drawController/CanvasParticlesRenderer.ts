@@ -1,8 +1,7 @@
+import { Destroyable, IDestroyable } from 'destroyable';
 import { forAnimationFrame } from 'waitasecond';
 import { Vector } from 'xyzt';
-import { IDestroyable } from '../interfaces/IDestroyable';
 import { particleOptionsAverage } from '../utils/average';
-import { Destroyable } from '../utils/Destroyable';
 import { IParticleOptions, Particle } from './Particle';
 import { Scene } from './Scene';
 

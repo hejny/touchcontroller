@@ -31,7 +31,7 @@
                     // scale: new Vector(500, 500),
                 });
                 const globalViewport = BoundingBox.fromTransform(globalTransform);
-                // TODO: !!! Use one of transform vs viewport
+                // TODO: !! Use one of transform vs viewport
                 const rects = [
                     new CanvasRectangle({
                         color: 'blue',
@@ -58,7 +58,7 @@
                 ];
 
                 function render() {
-                    // TODO: !!! Deal with different aspect rations of canvas
+                    // TODO: !! Deal with different aspect rations of canvas
                     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
                     for (const rect of rects.slice().reverse()) {
                         rect.render(ctx, globalTransform);
@@ -69,7 +69,7 @@
 
                 const touchController = TouchController.fromCanvas(scene);
                 const multitouchController = new MultitouchController({
-                    touchController, // !!! .applyTransform(() => globalTransform)
+                    touchController, // TODO: !! .applyTransform(() => globalTransform)
                     elementBinder: (frame) => rects.find((rect) => rect.intersects(frame.position)) || globalViewport,
                 });
 
@@ -86,7 +86,7 @@
 
                 multitouchController.multitouches.subscribe((multitouch) => {
                     multitouchTransformsOnElement({ multitouch /*, pick: ['translate', 'scale']*/ }).subscribe(
-                        // TODO: !!! DRY
+                        // TODO: !! DRY
                         (transform) => {
                             if (multitouch.element !== globalViewport) {
                                 multitouch.element.applyTransform(transform);

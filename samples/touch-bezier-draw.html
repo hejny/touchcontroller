@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Sample of TouchController</title>
+        <link rel="stylesheet" type="text/css" href="./assets/common.css" />
+    </head>
+    <body>
+        <canvas id="scene" width="500" height="500"></canvas>
+
+        <script src="../dist/main.dev.browser.js"></script>
+        <script>
+            (() => {
+                const { TouchController /*, Plugins*/, TouchControllerDebugLayer } = window.TouchController;
+
+                const scene = document.getElementById('scene');
+                const ctx = scene.getContext('2d');
+                ctx.lineWidth = 1;
+                ctx.lineCap = 'round';
+
+                const touchController = TouchController.fromCanvas(scene);
+                // Plugins.toggleTouchByTap(touchController);
+
+                touchController.touches.subscribe((touch) => {
+                    const color = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+
+                    touch
+                        .frameTuples({ itemsPerTuple: 3, startImmediately: true })
+                        .subscribe(([frame1, frame2, frame3, frame4]) => {
+                            console.log([frame1, frame2, frame3]);
+
+                            ctx.strokeStyle = color;
+                            ctx.beginPath();
+
+                            // TODO:  Implement working bezier curve - write to filename which cubic, quadratic
+                            ctx.bezierCurveTo(
+                                frame1.position.x,
+                                frame1.position.y,
+                                frame2.position.x,
+                                frame2.position.y,
+                                frame3.position.x,
+                                frame3.position.y,
+                            );
+
+                            // ctx.moveTo(frame1.position.x, frame1.position.y);
+                            // ctx.lineTo(frame2.position.x, frame2.position.y);
+                            ctx.stroke();
+                        });
+                });
+
+                new TouchControllerDebugLayer(touchController);
+            })();
+        </script>
+    </body>
+</html>

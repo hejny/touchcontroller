@@ -81,3 +81,9 @@ function hexToRgb(color: string) {
             b: 0,
         };
 }
+
+/**
+ * TODO: Anotate
+ * TODO: breakup into files
+ * TODO: Write tests
+ */

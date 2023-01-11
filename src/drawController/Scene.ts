@@ -1,6 +1,5 @@
+import { Destroyable, IDestroyable } from 'destroyable';
 import { Vector } from 'xyzt';
-import { IDestroyable } from '../interfaces/IDestroyable';
-import { Destroyable } from '../utils/Destroyable';
 import { Particle } from './Particle';
 
 export class Scene extends Destroyable implements IDestroyable {

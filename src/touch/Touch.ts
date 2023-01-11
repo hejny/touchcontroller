@@ -1,9 +1,8 @@
+import { Destroyable, IDestroyable } from 'destroyable';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Subject } from 'rxjs/internal/Subject';
 import * as uuid from 'uuid';
-import { IDestroyable } from '../interfaces/IDestroyable';
 import { IElement } from '../interfaces/IElement';
-import { Destroyable } from '../utils/Destroyable';
 import { padArray } from '../utils/padArray';
 import { WithOptional } from '../utils/WithOptional';
 import { TouchFrame } from './TouchFrame';

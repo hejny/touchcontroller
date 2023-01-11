@@ -1,11 +1,9 @@
+import { Destroyable, IAwaitable, IDestroyable } from 'destroyable';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
 import { BoundingBox } from 'xyzt';
-import { IAwaitable } from '../interfaces/IAwaitable';
-import { IDestroyable } from '../interfaces/IDestroyable';
 import { ITouchController } from '../interfaces/ITouchController';
 import { TouchFrame } from '../touch/TouchFrame';
-import { Destroyable } from '../utils/Destroyable';
 import { WithOptional } from '../utils/WithOptional';
 import { Multitouch } from './Multitouch';
 
@@ -60,7 +58,7 @@ export class MultitouchController<TElement extends BoundingBox> extends Destroya
                 });
             }
 
-            // !!! await forTime(100);
+            // TODO: !! await forTime(100);
 
             multitouch.addTouch(touch);
         });

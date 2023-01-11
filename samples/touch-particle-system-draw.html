@@ -97,7 +97,7 @@
 
     const sceneElement = document.getElementById('scene');
     const scene = new Scene(sceneElement , 0.05);
-   
+
     {
         let timeLast = null;
         function loop(time) {
@@ -114,7 +114,7 @@
 
 
         touch.frames.subscribe((frame)=>{
-           
+
             const particle = new Mesh(
                 './touch3/particle.png',
                 new Vector(0.5, 0.5),

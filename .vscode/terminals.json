@@ -2,27 +2,50 @@
     "autokill": true,
     "terminals": [
         {
-            "name": "lint-watch",
-            "command": "npm run lint-watch",
-            "onlySingle": true
-        },
-        {
-            "name": "develop-build",
+            "name": "👨🏽‍💻🔥 Develop build",
             "command": "npm run develop-build"
         },
         {
-            "name": "test-watch",
-            "command": "npm run test-watch",
-            "onlySingle": true
-        },
-        {
-            "name": "develop-samples-server",
+            "name": "👨🏽‍💻🔥 Develop samples server",
             "command": "npm run develop-samples-server"
         },
         {
-            "name": "generate-main-exports",
+            "name": "🧪 Lint",
+            "command": "npm run lint",
+            "onlySingle": false,
+            "focus": true,
+            "execute": false
+        },
+        {
+            "name": "🧪 Unit tests",
+            "command": "npm run test",
+            "onlySingle": false,
+            "focus": true,
+            "execute": false
+        },
+        {
+            "name": "🏭 Generate main exports",
             "command": "npm run generate-main-exports",
-            "onlySingle": true
+            "onlySingle": true,
+            "focus": true
+        },
+        {
+            "name": "🔼👑 Release major version",
+            "command": "npm version major",
+            "onlySingle": true,
+            "focus": true
+        },
+        {
+            "name": "🔼🚀 Release minor version",
+            "command": "npm version minor",
+            "onlySingle": true,
+            "focus": true
+        },
+        {
+            "name": "🔼🩹 Release patch version",
+            "command": "npm version patch",
+            "onlySingle": true,
+            "focus": true
         }
     ]
 }

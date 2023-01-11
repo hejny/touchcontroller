@@ -1,7 +1,7 @@
+import { IDestroyable } from 'destroyable';
 import { Observable } from 'rxjs/internal/Observable';
 import { Touch } from '../touch/Touch';
 import { TouchFrame } from '../touch/TouchFrame';
-import { IDestroyable } from './IDestroyable';
 
 export interface ITouchController extends IDestroyable {
     touches: Observable<Touch>;

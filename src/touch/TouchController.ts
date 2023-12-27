@@ -1,6 +1,6 @@
 import { Destroyable, IDestroyable } from 'destroyable';
-import { Promisable } from 'type-fest';
 import { Subject } from 'rxjs/internal/Subject';
+import { Promisable } from 'type-fest';
 import { IElement } from '../interfaces/IElement';
 import { IListener } from '../interfaces/IListener';
 import { ITouchController } from '../interfaces/ITouchController';

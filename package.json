@@ -40,10 +40,9 @@
         "url": "https://github.com/hejny/touchcontroller/issues"
     },
     "homepage": "https://github.com/hejny/touchcontroller",
-    "dependencies": {
-        "destroyable": "0.12.0"
-    },
     "devDependencies": {
+        "destroyable": "0.12.0",
+        "type-fest": "^4.8.3",
         "@types/jest": "26.0.15",
         "@types/uuid": "8.3.0",
         "@typescript-eslint/eslint-plugin": "4.8.2",

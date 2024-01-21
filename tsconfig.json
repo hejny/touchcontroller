@@ -11,7 +11,6 @@
         "noImplicitThis": true,
         "strictNullChecks": true,
         "strictFunctionTypes": true,
-        "suppressImplicitAnyIndexErrors": true,
         "esModuleInterop": true,
         "downlevelIteration": true,
         "skipLibCheck": true

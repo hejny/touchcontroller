@@ -1,4 +1,4 @@
-import { IAwaitable } from 'destroyable';
+import { Promisable } from 'type-fest';
 import { Touch } from '../touch/Touch';
 import { TouchFrame } from '../touch/TouchFrame';
 import { IElement } from './IElement';
@@ -15,6 +15,6 @@ export interface IListener<TEvent extends Event> {
     // TODO: dispose: () => void;
 
     acceptsEvent: (event: Event) => event is TEvent;
-    startFromExternalEvent: (element: IElement, event: TEvent) => IAwaitable<void>;
+    startFromExternalEvent: (element: IElement, event: TEvent) => Promisable<void>;
     startEventType: string;
 }

@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/internal/Observable';
-import { ITransform, Transform, Vector } from 'xyzt';
+import { ITransformData, Transform, Vector } from 'xyzt';
 import { Touch } from '../../touch/Touch';
 import { TouchController } from '../../touch/TouchController';
 
@@ -8,7 +8,7 @@ interface ITwoFingerringOptions {
     touch1: Touch;
     touch2: Touch;
     getElementCenter: () => Vector;
-    pick: Array<keyof ITransform>;
+    pick: Array<keyof ITransformData>;
 }
 
 export function _twoFingerring({
@@ -16,7 +16,7 @@ export function _twoFingerring({
     touch2,
     getElementCenter,
     pick,
-}: ITwoFingerringOptions): Observable<Transform> {
+}: ITwoFingerringOptions): Observable<ITransformData> {
     // Note: I can not figure out better name
     return new Observable((observer) => {
         (async () => {
@@ -40,7 +40,7 @@ export function _twoFingerring({
                             Transform.fromObject({
                                 rotate,
                                 scale,
-                                translate: Vector.zero().within(
+                                translate: Vector.zero().applyWithin(
                                     Transform.translate(getElementCenter().subtract(centerTouchPosition)),
                                     (v) => v.rotate({ z: rotate }).scale(scale),
                                 ),

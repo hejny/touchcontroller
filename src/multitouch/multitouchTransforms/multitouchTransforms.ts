@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/internal/Observable';
-import { BoundingBox, ITransform, Transform, Vector } from 'xyzt';
+import { BoundingBox, ITransformData, Vector } from 'xyzt';
 import { TouchController } from '../../touch/TouchController';
 import { Multitouch } from '../Multitouch';
 import { _dragging } from './dragging';
@@ -10,7 +10,7 @@ export interface IMultitouchTransformsOptions {
     touchController: TouchController;
     multitouch: Multitouch<BoundingBox>;
     getElementCenter: () => Vector;
-    pick?: Array<keyof ITransform>;
+    pick?: Array<keyof ITransformData>;
     // TODO: Prevent extremes
 }
 
@@ -19,7 +19,7 @@ export function multitouchTransforms({
     multitouch,
     getElementCenter,
     pick,
-}: IMultitouchTransformsOptions): Observable<Transform> {
+}: IMultitouchTransformsOptions): Observable<ITransformData> {
     pick = pick || ['translate', 'scale', 'rotate'];
     return new Observable((observer) => {
         multitouch.ongoingTouchesChanges.subscribe(

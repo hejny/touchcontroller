@@ -1,6 +1,7 @@
-import { Destroyable, IAwaitable, IDestroyable } from 'destroyable';
+import { Destroyable, IDestroyable } from 'destroyable';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
+import { Promisable } from 'type-fest';
 import { BoundingBox } from 'xyzt';
 import { ITouchController } from '../interfaces/ITouchController';
 import { TouchFrame } from '../touch/TouchFrame';
@@ -9,7 +10,7 @@ import { Multitouch } from './Multitouch';
 
 interface IMultitouchControllerOptions<TElement extends BoundingBox> {
     touchController: ITouchController;
-    elementBinder: (frame: TouchFrame) => IAwaitable<TElement | undefined>;
+    elementBinder: (frame: TouchFrame) => Promisable<TElement | undefined>;
 }
 
 const multitouchControllerOptionsDefault = {
@@ -20,7 +21,7 @@ export class MultitouchController<TElement extends BoundingBox> extends Destroya
     public readonly touchController: ITouchController;
     public readonly multitouches = new Subject<Multitouch<TElement>>();
     private ongoingMultitouches: Array<Multitouch<TElement>> = [];
-    private readonly elementBinder: (frame: TouchFrame) => IAwaitable<TElement | undefined>;
+    private readonly elementBinder: (frame: TouchFrame) => Promisable<TElement | undefined>;
 
     constructor(
         options: WithOptional<IMultitouchControllerOptions<TElement>, keyof typeof multitouchControllerOptionsDefault>,

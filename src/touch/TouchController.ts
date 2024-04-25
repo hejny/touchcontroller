@@ -1,5 +1,6 @@
-import { Destroyable, IAwaitable, IDestroyable } from 'destroyable';
+import { Destroyable, IDestroyable } from 'destroyable';
 import { Subject } from 'rxjs/internal/Subject';
+import { Promisable } from 'type-fest';
 import { IElement } from '../interfaces/IElement';
 import { IListener } from '../interfaces/IListener';
 import { ITouchController } from '../interfaces/ITouchController';
@@ -72,7 +73,7 @@ export class TouchController extends Destroyable implements ITouchController, ID
         }
     }
 
-    public addInitialElement(element: IElement, newElementCreator: (event: Event) => IAwaitable<IElement>): void {
+    public addInitialElement(element: IElement, newElementCreator: (event: Event) => Promisable<IElement>): void {
         for (const listener of this.listeners) {
             // TODO: Should be here updateEventListener or addEventListener
             this.eventManager.addEventListener(element, listener.startEventType, async (event) => {

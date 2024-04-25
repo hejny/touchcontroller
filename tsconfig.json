@@ -1,19 +1,19 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "target": "es5",
-    "lib": ["es6", "dom"],
-    "sourceMap": true,
-    "declaration": true,
-    "declarationDir": "./dist/typings",
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,   
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "esModuleInterop": true,
-    "downlevelIteration": true
-  },
-  "include": ["src/**/*.ts"]
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "lib": ["es6", "dom"],
+        "sourceMap": true,
+        "declaration": true,
+        "declarationDir": "./dist/typings",
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "strictNullChecks": true,
+        "strictFunctionTypes": true,
+        "esModuleInterop": true,
+        "downlevelIteration": true,
+        "skipLibCheck": true
+    },
+    "include": ["src/**/*.ts"]
 }

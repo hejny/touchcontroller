@@ -1,7 +1,7 @@
-import { BoundingBox, ITransform, Transform, Vector } from 'xyzt';
+import { BoundingBox, ITransformData, Transform, Vector } from 'xyzt';
 
 interface ICanvasRectangleOptions {
-    transform: ITransform;
+    transform: ITransformData;
     color?: string;
     hovered?: boolean;
 }
@@ -32,7 +32,7 @@ export class CanvasRectangle extends BoundingBox {
         ctx.restore();
     }
 
-    public applyTransform(transform: ITransform): void {
+    public applyTransform(transform: ITransformData): void {
         //this.transform =  this.transform.apply(Transform.fromObject(transform));
 
         /**/

@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/internal/Observable';
-import { ITransformData, Transform } from 'xyzt';
+import { ITransformData } from 'xyzt';
 import { IMultitouchTransformsOptions, multitouchTransforms } from './multitouchTransforms';
 
 type IMultitouchTransformsOnElementOptions = Omit<IMultitouchTransformsOptions, 'getElementCenter'>;

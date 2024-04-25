@@ -9,6 +9,7 @@
 [![Quality of package 🤏 TouchController](https://packagequality.com/shield/touchcontroller.svg)](https://packagequality.com/#?package=touchcontroller)
 [![Known Vulnerabilities](https://snyk.io/test/github/hejny/touchcontroller/badge.svg)](https://snyk.io/test/github/hejny/touchcontroller)
 [![Issues](https://img.shields.io/github/issues/hejny/touchcontroller.svg?style=flat)](https://github.com/hejny/touchcontroller/issues)
+[![Socket](https://socket.dev/api/badge/npm/package/touchcontroller)](https://socket.dev/npm/package/touchcontroller)
 
 <!--/Badges-->
 

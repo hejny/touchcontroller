@@ -66,5 +66,15 @@
         "webpack": "5.89.0",
         "webpack-cli": "5.1.4",
         "xyzt": "5.4.3"
-    }
+    },
+    "funding": [
+        {
+            "type": "individual",
+            "url": "https://buymeacoffee.com/hejny"
+        },
+        {
+            "type": "github",
+            "url": "https://github.com/hejny/touchcontroller/blob/main/README.md#%EF%B8%8F-contributing"
+        }
+    ]
 }

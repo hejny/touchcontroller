@@ -1,6 +1,6 @@
 {
     "name": "touchcontroller",
-    "version": "4.2.4",
+    "version": "4.2.5",
     "author": "Pavol Hejný <me@pavolhejny.com> (https://pavolhejny.com)",
     "description": "Touch and mouse controller for web apps and games",
     "main": "./dist/main.js",

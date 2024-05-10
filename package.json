@@ -46,7 +46,7 @@
         "@typescript-eslint/eslint-plugin": "6.19.0",
         "chokidar-cli": "2.1.0",
         "codecov": "3.8.1",
-        "destroyable": "^0.12.48",
+        "destroyable": "0.12.48",
         "eslint": "8.56.0",
         "express": "4.18.2",
         "glob-promise": "3.4.0",
@@ -62,7 +62,7 @@
         "typescript": "5.3.3",
         "update": "0.4.2",
         "uuid": "8.3.1",
-        "waitasecond": "^1.11.68",
+        "waitasecond": "1.11.68",
         "webpack": "5.89.0",
         "webpack-cli": "5.1.4",
         "xyzt": "5.4.3"

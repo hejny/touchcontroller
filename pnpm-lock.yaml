@@ -24,8 +24,8 @@ importers:
         specifier: 3.8.1
         version: 3.8.1
       destroyable:
-        specifier: 0.12.72
-        version: 0.12.72
+        specifier: 0.12.73
+        version: 0.12.73
       eslint:
         specifier: 8.56.0
         version: 8.56.0
@@ -1440,8 +1440,8 @@ packages:
     resolution: {integrity: sha512-2sJGJTaXIIaR1w4iJSNoN0hnMY7Gpc/n8D4qSCJw8QqFWXf7cuAgnEHxBpweaVcPevC2l3KpjYCx3NypQQgaJg==}
     engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
 
-  destroyable@0.12.72:
-    resolution: {integrity: sha512-c+8R7gYneE59TfooDHFoPERMOuI9gQxA6aewbHZZ35ObzwfTMl7Zy/I56GKuF+2+dfFvOE9GiiLZFRhczcl4Yg==}
+  destroyable@0.12.73:
+    resolution: {integrity: sha512-yO1CKnWxoBWGqiZ6LS+9FO9G9+HMyEPEqK9tl6xm3Tabz0NF4SY8T3ZNqjCbxr59PI8VLkpRVrwK25MfWAUPHw==}
 
   detect-newline@3.1.0:
     resolution: {integrity: sha512-TLz+x/vEXm/Y7P7wn1EJFNLxYpUD4TgMosxY6fAVJUnJMbupHBOncxyWUG9OpTaH9EBD7uFI5LfEgmMOc54DsA==}
@@ -6197,7 +6197,7 @@ snapshots:
 
   destroy@1.2.0: {}
 
-  destroyable@0.12.72:
+  destroyable@0.12.73:
     dependencies:
       rxjs: 6.6.3
       type-fest: 2.5.2
